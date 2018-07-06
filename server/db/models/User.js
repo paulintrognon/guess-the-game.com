@@ -6,10 +6,32 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           len: [2, 20],
-          notNull: true,
           notEmpty: true,
         },
         allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        validate: {
+          is: /^.+@.+$/i,
+          len: [3, 100],
+          notEmpty: true,
+        },
+        allowNull: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        validate: {
+          len: [2, 20],
+          notNull: true,
+          notEmpty: true,
+        },
+        allowNull: true,
+      },
+      screenshotsFound: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
     },
     {
