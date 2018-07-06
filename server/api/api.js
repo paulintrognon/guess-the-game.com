@@ -18,7 +18,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const http = require('http');
-const db = require('../db/db');
 const config = require('../../config/server');
 const logger = require('../logger');
 const loadRoutes = require('./routes/_routes');
@@ -38,26 +37,20 @@ const port = (config.api && config.api.port) || 3001;
 app.set('port', port);
 
 /**
- * Connecting to MySQL
- * /!\ We need to connect to mysql first thing in order to have sequelize initialized
+ * Adding the routes
  */
-db.connect().then(() => {
-  /**
-   * Adding the routes
-   */
-  loadRoutes(app);
+loadRoutes(app);
 
-  /**
-   * Adding the response middleware
-   */
-  app.use(response);
+/**
+ * Adding the response middleware
+ */
+app.use(response);
 
-  /**
-   * Starting the app
-   */
-  const server = http.createServer(app);
-  server.listen(port, () => {
-    const address = server.address();
-    logger.info(`API up and running on ${address.address}:${address.port}`);
-  });
+/**
+ * Starting the app
+ */
+const server = http.createServer(app);
+server.listen(port, () => {
+  const address = server.address();
+  logger.info(`API up and running on ${address.address}:${address.port}`);
 });

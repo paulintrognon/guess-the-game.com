@@ -1,93 +1,52 @@
-const bluebird = require('bluebird');
+const fs = require('fs');
+const path = require('path');
 const Sequelize = require('sequelize');
-const config = require('../../config/server').database;
-const logger = require('./../logger.js');
-const loadRelations = require('./models/_relations');
+const logger = require('../logger');
+const config = require('../../config/server.json').database;
 
-module.exports = createDb();
+const db = {};
 
-function createDb() {
-  const db = {
-    sequelize: null,
-  };
+const sequelize = new Sequelize(config.database, config.user, config.password, {
+  host: config.host,
+  dialect: 'mysql',
+  logging: false,
 
-  db.connect = connect;
-  db.sync = sync;
-  db.close = close;
+  dialectOptions: {
+    socketPath: '/var/run/mysqld/mysqld.sock',
+  },
 
-  return db;
+  define: {
+    paranoid: true,
+  },
 
-  // ------------------------------------------------------
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000,
+  },
+});
 
-  function connect(options = {}) {
-    db.sequelize = new Sequelize(
-      config.database,
-      config.user,
-      config.password,
-      {
-        host: config.host,
-        dialect: 'mysql',
-        logging: false,
+fs.readdirSync(`${__dirname}/models`).forEach(file => {
+  const modelPath = path.join(`${__dirname}/models`, file);
+  const model = sequelize.import(modelPath);
 
-        dialectOptions: {
-          socketPath: '/var/run/mysqld/mysqld.sock',
-          multipleStatements: options.multipleStatements,
-        },
-
-        define: {
-          paranoid: true,
-        },
-
-        pool: {
-          max: 5,
-          min: 0,
-          idle: 10000,
-        },
-      }
+  if (!model) {
+    logger.error(
+      `No model found in ${file}. Did you forget the return statement?`
     );
-
-    logger.debug('Connecting to database...', {
-      database: config.database,
-      user: config.user,
-      host: config.host,
-    });
-
-    return db.sequelize
-      .authenticate()
-      .then(() => {
-        logger.info('Successfull connection to database', {
-          database: config.database,
-        });
-
-        loadRelations();
-      })
-      .catch(err => {
-        logger.error('Unable to connect to the database', {
-          database: config.database,
-          user: config.user,
-          host: config.host,
-          error: err,
-        });
-        throw err;
-      })
-      .return(db.sequelize);
+    throw new Error(`No model found at ${modelPath}`);
   }
 
-  function sync() {
-    if (!db.sequelize) {
-      logger.warning('db not connected - cannot sync');
-      return bluebird.resolve();
-    }
-    logger.info('database syncronized');
-    return db.sequelize.sync();
-  }
+  db[model.name] = model;
+});
 
-  function close() {
-    if (!db.sequelize) {
-      logger.warning('db not connected - cannot close');
-      return bluebird.resolve();
-    }
-    logger.info('database closed');
-    return db.sequelize.close();
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
   }
-}
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;
