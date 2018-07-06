@@ -1,0 +1,7 @@
+{
+  "db": {
+    "database": "guessthegame",
+    "user": "CHANGE-ME",
+    "password": "CHANGE-ME"
+  }
+}
