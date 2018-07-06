@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     'User',
     {
       nickname: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(20),
+        unique: true,
         validate: {
           len: [2, 20],
           notEmpty: true,
@@ -11,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
+        unique: true,
         validate: {
           is: /^.+@.+$/i,
           len: [3, 100],
@@ -22,16 +24,14 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         validate: {
-          len: [2, 20],
-          notNull: true,
           notEmpty: true,
         },
         allowNull: true,
       },
       screenshotsFound: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         defaultValue: 0,
+        allowNull: false,
       },
     },
     {

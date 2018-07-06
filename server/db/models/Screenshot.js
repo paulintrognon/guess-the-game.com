@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
       gameCanonicalName: {
         type: DataTypes.STRING,
         validate: {
-          notNull: true,
           notEmpty: true,
         },
         allowNull: false,
