@@ -1,0 +1,15 @@
+{
+  "name": "guess-the-game.com",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "front-run": "react-scripts start",
+    "front-build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom"
+  }
+}
