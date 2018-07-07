@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './header.css';
 
@@ -8,11 +9,17 @@ export default function Layout() {
       <nav className="navbar has-shadow is-spaced">
         <div className="column" />
         <div className="column">
-          <h1 className="Header__title title">Guess the game!</h1>
+          <Link to="/">
+            <h1 className="Header__title title">Guess the game!</h1>
+          </Link>
         </div>
         <div className="Header__right column">
-          <a className="button is-primary">Login</a>
-          <a className="button is-primary">Register</a>
+          <Link to="/register" className="button is-primary">
+            Login
+          </Link>
+          <Link to="/login" className="button is-primary">
+            Register
+          </Link>
         </div>
       </nav>
     </header>

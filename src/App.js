@@ -1,16 +1,27 @@
 import React from 'react';
+import { ConnectedRouter } from 'connected-react-router';
+import { Switch, Route } from 'react-router';
+import { Provider } from 'react-redux';
+
+import store from './store';
+import history from './history';
 
 import Layout from './components/Layout/Layout';
+import Homepage from './pages/Hompage/Hompage';
+import NotFound from './pages/NotFound/NotFound';
 
 import 'bulma/css/bulma.css';
 import './App.css';
 
 export default () => (
-  <Layout>
-    <section className="section">
-      <div className="container">
-        <p>coucou</p>
-      </div>
-    </section>
-  </Layout>
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <Layout>
+        <Switch>
+          <Route path="/" exact component={Homepage} />
+          <Route component={NotFound} />
+        </Switch>
+      </Layout>
+    </ConnectedRouter>
+  </Provider>
 );
