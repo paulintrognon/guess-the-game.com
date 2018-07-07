@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-eslint": "^8.2.5",
     "bcrypt": "^3.0.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
@@ -28,9 +29,9 @@
   },
   "scripts": {
     "postinstall": "ln -sfn ../config node_modules/config",
-    "front-run": "react-scripts start",
-    "front-build": "react-scripts build",
-    "api-run": "node ./server/api/api",
+    "api": "node ./server/api/api",
+    "front": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
