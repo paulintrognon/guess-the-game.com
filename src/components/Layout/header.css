@@ -1,3 +1,11 @@
 .Header__title {
   text-align: center;
 }
+
+.Header__right {
+  text-align: right;
+}
+
+.Header__right .button {
+  margin-left: 1em;
+}

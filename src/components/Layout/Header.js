@@ -10,7 +10,10 @@ export default function Layout() {
         <div className="column">
           <h1 className="Header__title title">Guess the game!</h1>
         </div>
-        <div className="column" />
+        <div className="Header__right column">
+          <a className="button is-primary">Login</a>
+          <a className="button is-primary">Register</a>
+        </div>
       </nav>
     </header>
   );
