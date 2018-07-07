@@ -8,6 +8,7 @@ import history from './history';
 
 import Layout from './components/Layout/Layout';
 import Homepage from './pages/Hompage/Hompage';
+import RegisterPage from './pages/Register/Register';
 import NotFound from './pages/NotFound/NotFound';
 
 import 'bulma/css/bulma.css';
@@ -19,6 +20,7 @@ export default () => (
       <Layout>
         <Switch>
           <Route path="/" exact component={Homepage} />
+          <Route path="/register" exact component={RegisterPage} />
           <Route component={NotFound} />
         </Switch>
       </Layout>

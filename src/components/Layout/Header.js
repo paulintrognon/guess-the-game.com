@@ -14,10 +14,10 @@ export default function Layout() {
           </Link>
         </div>
         <div className="Header__right column">
-          <Link to="/register" className="button is-primary">
+          <Link to="/login" className="button is-primary">
             Login
           </Link>
-          <Link to="/login" className="button is-primary">
+          <Link to="/register" className="button is-primary">
             Register
           </Link>
         </div>
