@@ -15,10 +15,10 @@ export default class RegisterPage extends React.Component {
         <form className="RegisterPage__form">
           <h2 className="subtitle">Registration form</h2>
           <div className="field">
-            <label className="label" htmlFor="nickname">
+            <label className="label" htmlFor="username">
               Username
               <input
-                id="nickname"
+                id="username"
                 type="text"
                 className="input"
                 placeholder="Type your name"

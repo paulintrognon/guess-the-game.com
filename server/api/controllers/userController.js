@@ -8,7 +8,7 @@ module.exports = {
 };
 
 function register(req) {
-  ['email', 'nickname', 'password'].forEach(field => {
+  ['email', 'username', 'password'].forEach(field => {
     if (!req.body[field]) {
       throw new Error(`User ${field} cannot be null`);
     }
@@ -17,7 +17,7 @@ function register(req) {
   return bcrypt.hash(req.body.password, saltRounds).then(hash =>
     usersManager.create({
       email: req.body.email,
-      nickname: req.body.nickname,
+      username: req.body.username,
       password: hash,
     })
   );

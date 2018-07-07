@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Ven 06 Juillet 2018 à 22:39
+-- Généré le :  Sam 07 Juillet 2018 à 15:37
 -- Version du serveur :  10.1.26-MariaDB-0+deb9u1
 -- Version de PHP :  7.0.30-0+deb9u1
 
@@ -74,7 +74,7 @@ CREATE TABLE `Screenshots` (
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` int(11) NOT NULL,
-  `nickname` varchar(20) NOT NULL,
+  `username` varchar(20) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `screenshotsFound` int(11) NOT NULL DEFAULT '0',
@@ -113,7 +113,7 @@ ALTER TABLE `Screenshots`
 --
 ALTER TABLE `Users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nickname` (`nickname`),
+  ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
