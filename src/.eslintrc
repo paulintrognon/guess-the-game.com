@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "../.eslintrc",
+    "prettier/react"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": [
+      "off"
+    ]
+  }
+}

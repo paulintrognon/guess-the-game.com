@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
+
+import 'bulma/css/bulma.css';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <h1>Guess the game!</h1>
-      </div>
-    );
-  }
-}
-
-export default App;
+export default () => (
+  <section className="section">
+    <div className="container">
+      <h1 className="title">Guess the game!</h1>
+    </div>
+  </section>
+);
