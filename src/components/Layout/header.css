@@ -1,13 +1,43 @@
 .Header {
+  background-color: #fff;
   border-bottom: 1px solid rgba(230,230,230,.7);
+}
+
+.Header .title {
+  margin-right: 0.5em;
+}
+@media (max-width: 360px) {
+  .Header .title {
+    font-size: 1.2em;
+  }
+}
+
+.Header__bar {
+  display: flex;
+  align-items: center;
+  height: 3em;
+}
+@media (min-width: 1088px) {
+  .Header__bar {
+    height: 5em;
+  }
+}
+
+.Header__bar__item {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5em;
+  color: #4a4a4a;
+}
+
+.Header__bar__end {
+  justify-content: flex-end;
+  margin-left: auto;
+  display: flex;
 }
 
 .Header .button {
   margin: 0 0.5em;
-}
-
-.Header__title {
-  text-align: center;
 }
 
 .Header__right {

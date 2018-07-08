@@ -14,36 +14,36 @@ function Header(props) {
 
   return (
     <header className="Header">
-      <nav className="navbar is-spaced">
-        <div className="container">
-          <div className="navbar-brand">
-            <Link class="navbar-item" to="/">
-              <h1 className="title">Guess the game!</h1>
+      <div className="container">
+        <div className="Header__bar">
+          <Link to="/">
+            <h1 className="title">
+              G<span className="is-hidden-mobile">uess </span>T<span className="is-hidden-mobile">
+                he{' '}
+              </span>G<span className="is-hidden-mobile">ame</span>!
+            </h1>
+          </Link>
+          <Link to="/play" className="Header__bar__item">
+            <span className="icon has-text-primary">
+              <i className="fas fa-play" />
+            </span>
+            <span>Play</span>
+          </Link>
+          {user.username && (
+            <Link to="/add-screenshot" className="Header__bar__item">
+              <span className="icon has-text-grey">
+                <i className="fas fa-plus" />
+              </span>
+              <span>
+                Add <span className="is-hidden-mobile">Screenshot</span>
+              </span>
             </Link>
-          </div>
-          <div className="navbar-menu is-active">
-            <div className="navbar-start">
-              <Link to="/play" className="navbar-item">
-                <span className="icon has-text-primary">
-                  <i className="fas fa-play" />
-                </span>
-                <span>Play</span>
-              </Link>
-              {user.username && (
-                <Link to="/add-screenshot" className="navbar-item">
-                  <span className="icon has-text-grey">
-                    <i className="fas fa-plus" />
-                  </span>
-                  <span>Add Screenshot</span>
-                </Link>
-              )}
-            </div>
+          )}
 
-            {user.username && renderLogoutButtons(user.username)}
-            {!user.username && renderLoginButtons()}
-          </div>
+          {user.username && renderLogoutButtons(user.username)}
+          {!user.username && renderLoginButtons()}
         </div>
-      </nav>
+      </div>
     </header>
   );
 }
@@ -51,11 +51,11 @@ export default connect(mapStoreToProps)(Header);
 
 function renderLogoutButtons(username) {
   return (
-    <div className="navbar-end">
-      <Link to={`/user/${username}`} className="navbar-item">
+    <div className="Header__bar__end">
+      <Link to={`/user/${username}`} className="Header__bar__item">
         {username}
       </Link>
-      <Link to="/logout" className="navbar-item">
+      <Link to="/logout" className="Header__bar__item">
         <span className="icon has-text-grey">
           <i className="fas fa-power-off" />
         </span>
@@ -66,7 +66,7 @@ function renderLogoutButtons(username) {
 
 function renderLoginButtons() {
   return (
-    <div className="navbar-end">
+    <div className="Header__bar__end">
       <Link to="/login" className="button is-primary">
         Login
       </Link>

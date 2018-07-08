@@ -3,9 +3,15 @@ body {
   min-height: 100vh;
 }
 
+.container {
+  padding: 0 0.5em;
+}
+
 .smallContainer {
-  width: 30em;
+  width: 40em;
   max-width: 90%;
   margin: auto;
   margin-top: 2em;
+  background-color: #fff;
+  padding: 3em 2em;
 }
