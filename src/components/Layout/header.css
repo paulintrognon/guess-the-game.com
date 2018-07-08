@@ -1,13 +1,17 @@
+.Header {
+  border-bottom: 1px solid rgba(230,230,230,.7);
+}
+
+.Header .button {
+  margin: 0 0.5em;
+}
+
 .Header__title {
   text-align: center;
 }
 
 .Header__right {
   text-align: right;
-}
-
-.Header__right .button {
-  margin-left: 1em;
 }
 
 .Header__right .button.is-text {

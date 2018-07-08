@@ -1,3 +1,8 @@
+body {
+  background-color: #f0f0f0;
+  min-height: 100vh;
+}
+
 .smallContainer {
   width: 30em;
   max-width: 90%;

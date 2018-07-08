@@ -14,16 +14,34 @@ function Header(props) {
 
   return (
     <header className="Header">
-      <nav className="navbar has-shadow is-spaced">
-        <div className="column" />
-        <div className="column">
-          <Link to="/">
-            <h1 className="Header__title title">Guess the game!</h1>
-          </Link>
-        </div>
-        <div className="Header__right column">
-          {user.username && renderLogoutButtons(user.username)}
-          {!user.username && renderLoginButtons()}
+      <nav className="navbar is-spaced">
+        <div className="container">
+          <div className="navbar-brand">
+            <Link class="navbar-item" to="/">
+              <h1 className="title">Guess the game!</h1>
+            </Link>
+          </div>
+          <div className="navbar-menu is-active">
+            <div className="navbar-start">
+              <Link to="/play" className="navbar-item">
+                <span className="icon has-text-primary">
+                  <i className="fas fa-play" />
+                </span>
+                <span>Play</span>
+              </Link>
+              {user.username && (
+                <Link to="/add-screenshot" className="navbar-item">
+                  <span className="icon has-text-grey">
+                    <i className="fas fa-plus" />
+                  </span>
+                  <span>Add Screenshot</span>
+                </Link>
+              )}
+            </div>
+
+            {user.username && renderLogoutButtons(user.username)}
+            {!user.username && renderLoginButtons()}
+          </div>
         </div>
       </nav>
     </header>
@@ -33,12 +51,14 @@ export default connect(mapStoreToProps)(Header);
 
 function renderLogoutButtons(username) {
   return (
-    <div>
-      <Link to={`/user/${username}`} className="button is-text">
+    <div className="navbar-end">
+      <Link to={`/user/${username}`} className="navbar-item">
         {username}
       </Link>
-      <Link to="/logout" className="button is-primary">
-        Logout
+      <Link to="/logout" className="navbar-item">
+        <span className="icon has-text-grey">
+          <i className="fas fa-power-off" />
+        </span>
       </Link>
     </div>
   );
@@ -46,7 +66,7 @@ function renderLogoutButtons(username) {
 
 function renderLoginButtons() {
   return (
-    <div>
+    <div className="navbar-end">
       <Link to="/login" className="button is-primary">
         Login
       </Link>
