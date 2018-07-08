@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Sam 07 Juillet 2018 à 15:37
+-- Généré le :  Dim 08 Juillet 2018 à 14:07
 -- Version du serveur :  10.1.26-MariaDB-0+deb9u1
 -- Version de PHP :  7.0.30-0+deb9u1
 
@@ -74,7 +74,7 @@ CREATE TABLE `Screenshots` (
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` int(11) NOT NULL,
-  `username` varchar(20) NOT NULL,
+  `username` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `screenshotsFound` int(11) NOT NULL DEFAULT '0',
