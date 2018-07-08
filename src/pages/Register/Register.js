@@ -285,7 +285,7 @@ class RegisterPage extends React.Component {
     const { user } = this.props;
 
     return (
-      <section className="RegisterPage">
+      <section className="RegisterPage smallContainer">
         {!user.username && this.renderForm()}
         {user.username && (
           <div className="notification is-info">

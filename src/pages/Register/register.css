@@ -1,10 +1,3 @@
-.RegisterPage {
-  width: 30em;
-  max-width: 90%;
-  margin: auto;
-  margin-top: 2em;
-}
-
 .RegisterPage__form__email__reassurance {
   font-size: 0.8em;
   font-weight: normal;

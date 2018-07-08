@@ -16,5 +16,14 @@ export default function reducer(state = initialState, action) {
     };
   }
 
+  if (action.type === 'USER__LOG_OUT') {
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('username');
+    return {
+      username: '',
+      jwt: '',
+    };
+  }
+
   return newState;
 }
