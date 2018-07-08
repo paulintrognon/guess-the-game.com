@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const bcrypt = require('bcrypt');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
@@ -6,6 +7,7 @@ const saltRounds = 4;
 
 module.exports = {
   checkUsernameAvailability,
+  login,
   register,
   preLog,
 };
@@ -15,6 +17,32 @@ function checkUsernameAvailability(req) {
   return userManager
     .isUsernameFree(username)
     .then(isFree => ({ username, isFree }));
+}
+
+function login(req) {
+  return userManager.get(req.body.username).then(user => {
+    if (!user) {
+      return bluebird.reject({
+        code: 'LOGIN_USER_NOT_FOUND',
+        message: 'User not found',
+      });
+    }
+    return bcrypt
+      .compare(req.body.password, user.password)
+      .then(passwordsMatch => {
+        if (!passwordsMatch) {
+          return bluebird.reject({
+            code: 'LOGIN_INCORRECT_PASSWORD',
+            message: 'Wrong password',
+          });
+        }
+        return tokenService.createToken(user);
+      })
+      .then(jwt => ({
+        jwt,
+        username: user.username,
+      }));
+  });
 }
 
 function preLog() {

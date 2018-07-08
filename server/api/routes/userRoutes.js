@@ -9,6 +9,8 @@ router.post('/check-username-availability', (req, res, next) =>
 
 router.get('/pre-log', (req, res, next) => next(usersController.preLog(req)));
 
+router.post('/login', (req, res, next) => next(usersController.login(req)));
+
 router.post('/register', (req, res, next) =>
   next(usersController.register(req))
 );

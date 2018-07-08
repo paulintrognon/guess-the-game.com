@@ -4,6 +4,7 @@ import config from 'config'; // eslint-disable-line import/no-extraneous-depende
 export default {
   checkUsernameAvailability,
   register,
+  login,
 };
 
 const api = axios.create({
@@ -26,6 +27,8 @@ function register(user) {
   );
 }
 
-function preLog() {
-  return api.get('/pre-log').then(res => res.data.result);
+function login(credentials) {
+  return api
+    .post('/login', credentials)
+    .then(res => res.data.result, err => err.response.data);
 }

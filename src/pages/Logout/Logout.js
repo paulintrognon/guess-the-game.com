@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 function mapStoreToProps(store) {
@@ -20,7 +21,11 @@ class LogoutPage extends React.Component {
       <div className="smallContainer">
         <div className="notification is-info">
           {user.username && <p>Logging you out...</p>}
-          {!user.username && <p>You are logged out!</p>}
+          {!user.username && (
+            <p>
+              You are logged out! <Link to="/login">Log in</Link>
+            </p>
+          )}
         </div>
       </div>
     );
