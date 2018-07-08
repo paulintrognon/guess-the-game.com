@@ -9,3 +9,7 @@
 .Header__right .button {
   margin-left: 1em;
 }
+
+.Header__right .button.is-text {
+  text-decoration: none; 
+}

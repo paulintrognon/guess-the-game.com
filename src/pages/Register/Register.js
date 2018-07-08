@@ -1,16 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import userService from '../../services/userService';
 
 import './register.css';
 
-export default class RegisterPage extends React.Component {
+function mapStoreToProps(store) {
+  return {
+    user: store.user,
+  };
+}
+class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       submitting: false,
-      submitted: false,
       error: false,
       username: {
         value: '',
@@ -148,23 +153,24 @@ export default class RegisterPage extends React.Component {
     });
     userService
       .register({
-        username: this.state.username.value,
+        username: this.state.username.value.trim(),
         password: this.state.password.value,
-        email: this.state.email.value,
+        email: this.state.email.value.trim(),
+        jwt: this.props.user.jwt,
       })
       .then(res => {
-        let error = false;
         if (res.errors && res.errors.length) {
-          error = res.errors[0].message;
+          let error = res.errors[0].message;
           if (res.errors[0].message === 'email must be unique') {
             error = 'This email is already in use';
           }
+          this.setState({
+            submitting: false,
+            error,
+          });
+        } else {
+          this.props.dispatch({ type: 'USER__LOG_IN', payload: res });
         }
-        this.setState({
-          submitted: !res.errors,
-          submitting: false,
-          error,
-        });
       });
   };
 
@@ -182,6 +188,7 @@ export default class RegisterPage extends React.Component {
 
     return (
       <form className="RegisterPage__form" onSubmit={this.handleSubmit}>
+        <h2 className="subtitle">Registration form</h2>
         <div className="field">
           <label className="label" htmlFor="username">
             Username
@@ -275,16 +282,20 @@ export default class RegisterPage extends React.Component {
   }
 
   render() {
-    const { submitted } = this.state;
+    const { user } = this.props;
 
     return (
       <section className="RegisterPage">
-        <h2 className="subtitle">Registration form</h2>
-        {!submitted && this.renderForm()}
-        {submitted && (
-          <p className="notification is-info">Vous êtes enregistré !</p>
+        {!user.username && this.renderForm()}
+        {user.username && (
+          <div className="notification is-info">
+            <p>
+              You are registered! <Link to="/logout">Log out</Link>
+            </p>
+          </div>
         )}
       </section>
     );
   }
 }
+export default connect(mapStoreToProps)(RegisterPage);

@@ -1,7 +1,13 @@
 {
-  "db": {
+  "secret": "CHANGE-ME-TO-REAL-SECRET",
+  "database": {
     "database": "guessthegame",
     "user": "CHANGE-ME",
     "password": "CHANGE-ME"
+  },
+  "logger": {
+    "console": {
+      "level": "debug"
+    }
   }
 }

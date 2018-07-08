@@ -25,3 +25,7 @@ function register(user) {
     err => err.response.data
   );
 }
+
+function preLog() {
+  return api.get('/pre-log').then(res => res.data.result);
+}
