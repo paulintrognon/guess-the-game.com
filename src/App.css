@@ -3,6 +3,11 @@ body {
   min-height: 100vh;
 }
 
+button {
+  background: none;
+  border: none;
+}
+
 .container {
   padding: 0 0.5em;
 }

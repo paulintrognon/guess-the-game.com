@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import userService from '../../services/userService';
+import userActions from '../../actions/userActions';
 
 function mapStoreToProps(store) {
   return {
@@ -43,14 +44,17 @@ class LoginPage extends React.Component {
         password: this.state.password,
       })
       .then(res => {
+        const newState = {
+          submitting: false,
+        };
         if (!res.error) {
-          this.props.dispatch({ type: 'USER__LOG_IN', payload: res });
+          newState.username = '';
+          newState.password = '';
+          this.props.dispatch(userActions.login(res));
         } else {
-          this.setState({
-            submitting: false,
-            error: res.message,
-          });
+          newState.error = res.message;
         }
+        this.setState(newState);
       });
   };
 

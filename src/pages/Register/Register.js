@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import userService from '../../services/userService';
+import userActions from '../../actions/userActions';
 
 import './register.css';
 
@@ -169,7 +170,7 @@ class RegisterPage extends React.Component {
             error,
           });
         } else {
-          this.props.dispatch({ type: 'USER__LOG_IN', payload: res });
+          this.props.dispatch(userActions.login(res));
         }
       });
   };
@@ -209,6 +210,24 @@ class RegisterPage extends React.Component {
           {username.error && <p className="help is-danger">{username.error}</p>}
         </div>
         <div className="field">
+          <label className="label" htmlFor="email">
+            Email
+            <span className="RegisterPage__form__email__reassurance">
+              (only used for password recovery)
+            </span>
+            <input
+              id="email"
+              type="email"
+              className={`input
+                  ${email.ok && 'is-success'}
+                  ${email.error && 'is-danger'}`}
+              placeholder="Type your password again"
+              value={email.value}
+              onChange={this.onEmailChange}
+            />
+          </label>
+        </div>
+        <div className="field">
           <label className="label" htmlFor="password">
             Password
             <input
@@ -241,24 +260,6 @@ class RegisterPage extends React.Component {
           {passwordConfirm.error && (
             <p className="help is-danger">{passwordConfirm.error}</p>
           )}
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="email">
-            Email
-            <span className="RegisterPage__form__email__reassurance">
-              (only used for password recovery)
-            </span>
-            <input
-              id="email"
-              type="email"
-              className={`input
-                  ${email.ok && 'is-success'}
-                  ${email.error && 'is-danger'}`}
-              placeholder="Type your password again"
-              value={email.value}
-              onChange={this.onEmailChange}
-            />
-          </label>
         </div>
         {error && <p className="notification is-danger">{error}</p>}
         <div className="field is-grouped">

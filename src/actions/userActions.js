@@ -1,13 +1,20 @@
-import userService from '../services/userService';
+import { push } from 'connected-react-router';
 
 export default {
-  register,
+  login,
+  logout,
 };
 
-function register(user) {
+function login(user) {
   return dispatch => {
-    userService.register(user).then(res => {
-      dispatch({ type: 'USER__LOG_IN', payload: res });
-    });
+    dispatch({ type: 'USER__LOG_IN', payload: user });
+    dispatch(push('/'));
+  };
+}
+
+function logout() {
+  return dispatch => {
+    dispatch({ type: 'USER__LOG_OUT' });
+    dispatch(push('/login'));
   };
 }
