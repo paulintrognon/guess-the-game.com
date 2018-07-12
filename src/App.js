@@ -10,6 +10,7 @@ import Layout from './components/Layout/Layout';
 import Homepage from './pages/Hompage/Hompage';
 import LoginPage from './pages/Login/Login';
 import RegisterPage from './pages/Register/Register';
+import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import NotFound from './pages/NotFound/NotFound';
 
 import 'bulma/css/bulma.css';
@@ -23,6 +24,7 @@ export default () => (
           <Route path="/" exact component={Homepage} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
+          <Route path="/add-screenshot" exact component={AddScreenshotPage} />
           <Route component={NotFound} />
         </Switch>
       </Layout>

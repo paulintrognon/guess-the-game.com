@@ -6,6 +6,7 @@ import userService from '../../services/userService';
 import userActions from '../../actions/userActions';
 
 import './register.css';
+import SmallContainer from '../../components/SmallContainer/SmallContainer';
 
 function mapStoreToProps(store) {
   return {
@@ -286,16 +287,18 @@ class RegisterPage extends React.Component {
     const { user } = this.props;
 
     return (
-      <section className="RegisterPage smallContainer">
-        {!user.username && this.renderForm()}
-        {user.username && (
-          <div className="notification is-info">
-            <p>
-              You are registered! <Link to="/logout">Log out</Link>
-            </p>
-          </div>
-        )}
-      </section>
+      <SmallContainer>
+        <section className="RegisterPage">
+          {!user.username && this.renderForm()}
+          {user.username && (
+            <div className="notification is-info">
+              <p>
+                You are registered! <Link to="/logout">Log out</Link>
+              </p>
+            </div>
+          )}
+        </section>
+      </SmallContainer>
     );
   }
 }

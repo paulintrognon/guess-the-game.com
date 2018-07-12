@@ -11,12 +11,3 @@ button {
 .container {
   padding: 0 0.5em;
 }
-
-.smallContainer {
-  width: 40em;
-  max-width: 90%;
-  margin: auto;
-  margin-top: 2em;
-  background-color: #fff;
-  padding: 3em 2em;
-}
