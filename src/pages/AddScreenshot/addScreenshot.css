@@ -26,6 +26,12 @@
   padding-bottom: 56.25%;
 }
 
+.AddScreenshot__dropzone__reset {
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
 .AddScreenshot__previewTitle {
   font-size: 1.2em;
   margin: 1em 0 0;

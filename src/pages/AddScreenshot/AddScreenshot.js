@@ -78,6 +78,15 @@ class AddScreenshotPage extends React.Component {
     this.setState({ isFileHover: false });
   };
 
+  resetFileHandler = () => {
+    this.setState({
+      file: null,
+      fileError: null,
+      uploadedImageUrl: null,
+      uploadedImagePath: null,
+    });
+  };
+
   changeNameHandler = event => {
     this.setState({ name: event.target.value });
   };
@@ -137,6 +146,18 @@ class AddScreenshotPage extends React.Component {
                 {!this.state.file ? 'Drag the screenshot...' : null}
               </p>
             </div>
+            {this.state.uploadedImageUrl && (
+              <p className="AddScreenshot__dropzone__reset">
+                <span className="tag is-success">
+                  {this.state.file.name}
+                  <button
+                    type="button"
+                    className="delete is-small"
+                    onClick={this.resetFileHandler}
+                  />
+                </span>
+              </p>
+            )}
           </div>
           {this.state.fileError && (
             <p className="notification is-danger">{this.state.fileError}</p>
