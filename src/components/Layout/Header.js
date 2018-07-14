@@ -11,7 +11,7 @@ function mapStoreToProps(store) {
   };
 }
 class Header extends React.Component {
-  onLogout = () => {
+  logoutHandler = () => {
     this.props.dispatch(userActions.logout());
   };
 
@@ -21,7 +21,7 @@ class Header extends React.Component {
         <Link to={`/user/${username}`} className="Header__bar__item">
           {username}
         </Link>
-        <button type="button" onClick={this.onLogout}>
+        <button type="button" onClick={this.logoutHandler}>
           <span className="icon has-text-grey">
             <i className="fas fa-power-off" />
           </span>

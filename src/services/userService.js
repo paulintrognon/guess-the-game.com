@@ -1,5 +1,4 @@
-import axios from 'axios';
-import config from 'config'; // eslint-disable-line import/no-extraneous-dependencies
+import api from './api';
 
 export default {
   checkUsernameAvailability,
@@ -7,18 +6,14 @@ export default {
   login,
 };
 
-const api = axios.create({
-  baseURL: `${config.apiUrl}/user`,
-});
-
 function checkUsernameAvailability(username) {
   return api
-    .post('/check-username-availability', { username })
+    .post('/user/check-username-availability', { username })
     .then(res => res.data.result.isFree);
 }
 
 function register(user) {
-  return api.post('/register', user).then(
+  return api.post('/user/register', user).then(
     res => ({
       ...res.data.result,
       error: false,
@@ -29,6 +24,6 @@ function register(user) {
 
 function login(credentials) {
   return api
-    .post('/login', credentials)
+    .post('/user/login', credentials)
     .then(res => res.data.result, err => err.response.data);
 }

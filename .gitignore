@@ -10,7 +10,11 @@
 /build
 
 # config
-config/server.json
+/config/server.json
+
+# uploads
+/server/uploads/*
+!/server/uploads/.gitkeep
 
 # misc
 .DS_Store

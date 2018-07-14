@@ -1,0 +1,43 @@
+.AddScreenshot__dropzoneLabel {
+  margin-bottom: 0 !important;
+}
+
+.AddScreenshot__dropzone {
+  height: 100px;
+  border: 1px dashed darkblue;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color .2s ease-in-out;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+}
+
+.AddScreenshot__dropzone.-hover {
+  border-style: solid;
+  background-color: #EEE;
+}
+
+.AddScreenshot__dropzone.-preview {
+  height: 0px;
+  padding-bottom: 56.25%;
+}
+
+.AddScreenshot__previewTitle {
+  font-size: 1.2em;
+  margin: 1em 0 0;
+}
+
+.AddScreenshot__preview {
+  background-size: contain;
+  background-position: center;
+  padding-bottom: 56.25%;
+  background-repeat: no-repeat;
+}
+
+.AddScreenshot__alternativeNames input {
+  margin-bottom: 0.4em;
+}

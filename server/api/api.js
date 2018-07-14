@@ -17,6 +17,7 @@ if (!fs.existsSync(configPath)) {
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const http = require('http');
 const config = require('../../config/server');
 const logger = require('../logger');
@@ -29,6 +30,8 @@ const response = require('./response');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json()); // for parsing application/json
+app.use(fileUpload());
+app.use('/uploads', express.static(`${__dirname}/../uploads`));
 
 /**
  * Configuring the app
