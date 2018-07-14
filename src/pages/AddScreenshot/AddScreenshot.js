@@ -14,11 +14,14 @@ class AddScreenshotPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      submitting: false,
+
+      // File upload
       isFileHover: false,
+      isFileUploading: false,
       fileError: null,
       uploadedImageUrl: null,
       uploadedImagePath: null,
-      submitting: false,
 
       // Fields values
       file: null,
@@ -37,16 +40,32 @@ class AddScreenshotPage extends React.Component {
       this.setState({ fileError: 'Image needs to be a png or a jpg / jpeg' });
       return;
     }
+    if (file.size > 5000000) {
+      this.setState({ fileError: 'File size limit is 5 Mo.' });
+      return;
+    }
+
     this.setState({
       file,
       isFileHover: false,
+      isFileUploading: true,
+      fileError: null,
     });
-    screenshotService.uploadImage(file).then(res => {
-      this.setState({
-        uploadedImageUrl: res.url,
-        uploadedImagePath: res.localPath,
-      });
-    });
+    screenshotService.uploadImage(file).then(
+      res => {
+        this.setState({
+          isFileUploading: false,
+          uploadedImageUrl: res.url,
+          uploadedImagePath: res.localPath,
+        });
+      },
+      () => {
+        this.setState({
+          isFileUploading: false,
+          fileError: 'An error occured.',
+        });
+      }
+    );
   };
 
   dragOverHandler = event => {
@@ -97,18 +116,31 @@ class AddScreenshotPage extends React.Component {
             <div
               className={`AddScreenshot__dropzone ${
                 this.state.isFileHover ? '-hover' : ''
-              } ${this.state.uploadedImageUrl ? '-preview' : ''}`}
+              } ${
+                !this.state.isFileUploading && this.state.uploadedImageUrl
+                  ? '-preview'
+                  : ''
+              }`}
               onDrop={this.dropFileHandler}
               onDragOver={this.dragOverHandler}
               onDragLeave={this.dragLeaveHandler}
               style={{
-                backgroundImage: `url(${this.state.uploadedImageUrl})`,
+                backgroundImage:
+                  !this.state.isFileUploading &&
+                  `url(${this.state.uploadedImageUrl})`,
               }}
             >
-              <p>{this.state.file ? null : 'Drag the screenshot...'}</p>
+              <p>
+                {this.state.isFileUploading
+                  ? 'Uploading, please wait...'
+                  : null}
+                {!this.state.file ? 'Drag the screenshot...' : null}
+              </p>
             </div>
           </div>
-          {this.state.fileError && <p>{this.state.fileError}</p>}
+          {this.state.fileError && (
+            <p className="notification is-danger">{this.state.fileError}</p>
+          )}
           <div className="field">
             <label className="label" htmlFor="name">
               Full name of the game
@@ -126,7 +158,7 @@ class AddScreenshotPage extends React.Component {
             <p className="label">
               Optional: Alternative names{' '}
               <span className="additionnal-info">
-                (latin numbering, shorter version of the name, ...)
+                (abbreviated name, latin numbers, ...)
               </span>
               {this.state.alternativeNames.map((alternativeName, i) => (
                 <input
