@@ -22,13 +22,13 @@ class LoginPage extends React.Component {
     };
   }
 
-  onUsernameChange = event => {
+  usernameChangeHandler = event => {
     this.setState({
       username: event.target.value,
     });
   };
 
-  onPasswordChange = event => {
+  passwordChangeHandler = event => {
     this.setState({
       password: event.target.value,
     });
@@ -60,6 +60,10 @@ class LoginPage extends React.Component {
       });
   };
 
+  logoutHandler = () => {
+    this.props.dispatch(userActions.logout());
+  };
+
   renderForm() {
     const { username, password, submitting, error } = this.state;
 
@@ -68,7 +72,7 @@ class LoginPage extends React.Component {
     return (
       <SmallContainer>
         <form className="LoginPage__form" onSubmit={this.handleSubmit}>
-          <h2 className="subtitle">Login form</h2>
+          <h2 className="title is-5">Login form</h2>
           <div className="field">
             <label className="label" htmlFor="username">
               Username or email
@@ -78,7 +82,7 @@ class LoginPage extends React.Component {
                 className="input"
                 placeholder="Type your username or your email"
                 value={username.value}
-                onChange={this.onUsernameChange}
+                onChange={this.usernameChangeHandler}
               />
             </label>
           </div>
@@ -91,7 +95,7 @@ class LoginPage extends React.Component {
                 className="input"
                 placeholder="Type your password"
                 value={password.value}
-                onChange={this.onPasswordChange}
+                onChange={this.passwordChangeHandler}
               />
             </label>
             {password.error && (
@@ -104,10 +108,12 @@ class LoginPage extends React.Component {
             <div className="control">
               <button
                 type="submit"
-                className="button is-link"
+                className={`button is-link ${
+                  this.state.submitting ? 'is-loading' : ''
+                }`}
                 disabled={!valid || submitting}
               >
-                Submit{submitting && 'ting...'}
+                Submit
               </button>
             </div>
             <div className="control">
@@ -125,16 +131,21 @@ class LoginPage extends React.Component {
     const { user } = this.props;
 
     return (
-      <section className="LoginPage smallContainer">
-        {!user.username && this.renderForm()}
-        {user.username && (
-          <div className="notification is-info">
-            <p>
-              You are logged in! <Link to="/logout">Log out</Link>
-            </p>
-          </div>
-        )}
-      </section>
+      <SmallContainer>
+        <section className="LoginPage">
+          {!user.username && this.renderForm()}
+          {user.username && (
+            <div className="notification is-info">
+              <p>
+                You are logged in!
+                <button type="button" onClick={this.logoutHandler}>
+                  Log out
+                </button>
+              </p>
+            </div>
+          )}
+        </section>
+      </SmallContainer>
     );
   }
 }

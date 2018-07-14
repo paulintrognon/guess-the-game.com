@@ -42,7 +42,7 @@ class RegisterPage extends React.Component {
     };
   }
 
-  onUsernameChange = event => {
+  usernameChangeHandler = event => {
     const { value } = event.target;
     this.setState(prevState => ({
       username: { ...prevState.username, value },
@@ -71,7 +71,7 @@ class RegisterPage extends React.Component {
       });
   }, 300);
 
-  onPasswordChange = event => {
+  passwordChangeHandler = event => {
     const { value } = event.target;
     this.setState(prevState => this.checkPassword(prevState, value));
   };
@@ -103,7 +103,7 @@ class RegisterPage extends React.Component {
     return state;
   };
 
-  onPasswordConfirmChange = event => {
+  passwordConfirmChangeHandler = event => {
     const { value } = event.target;
     this.setState(prevState => this.checkPasswordConfirm(prevState, value));
   };
@@ -129,7 +129,7 @@ class RegisterPage extends React.Component {
     return state;
   };
 
-  onEmailChange = event => {
+  changeEmailHandler = event => {
     const { value } = event.target;
     this.setState(prevState => {
       const email = { ...prevState.email, value };
@@ -176,6 +176,10 @@ class RegisterPage extends React.Component {
       });
   };
 
+  logoutHandler = () => {
+    this.props.dispatch(userActions.logout());
+  };
+
   renderForm() {
     const {
       username,
@@ -190,7 +194,7 @@ class RegisterPage extends React.Component {
 
     return (
       <form className="RegisterPage__form" onSubmit={this.handleSubmit}>
-        <h2 className="subtitle">Registration form</h2>
+        <h2 className="title is-5">Registration form</h2>
         <div className="field">
           <label className="label" htmlFor="username">
             Username
@@ -202,7 +206,7 @@ class RegisterPage extends React.Component {
                   ${username.error && 'is-danger'}`}
               placeholder="Type your name"
               value={username.value}
-              onChange={this.onUsernameChange}
+              onChange={this.usernameChangeHandler}
             />
           </label>
           {username.ok && (
@@ -224,7 +228,7 @@ class RegisterPage extends React.Component {
                   ${email.error && 'is-danger'}`}
               placeholder="Type your password again"
               value={email.value}
-              onChange={this.onEmailChange}
+              onChange={this.changeEmailHandler}
             />
           </label>
         </div>
@@ -239,7 +243,7 @@ class RegisterPage extends React.Component {
                   ${password.error && 'is-danger'}`}
               placeholder="Type your password"
               value={password.value}
-              onChange={this.onPasswordChange}
+              onChange={this.passwordChangeHandler}
             />
           </label>
           {password.error && <p className="help is-danger">{password.error}</p>}
@@ -255,7 +259,7 @@ class RegisterPage extends React.Component {
                   ${passwordConfirm.error && 'is-danger'}`}
               placeholder="Type your password again"
               value={passwordConfirm.value}
-              onChange={this.onPasswordConfirmChange}
+              onChange={this.passwordConfirmChangeHandler}
             />
           </label>
           {passwordConfirm.error && (
@@ -267,10 +271,12 @@ class RegisterPage extends React.Component {
           <div className="control">
             <button
               type="submit"
-              className="button is-link"
+              className={`button is-link ${
+                this.state.submitting ? 'is-loading' : ''
+              }`}
               disabled={!valid || submitting}
             >
-              Submit{submitting && 'ting...'}
+              Submit
             </button>
           </div>
           <div className="control">
@@ -293,7 +299,10 @@ class RegisterPage extends React.Component {
           {user.username && (
             <div className="notification is-info">
               <p>
-                You are registered! <Link to="/logout">Log out</Link>
+                You are registered!
+                <button type="button" onClick={this.logoutHandler}>
+                  Log out
+                </button>
               </p>
             </div>
           )}

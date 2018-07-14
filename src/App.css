@@ -11,3 +11,19 @@ button {
 .container {
   padding: 0 0.5em;
 }
+
+.label .additionnal-info {
+  font-weight: normal;
+  font-size: 0.8em;
+}
+
+.input::-moz-placeholder {
+  color: #333;
+}
+
+.notification button {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
