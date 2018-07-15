@@ -15,13 +15,14 @@ class AddScreenshotPage extends React.Component {
     super(props);
     this.state = {
       submitting: false,
+      error: null,
 
       // File upload
       isFileHover: false,
       isFileUploading: false,
       fileError: null,
       uploadedImageUrl: null,
-      uploadedImagePath: null,
+      uploadedImageName: null,
 
       // Fields values
       file: null,
@@ -56,7 +57,7 @@ class AddScreenshotPage extends React.Component {
         this.setState({
           isFileUploading: false,
           uploadedImageUrl: res.url,
-          uploadedImagePath: res.localPath,
+          uploadedImageName: res.localImageName,
         });
       },
       () => {
@@ -83,7 +84,7 @@ class AddScreenshotPage extends React.Component {
       file: null,
       fileError: null,
       uploadedImageUrl: null,
-      uploadedImagePath: null,
+      uploadedImageName: null,
     });
   };
 
@@ -114,11 +115,36 @@ class AddScreenshotPage extends React.Component {
     });
   };
 
+  submitHandler = event => {
+    event.preventDefault();
+    this.setState({
+      submitting: true,
+      error: null,
+    });
+    screenshotService
+      .addScreenshot({
+        name: this.state.name,
+        alternativeNames: this.state.alternativeNames,
+        localImageName: this.state.uploadedImageName,
+      })
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+          this.setState({
+            submitting: false,
+            error: res.message,
+          });
+        } else {
+          console.log(res);
+        }
+      });
+  };
+
   render() {
-    const valid = this.state.uploadedImagePath && this.state.name.trim();
+    const valid = this.state.uploadedImageName && this.state.name.trim();
     return (
       <SmallContainer>
-        <form className="AddScreenshot">
+        <form className="AddScreenshot" onSubmit={this.submitHandler}>
           <h2 className="title is-5">Add new screenshot</h2>
           <div className="field">
             <p className="AddScreenshot__dropzoneLabel label">Screenshot</p>
@@ -217,6 +243,9 @@ class AddScreenshotPage extends React.Component {
               </button>
             </div>
           </div>
+          {this.state.error && (
+            <p className="notification is-danger">{this.state.error}</p>
+          )}
         </form>
       </SmallContainer>
     );

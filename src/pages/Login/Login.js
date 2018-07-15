@@ -34,7 +34,7 @@ class LoginPage extends React.Component {
     });
   };
 
-  handleSubmit = event => {
+  submitHandler = event => {
     event.preventDefault();
     this.setState({
       submitting: true,
@@ -71,7 +71,7 @@ class LoginPage extends React.Component {
 
     return (
       <SmallContainer>
-        <form className="LoginPage__form" onSubmit={this.handleSubmit}>
+        <form className="LoginPage__form" onSubmit={this.submitHandler}>
           <h2 className="title is-5">Login form</h2>
           <div className="field">
             <label className="label" htmlFor="username">
