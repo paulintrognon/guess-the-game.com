@@ -176,11 +176,12 @@ class AddScreenshotPage extends React.Component {
             </label>
           </div>
           <div className="field AddScreenshot__alternativeNames">
-            <p className="label">
-              Optional: Alternative names{' '}
-              <span className="additionnal-info">
-                (abbreviated name, latin numbers, ...)
-              </span>
+            <div className="label">
+              <p>Alternative names</p>
+              <p className="additionnal-info">
+                The players will find the game by typing the full name or any of
+                the alternatives.
+              </p>
               {this.state.alternativeNames.map((alternativeName, i) => (
                 <input
                   key={`alternativeName-${i}`}
@@ -201,7 +202,7 @@ class AddScreenshotPage extends React.Component {
                 </span>
                 <span>Add an alternative</span>
               </button>
-            </p>
+            </div>
           </div>
           <div className="field">
             <div className="control">
@@ -212,7 +213,7 @@ class AddScreenshotPage extends React.Component {
                 }`}
                 disabled={!valid || this.state.submitting}
               >
-                Submit
+                Submit the screenshot
               </button>
             </div>
           </div>
