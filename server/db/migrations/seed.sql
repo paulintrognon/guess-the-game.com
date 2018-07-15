@@ -3,11 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Dim 08 Juillet 2018 à 14:07
+-- Généré le :  Dim 15 Juillet 2018 à 15:10
 -- Version du serveur :  10.1.26-MariaDB-0+deb9u1
 -- Version de PHP :  7.0.30-0+deb9u1
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -27,7 +26,6 @@ SET time_zone = "+00:00";
 -- Structure de la table `ScreenshotFounds`
 --
 
-DROP TABLE IF EXISTS `ScreenshotFounds`;
 CREATE TABLE `ScreenshotFounds` (
   `id` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
@@ -41,7 +39,6 @@ CREATE TABLE `ScreenshotFounds` (
 -- Structure de la table `ScreenshotNames`
 --
 
-DROP TABLE IF EXISTS `ScreenshotNames`;
 CREATE TABLE `ScreenshotNames` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -54,11 +51,11 @@ CREATE TABLE `ScreenshotNames` (
 -- Structure de la table `Screenshots`
 --
 
-DROP TABLE IF EXISTS `Screenshots`;
 CREATE TABLE `Screenshots` (
   `id` int(11) NOT NULL,
   `gameCanonicalName` varchar(255) NOT NULL,
   `difficulty` int(11) NOT NULL DEFAULT '0',
+  `imageUrl` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `deletedAt` datetime DEFAULT NULL,
@@ -71,7 +68,6 @@ CREATE TABLE `Screenshots` (
 -- Structure de la table `Users`
 --
 
-DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` int(11) NOT NULL,
   `username` varchar(20) DEFAULT NULL,
@@ -161,7 +157,6 @@ ALTER TABLE `ScreenshotNames`
 --
 ALTER TABLE `Screenshots`
   ADD CONSTRAINT `Screenshots_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

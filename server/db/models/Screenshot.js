@@ -33,12 +33,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Screenshot.associate = models => {
     models.Screenshot.hasMany(models.ScreenshotName);
-    models.Screenshot.belongsTo(models.User, {
-      onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-      },
-    });
+    models.Screenshot.belongsTo(models.User, { onDelete: 'CASCADE' });
   };
 
   return Screenshot;

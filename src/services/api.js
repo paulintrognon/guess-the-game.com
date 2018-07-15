@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from 'config'; // eslint-disable-line import/no-extraneous-dependencies
+import store from '../store';
 
 const api = axios.create({
   baseURL: `${config.apiUrl}`,
@@ -8,6 +9,7 @@ const api = axios.create({
 export default {
   get,
   post,
+  native: api,
 };
 
 function get(url) {
@@ -15,7 +17,19 @@ function get(url) {
 }
 
 function post(url, data) {
+  const dataWithJwt = addJwt(data);
   return api
-    .post(url, data)
+    .post(url, dataWithJwt)
     .then(res => res.data.result, err => err.response.data);
+}
+
+function addJwt(data) {
+  if (data instanceof FormData) {
+    return data;
+  }
+  const state = store.getState();
+  return {
+    jwt: state.user && state.user.jwt,
+    ...data,
+  };
 }

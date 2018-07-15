@@ -23,6 +23,7 @@ const config = require('../../config/server');
 const logger = require('../logger');
 const loadRoutes = require('./routes/_routes');
 const response = require('./response');
+const tokenService = require('./services/tokenService');
 
 /**
  * Create the app
@@ -32,6 +33,7 @@ app.use(cors());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(fileUpload());
 app.use('/uploads', express.static(`${__dirname}/../uploads`));
+app.use(tokenService.authenticateMiddleware);
 
 /**
  * Configuring the app

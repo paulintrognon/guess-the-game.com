@@ -18,12 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   ScreenshotName.associate = models => {
-    models.ScreenshotName.belongsTo(models.Screenshot, {
-      onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-      },
-    });
+    models.ScreenshotName.belongsTo(models.Screenshot, { onDelete: 'CASCADE' });
   };
 
   return ScreenshotName;

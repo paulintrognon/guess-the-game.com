@@ -5,10 +5,8 @@ import screenshotService from '../../services/screenshotService';
 import SmallContainer from '../../components/SmallContainer/SmallContainer';
 import './addScreenshot.css';
 
-function mapStoreToProps(store) {
-  return {
-    user: store.user,
-  };
+function mapStoreToProps() {
+  return {};
 }
 class AddScreenshotPage extends React.Component {
   constructor(props) {

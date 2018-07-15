@@ -6,6 +6,7 @@ const logger = require('../../logger');
 module.exports = {
   createToken,
   decode,
+  authenticateMiddleware,
 };
 
 function createToken(user) {
@@ -19,4 +20,12 @@ function decode(token) {
     logger.error(e.message);
     return null;
   }
+}
+
+function authenticateMiddleware(req, res, next) {
+  console.log(req.body);
+  if (req.body && req.body.jwt) {
+    req.user = decode(req.body.jwt);
+  }
+  next();
 }
