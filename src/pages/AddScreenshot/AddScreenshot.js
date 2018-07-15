@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import screenshotService from '../../services/screenshotService';
+import screenshotActions from '../../actions/screenshotActions';
 import SmallContainer from '../../components/SmallContainer/SmallContainer';
 import './addScreenshot.css';
 
@@ -127,13 +128,12 @@ class AddScreenshotPage extends React.Component {
       })
       .then(res => {
         if (res.error) {
-          console.log(res.error);
           this.setState({
             submitting: false,
             error: res.message,
           });
         } else {
-          console.log(res);
+          this.props.dispatch(screenshotActions.addScreenshotAction(res));
         }
       });
   };
@@ -144,7 +144,12 @@ class AddScreenshotPage extends React.Component {
       <SmallContainer>
         <form className="AddScreenshot" onSubmit={this.submitHandler}>
           <h2 className="title is-5">Add new screenshot</h2>
-          <div className="field">
+          <div
+            className="field"
+            onDrop={this.dropFileHandler}
+            onDragOver={this.dragOverHandler}
+            onDragLeave={this.dragLeaveHandler}
+          >
             <p className="AddScreenshot__dropzoneLabel label">Screenshot</p>
             <div
               className={`AddScreenshot__dropzone ${
@@ -154,9 +159,6 @@ class AddScreenshotPage extends React.Component {
                   ? '-preview'
                   : ''
               }`}
-              onDrop={this.dropFileHandler}
-              onDragOver={this.dragOverHandler}
-              onDragLeave={this.dragLeaveHandler}
               style={{
                 backgroundImage:
                   !this.state.isFileUploading &&

@@ -24,7 +24,7 @@ function responseMiddleware(promise, req, res, next) {
   }
 
   function handleError(error) {
-    logger.error(error);
+    logger.error(error.stack);
     const status = error.status || 400;
     res.status(status).send({
       status,

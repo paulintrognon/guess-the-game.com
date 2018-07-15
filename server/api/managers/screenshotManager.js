@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const db = require('../../db/db');
 
 module.exports = {
@@ -14,12 +15,28 @@ async function create(screenshotToCreate) {
     difficulty: screenshotToCreate.difficulty,
     imageUrl: screenshotToCreate.imageUrl,
   });
-  return user.addScreenshot(screenshot);
+  const names = getScreenshotNames(screenshotToCreate);
+  await Promise.all([
+    user.addScreenshot(screenshot),
+    addScreenshotNames(screenshot, names),
+  ]);
+  return screenshot;
 }
 
-async function createScreenshotNames(screenshot) {
-  const names = [...screenshot.alternativeNames].concat([screenshot.name]);
-  const bulkInstructions = names.map(name => ({
-    name,
-  }));
+async function addScreenshotNames(screenshot, names) {
+  const bulkInstructions = names.map(name => ({ name }));
+  const screenshotNames = await db.ScreenshotName.bulkCreate(bulkInstructions);
+  return bluebird.map(screenshotNames, scrennshotName =>
+    screenshot.addScreenshotName(scrennshotName)
+  );
+}
+
+function getScreenshotNames(screenshot) {
+  const names = [screenshot.gameCanonicalName];
+  screenshot.alternativeNames.forEach(name => {
+    if (name.trim()) {
+      names.push(name);
+    }
+  });
+  return names;
 }
