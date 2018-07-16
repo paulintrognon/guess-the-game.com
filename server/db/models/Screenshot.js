@@ -9,15 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         allowNull: false,
       },
-      difficulty: {
-        type: DataTypes.INTEGER,
-        validate: {
-          min: 0,
-          max: 3,
-        },
-        allowNull: false,
-        defaultValue: 0,
-      },
       imageUrl: {
         type: DataTypes.STRING,
         validate: {

@@ -12,7 +12,6 @@ async function create(screenshotToCreate) {
   }
   const screenshot = await db.Screenshot.create({
     gameCanonicalName: screenshotToCreate.gameCanonicalName,
-    difficulty: screenshotToCreate.difficulty,
     imageUrl: screenshotToCreate.imageUrl,
   });
   const names = getScreenshotNames(screenshotToCreate);

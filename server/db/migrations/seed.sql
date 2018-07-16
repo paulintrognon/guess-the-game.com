@@ -54,7 +54,6 @@ CREATE TABLE `ScreenshotNames` (
 CREATE TABLE `Screenshots` (
   `id` int(11) NOT NULL,
   `gameCanonicalName` varchar(255) NOT NULL,
-  `difficulty` int(11) NOT NULL DEFAULT '0',
   `imageUrl` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
