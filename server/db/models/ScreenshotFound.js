@@ -10,6 +10,9 @@ module.exports = sequelize => {
 
   ScreenshotFound.associate = models => {
     models.ScreenshotFound.belongsTo(models.User, { onDelete: 'CASCADE' });
+    models.ScreenshotFound.belongsTo(models.Screenshot, {
+      onDelete: 'CASCADE',
+    });
   };
 
   return ScreenshotFound;

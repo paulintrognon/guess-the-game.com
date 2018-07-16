@@ -6,9 +6,14 @@ const cloudinaryService = require('../services/cloudinaryService');
 const logger = require('../../logger');
 
 module.exports = {
+  getUnsolvedScreenshot,
   uploadScreenshot,
   addScreenshot,
 };
+
+function getUnsolvedScreenshot(req) {
+  return screenshotManager.getUnsolved(req.user.id);
+}
 
 function uploadScreenshot(req) {
   const imageFile = req.files.file;

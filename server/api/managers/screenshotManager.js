@@ -3,6 +3,7 @@ const db = require('../../db/db');
 
 module.exports = {
   create,
+  getUnsolved,
 };
 
 async function create(screenshotToCreate) {
@@ -38,4 +39,24 @@ function getScreenshotNames(screenshot) {
     }
   });
   return names;
+}
+
+async function getUnsolved(userId) {
+  return db.sequelize.query(
+    `
+    SELECT
+      Screenshot.*,
+      ScreenshotFounds.UserId AS ScreenshotFoundsUserId
+    FROM Screenshots AS Screenshot
+    LEFT JOIN ScreenshotFounds ON Screenshot.id = ScreenshotFounds.ScreenshotId
+    WHERE (
+      Screenshot.deletedAt IS NULL
+      AND (Screenshot.UserId != ${userId})
+      AND (ScreenshotFounds.UserId IS NULL OR ScreenshotFounds.UserId != ${userId})
+    )
+    ORDER BY RAND()
+    LIMIT 1
+  `,
+    { model: db.Screenshot }
+  );
 }

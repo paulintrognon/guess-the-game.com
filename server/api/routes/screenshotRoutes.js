@@ -9,4 +9,8 @@ router.post('/add-screenshot', (req, res, next) =>
   next(screenshotController.addScreenshot(req))
 );
 
+router.post('/random', (req, res, next) =>
+  next(screenshotController.getUnsolvedScreenshot(req))
+);
+
 module.exports = router;

@@ -9,7 +9,7 @@ const db = {};
 const sequelize = new Sequelize(config.database, config.user, config.password, {
   host: config.host,
   dialect: 'mysql',
-  logging: false,
+  logging: str => logger.debug(str),
 
   dialectOptions: {
     socketPath: '/var/run/mysqld/mysqld.sock',
