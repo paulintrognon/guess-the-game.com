@@ -42,13 +42,17 @@ function getScreenshotNames(screenshot) {
 }
 
 async function getUnsolved(userId) {
-  return db.sequelize.query(
+  const screenshots = await db.sequelize.query(
     `
     SELECT
-      Screenshot.*,
-      ScreenshotFounds.UserId AS ScreenshotFoundsUserId
+      Screenshot.id,
+      Screenshot.imageUrl,
+      Screenshot.createdAt,
+      ScreenshotFounds.UserId AS ScreenshotFoundsUserId,
+      Users.username AS username
     FROM Screenshots AS Screenshot
     LEFT JOIN ScreenshotFounds ON Screenshot.id = ScreenshotFounds.ScreenshotId
+    LEFT JOIN Users ON Screenshot.UserId = Users.id
     WHERE (
       Screenshot.deletedAt IS NULL
       AND (Screenshot.UserId != ${userId})
@@ -59,4 +63,5 @@ async function getUnsolved(userId) {
   `,
     { model: db.Screenshot }
   );
+  return screenshots[0];
 }
