@@ -1,7 +1,9 @@
 const path = require('path');
+const fs = require('fs');
 const config = require('../../../config');
 const screenshotManager = require('../managers/screenshotManager');
 const cloudinaryService = require('../services/cloudinaryService');
+const logger = require('../../logger');
 
 module.exports = {
   uploadScreenshot,
@@ -14,7 +16,15 @@ function uploadScreenshot(req) {
   const extention = path.extname(imageName);
   const localImageName = `${Date.now()}${extention}`;
   const localImagePath = getUploadedImageLocalPath(localImageName);
+
+  // We move the uploaded file to the uploads folder
   imageFile.mv(localImagePath);
+
+  // The file will be deleted in 24h
+  setTimeout(() => {
+    logger.info(`Deleting ${localImagePath}`);
+    fs.unlinkSync(localImagePath);
+  }, 3600 * 1000 * 24);
 
   const url = `${config.apiUrl}/uploads/${localImageName}`;
 
@@ -29,6 +39,10 @@ function addScreenshot(req) {
   });
 
   const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
+
+  if (!fs.existsSync(localImagePath)) {
+    throw new Error('Your image has been deleted, please re-upload it');
+  }
 
   return cloudinaryService.uploadImage(localImagePath).then(cloudinaryResult =>
     screenshotManager.create({
