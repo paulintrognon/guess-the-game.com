@@ -24,7 +24,9 @@ function decode(token) {
 
 function authenticateMiddleware(req, res, next) {
   if (req.body && req.body.jwt) {
-    req.user = decode(req.body.jwt);
+    req.user = decode(req.body.jwt) || {};
+  } else {
+    req.user = {};
   }
   next();
 }

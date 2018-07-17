@@ -1,11 +1,34 @@
 .ScreenshotPage {
-  max-width: 1000px;
-  margin: auto;
   background-color: #FFF;
+  padding: 1em 0;
+}
+
+@media (min-width: 420px) {
+  .ScreenshotPage {
+    padding: 1em;
+  }
+}
+
+.ScreenshotPage__title {
+  text-align: center;
 }
 
 .ScreenshotPage__screenshot {
+  text-align: center;
+}
+
+.ScreenshotPage__screenshot__image  {
+  max-width: 100%;
+}
+
+.ScreenshotPage__form {
+  padding: 1em 0;
   max-width: 800px;
-  height: 0;
-  padding-bottom: 56.25%;
+  margin: auto;
+}
+
+@media (min-width: 769px) {
+  .ScreenshotPage__form__next__container {
+    text-align: right;
+  }
 }

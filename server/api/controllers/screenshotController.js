@@ -16,13 +16,14 @@ async function getfromId(req) {
   const res = await screenshotManager.getFromId(req.body.id, req.user.id);
 
   const screenshot = {
-    found: false,
+    isSolved: false,
+    id: res.id,
     imageUrl: res.imageUrl,
     createdAt: res.createdAt,
   };
   if (res.ScreenshotFounds && res.ScreenshotFounds.length) {
-    screenshot.found = true;
-    screenshot.foundAt = res.ScreenshotFounds[0].createdAt;
+    screenshot.isSolved = true;
+    screenshot.solveDate = res.ScreenshotFounds[0].createdAt;
     screenshot.name = res.gameCanonicalName;
   }
   return screenshot;
