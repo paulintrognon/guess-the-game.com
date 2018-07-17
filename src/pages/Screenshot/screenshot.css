@@ -1,0 +1,11 @@
+.ScreenshotPage {
+  max-width: 1000px;
+  margin: auto;
+  background-color: #FFF;
+}
+
+.ScreenshotPage__screenshot {
+  max-width: 800px;
+  height: 0;
+  padding-bottom: 56.25%;
+}

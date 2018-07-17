@@ -3,6 +3,8 @@ import api from './api';
 export default {
   uploadImage,
   addScreenshot,
+  getFromId,
+  getUnsolved,
 };
 
 function uploadImage(file) {
@@ -14,5 +16,13 @@ function uploadImage(file) {
 }
 
 function addScreenshot(data) {
-  return api.post('/screenshot/add-screenshot', data);
+  return api.post('/screenshot/add', data);
+}
+
+function getFromId(id) {
+  return api.post('/screenshot/get', { id });
+}
+
+function getUnsolved(exlude) {
+  return api.post('/screenshot/unsolved', { exlude });
 }

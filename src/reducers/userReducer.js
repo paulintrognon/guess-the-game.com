@@ -11,6 +11,7 @@ export default function reducer(state = initialState, action) {
     localStorage.setItem('username', action.payload.username);
 
     return {
+      ...state,
       username: action.payload.username,
       jwt: action.payload.jwt,
     };
@@ -20,6 +21,7 @@ export default function reducer(state = initialState, action) {
     localStorage.removeItem('jwt');
     localStorage.removeItem('username');
     return {
+      ...state,
       username: '',
       jwt: '',
     };

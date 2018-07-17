@@ -6,10 +6,27 @@ const cloudinaryService = require('../services/cloudinaryService');
 const logger = require('../../logger');
 
 module.exports = {
+  getfromId,
   getUnsolvedScreenshot,
   uploadScreenshot,
   addScreenshot,
 };
+
+async function getfromId(req) {
+  const res = await screenshotManager.getFromId(req.body.id, req.user.id);
+
+  const screenshot = {
+    found: false,
+    imageUrl: res.imageUrl,
+    createdAt: res.createdAt,
+  };
+  if (res.ScreenshotFounds && res.ScreenshotFounds.length) {
+    screenshot.found = true;
+    screenshot.foundAt = res.ScreenshotFounds[0].createdAt;
+    screenshot.name = res.gameCanonicalName;
+  }
+  return screenshot;
+}
 
 function getUnsolvedScreenshot(req) {
   return screenshotManager.getUnsolved(req.user.id);

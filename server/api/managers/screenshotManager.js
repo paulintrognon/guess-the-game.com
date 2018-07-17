@@ -3,6 +3,7 @@ const db = require('../../db/db');
 
 module.exports = {
   create,
+  getFromId,
   getUnsolved,
 };
 
@@ -39,6 +40,18 @@ function getScreenshotNames(screenshot) {
     }
   });
   return names;
+}
+
+async function getFromId(screenshotId, userId) {
+  let include;
+  if (userId) {
+    include = {
+      model: db.ScreenshotFound,
+      required: false,
+      where: { UserId: userId },
+    };
+  }
+  return db.Screenshot.findById(screenshotId, { include });
 }
 
 async function getUnsolved(userId) {
