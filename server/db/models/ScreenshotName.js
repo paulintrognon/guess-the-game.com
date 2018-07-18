@@ -4,10 +4,17 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
-        validate: {
-          allowNull: false,
-          notEmpty: true,
-        },
+        validate: { notEmpty: true },
+        allowNull: false,
+      },
+      dm1: {
+        type: DataTypes.STRING,
+        validate: { notEmpty: true },
+        allowNull: false,
+      },
+      dm2: {
+        type: DataTypes.STRING,
+        validate: { notEmpty: true },
         allowNull: false,
       },
     },

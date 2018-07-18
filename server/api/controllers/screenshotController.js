@@ -8,6 +8,7 @@ const logger = require('../../logger');
 module.exports = {
   getfromId,
   getUnsolvedScreenshot,
+  // tryProposal,
   uploadScreenshot,
   addScreenshot,
 };
@@ -29,9 +30,13 @@ async function getfromId(req) {
   return screenshot;
 }
 
-function getUnsolvedScreenshot(req) {
+async function getUnsolvedScreenshot(req) {
   return screenshotManager.getUnsolved(req.user.id);
 }
+
+/* async function tryProposal(req) {
+  const 
+} */
 
 function uploadScreenshot(req) {
   const imageFile = req.files.file;
@@ -54,7 +59,7 @@ function uploadScreenshot(req) {
   return { url, localImageName };
 }
 
-function addScreenshot(req) {
+async function addScreenshot(req) {
   ['name', 'localImageName'].forEach(field => {
     if (!req.body[field]) {
       throw new Error(`User ${field} cannot be null`);
@@ -67,14 +72,14 @@ function addScreenshot(req) {
     throw new Error('Your image has been deleted, please re-upload it');
   }
 
-  return cloudinaryService.uploadImage(localImagePath).then(cloudinaryResult =>
-    screenshotManager.create({
-      gameCanonicalName: req.body.name,
-      alternativeNames: req.body.alternativeNames,
-      imageUrl: cloudinaryResult.secure_url,
-      userId: req.user.id,
-    })
-  );
+  const cloudinaryResult = await cloudinaryService.uploadImage(localImagePath);
+
+  return screenshotManager.create({
+    gameCanonicalName: req.body.name,
+    alternativeNames: req.body.alternativeNames,
+    imageUrl: cloudinaryResult.secure_url,
+    userId: req.user.id,
+  });
 }
 
 function getUploadedImageLocalPath(imageName) {

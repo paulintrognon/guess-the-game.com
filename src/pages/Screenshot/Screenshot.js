@@ -104,7 +104,7 @@ class ScreenshotPage extends React.Component {
                   </button>
                 ) : (
                   <button type="submit" className="button is-info">
-                    Try
+                    Guess
                   </button>
                 )}
               </div>
@@ -115,7 +115,7 @@ class ScreenshotPage extends React.Component {
               type="button"
               className="ScreenshotPage__form__next button is-light"
             >
-              Show another
+              Try another
             </button>
           </div>
         </div>

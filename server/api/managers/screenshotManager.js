@@ -1,10 +1,12 @@
 const bluebird = require('bluebird');
+const phonetiksService = require('../services/phonetiksService');
 const db = require('../../db/db');
 
 module.exports = {
   create,
   getFromId,
   getUnsolved,
+  guess,
 };
 
 async function create(screenshotToCreate) {
@@ -25,21 +27,10 @@ async function create(screenshotToCreate) {
 }
 
 async function addScreenshotNames(screenshot, names) {
-  const bulkInstructions = names.map(name => ({ name }));
-  const screenshotNames = await db.ScreenshotName.bulkCreate(bulkInstructions);
+  const screenshotNames = await db.ScreenshotName.bulkCreate(names);
   return bluebird.map(screenshotNames, scrennshotName =>
     screenshot.addScreenshotName(scrennshotName)
   );
-}
-
-function getScreenshotNames(screenshot) {
-  const names = [screenshot.gameCanonicalName];
-  screenshot.alternativeNames.forEach(name => {
-    if (name.trim()) {
-      names.push(name);
-    }
-  });
-  return names;
 }
 
 async function getFromId(screenshotId, userId) {
@@ -77,4 +68,33 @@ async function getUnsolved(userId) {
     { model: db.Screenshot }
   );
   return screenshots[0];
+}
+
+async function guess(proposal) {
+  const screenshots = await db.sequelize.query(
+    `
+    
+  `,
+    { model: db.Screenshot }
+  );
+  return screenshots[0];
+}
+
+function getScreenshotNames(screenshot) {
+  const names = [screenshot.gameCanonicalName];
+  screenshot.alternativeNames.forEach(name => {
+    if (name.trim()) {
+      names.push(name);
+    }
+  });
+  return names.map(addPhonetiks);
+}
+
+function addPhonetiks(name) {
+  const phonetiks = phonetiksService.toPhonetik(name);
+  return {
+    name,
+    dm1: phonetiks[0],
+    dm2: phonetiks[1],
+  };
 }

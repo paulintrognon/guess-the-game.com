@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Dim 15 Juillet 2018 à 15:10
+-- Généré le :  Mer 18 Juillet 2018 à 09:09
 -- Version du serveur :  10.1.26-MariaDB-0+deb9u1
 -- Version de PHP :  7.0.30-0+deb9u1
 
@@ -30,7 +30,8 @@ CREATE TABLE `ScreenshotFounds` (
   `id` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  `UserId` int(11) NOT NULL
+  `ScreenshotId` int(11) DEFAULT NULL,
+  `UserId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -42,6 +43,9 @@ CREATE TABLE `ScreenshotFounds` (
 CREATE TABLE `ScreenshotNames` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `deletedAt` datetime DEFAULT NULL,
   `ScreenshotId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -58,7 +62,7 @@ CREATE TABLE `Screenshots` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `deletedAt` datetime DEFAULT NULL,
-  `UserId` int(11) NOT NULL
+  `UserId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -87,6 +91,7 @@ CREATE TABLE `Users` (
 --
 ALTER TABLE `ScreenshotFounds`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `ScreenshotId` (`ScreenshotId`),
   ADD KEY `UserId` (`UserId`);
 
 --
@@ -143,7 +148,8 @@ ALTER TABLE `Users`
 -- Contraintes pour la table `ScreenshotFounds`
 --
 ALTER TABLE `ScreenshotFounds`
-  ADD CONSTRAINT `ScreenshotFounds_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ScreenshotFounds_ibfk_1` FOREIGN KEY (`ScreenshotId`) REFERENCES `Screenshots` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `ScreenshotFounds_ibfk_2` FOREIGN KEY (`UserId`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `ScreenshotNames`
