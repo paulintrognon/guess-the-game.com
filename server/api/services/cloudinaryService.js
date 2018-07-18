@@ -21,8 +21,8 @@ function uploadImage(path) {
         unique_filename: true,
         format: 'jpg',
         transformation: {
-          width: 800,
-          height: 450,
+          width: 1024,
+          height: 576,
           crop: 'fit',
           quality: 70,
         },
