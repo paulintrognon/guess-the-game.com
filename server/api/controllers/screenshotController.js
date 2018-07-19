@@ -8,7 +8,7 @@ const logger = require('../../logger');
 module.exports = {
   getfromId,
   getUnsolvedScreenshot,
-  // tryProposal,
+  tryProposal,
   uploadScreenshot,
   addScreenshot,
 };
@@ -34,9 +34,20 @@ async function getUnsolvedScreenshot(req) {
   return screenshotManager.getUnsolved(req.user.id);
 }
 
-/* async function tryProposal(req) {
-  const 
-} */
+async function tryProposal(req) {
+  const { screenshotId, proposal } = req.body;
+  const screenshot = await screenshotManager.testProposal(
+    screenshotId,
+    proposal
+  );
+  if (!screenshot) {
+    return { correct: false };
+  }
+  return {
+    correct: true,
+    screenshotName: screenshot.name,
+  };
+}
 
 function uploadScreenshot(req) {
   const imageFile = req.files.file;

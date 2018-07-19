@@ -17,4 +17,8 @@ router.post('/get', (req, res, next) =>
   next(screenshotController.getfromId(req))
 );
 
+router.post('/guess', (req, res, next) =>
+  next(screenshotController.tryProposal(req))
+);
+
 module.exports = router;

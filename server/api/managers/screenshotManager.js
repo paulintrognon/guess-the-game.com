@@ -6,7 +6,7 @@ module.exports = {
   create,
   getFromId,
   getUnsolved,
-  guess,
+  testProposal,
 };
 
 async function create(screenshotToCreate) {
@@ -70,14 +70,34 @@ async function getUnsolved(userId) {
   return screenshots[0];
 }
 
-async function guess(proposal) {
-  const screenshots = await db.sequelize.query(
-    `
-    
-  `,
-    { model: db.Screenshot }
-  );
-  return screenshots[0];
+async function testProposal(screenshotId, proposal) {
+  const phonetiks = phonetiksService.toPhonetik(proposal);
+  const screenshot = await db.ScreenshotName.findOne({
+    attributes: ['id'],
+    where: {
+      [db.Sequelize.Op.and]: [
+        { ScreenshotId: screenshotId },
+        {
+          [db.Sequelize.Op.or]: [
+            { dm1: phonetiks[0] },
+            { dm2: phonetiks[0] },
+            { dm1: phonetiks[1] },
+            { dm2: phonetiks[1] },
+          ],
+        },
+      ],
+    },
+    include: {
+      model: db.Screenshot,
+      attributes: ['gameCanonicalName'],
+    },
+  });
+  if (!screenshot) {
+    return false;
+  }
+  return {
+    name: screenshot.Screenshot.gameCanonicalName,
+  };
 }
 
 function getScreenshotNames(screenshot) {
