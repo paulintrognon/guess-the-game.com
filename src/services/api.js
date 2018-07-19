@@ -16,10 +16,10 @@ function get(url) {
   return api.get(url).then(res => res.data.result, err => err.response.data);
 }
 
-function post(url, data) {
+function post(url, data, conf) {
   const dataWithJwt = addJwt(data);
   return api
-    .post(url, dataWithJwt)
+    .post(url, dataWithJwt, conf)
     .then(res => res.data.result, err => err.response.data);
 }
 

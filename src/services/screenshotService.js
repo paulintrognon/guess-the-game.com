@@ -7,12 +7,12 @@ export default {
   getUnsolved,
 };
 
-function uploadImage(file) {
+function uploadImage(file, onUploadProgress) {
   const data = new FormData();
   data.append('file', file);
   data.append('filename', file.name);
 
-  return api.post('/screenshot/upload-image', data);
+  return api.post('/screenshot/upload-image', data, { onUploadProgress });
 }
 
 function addScreenshot(data) {

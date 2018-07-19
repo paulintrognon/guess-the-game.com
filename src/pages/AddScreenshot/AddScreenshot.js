@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import screenshotService from '../../services/screenshotService';
 import screenshotActions from '../../actions/screenshotActions';
 import SmallContainer from '../../components/SmallContainer/SmallContainer';
+import Loading from '../../components/Loading/Loading';
 import './addScreenshot.css';
 
 function mapStoreToProps() {
@@ -28,14 +29,10 @@ class AddScreenshotPage extends React.Component {
       name: '',
       alternativeNames: ['', '', ''],
     };
+    this.screenshotImageUploadInput = React.createRef();
   }
 
-  dropFileHandler = event => {
-    event.preventDefault();
-
-    // Use DataTransfer interface to access the file(s)
-    const file = event.dataTransfer.files[0];
-
+  uploadScreenshotImage = file => {
     if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
       this.setState({ fileError: 'Image needs to be a png or a jpg / jpeg' });
       return;
@@ -51,6 +48,7 @@ class AddScreenshotPage extends React.Component {
       isFileUploading: true,
       fileError: null,
     });
+
     screenshotService.uploadImage(file).then(
       res => {
         this.setState({
@@ -66,6 +64,22 @@ class AddScreenshotPage extends React.Component {
         });
       }
     );
+  };
+
+  dropFileHandler = event => {
+    event.preventDefault();
+
+    const file = event.dataTransfer.files[0];
+
+    this.uploadScreenshotImage(file);
+  };
+
+  changeFileFromButtonHandler = event => {
+    event.preventDefault();
+
+    const file = this.screenshotImageUploadInput.current.files[0];
+
+    this.uploadScreenshotImage(file);
   };
 
   dragOverHandler = event => {
@@ -165,12 +179,41 @@ class AddScreenshotPage extends React.Component {
                   `url(${this.state.uploadedImageUrl})`,
               }}
             >
-              <p>
-                {this.state.isFileUploading
-                  ? 'Uploading, please wait...'
-                  : null}
-                {!this.state.file ? 'Drag the screenshot...' : null}
-              </p>
+              <div>
+                {this.state.isFileUploading ? (
+                  <div>
+                    <p className="AddScreenshot__dropzone__loading">
+                      <Loading />
+                    </p>
+                    <p>Uploading, please wait...</p>
+                  </div>
+                ) : null}
+                {!this.state.file ? (
+                  <div>
+                    Drag the screenshot, or<br />
+                    <div className="file">
+                      <label
+                        className="file-label"
+                        htmlFor="uploadScreenshotImageButton"
+                      >
+                        <input
+                          id="uploadScreenshotImageButton"
+                          className="file-input"
+                          type="file"
+                          ref={this.screenshotImageUploadInput}
+                          onChange={this.changeFileFromButtonHandler}
+                        />
+                        <span className="file-cta">
+                          <span className="file-icon">
+                            <i className="fas fa-upload" />
+                          </span>
+                          <span className="file-label">choose a file…</span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
             </div>
             {this.state.uploadedImageUrl && (
               <p className="AddScreenshot__dropzone__reset">

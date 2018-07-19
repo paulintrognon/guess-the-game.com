@@ -26,6 +26,10 @@
   padding-bottom: 56.25%;
 }
 
+.AddScreenshot__dropzone__loading {
+  height: 50px;
+}
+
 .AddScreenshot__dropzone__reset {
   text-align: center;
   margin-top: 0.5em;
