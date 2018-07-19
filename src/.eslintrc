@@ -8,17 +8,10 @@
     "es6": true
   },
   "rules": {
-    "react/jsx-filename-extension": [
-      "off"
-    ],
-    "react/destructuring-assignment": [
-      "off"
-    ],
-    "react/prop-types": [
-      "off"
-    ],
-    "react/sort-comp": [
-      "off"
-    ]
+    "react/jsx-filename-extension": "off",
+    "react/destructuring-assignment": "off",
+    "react/prop-types": "off",
+    "react/sort-comp": "off",
+    "react/no-array-index-key": "off"
   }
 }

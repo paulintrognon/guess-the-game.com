@@ -69,7 +69,7 @@ async function addScreenshot(req) {
   const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
 
   if (!fs.existsSync(localImagePath)) {
-    throw new Error('Your image has been deleted, please re-upload it');
+    throw new Error('Sorry, your image has been deleted, please re-upload it');
   }
 
   const cloudinaryResult = await cloudinaryService.uploadImage(localImagePath);
