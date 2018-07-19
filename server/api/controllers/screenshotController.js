@@ -18,14 +18,16 @@ async function getfromId(req) {
 
   const screenshot = {
     isSolved: false,
+    isOwn: req.user.id === res.user.id,
     id: res.id,
     imageUrl: res.imageUrl,
     createdAt: res.createdAt,
+    createdBy: res.user,
   };
-  if (res.ScreenshotFounds && res.ScreenshotFounds.length) {
+  if (screenshot.screenshotFounds && screenshot.screenshotFounds.length) {
     screenshot.isSolved = true;
-    screenshot.solveDate = res.ScreenshotFounds[0].createdAt;
-    screenshot.name = res.gameCanonicalName;
+    screenshot.solveDate = res.screenshotFounds[0].createdAt;
+    screenshot.name = res.name;
   }
   return screenshot;
 }

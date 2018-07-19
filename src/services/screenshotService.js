@@ -5,6 +5,7 @@ export default {
   addScreenshot,
   getFromId,
   getUnsolved,
+  guess,
 };
 
 function uploadImage(file, onUploadProgress) {
@@ -25,4 +26,11 @@ function getFromId(id) {
 
 function getUnsolved(exlude) {
   return api.post('/screenshot/unsolved', { exlude });
+}
+
+function guess(screenshot, proposal) {
+  return api.post('/screenshot/guess', {
+    screenshotId: screenshot.id,
+    proposal,
+  });
 }

@@ -34,15 +34,28 @@ async function addScreenshotNames(screenshot, names) {
 }
 
 async function getFromId(screenshotId, userId) {
-  let include;
+  const include = [
+    {
+      attributes: ['id', 'username'],
+      model: db.User,
+    },
+  ];
   if (userId) {
-    include = {
+    include.push({
       model: db.ScreenshotFound,
       required: false,
       where: { UserId: userId },
-    };
+    });
   }
-  return db.Screenshot.findById(screenshotId, { include });
+  const res = await db.Screenshot.findById(screenshotId, { include });
+  return {
+    id: res.id,
+    name: res.gameCanonicalName,
+    imageUrl: res.imageUrl,
+    createdAt: res.createdAt,
+    user: res.User,
+    screenshotFounds: res.screenshotFounds,
+  };
 }
 
 async function getUnsolved(userId) {

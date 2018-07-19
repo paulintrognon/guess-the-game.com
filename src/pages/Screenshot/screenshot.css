@@ -9,8 +9,23 @@
   }
 }
 
-.ScreenshotPage__title {
+.ScreenshotPage__header {
+  max-width: 1024px;
+  margin: 0 auto 1em;
+}
+
+.ScreenshotPage__header .columns {
+  align-items: baseline;
+}
+
+.ScreenshotPage__header__title {
   text-align: center;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.ScreenshotPage__header__username {
+  text-align: right;
 }
 
 .ScreenshotPage__screenshot {

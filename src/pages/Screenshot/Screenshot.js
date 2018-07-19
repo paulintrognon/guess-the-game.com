@@ -55,9 +55,18 @@ class ScreenshotPage extends React.Component {
     }
     return (
       <div>
-        <h2 className="ScreenshotPage__title title is-5">
-          Screenshot #{screenshot.id}
-        </h2>
+        <div className="ScreenshotPage__header">
+          <div className="columns">
+            <div className="column" />
+            <h2 className="column ScreenshotPage__header__title">
+              Screenshot #{screenshot.id}
+            </h2>
+            <h3 className="column ScreenshotPage__header__username">
+              Uploaded by{' '}
+              <b>{screenshot.isOwn ? 'you!' : screenshot.username}</b>
+            </h3>
+          </div>
+        </div>
         <div className="ScreenshotPage__screenshot">
           <p>
             <img
@@ -75,7 +84,20 @@ class ScreenshotPage extends React.Component {
   renderFooter() {
     const { screenshot } = this.props;
     if (screenshot.isSolved) {
-      return <p>You have solved this screenshot the {this.solveDate}</p>;
+      return (
+        <p>
+          You have solved this screenshot the{' '}
+          {this.solveDate.toLocaleDateString()}
+        </p>
+      );
+    }
+    if (screenshot.isOwn) {
+      return (
+        <p>
+          You have uploaded this screenshot the{' '}
+          {screenshot.createdAt.toLocaleDateString()}
+        </p>
+      );
     }
     return (
       <form className="ScreenshotPage__form" onSubmit={this.trySubmitHandler}>

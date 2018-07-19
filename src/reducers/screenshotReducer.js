@@ -4,7 +4,9 @@ const initialState = {
   username: null,
   url: null,
   isSolved: false,
+  isOwn: false,
   solveDate: null,
+  createdAt: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -22,10 +24,12 @@ export default function reducer(state = initialState, action) {
       ...state,
       isLoading: false,
       id: payload.id,
-      username: payload.username,
+      username: payload.createdBy.username,
       url: payload.imageUrl,
       isSolved: payload.isSolved,
+      isOwn: payload.isOwn,
       solveDate: new Date(payload.solveDate),
+      createdAt: new Date(payload.createdAt),
     };
   }
 
