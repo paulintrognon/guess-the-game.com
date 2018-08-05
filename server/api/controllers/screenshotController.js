@@ -25,9 +25,9 @@ async function getfromId(req) {
     createdAt: res.createdAt,
     createdBy: res.user,
   };
-  if (screenshot.screenshotFounds && screenshot.screenshotFounds.length) {
+  if (res.screenshotFounds && res.screenshotFounds.length) {
     screenshot.isSolved = true;
-    screenshot.solveDate = res.screenshotFounds[0].createdAt;
+    screenshot.solvedAt = res.screenshotFounds[0].createdAt;
     screenshot.name = res.name;
   }
   return screenshot;
@@ -57,6 +57,11 @@ async function tryProposal(req) {
   if (!screenshot) {
     return { correct: false };
   }
+
+  await screenshotManager.markScreenshotAsResolved({
+    screenshotId,
+    userId: req.user.id,
+  });
   return {
     correct: true,
     screenshotName: screenshot.name,

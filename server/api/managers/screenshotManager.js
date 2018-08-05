@@ -7,6 +7,7 @@ module.exports = {
   getFromId,
   getUnsolved,
   testProposal,
+  markScreenshotAsResolved,
 };
 
 async function create(screenshotToCreate) {
@@ -54,7 +55,7 @@ async function getFromId(screenshotId, userId) {
     imagePath: res.imagePath,
     createdAt: res.createdAt,
     user: res.User,
-    screenshotFounds: res.screenshotFounds,
+    screenshotFounds: res.ScreenshotFounds,
   };
 }
 
@@ -83,7 +84,6 @@ async function getUnsolved({ userId, exclude }) {
   `,
     { model: db.Screenshot }
   );
-  console.log('exclude', userId, exclude);
   return screenshots[0];
 }
 
@@ -115,6 +115,25 @@ async function testProposal(screenshotId, proposal) {
   return {
     name: screenshot.Screenshot.gameCanonicalName,
   };
+}
+
+async function markScreenshotAsResolved({ screenshotId, userId }) {
+  const [user, screenshot] = await Promise.all([
+    db.User.findById(userId),
+    db.Screenshot.findById(screenshotId),
+  ]);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  if (!screenshot) {
+    throw new Error('Screenshot not found');
+  }
+  const screenshotFound = await db.ScreenshotFound.create();
+
+  return Promise.all([
+    user.addScreenshotFound(screenshotFound),
+    screenshot.addScreenshotFound(screenshotFound),
+  ]);
 }
 
 function getScreenshotNames(screenshot) {

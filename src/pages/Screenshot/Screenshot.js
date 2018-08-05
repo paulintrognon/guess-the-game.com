@@ -83,7 +83,11 @@ class ScreenshotPage extends React.Component {
     return (
       <div className="columns">
         <div className="column" />
-        <h2 className="column ScreenshotPage__header__title">
+        <h2
+          className={`column ScreenshotPage__header__title ${
+            screenshot.isSolved ? '-isSolved' : ''
+          }`}
+        >
           Screenshot #{screenshot.id}
         </h2>
         <h3 className="column ScreenshotPage__header__username">
@@ -112,8 +116,8 @@ class ScreenshotPage extends React.Component {
     if (screenshot.isSolved) {
       return (
         <p>
-          You have solved this screenshot the{' '}
-          {this.solveDate.toLocaleDateString()}
+          You have solved this screenshot on{' '}
+          {screenshot.solvedAt.toDateString()}
         </p>
       );
     }
@@ -121,7 +125,7 @@ class ScreenshotPage extends React.Component {
       return (
         <p>
           You have uploaded this screenshot the{' '}
-          {screenshot.createdAt.toLocaleDateString()}
+          {screenshot.createdAt.toDateString()}
         </p>
       );
     }

@@ -5,7 +5,7 @@ const initialState = {
   url: null,
   isSolved: false,
   isOwn: false,
-  solveDate: null,
+  solvedAt: null,
   createdAt: null,
   isTryAnotherButtonClicked: false,
 };
@@ -36,7 +36,7 @@ export default function reducer(state = initialState, action) {
       url: payload.imageUrl,
       isSolved: payload.isSolved,
       isOwn: payload.isOwn,
-      solveDate: new Date(payload.solveDate),
+      solvedAt: new Date(payload.solvedAt),
       createdAt: new Date(payload.createdAt),
       isTryAnotherButtonClicked: false,
     };
