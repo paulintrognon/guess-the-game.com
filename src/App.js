@@ -14,6 +14,7 @@ import LoginPage from './pages/Login/Login';
 import RegisterPage from './pages/Register/Register';
 import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
+import TheEnd from './pages/TheEnd/TheEnd';
 import NotFound from './pages/NotFound/NotFound';
 
 export default () => (
@@ -26,6 +27,7 @@ export default () => (
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
           <Route path="/add-screenshot" exact component={AddScreenshotPage} />
+          <Route path="/the-end" exact component={TheEnd} />
           <Route component={NotFound} />
         </Switch>
       </Layout>

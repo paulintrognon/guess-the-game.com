@@ -8,6 +8,7 @@ function mapStoreToProps(store) {
   return {
     screenshot: store.screenshot,
     isTryAnotherButtonClicked: store.screenshot.isTryAnotherButtonClicked,
+    allFound: store.screenshot.allFound,
   };
 }
 class ScreenshotPage extends React.Component {
