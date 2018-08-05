@@ -9,5 +9,10 @@
     "console": {
       "level": "debug"
     }
+  },
+  "cloudinary": {
+    "apiKey": "CHANGE-ME",
+    "apiSecret": "CHANGE-ME",
+    "imagesUrlPrefix": "CHANGE-ME"
   }
 }

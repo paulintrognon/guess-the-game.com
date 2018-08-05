@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import screenshotActions from '../../actions/screenshotActions';
+import Loading from '../../components/Loading/Loading';
 import './screenshot.css';
 
 function mapStoreToProps(store) {
@@ -42,42 +43,58 @@ class ScreenshotPage extends React.Component {
     return (
       <section className="section">
         <div className="container">
-          <div className="ScreenshotPage">{this.renderScreenshot()}</div>
+          <div className="ScreenshotPage">{this.renderScreenshotBox()}</div>
         </div>
       </section>
     );
   }
 
-  renderScreenshot() {
+  renderScreenshotBox() {
     const { screenshot } = this.props;
     if (screenshot.isLoading) {
-      return <p>Loading</p>;
+      return (
+        <div className="ScreenshotPage__header">
+          <Loading />
+        </div>
+      );
     }
     return (
       <div>
-        <div className="ScreenshotPage__header">
-          <div className="columns">
-            <div className="column" />
-            <h2 className="column ScreenshotPage__header__title">
-              Screenshot #{screenshot.id}
-            </h2>
-            <h3 className="column ScreenshotPage__header__username">
-              Uploaded by{' '}
-              <b>{screenshot.isOwn ? 'you!' : screenshot.username}</b>
-            </h3>
-          </div>
-        </div>
+        <div className="ScreenshotPage__header">{this.renderHeader()}</div>
         <div className="ScreenshotPage__screenshot">
-          <p>
-            <img
-              className="ScreenshotPage__screenshot__image"
-              src={screenshot.url}
-              alt={`Guess The Game Screenshot #${screenshot.id}`}
-            />
-          </p>
+          {this.renderScreenshot()}
           {this.renderFooter()}
         </div>
       </div>
+    );
+  }
+
+  renderHeader() {
+    const { screenshot } = this.props;
+    return (
+      <div className="columns">
+        <div className="column" />
+        <h2 className="column ScreenshotPage__header__title">
+          Screenshot #{screenshot.id}
+        </h2>
+        <h3 className="column ScreenshotPage__header__username">
+          Uploaded by <b>{screenshot.isOwn ? 'you!' : screenshot.username}</b>
+        </h3>
+      </div>
+    );
+  }
+
+  renderScreenshot() {
+    const { screenshot } = this.props;
+    return (
+      <p className="ScreenshotPage__screenshot__image__container">
+        <img
+          className="ScreenshotPage__screenshot__image"
+          src={screenshot.url}
+          alt={`Guess The Game Screenshot #${screenshot.id}`}
+          onLoad={this.imageLoadedHandler}
+        />
+      </p>
     );
   }
 

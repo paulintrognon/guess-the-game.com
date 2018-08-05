@@ -1,6 +1,8 @@
 const cloudinary = require('cloudinary');
 const config = require('../../../config/server.json');
 
+const format = 'jpg';
+
 cloudinary.config({
   cloud_name: 'dviwcrzx9',
   api_key: config.cloudinary.apiKey,
@@ -9,6 +11,7 @@ cloudinary.config({
 
 module.exports = {
   uploadImage,
+  pathToUrl,
 };
 
 function uploadImage(path) {
@@ -16,10 +19,10 @@ function uploadImage(path) {
     cloudinary.v2.uploader.upload(
       path,
       {
+        format,
         resource_type: 'image',
         use_filename: true,
         unique_filename: true,
-        format: 'jpg',
         transformation: {
           width: 1024,
           height: 576,
@@ -27,13 +30,21 @@ function uploadImage(path) {
           quality: 70,
         },
       },
-      (error, result) => {
+      (error, response) => {
         if (error) {
           reject(error);
         } else {
-          resolve(result);
+          resolve(getImagePath(response));
         }
       }
     );
   });
+}
+
+function getImagePath(response) {
+  return `v${response.version}/${response.public_id}.${format}`;
+}
+
+function pathToUrl(path) {
+  return `${config.cloudinary.imagesUrlPrefix}${path}`;
 }

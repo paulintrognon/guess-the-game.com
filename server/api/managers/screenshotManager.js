@@ -16,7 +16,7 @@ async function create(screenshotToCreate) {
   }
   const screenshot = await db.Screenshot.create({
     gameCanonicalName: screenshotToCreate.gameCanonicalName,
-    imageUrl: screenshotToCreate.imageUrl,
+    imagePath: screenshotToCreate.imagePath,
   });
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([
@@ -51,7 +51,7 @@ async function getFromId(screenshotId, userId) {
   return {
     id: res.id,
     name: res.gameCanonicalName,
-    imageUrl: res.imageUrl,
+    imagePath: res.imagePath,
     createdAt: res.createdAt,
     user: res.User,
     screenshotFounds: res.screenshotFounds,
@@ -63,7 +63,7 @@ async function getUnsolved(userId) {
     `
     SELECT
       Screenshot.id,
-      Screenshot.imageUrl,
+      Screenshot.imagePath,
       Screenshot.createdAt,
       ScreenshotFounds.UserId AS ScreenshotFoundsUserId,
       Users.username AS username

@@ -2,9 +2,11 @@ import React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch, Route } from 'react-router';
 import { Provider } from 'react-redux';
-
 import store from './store';
 import history from './history';
+
+import 'bulma/css/bulma.css';
+import './App.css';
 
 import Layout from './components/Layout/Layout';
 import Homepage from './pages/Hompage/Hompage';
@@ -13,9 +15,6 @@ import RegisterPage from './pages/Register/Register';
 import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
 import NotFound from './pages/NotFound/NotFound';
-
-import 'bulma/css/bulma.css';
-import './App.css';
 
 export default () => (
   <Provider store={store}>

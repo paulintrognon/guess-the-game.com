@@ -28,6 +28,7 @@
 
 .AddScreenshot__dropzone__loading {
   height: 50px;
+  text-align: center;
 }
 
 .AddScreenshot__dropzone__reset {

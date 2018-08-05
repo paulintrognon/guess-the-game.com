@@ -20,7 +20,7 @@ async function getfromId(req) {
     isSolved: false,
     isOwn: req.user.id === res.user.id,
     id: res.id,
-    imageUrl: res.imageUrl,
+    imageUrl: cloudinaryService.pathToUrl(res.imagePath),
     createdAt: res.createdAt,
     createdBy: res.user,
   };
@@ -85,12 +85,12 @@ async function addScreenshot(req) {
     throw new Error('Sorry, your image has been deleted, please re-upload it');
   }
 
-  const cloudinaryResult = await cloudinaryService.uploadImage(localImagePath);
+  const imagePath = await cloudinaryService.uploadImage(localImagePath);
 
   return screenshotManager.create({
+    imagePath,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
-    imageUrl: cloudinaryResult.secure_url,
     userId: req.user.id,
   });
 }

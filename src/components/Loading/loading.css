@@ -1,0 +1,7 @@
+.Loading {
+  height: 50px;
+  display: inline-block;
+  animation:Loading_spin 1s linear infinite;
+}
+
+@keyframes Loading_spin { 100% { transform:rotate(360deg); } }

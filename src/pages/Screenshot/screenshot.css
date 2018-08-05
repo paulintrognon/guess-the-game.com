@@ -12,6 +12,7 @@
 .ScreenshotPage__header {
   max-width: 1024px;
   margin: 0 auto 1em;
+  text-align: center;
 }
 
 .ScreenshotPage__header .columns {
@@ -22,18 +23,26 @@
   text-align: center;
   font-size: 1.5em;
   font-weight: 700;
+  padding: 0;
 }
 
 .ScreenshotPage__header__username {
-  text-align: right;
+  text-align: center;
 }
 
 .ScreenshotPage__screenshot {
   text-align: center;
 }
 
-.ScreenshotPage__screenshot__image  {
+.ScreenshotPage__screenshot__image__container {
+  text-align: center;
+}
+
+.ScreenshotPage__screenshot__image {
   max-width: 100%;
+}
+.ScreenshotPage__screenshot__image.-hidden {
+  /* height: 0; */
 }
 
 .ScreenshotPage__form {
@@ -43,6 +52,14 @@
 }
 
 @media (min-width: 769px) {
+  .ScreenshotPage__header__title {
+    padding: 0.75em;
+  }
+
+  .ScreenshotPage__header__username {
+    text-align: right;
+  }
+
   .ScreenshotPage__form__next__container {
     text-align: right;
   }
