@@ -7,6 +7,7 @@ import './screenshot.css';
 function mapStoreToProps(store) {
   return {
     screenshot: store.screenshot,
+    isTryAnotherButtonClicked: store.screenshot.isTryAnotherButtonClicked,
   };
 }
 class ScreenshotPage extends React.Component {
@@ -37,6 +38,13 @@ class ScreenshotPage extends React.Component {
       return;
     }
     console.log(this.state.proposal);
+  };
+
+  tryAnotherHandler = () => {
+    this.props.dispatch({ type: 'SCREENSHOT_TRY_ANOTHER' });
+    this.props.dispatch(
+      screenshotActions.getUnsolvedScreenshot(this.props.match.params.id)
+    );
   };
 
   render() {
@@ -152,7 +160,11 @@ class ScreenshotPage extends React.Component {
           <div className="column ScreenshotPage__form__next__container">
             <button
               type="button"
-              className="ScreenshotPage__form__next button is-light"
+              className={`ScreenshotPage__form__next button is-light ${
+                this.props.isTryAnotherButtonClicked ? 'is-loading' : ''
+              }`}
+              disabled={this.props.isTryAnotherButtonClicked}
+              onClick={this.tryAnotherHandler}
             >
               Try another
             </button>

@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const path = require('path');
 const fs = require('fs');
 const config = require('../../../config');
@@ -33,7 +34,18 @@ async function getfromId(req) {
 }
 
 async function getUnsolvedScreenshot(req) {
-  return screenshotManager.getUnsolved(req.user.id);
+  const screenshot = await screenshotManager.getUnsolved({
+    userId: req.user.id,
+    exclude: req.body.exclude,
+  });
+  if (!screenshot) {
+    return bluebird.reject({
+      status: 404,
+      code: 'UNSOLVED_SCREENSHOT_NOT_FOUND',
+      message: 'No screenshot can be found for that user.',
+    });
+  }
+  return getfromId({ ...req, body: { ...req.body, id: screenshot.id } });
 }
 
 async function tryProposal(req) {

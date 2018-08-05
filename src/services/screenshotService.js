@@ -24,8 +24,8 @@ function getFromId(id) {
   return api.post('/screenshot/get', { id });
 }
 
-function getUnsolved(exlude) {
-  return api.post('/screenshot/unsolved', { exlude });
+function getUnsolved(exclude) {
+  return api.post('/screenshot/unsolved', { exclude });
 }
 
 function guess(screenshot, proposal) {

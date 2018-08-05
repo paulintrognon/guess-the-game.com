@@ -58,28 +58,32 @@ async function getFromId(screenshotId, userId) {
   };
 }
 
-async function getUnsolved(userId) {
+async function getUnsolved({ userId, exclude }) {
   const screenshots = await db.sequelize.query(
     `
     SELECT
-      Screenshot.id,
-      Screenshot.imagePath,
-      Screenshot.createdAt,
-      ScreenshotFounds.UserId AS ScreenshotFoundsUserId,
-      Users.username AS username
+      Screenshot.id
     FROM Screenshots AS Screenshot
     LEFT JOIN ScreenshotFounds ON Screenshot.id = ScreenshotFounds.ScreenshotId
     LEFT JOIN Users ON Screenshot.UserId = Users.id
     WHERE (
       Screenshot.deletedAt IS NULL
+      ${
+        userId
+          ? `
       AND (Screenshot.UserId != ${userId})
       AND (ScreenshotFounds.UserId IS NULL OR ScreenshotFounds.UserId != ${userId})
+      `
+          : ''
+      }
+      ${exclude ? `AND (Screenshot.Id != ${exclude})` : ''}
     )
     ORDER BY RAND()
     LIMIT 1
   `,
     { model: db.Screenshot }
   );
+  console.log('exclude', userId, exclude);
   return screenshots[0];
 }
 

@@ -7,6 +7,7 @@ const initialState = {
   isOwn: false,
   solveDate: null,
   createdAt: null,
+  isTryAnotherButtonClicked: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -16,6 +17,13 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       isLoading: true,
+    };
+  }
+
+  if (type === 'SCREENSHOT_TRY_ANOTHER') {
+    return {
+      ...state,
+      isTryAnotherButtonClicked: true,
     };
   }
 
@@ -30,6 +38,7 @@ export default function reducer(state = initialState, action) {
       isOwn: payload.isOwn,
       solveDate: new Date(payload.solveDate),
       createdAt: new Date(payload.createdAt),
+      isTryAnotherButtonClicked: false,
     };
   }
 

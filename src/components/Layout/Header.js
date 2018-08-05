@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import userActions from '../../actions/userActions';
+import screenshotActions from '../../actions/screenshotActions';
 
 import './header.css';
 
@@ -13,6 +14,10 @@ function mapStoreToProps(store) {
 class Header extends React.Component {
   logoutHandler = () => {
     this.props.dispatch(userActions.logout());
+  };
+
+  playHandler = () => {
+    this.props.dispatch(screenshotActions.getUnsolvedScreenshot());
   };
 
   renderLogoutButtons(username) {
@@ -44,12 +49,16 @@ class Header extends React.Component {
                 </span>G<span className="is-hidden-mobile">ame</span>!
               </h1>
             </Link>
-            <Link to="/play" className="Header__bar__item">
+            <button
+              type="button"
+              className="Header__bar__item"
+              onClick={this.playHandler}
+            >
               <span className="icon has-text-primary">
                 <i className="fas fa-play" />
               </span>
               <span>Play</span>
-            </Link>
+            </button>
             {user.username && (
               <Link to="/add-screenshot" className="Header__bar__item">
                 <span className="icon has-text-grey">
