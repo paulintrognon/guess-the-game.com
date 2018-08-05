@@ -18,7 +18,7 @@ class ScreenshotPage extends React.Component {
       isProposalWrong: false,
     };
 
-    if (!props.screenshot.id && props.match.params.id) {
+    if (props.match.params.id !== props.screenshot.id) {
       this.props.dispatch(
         screenshotActions.loadScreenshot(props.match.params.id)
       );
