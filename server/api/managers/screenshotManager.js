@@ -136,6 +136,7 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
   return Promise.all([
     user.addScreenshotFound(screenshotFound),
     screenshot.addScreenshotFound(screenshotFound),
+    user.increment('screenshotsFound'),
   ]);
 }
 
