@@ -40,13 +40,13 @@ function isUsernameFree(username) {
 
 async function getScores() {
   return db.User.findAll({
-    attributes: ['username', 'screenshotsFound'],
+    attributes: ['username', 'screenshotsFound', 'screenshotsAdded'],
     where: {
       username: {
         [db.Sequelize.Op.not]: null,
       },
     },
     limit: 100,
-    order: [['screenshotsFound', 'DESC']],
+    order: [['screenshotsFound', 'DESC'], ['screenshotsAdded', 'DESC']],
   });
 }

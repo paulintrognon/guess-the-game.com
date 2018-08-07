@@ -24,6 +24,7 @@ async function create(screenshotToCreate) {
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
+    user.increment('screenshotsAdded'),
   ]);
   return screenshot;
 }

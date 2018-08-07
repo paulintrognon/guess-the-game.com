@@ -49,6 +49,9 @@ class Homepage extends React.Component {
             <th>
               <span className="is-hidden-mobile">Screenshots</span> Resolved
             </th>
+            <th>
+              <span className="is-hidden-mobile">Screenshots</span> Posted
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +64,7 @@ class Homepage extends React.Component {
               <th>{i + 1}</th>
               <td>{score.username}</td>
               <td>{score.screenshotsFound}</td>
+              <td>{score.screenshotsAdded}</td>
             </tr>
           ))}
         </tbody>
