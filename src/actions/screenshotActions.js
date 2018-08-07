@@ -43,6 +43,9 @@ function tryProposal(screenshotId, proposition) {
   return dispatch => {
     dispatch({ type: 'SCREENSHOT_PROPOSAL_TRY' });
     screenshotService.guess(screenshotId, proposition).then(res => {
+      if (res.jwt) {
+        dispatch({ type: 'USER_LOG_IN', payload: { jwt: res.jwt } });
+      }
       if (res.correct) {
         dispatch({ type: 'SCREENSHOT_PROPOSAL_SUCCESS', payload: res });
       } else {

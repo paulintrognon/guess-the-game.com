@@ -3,7 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const config = require('../../../config');
 const screenshotManager = require('../managers/screenshotManager');
+const userManager = require('../managers/userManager');
 const cloudinaryService = require('../services/cloudinaryService');
+const tokenService = require('../services/tokenService');
 const logger = require('../../logger');
 
 module.exports = {
@@ -16,7 +18,6 @@ module.exports = {
 
 async function getfromId(req) {
   const res = await screenshotManager.getFromId(req.body.id, req.user.id);
-  console.log(res.year);
 
   const screenshot = {
     isSolved: false,
@@ -62,6 +63,13 @@ async function tryProposal(req) {
     return { correct: false };
   }
 
+  let jwt;
+  if (!req.user.id) {
+    const user = await userManager.create({});
+    jwt = tokenService.createToken(user);
+    req.user = user;
+  }
+
   await screenshotManager.markScreenshotAsResolved({
     screenshotId,
     userId: req.user.id,
@@ -70,6 +78,7 @@ async function tryProposal(req) {
     correct: true,
     screenshotName: screenshot.name,
     year: screenshot.year,
+    jwt,
   };
 }
 

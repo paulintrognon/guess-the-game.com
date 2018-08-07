@@ -65,8 +65,8 @@ function register(req) {
         password: hashedPassword,
       };
       // Si l'utilisateur a déjà un compte mais pas encore d'email, on met à jour
-      if (req.jwt && !req.jwt.email) {
-        return userManager.update(req.userId, user);
+      if (req.body.jwt && !req.user.email) {
+        return userManager.update(req.user.id, user);
       }
       // Sinon, on crée le nouvel utilisateur
       return userManager.create(user);

@@ -6,9 +6,11 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   const newState = { ...state };
 
-  if (action.type === 'USER__LOG_IN') {
+  if (action.type === 'USER_LOG_IN') {
     localStorage.setItem('jwt', action.payload.jwt);
-    localStorage.setItem('username', action.payload.username);
+    if (action.payload.username) {
+      localStorage.setItem('username', action.payload.username);
+    }
 
     return {
       ...state,
@@ -17,7 +19,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (action.type === 'USER__LOG_OUT') {
+  if (action.type === 'USER_LOG_OUT') {
     localStorage.removeItem('jwt');
     localStorage.removeItem('username');
     return {

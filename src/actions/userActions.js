@@ -7,14 +7,14 @@ export default {
 
 function login(user) {
   return dispatch => {
-    dispatch({ type: 'USER__LOG_IN', payload: user });
+    dispatch({ type: 'USER_LOG_IN', payload: user });
     dispatch(push('/'));
   };
 }
 
 function logout() {
   return dispatch => {
-    dispatch({ type: 'USER__LOG_OUT' });
+    dispatch({ type: 'USER_LOG_OUT' });
     dispatch(push('/login'));
   };
 }
