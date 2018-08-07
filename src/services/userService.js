@@ -4,6 +4,7 @@ export default {
   checkUsernameAvailability,
   register,
   login,
+  fetchScores,
 };
 
 function checkUsernameAvailability(username) {
@@ -21,4 +22,8 @@ function register(user) {
 
 function login(credentials) {
   return api.post('/user/login', credentials);
+}
+
+async function fetchScores() {
+  return api.get('/user/scores');
 }

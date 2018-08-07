@@ -5,6 +5,7 @@ module.exports = {
   get,
   update,
   isUsernameFree,
+  getScores,
 };
 
 function create(userToCreate) {
@@ -35,4 +36,17 @@ function isUsernameFree(username) {
   return db.User.findOne({
     where: { username: { like: username } },
   }).then(user => user === null);
+}
+
+async function getScores() {
+  return db.User.findAll({
+    attributes: ['username', 'screenshotsFound'],
+    where: {
+      username: {
+        [db.Sequelize.Op.not]: null,
+      },
+    },
+    limit: 100,
+    order: [['screenshotsFound', 'DESC']],
+  });
 }

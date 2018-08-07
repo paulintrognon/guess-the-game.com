@@ -66,17 +66,22 @@ async function getUnsolved({ userId, exclude }) {
     `
     SELECT
       Screenshot.id
-    FROM Screenshots AS Screenshot
-    LEFT JOIN ScreenshotFounds ON Screenshot.id = ScreenshotFounds.ScreenshotId
-    LEFT JOIN Users ON Screenshot.UserId = Users.id
+    FROM
+      Screenshots AS Screenshot
+    LEFT JOIN
+      Users ON Screenshot.UserId = Users.id
     WHERE (
       Screenshot.deletedAt IS NULL
       ${
         userId
           ? `
       AND (Screenshot.UserId != ${userId})
-      AND (ScreenshotFounds.UserId IS NULL OR ScreenshotFounds.UserId != ${userId})
-      `
+      AND NOT EXISTS (
+        SELECT id FROM ScreenshotFounds
+        WHERE
+          ScreenshotFounds.ScreenshotId = Screenshot.id
+          AND ScreenshotFounds.UserId = ${userId}
+      ) `
           : ''
       }
       ${exclude ? `AND (Screenshot.Id != ${exclude})` : ''}

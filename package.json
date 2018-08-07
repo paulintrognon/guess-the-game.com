@@ -28,6 +28,7 @@
     "redux": "^4.0.0",
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.3.0",
+    "route-cache": "^0.4.4",
     "sequelize": "^4.38.0",
     "stemmer": "^1.0.2",
     "winston": "^3.0.0"

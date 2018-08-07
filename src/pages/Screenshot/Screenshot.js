@@ -48,6 +48,7 @@ class ScreenshotPage extends React.Component {
   };
 
   tryAnotherHandler = () => {
+    this.setState({ proposal: '' });
     this.props.dispatch({ type: 'SCREENSHOT_TRY_ANOTHER' });
     this.props.dispatch(
       screenshotActions.getUnsolvedScreenshot(this.props.match.params.id)

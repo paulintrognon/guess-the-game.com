@@ -10,6 +10,7 @@ module.exports = {
   login,
   register,
   preLog,
+  getScores,
 };
 
 function checkUsernameAvailability(req) {
@@ -76,4 +77,8 @@ function register(req) {
       jwt,
       username: req.body.username,
     }));
+}
+
+async function getScores() {
+  return userManager.getScores();
 }
