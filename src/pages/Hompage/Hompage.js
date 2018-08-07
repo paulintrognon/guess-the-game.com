@@ -4,6 +4,11 @@ import Loading from '../../components/Loading/Loading';
 import userService from '../../services/userService';
 import screenshotActions from '../../actions/screenshotActions';
 
+function mapStoreToProps(store) {
+  return {
+    user: store.user,
+  };
+}
 class Homepage extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +27,7 @@ class Homepage extends React.Component {
 
   renderScores() {
     const { scores } = this.state;
+    const { user } = this.props;
 
     if (this.state.isLoading) {
       return (
@@ -47,7 +53,11 @@ class Homepage extends React.Component {
         </thead>
         <tbody>
           {scores.map((score, i) => (
-            <tr>
+            <tr
+              style={{
+                fontWeight: score.username === user.username ? 'bold' : '',
+              }}
+            >
               <th>{i + 1}</th>
               <td>{score.username}</td>
               <td>{score.screenshotsFound}</td>
@@ -83,4 +93,4 @@ class Homepage extends React.Component {
     );
   }
 }
-export default connect()(Homepage);
+export default connect(mapStoreToProps)(Homepage);
