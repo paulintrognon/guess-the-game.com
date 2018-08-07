@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Mer 18 Juillet 2018 à 09:09
+-- Généré le :  Mar 07 Août 2018 à 23:53
 -- Version du serveur :  10.1.26-MariaDB-0+deb9u1
 -- Version de PHP :  7.0.30-0+deb9u1
 
@@ -43,9 +43,8 @@ CREATE TABLE `ScreenshotFounds` (
 CREATE TABLE `ScreenshotNames` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  `deletedAt` datetime DEFAULT NULL,
+  `dm1` varchar(255) NOT NULL,
+  `dm2` varchar(255) NOT NULL,
   `ScreenshotId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -59,6 +58,7 @@ CREATE TABLE `Screenshots` (
   `id` int(11) NOT NULL,
   `gameCanonicalName` varchar(255) NOT NULL,
   `imagePath` varchar(255) NOT NULL,
+  `year` int(11) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `deletedAt` datetime DEFAULT NULL,
@@ -77,6 +77,7 @@ CREATE TABLE `Users` (
   `email` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `screenshotsFound` int(11) NOT NULL DEFAULT '0',
+  `screenshotsAdded` int(11) NOT NULL DEFAULT '0',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `deletedAt` datetime DEFAULT NULL
