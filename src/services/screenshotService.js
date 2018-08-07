@@ -28,9 +28,9 @@ function getUnsolved(exclude) {
   return api.post('/screenshot/unsolved', { exclude });
 }
 
-function guess(screenshot, proposal) {
+function guess(screenshotId, proposal) {
   return api.post('/screenshot/guess', {
-    screenshotId: screenshot.id,
+    screenshotId,
     proposal,
   });
 }

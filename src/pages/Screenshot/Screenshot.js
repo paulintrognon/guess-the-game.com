@@ -9,6 +9,9 @@ function mapStoreToProps(store) {
     screenshot: store.screenshot,
     isTryAnotherButtonClicked: store.screenshot.isTryAnotherButtonClicked,
     allFound: store.screenshot.allFound,
+    isGuessing: store.screenshot.isGuessing,
+    isProposalRight: store.screenshot.isProposalRight,
+    isProposalWrong: store.screenshot.isProposalWrong,
   };
 }
 class ScreenshotPage extends React.Component {
@@ -16,8 +19,6 @@ class ScreenshotPage extends React.Component {
     super(props);
     this.state = {
       proposal: '',
-      isProposalRight: false,
-      isProposalWrong: false,
     };
 
     if (props.match.params.id !== props.screenshot.id) {
@@ -35,10 +36,15 @@ class ScreenshotPage extends React.Component {
 
   trySubmitHandler = event => {
     event.preventDefault();
-    if (this.state.isProposalRight || !this.state.proposal.trim()) {
+    if (this.props.isProposalRight || !this.state.proposal.trim()) {
       return;
     }
-    console.log(this.state.proposal);
+    this.props.dispatch(
+      screenshotActions.tryProposal(
+        this.props.screenshot.id,
+        this.state.proposal
+      )
+    );
   };
 
   tryAnotherHandler = () => {
@@ -112,7 +118,12 @@ class ScreenshotPage extends React.Component {
   }
 
   renderFooter() {
-    const { screenshot } = this.props;
+    const {
+      screenshot,
+      isProposalRight,
+      isProposalWrong,
+      isGuessing,
+    } = this.props;
     if (screenshot.isSolved) {
       return (
         <p>
@@ -138,8 +149,8 @@ class ScreenshotPage extends React.Component {
               <div className="control is-expanded">
                 <input
                   className={`input 
-                  ${this.state.isProposalRight ? 'is-success' : ''}
-                  ${this.state.isProposalWrong ? 'is-danger' : ''}
+                  ${isProposalRight ? 'is-success' : ''}
+                  ${isProposalWrong ? 'is-danger' : ''}
                 `}
                   type="text"
                   placeholder="What is that game?"
@@ -148,14 +159,20 @@ class ScreenshotPage extends React.Component {
                 />
               </div>
               <div className="control">
-                {this.state.isProposalRight ? (
+                {isProposalRight ? (
                   <button type="button" className="button is-success">
                     <span className="icon is-small is-right">
                       <i className="fas fa-check fa-xs is-success" />
                     </span>
                   </button>
                 ) : (
-                  <button type="submit" className="button is-info">
+                  <button
+                    type="submit"
+                    className={`button is-info ${
+                      isGuessing ? 'is-loading' : ''
+                    }`}
+                    disabled={isGuessing}
+                  >
                     Guess
                   </button>
                 )}

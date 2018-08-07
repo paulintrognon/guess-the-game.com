@@ -5,6 +5,7 @@ export default {
   addScreenshotAction,
   loadScreenshot,
   getUnsolvedScreenshot,
+  tryProposal,
 };
 
 function addScreenshotAction(screenshot) {
@@ -33,6 +34,19 @@ function getUnsolvedScreenshot(exclude) {
       } else {
         dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
         dispatch(push(`/shot/${res.id}`));
+      }
+    });
+  };
+}
+
+function tryProposal(screenshotId, proposition) {
+  return dispatch => {
+    dispatch({ type: 'SCREENSHOT_PROPOSAL_TRY' });
+    screenshotService.guess(screenshotId, proposition).then(res => {
+      if (res.correct) {
+        dispatch({ type: 'SCREENSHOT_PROPOSAL_SUCCESS', payload: res });
+      } else {
+        dispatch({ type: 'SCREENSHOT_PROPOSAL_FAILURE' });
       }
     });
   };
