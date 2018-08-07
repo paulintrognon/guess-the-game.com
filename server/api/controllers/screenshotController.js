@@ -16,6 +16,7 @@ module.exports = {
 
 async function getfromId(req) {
   const res = await screenshotManager.getFromId(req.body.id, req.user.id);
+  console.log(res.year);
 
   const screenshot = {
     isSolved: false,
@@ -28,7 +29,10 @@ async function getfromId(req) {
   if (res.screenshotFounds && res.screenshotFounds.length) {
     screenshot.isSolved = true;
     screenshot.solvedAt = res.screenshotFounds[0].createdAt;
+  }
+  if (screenshot.isSolved || res.user.id === req.user.id) {
     screenshot.name = res.name;
+    screenshot.year = res.year;
   }
   return screenshot;
 }
@@ -65,6 +69,7 @@ async function tryProposal(req) {
   return {
     correct: true,
     screenshotName: screenshot.name,
+    year: screenshot.year,
   };
 }
 
@@ -108,6 +113,7 @@ async function addScreenshot(req) {
     imagePath,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
+    year: req.body.year,
     userId: req.user.id,
   });
 }

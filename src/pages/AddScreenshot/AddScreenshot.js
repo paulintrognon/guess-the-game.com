@@ -28,6 +28,7 @@ class AddScreenshotPage extends React.Component {
       file: null,
       name: '',
       alternativeNames: ['', '', ''],
+      year: '',
     };
     this.screenshotImageUploadInput = React.createRef();
   }
@@ -105,6 +106,10 @@ class AddScreenshotPage extends React.Component {
     this.setState({ name: event.target.value });
   };
 
+  changeYearHandler = event => {
+    this.setState({ year: event.target.value });
+  };
+
   onAlternativeNameChange = index => event => {
     const { value } = event.target;
     this.setState(prevState => {
@@ -138,6 +143,7 @@ class AddScreenshotPage extends React.Component {
       .addScreenshot({
         name: this.state.name,
         alternativeNames: this.state.alternativeNames,
+        year: this.state.year,
         localImageName: this.state.uploadedImageName,
       })
       .then(res => {
@@ -182,9 +188,9 @@ class AddScreenshotPage extends React.Component {
               <div>
                 {this.state.isFileUploading ? (
                   <div>
-                    <p className="AddScreenshot__dropzone__loading">
+                    <div className="AddScreenshot__dropzone__loading">
                       <Loading />
-                    </p>
+                    </div>
                     <p>Uploading, please wait...</p>
                   </div>
                 ) : null}
@@ -272,6 +278,21 @@ class AddScreenshotPage extends React.Component {
                 <span>Add an alternative</span>
               </button>
             </div>
+          </div>
+          <div className="field">
+            <label className="label" htmlFor="year">
+              Year when it came out
+              <input
+                id="year"
+                type="number"
+                className="input"
+                placeholder="Ex: 2017"
+                onChange={this.changeYearHandler}
+                value={this.state.year}
+                min={1900}
+                max={2100}
+              />
+            </label>
           </div>
           <div className="field">
             <div className="control">

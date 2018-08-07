@@ -18,6 +18,7 @@ async function create(screenshotToCreate) {
   const screenshot = await db.Screenshot.create({
     gameCanonicalName: screenshotToCreate.gameCanonicalName,
     imagePath: screenshotToCreate.imagePath,
+    year: screenshotToCreate.year,
   });
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([
@@ -52,6 +53,7 @@ async function getFromId(screenshotId, userId) {
   return {
     id: res.id,
     name: res.gameCanonicalName,
+    year: res.year,
     imagePath: res.imagePath,
     createdAt: res.createdAt,
     user: res.User,
@@ -106,7 +108,7 @@ async function testProposal(screenshotId, proposal) {
     },
     include: {
       model: db.Screenshot,
-      attributes: ['gameCanonicalName'],
+      attributes: ['gameCanonicalName', 'year'],
     },
   });
   if (!screenshot) {
@@ -114,6 +116,7 @@ async function testProposal(screenshotId, proposal) {
   }
   return {
     name: screenshot.Screenshot.gameCanonicalName,
+    year: screenshot.Screenshot.year,
   };
 }
 

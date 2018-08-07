@@ -4,6 +4,7 @@ const initialState = {
   username: null,
   url: null,
   name: null,
+  year: null,
   isSolved: false,
   isOwn: false,
   solvedAt: null,
@@ -38,6 +39,7 @@ export default function reducer(state = initialState, action) {
       id: payload.id,
       name: payload.name,
       username: payload.createdBy.username,
+      year: payload.year,
       url: payload.imageUrl,
       isSolved: payload.isSolved,
       isOwn: payload.isOwn,
@@ -65,6 +67,7 @@ export default function reducer(state = initialState, action) {
       isGuessing: false,
       isProposalRight: true,
       name: payload.screenshotName,
+      year: payload.year,
     };
   }
 
