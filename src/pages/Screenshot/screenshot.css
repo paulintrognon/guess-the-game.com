@@ -54,15 +54,17 @@
   text-align: center;
 }
 
+.ScreenshotPage__screenshotName {
+  color: green;
+  font-weight: bold;
+}
+
 .ScreenshotPage__screenshot__image__container {
   text-align: center;
 }
 
 .ScreenshotPage__screenshot__image {
   max-width: 100%;
-}
-.ScreenshotPage__screenshot__image.-hidden {
-  /* height: 0; */
 }
 
 .ScreenshotPage__form {

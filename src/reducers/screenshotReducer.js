@@ -3,7 +3,7 @@ const initialState = {
   id: null,
   username: null,
   url: null,
-  screenshotName: null,
+  name: null,
   isSolved: false,
   isOwn: false,
   solvedAt: null,
@@ -36,6 +36,7 @@ export default function reducer(state = initialState, action) {
       ...state,
       isLoading: false,
       id: payload.id,
+      name: payload.name,
       username: payload.createdBy.username,
       url: payload.imageUrl,
       isSolved: payload.isSolved,
@@ -63,7 +64,7 @@ export default function reducer(state = initialState, action) {
       ...state,
       isGuessing: false,
       isProposalRight: true,
-      screenshotName: payload.screenshotName,
+      name: payload.screenshotName,
     };
   }
 

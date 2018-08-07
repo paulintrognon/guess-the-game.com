@@ -78,6 +78,12 @@ class ScreenshotPage extends React.Component {
         <div className="ScreenshotPage__header">{this.renderHeader()}</div>
         <div className="ScreenshotPage__screenshot">
           {this.renderScreenshot()}
+          {screenshot.name ? (
+            <p className="ScreenshotPage__screenshotName">
+              {screenshot.name}{' '}
+              {screenshot.year ? `(${screenshot.year})` : null}
+            </p>
+          ) : null}
           {this.renderFooter()}
         </div>
       </div>
@@ -85,13 +91,13 @@ class ScreenshotPage extends React.Component {
   }
 
   renderHeader() {
-    const { screenshot } = this.props;
+    const { screenshot, isProposalRight } = this.props;
     return (
       <div className="columns">
         <div className="column" />
         <h2
           className={`column ScreenshotPage__header__title ${
-            screenshot.isSolved ? '-isSolved' : ''
+            screenshot.isSolved || isProposalRight ? '-isSolved' : ''
           }`}
         >
           Screenshot #{screenshot.id}
@@ -106,14 +112,14 @@ class ScreenshotPage extends React.Component {
   renderScreenshot() {
     const { screenshot } = this.props;
     return (
-      <p className="ScreenshotPage__screenshot__image__container">
+      <div className="ScreenshotPage__screenshot__image__container">
         <img
           className="ScreenshotPage__screenshot__image"
           src={screenshot.url}
           alt={`Guess The Game Screenshot #${screenshot.id}`}
           onLoad={this.imageLoadedHandler}
         />
-      </p>
+      </div>
     );
   }
 
