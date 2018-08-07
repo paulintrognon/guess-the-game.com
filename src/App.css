@@ -27,3 +27,11 @@ button {
   text-decoration: underline;
 }
 
+.section {
+  padding: 1rem 0.5rem;
+}
+@media (min-width: 768px) {
+  .section {
+    padding: 3rem 1.5rem;
+  }
+}

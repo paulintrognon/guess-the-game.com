@@ -5,6 +5,8 @@
 
 .Header .title {
   margin-right: 0.5em;
+  font-family: 'Boogaloo', cursive;
+  color: #ff6347;
 }
 @media (max-width: 360px) {
   .Header .title {

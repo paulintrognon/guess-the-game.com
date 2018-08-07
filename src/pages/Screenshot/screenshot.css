@@ -1,6 +1,6 @@
 .ScreenshotPage {
   background-color: #FFF;
-  padding: 1em 0;
+  padding: 0.5em 0;
 }
 
 @media (min-width: 420px) {
@@ -11,8 +11,13 @@
 
 .ScreenshotPage__header {
   max-width: 1024px;
-  margin: 0 auto 1em;
+  margin: 0 auto;
   text-align: center;
+}
+@media (min-width: 768px) {
+  .ScreenshotPage__header {
+    margin: 0 auto 1em;
+  }
 }
 
 .ScreenshotPage__header .columns {
@@ -61,7 +66,7 @@
 }
 
 .ScreenshotPage__form {
-  padding: 1em 0;
+  padding: 0 0 1em;
   max-width: 1024px;
   margin: auto;
 }
@@ -77,5 +82,9 @@
 
   .ScreenshotPage__form__next__container {
     text-align: right;
+  }
+
+  .ScreenshotPage__form {
+    padding: 1em 0;
   }
 }
