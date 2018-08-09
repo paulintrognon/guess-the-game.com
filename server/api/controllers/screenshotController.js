@@ -1,7 +1,6 @@
 const bluebird = require('bluebird');
 const path = require('path');
 const fs = require('fs');
-const config = require('../../../config');
 const screenshotManager = require('../managers/screenshotManager');
 const userManager = require('../managers/userManager');
 const cloudinaryService = require('../services/cloudinaryService');
