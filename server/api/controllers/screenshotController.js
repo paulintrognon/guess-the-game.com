@@ -98,9 +98,9 @@ function uploadScreenshot(req) {
     fs.unlinkSync(localImagePath);
   }, 3600 * 1000 * 24);
 
-  const url = `${config.apiUrl}/uploads/${localImageName}`;
+  const imagePath = `/uploads/${localImageName}`;
 
-  return { url, localImageName };
+  return { imagePath, localImageName };
 }
 
 async function addScreenshot(req) {

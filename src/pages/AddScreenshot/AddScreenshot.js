@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { apiUrl } from 'config';
 import screenshotService from '../../services/screenshotService';
 import screenshotActions from '../../actions/screenshotActions';
 import SmallContainer from '../../components/SmallContainer/SmallContainer';
@@ -54,7 +54,7 @@ class AddScreenshotPage extends React.Component {
       res => {
         this.setState({
           isFileUploading: false,
-          uploadedImageUrl: res.url,
+          uploadedImageUrl: `${apiUrl}${res.imagePath}`,
           uploadedImageName: res.localImageName,
         });
       },
