@@ -13,6 +13,7 @@
   "cloudinary": {
     "apiKey": "CHANGE-ME",
     "apiSecret": "CHANGE-ME",
+    "folder": "guess-the-game/CHANGE-ME",
     "imagesUrlPrefix": "CHANGE-ME"
   }
 }

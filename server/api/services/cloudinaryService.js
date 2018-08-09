@@ -19,6 +19,7 @@ function uploadImage(path) {
     cloudinary.v2.uploader.upload(
       path,
       {
+        folder: config.cloudinary.folder,
         format,
         resource_type: 'image',
         use_filename: true,
