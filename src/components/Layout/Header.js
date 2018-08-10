@@ -44,9 +44,9 @@ class Header extends React.Component {
           <div className="Header__bar">
             <Link to="/">
               <h1 className="title">
-                G<span className="is-hidden-mobile">uess </span>T<span className="is-hidden-mobile">
-                  he{' '}
-                </span>G<span className="is-hidden-mobile">ame</span>!
+                G<span className="is-hidden-mobile">uess The </span>G<span className="is-hidden-mobile">
+                  ame
+                </span>!
               </h1>
             </Link>
             <button

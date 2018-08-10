@@ -1,0 +1,10 @@
+.Homepage_header_playButton {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  transition: background-color 200ms;
+}
+.Homepage_header_playButton:hover {
+  background-color: #ef5337;
+  color: #fff;
+}

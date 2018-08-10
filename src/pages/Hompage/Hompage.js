@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Loading from '../../components/Loading/Loading';
 import userService from '../../services/userService';
 import screenshotActions from '../../actions/screenshotActions';
+import './Homepage.css';
 
 function mapStoreToProps(store) {
   return {
@@ -84,7 +85,7 @@ class Homepage extends React.Component {
             <p>
               <button
                 type="button"
-                className="button is-medium is-primary"
+                className="button is-medium Homepage_header_playButton"
                 onClick={this.playHandler}
               >
                 Start playing!

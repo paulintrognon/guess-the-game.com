@@ -7,10 +7,11 @@
   margin-right: 0.5em;
   font-family: 'Boogaloo', cursive;
   color: #ff6347;
+  font-size: 1.5em;
 }
-@media (max-width: 360px) {
+@media (min-width: 768px) {
   .Header .title {
-    font-size: 1.2em;
+    font-size: 2em;
   }
 }
 
