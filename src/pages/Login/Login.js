@@ -105,10 +105,8 @@ class LoginPage extends React.Component {
           <div className="control">
             <button
               type="submit"
-              className={`button is-link ${
-                this.state.submitting ? 'is-loading' : ''
-              }`}
-              disabled={!valid || submitting}
+              className={`button is-link ${submitting ? 'is-loading' : ''}`}
+              disabled={!valid}
             >
               Submit
             </button>
@@ -116,6 +114,11 @@ class LoginPage extends React.Component {
           <div className="control">
             <Link to="/register" className="button is-text">
               Register instead
+            </Link>
+          </div>
+          <div className="control">
+            <Link to="/forgot-password" className="button is-text">
+              Forgot password?
             </Link>
           </div>
         </div>

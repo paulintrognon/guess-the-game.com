@@ -271,10 +271,8 @@ class RegisterPage extends React.Component {
           <div className="control">
             <button
               type="submit"
-              className={`button is-link ${
-                this.state.submitting ? 'is-loading' : ''
-              }`}
-              disabled={!valid || submitting}
+              className={`button is-link ${submitting ? 'is-loading' : ''}`}
+              disabled={!valid}
             >
               Submit
             </button>

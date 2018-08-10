@@ -12,6 +12,7 @@ import Layout from './components/Layout/Layout';
 import Homepage from './pages/Hompage/Hompage';
 import LoginPage from './pages/Login/Login';
 import RegisterPage from './pages/Register/Register';
+import ForgotPasswordPage from './pages/ForgotPassword/ForgotPassword';
 import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
 import TheEnd from './pages/TheEnd/TheEnd';
@@ -26,6 +27,7 @@ export default () => (
           <Route path="/shot/:id" exact component={ScreenshotPage} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
+          <Route path="/forgot-password" exact component={ForgotPasswordPage} />
           <Route path="/add-screenshot" exact component={AddScreenshotPage} />
           <Route path="/the-end" exact component={TheEnd} />
           <Route component={NotFound} />
