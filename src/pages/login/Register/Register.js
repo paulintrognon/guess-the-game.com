@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import userService from '../../services/userService';
-import userActions from '../../actions/userActions';
+import loginService from '../../../services/loginService';
+import loginActions from '../../../actions/loginActions';
 
 import './register.css';
-import SmallContainer from '../../components/SmallContainer/SmallContainer';
+import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 
 function mapStoreToProps(store) {
   return {
@@ -51,7 +51,7 @@ class RegisterPage extends React.Component {
   };
 
   checkUsername = _.debounce(() => {
-    userService
+    loginService
       .checkUsernameAvailability(this.state.username.value)
       .then(isAvailable => {
         this.setState(prevState => {
@@ -153,7 +153,7 @@ class RegisterPage extends React.Component {
       submitting: true,
       error: false,
     });
-    userService
+    loginService
       .register({
         username: this.state.username.value.trim(),
         password: this.state.password.value,
@@ -171,13 +171,13 @@ class RegisterPage extends React.Component {
             error,
           });
         } else {
-          this.props.dispatch(userActions.login(res));
+          this.props.dispatch(loginActions.login(res));
         }
       });
   };
 
   logoutHandler = () => {
-    this.props.dispatch(userActions.logout());
+    this.props.dispatch(loginActions.logout());
   };
 
   renderForm() {

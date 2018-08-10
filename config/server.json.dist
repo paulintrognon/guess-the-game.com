@@ -1,5 +1,8 @@
 {
   "secret": "CHANGE-ME-TO-REAL-SECRET",
+  "api": {
+    "port": 3001
+  },
   "database": {
     "database": "guessthegame",
     "user": "CHANGE-ME",
@@ -15,5 +18,10 @@
     "apiSecret": "CHANGE-ME",
     "folder": "guess-the-game/CHANGE-ME",
     "imagesUrlPrefix": "CHANGE-ME"
+  },
+  "mailgun": {
+    "url": "CHANGE-ME",
+    "host": "CHANGE-ME",
+    "key": "CHANGE-ME"
   }
 }

@@ -4,13 +4,18 @@ const { secret } = require('../../../config/server');
 const logger = require('../../logger');
 
 module.exports = {
-  createToken,
+  createUserToken,
+  createNewPasswordRequestToken,
   decode,
   authenticateMiddleware,
 };
 
-function createToken(user) {
+function createUserToken(user) {
   return jwt.sign({ id: user.id, username: user.username }, secret);
+}
+
+function createNewPasswordRequestToken(user) {
+  return jwt.sign({ id: user.id, date: Date.now() }, secret);
 }
 
 function decode(token) {

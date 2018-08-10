@@ -15,4 +15,8 @@ router.post('/register', (req, res, next) =>
   next(loginController.register(req))
 );
 
+router.post('/request-password', (req, res, next) =>
+  next(loginController.requestNewPassword(req))
+);
+
 module.exports = router;

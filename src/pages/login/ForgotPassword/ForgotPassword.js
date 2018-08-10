@@ -1,15 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import SmallContainer from '../../components/SmallContainer/SmallContainer';
+import SmallContainer from '../../../components/SmallContainer/SmallContainer';
+import loginService from '../../../services/loginService';
 
 class ForgotPasswordPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      submitting: false,
       valid: false,
+      submitting: false,
+      submitted: false,
+      error: null,
     };
   }
 
@@ -21,10 +24,26 @@ class ForgotPasswordPage extends React.Component {
   submitHandler = event => {
     event.preventDefault();
     this.setState({ submitting: true });
+
+    loginService
+      .requestNewPassword({
+        email: this.state.email,
+      })
+      .then(res => {
+        const newState = {
+          submitting: false,
+        };
+        if (!res.error) {
+          newState.submitted = true;
+        } else {
+          newState.error = res.message;
+        }
+        this.setState(newState);
+      });
   };
 
   renderForm() {
-    const { email, submitting, valid } = this.state;
+    const { email, submitting, valid, error } = this.state;
     return (
       <form className="ForgotPasswordPage__form" onSubmit={this.submitHandler}>
         <div className="field">
@@ -40,6 +59,7 @@ class ForgotPasswordPage extends React.Component {
             />
           </label>
         </div>
+        {error && <p className="notification is-danger">{error}</p>}
         <div className="field is-grouped">
           <div className="control">
             <button
@@ -60,12 +80,22 @@ class ForgotPasswordPage extends React.Component {
     );
   }
 
+  renderSubmitted() {
+    const { email } = this.state;
+    return (
+      <p className="notification is-success">
+        Done! An email is on its way to {email}.
+      </p>
+    );
+  }
+
   render() {
+    const { submitted } = this.state;
     return (
       <SmallContainer>
         <section className="ForgotPasswordPage">
           <h2 className="title is-5">So you forgot your password...</h2>
-          {this.renderForm()}
+          {submitted ? this.renderSubmitted() : this.renderForm()}
         </section>
       </SmallContainer>
     );

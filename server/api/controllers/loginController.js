@@ -1,7 +1,9 @@
 const bluebird = require('bluebird');
 const bcrypt = require('bcrypt');
+const config = require('../../../config/index');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
+const emailService = require('../services/emailService');
 
 const saltRounds = 4;
 
@@ -10,6 +12,7 @@ module.exports = {
   login,
   register,
   preLog,
+  requestNewPassword,
 };
 
 function checkUsernameAvailability(req) {
@@ -36,7 +39,7 @@ function login(req) {
             message: 'Wrong password',
           });
         }
-        return tokenService.createToken(user);
+        return tokenService.createUserToken(user);
       })
       .then(jwt => ({
         jwt,
@@ -46,7 +49,9 @@ function login(req) {
 }
 
 function preLog() {
-  return userManager.create({}).then(user => tokenService.createToken(user));
+  return userManager
+    .create({})
+    .then(user => tokenService.createUserToken(user));
 }
 
 function register(req) {
@@ -71,9 +76,28 @@ function register(req) {
       // Sinon, on crée le nouvel utilisateur
       return userManager.create(user);
     })
-    .then(user => tokenService.createToken(user))
+    .then(user => tokenService.createUserToken(user))
     .then(jwt => ({
       jwt,
       username: req.body.username,
     }));
+}
+
+async function requestNewPassword(req) {
+  const user = await userManager.get(req.body.email);
+  if (!user) {
+    return bluebird.reject({
+      code: 'LOGIN_USER_NOT_FOUND',
+      message: 'User not found',
+    });
+  }
+
+  const token = await tokenService.createNewPasswordRequestToken(user);
+  const link = `${config.frontUrl}/new-password/${token}`;
+
+  return emailService.sendRequestNewPasswordEmail({
+    link,
+    email: user.email,
+    username: user.username,
+  });
 }

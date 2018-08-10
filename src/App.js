@@ -10,9 +10,9 @@ import './App.css';
 
 import Layout from './components/Layout/Layout';
 import Homepage from './pages/Hompage/Hompage';
-import LoginPage from './pages/Login/Login';
-import RegisterPage from './pages/Register/Register';
-import ForgotPasswordPage from './pages/ForgotPassword/ForgotPassword';
+import LoginPage from './pages/login/Login/Login';
+import RegisterPage from './pages/login/Register/Register';
+import ForgotPasswordPage from './pages/login/ForgotPassword/ForgotPassword';
 import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
 import TheEnd from './pages/TheEnd/TheEnd';
