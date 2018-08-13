@@ -20,6 +20,7 @@ class ScreenshotPage extends React.Component {
     this.state = {
       proposal: '',
     };
+    this.guessInputRef = React.createRef();
 
     if (props.match.params.id !== props.screenshot.id) {
       this.props.dispatch(
@@ -55,17 +56,14 @@ class ScreenshotPage extends React.Component {
     );
   };
 
-  render() {
-    return (
-      <section className="section">
-        <div className="container">
-          <div className="ScreenshotPage">{this.renderScreenshotBox()}</div>
-        </div>
-      </section>
-    );
-  }
+  imageLoadedHandler = () => {
+    if (!this.guessInputRef.current) {
+      return;
+    }
+    this.guessInputRef.current.focus();
+  };
 
-  renderScreenshotBox() {
+  renderScreenshotBox = () => {
     const { screenshot } = this.props;
     if (screenshot.isLoading) {
       return (
@@ -89,9 +87,9 @@ class ScreenshotPage extends React.Component {
         </div>
       </div>
     );
-  }
+  };
 
-  renderHeader() {
+  renderHeader = () => {
     const { screenshot, isProposalRight } = this.props;
     return (
       <div className="columns">
@@ -108,9 +106,9 @@ class ScreenshotPage extends React.Component {
         </h3>
       </div>
     );
-  }
+  };
 
-  renderScreenshot() {
+  renderScreenshot = () => {
     const { screenshot } = this.props;
     return (
       <div className="ScreenshotPage__screenshot__image__container">
@@ -122,9 +120,9 @@ class ScreenshotPage extends React.Component {
         />
       </div>
     );
-  }
+  };
 
-  renderFooter() {
+  renderFooter = () => {
     const {
       screenshot,
       isProposalRight,
@@ -155,6 +153,7 @@ class ScreenshotPage extends React.Component {
             <div className="field has-addons">
               <div className="control is-expanded">
                 <input
+                  ref={this.guessInputRef}
                   className={`input 
                   ${isProposalRight ? 'is-success' : ''}
                   ${isProposalWrong ? 'is-danger' : ''}
@@ -201,6 +200,14 @@ class ScreenshotPage extends React.Component {
         </div>
       </form>
     );
-  }
+  };
+
+  render = () => (
+    <section className="section">
+      <div className="container">
+        <div className="ScreenshotPage">{this.renderScreenshotBox()}</div>
+      </div>
+    </section>
+  );
 }
 export default connect(mapStoreToProps)(ScreenshotPage);

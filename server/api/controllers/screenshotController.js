@@ -38,18 +38,31 @@ async function getfromId(req) {
 }
 
 async function getUnsolvedScreenshot(req) {
-  const screenshot = await screenshotManager.getUnsolved({
-    userId: req.user.id,
+  const userId = req.user.id;
+  let screenshot = await screenshotManager.getUnsolved({
+    userId,
     exclude: req.body.exclude,
   });
+
   if (!screenshot) {
+    if (!req.body.exclude) {
+      return notFoundReject();
+    }
+    // If we excluded a screenshot from the search, we try again without the exclusion
+    screenshot = await screenshotManager.getUnsolved({ userId });
+    if (!screenshot) {
+      return notFoundReject();
+    }
+  }
+  return getfromId({ ...req, body: { ...req.body, id: screenshot.id } });
+
+  function notFoundReject() {
     return bluebird.reject({
       status: 404,
       code: 'UNSOLVED_SCREENSHOT_NOT_FOUND',
       message: 'No screenshot can be found for that user.',
     });
   }
-  return getfromId({ ...req, body: { ...req.body, id: screenshot.id } });
 }
 
 async function tryProposal(req) {

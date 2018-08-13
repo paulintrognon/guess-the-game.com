@@ -1,3 +1,6 @@
+const baseUrl = 'http://127.0.0.1';
+
 module.exports = {
-  apiUrl: 'http://192.168.0.17:3001',
+  frontUrl: `${baseUrl}:3000`,
+  apiUrl: `${baseUrl}:3001`,
 };

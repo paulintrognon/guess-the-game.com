@@ -28,7 +28,6 @@ function addJwt(data) {
     return data;
   }
   const state = store.getState();
-  console.log(state.user);
   return {
     jwt: state.user && state.user.jwt,
     ...data,
