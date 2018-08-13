@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import userActions from '../../actions/userActions';
+import loginActions from '../../actions/loginActions';
 import screenshotActions from '../../actions/screenshotActions';
 
 import './header.css';
@@ -13,7 +13,7 @@ function mapStoreToProps(store) {
 }
 class Header extends React.Component {
   logoutHandler = () => {
-    this.props.dispatch(userActions.logout());
+    this.props.dispatch(loginActions.logout());
   };
 
   playHandler = () => {

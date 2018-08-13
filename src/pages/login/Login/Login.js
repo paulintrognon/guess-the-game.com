@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import userService from '../../services/userService';
-import userActions from '../../actions/userActions';
+import loginService from '../../../services/loginService';
+import loginActions from '../../../actions/loginActions';
 
-import SmallContainer from '../../components/SmallContainer/SmallContainer';
+import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 
 function mapStoreToProps(store) {
   return {
@@ -40,7 +40,7 @@ class LoginPage extends React.Component {
       submitting: true,
       error: false,
     });
-    userService
+    loginService
       .login({
         username: this.state.username.trim(),
         password: this.state.password,
@@ -52,7 +52,7 @@ class LoginPage extends React.Component {
         if (!res.error) {
           newState.username = '';
           newState.password = '';
-          this.props.dispatch(userActions.login(res));
+          this.props.dispatch(loginActions.login(res));
         } else {
           newState.error = res.message;
         }
@@ -61,7 +61,7 @@ class LoginPage extends React.Component {
   };
 
   logoutHandler = () => {
-    this.props.dispatch(userActions.logout());
+    this.props.dispatch(loginActions.logout());
   };
 
   renderForm() {
@@ -105,10 +105,8 @@ class LoginPage extends React.Component {
           <div className="control">
             <button
               type="submit"
-              className={`button is-link ${
-                this.state.submitting ? 'is-loading' : ''
-              }`}
-              disabled={!valid || submitting}
+              className={`button is-link ${submitting ? 'is-loading' : ''}`}
+              disabled={!valid}
             >
               Submit
             </button>
@@ -116,6 +114,11 @@ class LoginPage extends React.Component {
           <div className="control">
             <Link to="/register" className="button is-text">
               Register instead
+            </Link>
+          </div>
+          <div className="control">
+            <Link to="/forgot-password" className="button is-text">
+              Forgot password?
             </Link>
           </div>
         </div>
