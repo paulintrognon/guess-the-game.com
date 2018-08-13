@@ -5,6 +5,7 @@ export default {
   register,
   login,
   requestNewPassword,
+  changePassword,
 };
 
 function checkUsernameAvailability(username) {
@@ -26,4 +27,8 @@ function login(credentials) {
 
 function requestNewPassword({ email }) {
   return api.post('/user/request-password', { email });
+}
+
+function changePassword({ password, token }) {
+  return api.post('/user/new-password', { password, token });
 }

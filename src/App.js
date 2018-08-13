@@ -13,6 +13,7 @@ import Homepage from './pages/Hompage/Hompage';
 import LoginPage from './pages/login/Login/Login';
 import RegisterPage from './pages/login/Register/Register';
 import ForgotPasswordPage from './pages/login/ForgotPassword/ForgotPassword';
+import NewPasswordPage from './pages/login/NewPassword/NewPassword';
 import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
 import TheEnd from './pages/TheEnd/TheEnd';
@@ -28,6 +29,11 @@ export default () => (
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
           <Route path="/forgot-password" exact component={ForgotPasswordPage} />
+          <Route
+            path="/new-password/:token"
+            exact
+            component={NewPasswordPage}
+          />
           <Route path="/add-screenshot" exact component={AddScreenshotPage} />
           <Route path="/the-end" exact component={TheEnd} />
           <Route component={NotFound} />

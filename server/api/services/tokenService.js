@@ -15,7 +15,7 @@ function createUserToken(user) {
 }
 
 function createNewPasswordRequestToken(user) {
-  return jwt.sign({ id: user.id, date: Date.now() }, secret);
+  return jwt.sign({ id: user.id }, secret);
 }
 
 function decode(token) {

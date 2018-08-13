@@ -32,13 +32,12 @@ async function sendEmail({ to, subject, text, html }) {
       text,
       html,
     })
-    .catch(err => {
-      console.log(err);
-      return bluebird.reject({
+    .catch(() =>
+      bluebird.reject({
         code: 'EMAIL_ERROR',
         message: 'Cannot send the email',
-      });
-    });
+      })
+    );
 }
 
 function requestNewPasswordTemplate({ username, link }) {

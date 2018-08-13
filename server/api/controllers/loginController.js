@@ -4,8 +4,9 @@ const config = require('../../../config/index');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
 const emailService = require('../services/emailService');
+const logger = require('../../logger');
 
-const saltRounds = 4;
+const SALT_ROUNDS = 4;
 
 module.exports = {
   checkUsernameAvailability,
@@ -13,6 +14,7 @@ module.exports = {
   register,
   preLog,
   requestNewPassword,
+  changePassword,
 };
 
 function checkUsernameAvailability(req) {
@@ -39,12 +41,8 @@ function login(req) {
             message: 'Wrong password',
           });
         }
-        return tokenService.createUserToken(user);
-      })
-      .then(jwt => ({
-        jwt,
-        username: user.username,
-      }));
+        return returnLoggedUser(user);
+      });
   });
 }
 
@@ -61,14 +59,16 @@ function register(req) {
     }
   });
 
-  return bcrypt
-    .hash(req.body.password, saltRounds)
+  return hashPassword(req.body.password)
     .then(hashedPassword => {
       const user = {
         email: req.body.email,
         username: req.body.username,
         password: hashedPassword,
       };
+
+      logger.info('Registering new user', { username: req.body.username });
+
       // Si l'utilisateur a déjà un compte mais pas encore d'email, on met à jour
       if (req.body.jwt && !req.user.email) {
         return userManager.update(req.user.id, user);
@@ -76,11 +76,7 @@ function register(req) {
       // Sinon, on crée le nouvel utilisateur
       return userManager.create(user);
     })
-    .then(user => tokenService.createUserToken(user))
-    .then(jwt => ({
-      jwt,
-      username: req.body.username,
-    }));
+    .then(user => returnLoggedUser(user));
 }
 
 async function requestNewPassword(req) {
@@ -100,4 +96,36 @@ async function requestNewPassword(req) {
     email: user.email,
     username: user.username,
   });
+}
+
+async function changePassword(req) {
+  const { token, password } = req.body;
+  const decodedToken = tokenService.decode(token);
+
+  if (Date.now() > decodedToken.iat * 1000) {
+    return bluebird.reject({
+      code: 'OUTDATED_TOKEN',
+      message: 'Your token has expired.',
+    });
+  }
+
+  const hashedPassword = await hashPassword(password);
+
+  const user = await userManager.update(decodedToken.id, {
+    password: hashedPassword,
+  });
+  logger.info('User changed password', { username: user.username });
+  return returnLoggedUser(user);
+}
+
+async function hashPassword(password) {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+async function returnLoggedUser(user) {
+  const jwt = await tokenService.createUserToken(user);
+  return {
+    jwt,
+    username: user.username,
+  };
 }
