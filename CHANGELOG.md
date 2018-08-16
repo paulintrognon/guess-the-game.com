@@ -1,3 +1,7 @@
+### v1.1.1
+
+- Fix fatal error when guessing screenshots while not logged in
+
 ## v1.1.0
 
 - Password recovery & email settings
