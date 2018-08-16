@@ -78,7 +78,7 @@ async function tryProposal(req) {
   let jwt;
   if (!req.user.id) {
     const user = await userManager.create({});
-    jwt = tokenService.createToken(user);
+    jwt = tokenService.createUserToken(user);
     req.user = user;
   }
 
