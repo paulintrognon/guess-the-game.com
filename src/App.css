@@ -1,37 +1,11 @@
 body {
-  background-color: #f0f0f0;
   min-height: 100vh;
 }
 
-button {
-  background: none;
-  border: none;
-}
-
-.container {
-  padding: 0 0.5em;
-}
-
-.label .additionnal-info {
+@font-face {
+  font-family: 'Norwester';
+  src: url('/fonts/Norwester-Regular.woff2') format('woff2'),
+      url('/fonts/Norwester-Regular.woff') format('woff');
   font-weight: normal;
-  font-size: 0.8em;
-}
-
-.input::-moz-placeholder {
-  color: #333;
-}
-
-.notification button {
-  color: inherit;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.section {
-  padding: 1rem 0.5rem;
-}
-@media (min-width: 768px) {
-  .section {
-    padding: 3rem 1.5rem;
-  }
+  font-style: normal;
 }

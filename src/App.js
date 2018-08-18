@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import history from './history';
 
-import 'bulma/css/bulma.css';
 import './App.css';
 
 import Layout from './components/Layout/Layout';
