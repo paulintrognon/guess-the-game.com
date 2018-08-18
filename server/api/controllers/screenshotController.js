@@ -110,7 +110,7 @@ function uploadScreenshot(req) {
     fs.unlinkSync(localImagePath);
   }, 3600 * 1000 * 24);
 
-  const imagePath = `/uploads/${localImageName}`;
+  const imagePath = `/api/uploads/${localImageName}`;
 
   return { imagePath, localImageName };
 }
