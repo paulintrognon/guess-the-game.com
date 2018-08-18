@@ -98,6 +98,10 @@
     display: flex;
     align-items: center;
   }
+  
+  .Header_nav {
+    margin-top: 0px;
+  }
 
   .Header_logo {
     margin-right: 60px;
