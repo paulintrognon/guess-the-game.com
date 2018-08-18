@@ -3,7 +3,7 @@ import config from 'config'; // eslint-disable-line import/no-extraneous-depende
 import store from '../store';
 
 const api = axios.create({
-  baseURL: `${config.apiUrl}`,
+  baseURL: `${config.apiUrl}/api`,
 });
 
 export default {
