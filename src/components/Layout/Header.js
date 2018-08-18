@@ -22,24 +22,30 @@ class Header extends React.Component {
 
   render() {
     const { user } = this.props;
-    const path = window.location.pathname;
 
     return (
       <header className="Header">
         <div className="Header_container">
-          <div className="Header_logo">Guess The Game!</div>
+          <div className="Header_logo">
+            <Link to="/">Guess The Game!</Link>
+          </div>
           <div className="Header_nav">
             <nav className="Header_nav_left">
               <button
                 type="button"
                 className={`Header_nav_link ${
-                  path.indexOf('/shot') === 0 ? '-active' : ''
+                  isPathActive('/shot') ? '-active' : ''
                 }`}
                 onClick={this.playHandler}
               >
                 Play
               </button>
-              <Link to="/ranking" className="Header_nav_link">
+              <Link
+                to="/ranking"
+                className={`Header_nav_link ${
+                  isPathActive('/ranking') ? '-active' : ''
+                }`}
+              >
                 Ranking
               </Link>
               {user.username && (
@@ -65,14 +71,18 @@ function renderLoginButtons() {
     <Link
       key="navLoginLink"
       to="/login"
-      className="Header_nav_link -hideSmartphone"
+      className={`Header_nav_link -hideSmartphone ${
+        isPathActive('/login') ? '-active' : ''
+      }`}
     >
       Login
     </Link>,
     <Link
       key="navRegisterLink"
       to="/register"
-      className="Header_nav_link -hideSmartphone"
+      className={`Header_nav_link -hideSmartphone ${
+        isPathActive('/register') ? '-active' : ''
+      }`}
     >
       Register
     </Link>,
@@ -84,7 +94,12 @@ function renderLoginButtons() {
 
 function renderLogoutButtons(username) {
   return (
-    <Link to={`/user/${username}`} className="Header_nav_link">
+    <Link
+      to={`/user/${username}`}
+      className={`Header_nav_link -user ${
+        isPathActive('/user') ? '-active' : ''
+      }`}
+    >
       <span className="-hideSmartphone">{username}</span>
       {renderUserIconSvg()}
     </Link>
@@ -111,4 +126,8 @@ function renderUserIconSvg() {
       </svg>
     </span>
   );
+}
+
+function isPathActive(path) {
+  return window.location.pathname.indexOf(path) === 0;
 }

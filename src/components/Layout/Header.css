@@ -38,7 +38,6 @@
   font-size: 16px;
   font-family: Norwester;
   color: #87878F;
-  position: relative;
   transition: color 200ms;
 }
 .Header_nav_link:not(:last-child) {
@@ -52,7 +51,7 @@
   background-color: #47525E;
   display: block;
   position: absolute;
-  bottom: -17px;
+  bottom: -1px;
   z-index: 1;
   opacity: 0;
   transition: opacity 200ms;
@@ -83,12 +82,18 @@
   fill: #a0a0a7;
   transition: fill 200ms;
 }
-.Header_nav_link:hover svg {
+.Header_nav_link:hover svg, .Header_nav_link.-active svg {
   fill: #47525E;
+}
+.Header_nav_link.-user::after {
+  display: none;
 }
 
 @media (min-width: 480px) {
   .Header_nav_link.-hideSmartphone,.Header_nav_link .-hideSmartphone {
+    display: block;
+  }
+  .Header_nav_link.-user::after {
     display: block;
   }
 }
