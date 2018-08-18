@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import loginActions from '../../actions/loginActions';
 import screenshotActions from '../../actions/screenshotActions';
 
-import './header.css';
+import './Header.css';
 
 function mapStoreToProps(store) {
   return {
@@ -20,58 +20,35 @@ class Header extends React.Component {
     this.props.dispatch(screenshotActions.getUnsolvedScreenshot());
   };
 
-  renderLogoutButtons(username) {
-    return (
-      <div className="Header__bar__end">
-        <Link to={`/user/${username}`} className="Header__bar__item">
-          {username}
-        </Link>
-        <button type="button" onClick={this.logoutHandler}>
-          <span className="icon has-text-grey">
-            <i className="fas fa-power-off" />
-          </span>
-        </button>
-      </div>
-    );
-  }
-
   render() {
     const { user } = this.props;
 
     return (
       <header className="Header">
-        <div className="container">
-          <div className="Header__bar">
-            <Link to="/">
-              <h1 className="title">
-                G<span className="is-hidden-mobile">uess The </span>G<span className="is-hidden-mobile">
-                  ame
-                </span>!
-              </h1>
-            </Link>
-            <button
-              type="button"
-              className="Header__bar__item"
-              onClick={this.playHandler}
-            >
-              <span className="icon has-text-primary">
-                <i className="fas fa-play" />
-              </span>
-              <span>Play</span>
-            </button>
-            {user.username && (
-              <Link to="/add-screenshot" className="Header__bar__item">
-                <span className="icon has-text-grey">
-                  <i className="fas fa-plus" />
-                </span>
-                <span>
-                  Add <span className="is-hidden-mobile">Screenshot</span>
-                </span>
+        <div className="Header_container">
+          <div className="Header_logo">Guess The Game!</div>
+          <div className="Header_nav">
+            <nav className="Header_nav_left">
+              <button
+                type="button"
+                className="Header_nav_link -active"
+                onClick={this.playHandler}
+              >
+                Play
+              </button>
+              <Link to="/ranking" className="Header_nav_link">
+                Ranking
               </Link>
-            )}
-
-            {user.username && this.renderLogoutButtons(user.username)}
-            {!user.username && renderLoginButtons()}
+              {user.username && (
+                <Link to="/add-screenshot" className="Header_nav_link">
+                  Add&nbsp;<span className="-hideSmartphone">screenshot</span>
+                </Link>
+              )}
+            </nav>
+            <div className="Header_nav_right">
+              {!user.username && renderLoginButtons()}
+              {user.username && renderLogoutButtons(user.username)}
+            </div>
           </div>
         </div>
       </header>
@@ -81,14 +58,44 @@ class Header extends React.Component {
 export default connect(mapStoreToProps)(Header);
 
 function renderLoginButtons() {
+  return [
+    <Link to="/login" className="Header_nav_link -hideSmartphone">
+      Login
+    </Link>,
+    <Link to="/register" className="Header_nav_link -hideSmartphone">
+      Register
+    </Link>,
+    <Link to="/login">{renderUserIconSvg()}</Link>,
+  ];
+}
+
+function renderLogoutButtons(username) {
   return (
-    <div className="Header__bar__end">
-      <Link to="/login" className="button is-primary">
-        Login
-      </Link>
-      <Link to="/register" className="button is-primary">
-        Register
-      </Link>
-    </div>
+    <Link to={`/user/${username}`} className="Header_nav_link">
+      <span className="-hideSmartphone">{username}</span>
+      {renderUserIconSvg()}
+    </Link>
+  );
+}
+
+function renderUserIconSvg() {
+  return (
+    <span className="Header_nav_right_userIcon">
+      <svg
+        version="1.1"
+        x="0px"
+        y="0px"
+        width="30"
+        height="30"
+        viewBox="0 0 30 30"
+      >
+        <g transform="matrix(0.05910153,0,0,0.05910153,0.0112456,-0.04828975)">
+          <path
+            d="M 255,0 C 114.75,0 0,114.75 0,255 0,395.25 114.75,510 255,510 395.25,510 510,395.25 510,255 510,114.75 395.25,0 255,0 Z m 0,76.5 c 43.35,0 76.5,33.15 76.5,76.5 0,43.35 -33.15,76.5 -76.5,76.5 -43.35,0 -76.5,-33.15 -76.5,-76.5 0,-43.35 33.15,-76.5 76.5,-76.5 z m 0,362.1 c -63.75,0 -119.85,-33.149 -153,-81.6 0,-51 102,-79.05 153,-79.05 51,0 153,28.05 153,79.05 -33.15,48.45 -89.25,81.6 -153,81.6 z"
+            id="path2"
+          />
+        </g>
+      </svg>
+    </span>
   );
 }
