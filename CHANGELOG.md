@@ -1,3 +1,7 @@
+## v1.2.0
+
+- Prefixing all api calls with /api so we can host the api on the same domain name as the main site
+
 ### v1.1.1
 
 - Fix fatal error when guessing screenshots while not logged in
