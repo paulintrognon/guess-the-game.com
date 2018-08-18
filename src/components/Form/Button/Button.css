@@ -1,0 +1,36 @@
+.FormButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  height: 30px;
+  transition: background-color 200ms;
+  margin: 30px 0 20px;
+}
+
+.FormButton.-disabled {
+  cursor: default;
+}
+
+.FormButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.FormButton.-dark {
+  color: #FFFFFF;
+  background-color: #47525e;
+  font-weight: bold;
+}
+.FormButton.-dark.-disabled {
+  background-color: #A7B2Be;
+}
+.FormButton.-dark svg {
+  fill: currentColor;
+}
+
+.FormButton.-light {
+  color: #47525e;
+  background-color: #FFFFFF;
+  font-weight: bold;
+}

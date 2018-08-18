@@ -1,8 +1,13 @@
 import React from 'react';
 
-import './smallContainer.css';
+import './SmallContainer.css';
 
 export default function SmallContainer(props) {
-  const { children } = props;
-  return <div className="SmallContainer">{children}</div>;
+  const { title, children } = props;
+  return (
+    <div className="SmallContainer">
+      <h1 className="SmallContainer_title">{title}</h1>
+      <div>{children}</div>
+    </div>
+  );
 }

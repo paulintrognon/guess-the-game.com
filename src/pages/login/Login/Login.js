@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Input from '../../../components/Form/Input/Input';
+import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
 import loginActions from '../../../actions/loginActions';
+import './Login.css';
 
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 
@@ -22,13 +25,13 @@ class LoginPage extends React.Component {
     };
   }
 
-  usernameChangeHandler = event => {
+  handleUsernameChange = event => {
     this.setState({
       username: event.target.value,
     });
   };
 
-  passwordChangeHandler = event => {
+  handlePasswordChange = event => {
     this.setState({
       password: event.target.value,
     });
@@ -70,58 +73,34 @@ class LoginPage extends React.Component {
     const valid = username && password;
 
     return (
-      <form className="LoginPage__form" onSubmit={this.submitHandler}>
-        <h2 className="title is-5">Login form</h2>
-        <div className="field">
-          <label className="label" htmlFor="username">
-            Username or email
-            <input
-              id="username"
-              type="text"
-              className="input"
-              placeholder="Type your username or your email"
-              value={username.value}
-              onChange={this.usernameChangeHandler}
-            />
-          </label>
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="password">
-            Password
-            <input
-              id="password"
-              type="password"
-              className="input"
-              placeholder="Type your password"
-              value={password.value}
-              onChange={this.passwordChangeHandler}
-            />
-          </label>
-          {password.error && <p className="help is-danger">{password.error}</p>}
-        </div>
-
-        {error && <p className="notification is-danger">{error}</p>}
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              type="submit"
-              className={`button is-link ${submitting ? 'is-loading' : ''}`}
-              disabled={!valid}
-            >
-              Submit
-            </button>
-          </div>
-          <div className="control">
-            <Link to="/register" className="button is-text">
-              Register instead
-            </Link>
-          </div>
-          <div className="control">
-            <Link to="/forgot-password" className="button is-text">
-              Forgot password?
-            </Link>
-          </div>
-        </div>
+      <form className="LoginPage_form" onSubmit={this.submitHandler}>
+        <Input
+          id="username"
+          label="Username or email"
+          placeholder="Type your username or your email"
+          value={username}
+          onChange={this.handleUsernameChange}
+        />
+        <Input
+          id="password"
+          label="Password"
+          placeholder="Type your password"
+          value={password}
+          onChange={this.handlePasswordChange}
+        >
+          <Link to="/forgot-password" className="LoginPage_form_forgotPassword">
+            Forgot?
+          </Link>
+        </Input>
+        {error && <p>{error}</p>}
+        <Button
+          loading={submitting}
+          disabled={!valid}
+          color="dark"
+          type="submit"
+        >
+          Submit
+        </Button>
       </form>
     );
   }
@@ -130,21 +109,19 @@ class LoginPage extends React.Component {
     const { user } = this.props;
 
     return (
-      <SmallContainer>
-        <section className="LoginPage">
+      <section className="LoginPage">
+        <SmallContainer title="Login">
           {!user.username && this.renderForm()}
           {user.username && (
-            <div className="notification is-info">
-              <p>
-                You are logged in!
-                <button type="button" onClick={this.logoutHandler}>
-                  Log out
-                </button>
-              </p>
-            </div>
+            <p>
+              You are already and logged as <b>{user.username}</b>!
+              <Button color="dark" onClick={this.logoutHandler}>
+                Log out
+              </Button>
+            </p>
           )}
-        </section>
-      </SmallContainer>
+        </SmallContainer>
+      </section>
     );
   }
 }
