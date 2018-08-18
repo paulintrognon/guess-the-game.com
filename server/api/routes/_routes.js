@@ -6,9 +6,9 @@ const loginRoutes = require('./loginRoutes');
 const screenshotRoutes = require('./screenshotRoutes');
 
 function addRoutes(app) {
-  app.use('/', apiRoutes);
+  app.use('/api', apiRoutes);
 
-  app.use('/user', userRoutes);
-  app.use('/user', loginRoutes);
-  app.use('/screenshot', screenshotRoutes);
+  app.use('/api/user', userRoutes);
+  app.use('/api/user', loginRoutes);
+  app.use('/api/screenshot', screenshotRoutes);
 }

@@ -32,7 +32,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(fileUpload());
-app.use('/uploads', express.static(`${__dirname}/../uploads`));
+app.use('/api/uploads', express.static(`${__dirname}/../uploads`));
 app.use(tokenService.authenticateMiddleware);
 
 /**
