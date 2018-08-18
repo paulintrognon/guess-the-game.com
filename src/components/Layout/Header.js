@@ -22,6 +22,7 @@ class Header extends React.Component {
 
   render() {
     const { user } = this.props;
+    const path = window.location.pathname;
 
     return (
       <header className="Header">
@@ -31,7 +32,9 @@ class Header extends React.Component {
             <nav className="Header_nav_left">
               <button
                 type="button"
-                className="Header_nav_link -active"
+                className={`Header_nav_link ${
+                  path.indexOf('/shot') === 0 ? '-active' : ''
+                }`}
                 onClick={this.playHandler}
               >
                 Play
@@ -59,13 +62,23 @@ export default connect(mapStoreToProps)(Header);
 
 function renderLoginButtons() {
   return [
-    <Link to="/login" className="Header_nav_link -hideSmartphone">
+    <Link
+      key="navLoginLink"
+      to="/login"
+      className="Header_nav_link -hideSmartphone"
+    >
       Login
     </Link>,
-    <Link to="/register" className="Header_nav_link -hideSmartphone">
+    <Link
+      key="navRegisterLink"
+      to="/register"
+      className="Header_nav_link -hideSmartphone"
+    >
       Register
     </Link>,
-    <Link to="/login">{renderUserIconSvg()}</Link>,
+    <Link key="navUserIconLink" to="/login">
+      {renderUserIconSvg()}
+    </Link>,
   ];
 }
 
