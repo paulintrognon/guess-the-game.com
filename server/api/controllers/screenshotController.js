@@ -10,6 +10,7 @@ const logger = require('../../logger');
 module.exports = {
   getfromId,
   getUnsolvedScreenshot,
+  getLastPostedScreenshot,
   tryProposal,
   uploadScreenshot,
   addScreenshot,
@@ -63,6 +64,14 @@ async function getUnsolvedScreenshot(req) {
       message: 'No screenshot can be found for that user.',
     });
   }
+}
+
+async function getLastPostedScreenshot() {
+  const screenshot = await screenshotManager.getLastPosted();
+  return {
+    ...screenshot,
+    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
+  };
 }
 
 async function tryProposal(req) {
