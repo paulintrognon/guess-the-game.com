@@ -1,10 +1,24 @@
-.Homepage_header_playButton {
-  background-color: #ff6347;
-  color: #fff;
-  border: none;
-  transition: background-color 200ms;
+.Homepage {
+  text-align: center;
 }
-.Homepage_header_playButton:hover {
-  background-color: #ef5337;
-  color: #fff;
+
+.Homepage_title {
+  font-size: 28px;
+  margin: 30px 0 15px;
+}
+
+.Homepage_subtitle {
+  font-size: 18px;
+  font-weight: 100;
+  margin: 15px 0 50px;
+}
+
+.Homepage_playButton {
+  width: 295px;
+  border-radius: 5px;
+  height: 40px;
+  background-color: #F95F62;
+  color: #ffffff;
+  font-family: Norwester;
+  font-size: 23px;
 }

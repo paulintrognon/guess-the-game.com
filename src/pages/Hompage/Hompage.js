@@ -1,101 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Loading from '../../components/Loading/Loading';
-import userService from '../../services/userService';
 import screenshotActions from '../../actions/screenshotActions';
 import './Homepage.css';
 
-function mapStoreToProps(store) {
-  return {
-    user: store.user,
-  };
-}
 class Homepage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-      scores: [],
-    };
-    userService.fetchScores().then(scores => {
-      this.setState({ scores, isLoading: false });
-    });
-  }
-
   playHandler = () => {
     this.props.dispatch(screenshotActions.getUnsolvedScreenshot());
   };
 
-  renderScores() {
-    const { scores } = this.state;
-    const { user } = this.props;
-
-    if (this.state.isLoading) {
-      return (
-        <div style={{ textAlign: 'center' }}>
-          <Loading />
-        </div>
-      );
-    }
-
-    return [
-      <h2 className="title is-5">Players Ranking</h2>,
-      <table className="table is-fullwidth is-striped is-hoverable">
-        <thead>
-          <tr>
-            <th>
-              Pos<span className="is-hidden-mobile">ition</span>
-            </th>
-            <th>Username</th>
-            <th>
-              <span className="is-hidden-mobile">Screenshots</span> Resolved
-            </th>
-            <th>
-              <span className="is-hidden-mobile">Screenshots</span> Posted
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {scores.map((score, i) => (
-            <tr
-              style={{
-                fontWeight: score.username === user.username ? 'bold' : '',
-              }}
-            >
-              <th>{i + 1}</th>
-              <td>{score.username}</td>
-              <td>{score.screenshotsFound}</td>
-              <td>{score.screenshotsAdded}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>,
-    ];
-  }
-
   render() {
     return (
-      <section className="section">
-        <div className="container">
-          <div className="content" style={{ textAlign: 'center' }}>
-            <p>
-              Welcome to Guess the Game, where you try to guess as many games as
-              possible!
-            </p>
-            <p>
-              <button
-                type="button"
-                className="button is-medium Homepage_header_playButton"
-                onClick={this.playHandler}
-              >
-                Start playing!
-              </button>
-            </p>
-          </div>
-          <div className="Homepage_ranking">{this.renderScores()}</div>
-        </div>
+      <section className="Homepage">
+        <h1 className="Homepage_title">Welcome to Guess&nbsp;The&nbsp;Game</h1>
+        <p className="Homepage_subtitle">
+          Guess as many games as possible from screenshots posted by people like
+          you
+        </p>
+        <p>
+          <button className="Homepage_playButton" onClick={this.playHandler}>
+            play!
+          </button>
+        </p>
       </section>
     );
   }
 }
-export default connect(mapStoreToProps)(Homepage);
+export default connect()(Homepage);
