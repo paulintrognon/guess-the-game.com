@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
+import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
 import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
@@ -251,6 +252,7 @@ class RegisterPage extends React.Component {
 
     return (
       <section className="RegisterPage">
+        <LoginPagesSwitcher />
         <SmallContainer title="Register">
           {!user.username && this.renderForm()}
           {user.username && (

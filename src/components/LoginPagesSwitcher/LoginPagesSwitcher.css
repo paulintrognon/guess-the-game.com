@@ -1,0 +1,27 @@
+.LoginPagesSwitcher {
+  width: 200px;
+  margin: 20px auto 10px;
+  text-align: center;
+}
+@media (min-width: 480px) {
+  .LoginPagesSwitcher {
+    margin: 50px auto 30px;
+  }
+}
+
+.LoginPagesSwitcher_link {
+  display: inline-block;
+  padding: 5px 0;
+  width: 100px;
+  font-size: 16px;
+  background: #F7F7F7;
+}
+.LoginPagesSwitcher_link.-active {
+  background: #47525e;
+  color: #ffffff;
+  z-index: 1;
+  position: relative;
+}
+.LoginPagesSwitcher_link:not(.-active) {
+  box-shadow: 0 0 7px #F2F2F2;
+}

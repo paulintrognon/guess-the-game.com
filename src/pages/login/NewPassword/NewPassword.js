@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
+import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
 import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
@@ -116,6 +117,7 @@ class ForgotPasswordPage extends React.Component {
     const { submitted } = this.state;
     return (
       <section className="ForgotPasswordPage">
+        <LoginPagesSwitcher />
         <SmallContainer title="New password form">
           {submitted ? this.renderSubmitted() : this.renderForm()}
         </SmallContainer>
