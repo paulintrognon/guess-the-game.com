@@ -14,14 +14,16 @@
   padding: 5px 0;
   width: 100px;
   font-size: 16px;
-  background: #F7F7F7;
+  background: #FFFFFF;
+  box-sizing: border-box;
 }
 .LoginPagesSwitcher_link.-active {
-  background: #47525e;
-  color: #ffffff;
+  background: #EAEAEB;
   z-index: 1;
   position: relative;
+  border: 1px solid #EAEAEB;
 }
 .LoginPagesSwitcher_link:not(.-active) {
-  box-shadow: 0 0 7px #F2F2F2;
+  border: 1px solid #EDF2F5;
+  /* box-shadow: 0 0 7px #F2F2F2; */
 }
