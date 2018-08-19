@@ -94,12 +94,7 @@ function renderLoginButtons() {
 
 function renderLogoutButtons(username) {
   return (
-    <Link
-      to={`/user/${username}`}
-      className={`Header_nav_link -user ${
-        isPathActive('/user') ? '-active' : ''
-      }`}
-    >
+    <Link to="/login" className="Header_nav_link -user">
       <span className="-hideSmartphone">{username}</span>
       {renderUserIconSvg()}
     </Link>

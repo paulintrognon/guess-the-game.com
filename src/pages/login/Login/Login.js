@@ -116,7 +116,7 @@ class LoginPage extends React.Component {
           {!user.username && this.renderForm()}
           {user.username && (
             <p>
-              You are already and logged as <b>{user.username}</b>!
+              You are logged as <b>{user.username}</b>!
               <Button color="dark" onClick={this.logoutHandler}>
                 Log out
               </Button>
