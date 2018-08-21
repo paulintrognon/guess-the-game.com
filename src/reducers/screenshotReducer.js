@@ -52,6 +52,14 @@ export default function reducer(state = initialState, action) {
     };
   }
 
+  if (type === 'SCREENSHOT_PROPOSAL_RESET') {
+    return {
+      ...state,
+      isProposalRight: false,
+      isProposalWrong: false,
+    };
+  }
+
   if (type === 'SCREENSHOT_PROPOSAL_TRY') {
     return {
       ...state,

@@ -22,7 +22,7 @@
 }
 
 .FormInput.-error .FormInput_input {
-  border-color: #f95f62;
+  border-color: #fd464c;
 }
 .FormInput.-ok .FormInput_input {
   border-color: #0fcf7b;
@@ -35,5 +35,5 @@
   color: #0fcf7b;
 }
 .FormInput_output.-error {
-  color: #f95f62;
+  color: #fd464c;
 }

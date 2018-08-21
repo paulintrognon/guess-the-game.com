@@ -6,6 +6,7 @@ export default {
   loadScreenshot,
   getUnsolvedScreenshot,
   tryProposal,
+  resetGuess,
 };
 
 function addScreenshotAction(screenshot) {
@@ -53,4 +54,8 @@ function tryProposal(screenshotId, proposition) {
       }
     });
   };
+}
+
+function resetGuess() {
+  return { type: 'SCREENSHOT_PROPOSAL_RESET' };
 }

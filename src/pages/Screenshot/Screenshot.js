@@ -29,7 +29,8 @@ class ScreenshotPage extends React.Component {
     }
   }
 
-  changeProposalHandler = event => {
+  handleChangeProposal = event => {
+    this.props.dispatch(screenshotActions.resetGuess());
     this.setState({
       proposal: event.target.value,
     });
@@ -37,6 +38,7 @@ class ScreenshotPage extends React.Component {
 
   trySubmitHandler = event => {
     event.preventDefault();
+    this.guessInputRef.current.focus();
     if (this.props.isProposalRight || !this.state.proposal.trim()) {
       return;
     }
@@ -56,13 +58,6 @@ class ScreenshotPage extends React.Component {
     );
   };
 
-  imageLoadedHandler = () => {
-    if (!this.guessInputRef.current) {
-      return;
-    }
-    this.guessInputRef.current.focus();
-  };
-
   renderScreenshotBox = () => {
     const { screenshot } = this.props;
     if (screenshot.isLoading) {
@@ -74,17 +69,14 @@ class ScreenshotPage extends React.Component {
     }
     return (
       <div>
-        <div className="ScreenshotPage__header">{this.renderHeader()}</div>
-        <div className="ScreenshotPage__screenshot">
-          {this.renderScreenshot()}
-          {screenshot.name ? (
-            <p className="ScreenshotPage__screenshotName">
-              {screenshot.name}{' '}
-              {screenshot.year ? `(${screenshot.year})` : null}
-            </p>
-          ) : null}
-          {this.renderFooter()}
+        {this.renderHeader()}
+        <div className="ScreenshotPage_screenshot">
+          <div
+            className="ScreenshotPage_screenshot_image"
+            style={{ backgroundImage: `url(${screenshot.url})` }}
+          />
         </div>
+        <div className="ScreenshotPage_footer">{this.renderFooter()}</div>
       </div>
     );
   };
@@ -92,18 +84,27 @@ class ScreenshotPage extends React.Component {
   renderHeader = () => {
     const { screenshot, isProposalRight } = this.props;
     return (
-      <div className="columns">
-        <div className="column" />
-        <h2
-          className={`column ScreenshotPage__header__title ${
-            screenshot.isSolved || isProposalRight ? '-isSolved' : ''
-          }`}
-        >
-          Screenshot #{screenshot.id}
-        </h2>
-        <h3 className="column ScreenshotPage__header__username">
-          Uploaded by <b>{screenshot.isOwn ? 'you!' : screenshot.username}</b>
-        </h3>
+      <div className="ScreenshotPage_header">
+        <div className="ScreenshotPage_header_left">
+          <h2
+            className={`ScreenshotPage_header_title ${
+              screenshot.isSolved || isProposalRight ? '-isSolved' : ''
+            }`}
+          >
+            Shot #{screenshot.id}
+          </h2>
+          <h3 className="column ScreenshotPage_header_uploadedBy">
+            Uploaded by <b>{screenshot.isOwn ? 'you!' : screenshot.username}</b>
+          </h3>
+        </div>
+        <div className="ScreenshotPage_header_right">
+          <p className="ScreenshotPage_header_solvedByCount">
+            Solved by 42 people
+          </p>
+          <p className="ScreenshotPage_header_firstSolvedBy">
+            1st solved by margot
+          </p>
+        </div>
       </div>
     );
   };
@@ -116,7 +117,6 @@ class ScreenshotPage extends React.Component {
           className="ScreenshotPage__screenshot__image"
           src={screenshot.url}
           alt={`Guess The Game Screenshot #${screenshot.id}`}
-          onLoad={this.imageLoadedHandler}
         />
       </div>
     );
@@ -146,58 +146,42 @@ class ScreenshotPage extends React.Component {
       );
     }
     return (
-      <form className="ScreenshotPage__form" onSubmit={this.trySubmitHandler}>
-        <div className="columns is-tablet">
-          <div className="column" />
-          <div className="column is-two-thirds">
-            <div className="field has-addons">
-              <div className="control is-expanded">
-                <input
-                  ref={this.guessInputRef}
-                  className={`input 
-                  ${isProposalRight ? 'is-success' : ''}
-                  ${isProposalWrong ? 'is-danger' : ''}
-                `}
-                  type="text"
-                  placeholder="What is that game?"
-                  value={this.state.proposal}
-                  onChange={this.changeProposalHandler}
-                />
-              </div>
-              <div className="control">
-                {isProposalRight ? (
-                  <button type="button" className="button is-success">
-                    <span className="icon is-small is-right">
-                      <i className="fas fa-check fa-xs is-success" />
-                    </span>
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    className={`button is-info ${
-                      isGuessing ? 'is-loading' : ''
-                    }`}
-                    disabled={isGuessing}
-                  >
-                    Guess
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="column ScreenshotPage__form__next__container">
-            <button
-              type="button"
-              className={`ScreenshotPage__form__next button is-light ${
-                this.props.isTryAnotherButtonClicked ? 'is-loading' : ''
-              }`}
-              disabled={this.props.isTryAnotherButtonClicked}
-              onClick={this.tryAnotherHandler}
-            >
-              Try another
-            </button>
-          </div>
+      <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
+        <div
+          className={`ScreenshotPage_form_input 
+            ${isGuessing ? '-guessing' : ''}
+            ${isProposalRight ? '-success' : ''}
+            ${isProposalWrong ? '-error' : ''}
+          `}
+        >
+          <input
+            ref={this.guessInputRef}
+            className="ScreenshotPage_form_input_text"
+            type="text"
+            placeholder="What is that game?"
+            value={this.state.proposal}
+            onChange={this.handleChangeProposal}
+          />
+          <button className="ScreenshotPage_form_input_valid" type="submit">
+            {this.props.isGuessing ? (
+              <Loading />
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24">
+                <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+              </svg>
+            )}
+          </button>
         </div>
+        <button
+          type="button"
+          className={`ScreenshotPage__form__next button is-light ${
+            this.props.isTryAnotherButtonClicked ? 'is-loading' : ''
+          }`}
+          disabled={this.props.isTryAnotherButtonClicked}
+          onClick={this.tryAnotherHandler}
+        >
+          Try another
+        </button>
       </form>
     );
   };
