@@ -85,8 +85,13 @@
 .Header_nav_link:hover svg, .Header_nav_link.-active svg {
   fill: #47525E;
 }
-.Header_nav_link.-user::after {
-  display: none;
+
+.Header_login_link {
+  color: #FFF;
+  background-color: #F95F62;
+  padding: 5px 20px;
+  border-radius: 5px;
+  font-size: 18px;
 }
 
 @media (min-width: 480px) {

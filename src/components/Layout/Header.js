@@ -56,7 +56,7 @@ class Header extends React.Component {
             </nav>
             <div className="Header_nav_right">
               {!user.username && renderLoginButtons()}
-              {user.username && renderLogoutButtons(user.username)}
+              {user.username && renderAccountButtons(user.username)}
             </div>
           </div>
         </div>
@@ -67,32 +67,14 @@ class Header extends React.Component {
 export default connect(mapStoreToProps)(Header);
 
 function renderLoginButtons() {
-  return [
-    <Link
-      key="navLoginLink"
-      to="/login"
-      className={`Header_nav_link -hideSmartphone ${
-        isPathActive('/login') ? '-active' : ''
-      }`}
-    >
+  return (
+    <Link key="navLoginLink" to="/login" className="Header_login_link">
       Login
-    </Link>,
-    <Link
-      key="navRegisterLink"
-      to="/register"
-      className={`Header_nav_link -hideSmartphone ${
-        isPathActive('/register') ? '-active' : ''
-      }`}
-    >
-      Register
-    </Link>,
-    <Link key="navUserIconLink" to="/login">
-      {renderUserIconSvg()}
-    </Link>,
-  ];
+    </Link>
+  );
 }
 
-function renderLogoutButtons(username) {
+function renderAccountButtons(username) {
   return (
     <Link to="/login" className="Header_nav_link -user">
       <span className="-hideSmartphone">{username}</span>
