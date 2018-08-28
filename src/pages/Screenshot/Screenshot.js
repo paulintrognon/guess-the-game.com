@@ -10,6 +10,7 @@ function mapStoreToProps(store) {
     isTryAnotherButtonClicked: store.screenshot.isTryAnotherButtonClicked,
     allFound: store.screenshot.allFound,
     isGuessing: store.screenshot.isGuessing,
+    isLoading: store.screenshot.isLoading,
     isProposalRight: store.screenshot.isProposalRight,
     isProposalWrong: store.screenshot.isProposalWrong,
   };
@@ -19,12 +20,25 @@ class ScreenshotPage extends React.Component {
     super(props);
     this.state = {
       proposal: '',
+      screenshotOffset: 0,
     };
     this.guessInputRef = React.createRef();
+    this.touch = null;
 
-    if (props.match.params.id !== props.screenshot.id) {
+    if (Number(props.match.params.id) !== props.screenshot.id) {
       this.props.dispatch(
         screenshotActions.loadScreenshot(props.match.params.id)
+      );
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.isLoading) {
+      return;
+    }
+    if (Number(this.props.match.params.id) !== this.props.screenshot.id) {
+      this.props.dispatch(
+        screenshotActions.loadScreenshot(this.props.match.params.id)
       );
     }
   }
@@ -52,28 +66,58 @@ class ScreenshotPage extends React.Component {
 
   tryAnotherHandler = () => {
     this.setState({ proposal: '' });
-    this.props.dispatch({ type: 'SCREENSHOT_TRY_ANOTHER' });
     this.props.dispatch(
       screenshotActions.getUnsolvedScreenshot(this.props.match.params.id)
     );
   };
 
-  renderScreenshotBox = () => {
-    const { screenshot } = this.props;
-    if (screenshot.isLoading) {
-      return (
-        <div className="ScreenshotPage__header">
-          <Loading />
-        </div>
-      );
+  handleTouchStart = event => {
+    event.preventDefault();
+    [this.firstTouch] = event.changedTouches;
+  };
+
+  handleTouchMove = event => {
+    event.preventDefault();
+    const currentTouch = event.changedTouches[0];
+    const diff = currentTouch.pageX - this.firstTouch.pageX;
+    this.setState({
+      screenshotOffset: diff / 8,
+    });
+  };
+
+  handleTouchEnd = event => {
+    event.preventDefault();
+    this.setState({
+      screenshotOffset: 0,
+    });
+    if (this.props.isTryAnotherButtonClicked) {
+      return;
     }
+    const currentTouch = event.changedTouches[0];
+    const diff = currentTouch.pageX - this.firstTouch.pageX;
+    if (diff < -50) {
+      this.tryAnotherHandler();
+    } else if (diff > 50) {
+      this.props.history.goBack();
+    }
+  };
+
+  renderScreenshotBox = () => {
+    const { screenshot, isTryAnotherButtonClicked } = this.props;
+    const isLoading = screenshot.isLoading || isTryAnotherButtonClicked;
     return (
       <div>
         {this.renderHeader()}
         <div className="ScreenshotPage_screenshot">
           <div
             className="ScreenshotPage_screenshot_image"
-            style={{ backgroundImage: `url(${screenshot.url})` }}
+            style={{
+              backgroundImage: isLoading ? '' : `url(${screenshot.url})`,
+              left: `${this.state.screenshotOffset}%`,
+            }}
+            onTouchStart={this.handleTouchStart}
+            onTouchMove={this.handleTouchMove}
+            onTouchEnd={this.handleTouchEnd}
           />
         </div>
         <div className="ScreenshotPage_footer">{this.renderFooter()}</div>
@@ -162,8 +206,12 @@ class ScreenshotPage extends React.Component {
             value={this.state.proposal}
             onChange={this.handleChangeProposal}
           />
-          <button className="ScreenshotPage_form_input_valid" type="submit">
-            {this.props.isGuessing ? (
+          <button
+            className="ScreenshotPage_form_input_valid"
+            type="submit"
+            disabled={isGuessing}
+          >
+            {isGuessing ? (
               <Loading />
             ) : (
               <svg width="24" height="24" viewBox="0 0 24 24">

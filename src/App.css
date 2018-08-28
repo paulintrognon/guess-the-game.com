@@ -3,6 +3,7 @@ body {
   font-family: Lato;
   font-size: 14px;
   color: #47525e;
+  overscroll-behavior: contain;
 }
 
 @font-face {

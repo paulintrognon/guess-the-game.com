@@ -29,12 +29,13 @@ function loadScreenshot(screenshotId, navigate = false) {
 
 function getUnsolvedScreenshot(exclude) {
   return dispatch => {
+    dispatch({ type: 'SCREENSHOT_LOADING' });
     screenshotService.getUnsolved(exclude).then(res => {
       if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
         dispatch(push('/the-end'));
       } else {
-        dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
         dispatch(push(`/shot/${res.id}`));
+        dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
       }
     });
   };

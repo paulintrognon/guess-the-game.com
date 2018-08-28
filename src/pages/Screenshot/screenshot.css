@@ -11,6 +11,7 @@
   max-width: 1024px;
   margin: auto;
   margin-bottom: 10px;
+  max-height: 40px;
 }
 @media (min-width: 769px) {
   .ScreenshotPage_header {
@@ -49,6 +50,8 @@
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  transition: padding-bottom 10ms;
+  position: relative;
 }
 
 .ScreenshotPage_footer {
