@@ -22,12 +22,6 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       isLoading: true,
-    };
-  }
-
-  if (type === 'SCREENSHOT_TRY_ANOTHER') {
-    return {
-      ...state,
       isTryAnotherButtonClicked: true,
     };
   }

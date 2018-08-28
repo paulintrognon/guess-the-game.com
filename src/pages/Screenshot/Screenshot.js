@@ -193,45 +193,62 @@ class ScreenshotPage extends React.Component {
     }
     return (
       <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
-        <div
-          className={`ScreenshotPage_form_input 
+        <div className="ScreenshotPage_form_col" />
+        <div className="ScreenshotPage_form_col">
+          <div
+            className={`ScreenshotPage_form_input 
             ${isGuessing ? '-guessing' : ''}
             ${isProposalRight ? '-success' : ''}
             ${isProposalWrong ? '-error' : ''}
           `}
-        >
-          <input
-            ref={this.guessInputRef}
-            className="ScreenshotPage_form_input_text"
-            type="text"
-            placeholder="What is that game?"
-            value={this.state.proposal}
-            onChange={this.handleChangeProposal}
-          />
-          <button
-            className="ScreenshotPage_form_input_valid"
-            type="submit"
-            disabled={isGuessing}
           >
-            {isGuessing ? (
-              <Loading />
-            ) : (
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-              </svg>
-            )}
+            <input
+              ref={this.guessInputRef}
+              className="ScreenshotPage_form_input_text"
+              type="text"
+              placeholder="What is that game?"
+              value={this.state.proposal}
+              onChange={this.handleChangeProposal}
+            />
+            <button
+              className="ScreenshotPage_form_input_valid"
+              type="submit"
+              disabled={isGuessing}
+            >
+              {isGuessing ? (
+                <Loading />
+              ) : (
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+        <div className="ScreenshotPage_form_col -col3">
+          <button
+            type="button"
+            className={`ScreenshotPage_form_next ${
+              this.props.isTryAnotherButtonClicked ? '-isLoading' : ''
+            }`}
+            disabled={this.props.isTryAnotherButtonClicked}
+            onClick={this.tryAnotherHandler}
+          >
+            Try another
+            <span className="ScreenshotPage_form_next_icon">
+              <img
+                className="ScreenshotPage_form_next_icon-1"
+                src="/icons/random-1.svg"
+                alt="next"
+              />
+              <img
+                className="ScreenshotPage_form_next_icon-2"
+                src="/icons/random-2.svg"
+                alt="screenshot"
+              />
+            </span>
           </button>
         </div>
-        <button
-          type="button"
-          className={`ScreenshotPage__form__next button is-light ${
-            this.props.isTryAnotherButtonClicked ? 'is-loading' : ''
-          }`}
-          disabled={this.props.isTryAnotherButtonClicked}
-          onClick={this.tryAnotherHandler}
-        >
-          Try another
-        </button>
       </form>
     );
   };

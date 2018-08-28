@@ -89,6 +89,20 @@
 .ScreenshotPage_form {
   padding-top: 20px;
 }
+@media (min-width: 768px) {
+  .ScreenshotPage_form {
+    display: flex;
+  }
+}
+
+.ScreenshotPage_form_col {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .ScreenshotPage_form_col {
+    width: 33.33%;
+  }
+}
 
 .ScreenshotPage_form_input {
   display: flex;
@@ -136,3 +150,51 @@
 .ScreenshotPage_form_input.-success .ScreenshotPage_form_input_valid {
   background: #2fffab;
 }
+
+.ScreenshotPage_form_col.-col3 {
+  margin-top: 20px;
+}
+@media (min-width: 768px) {
+  .ScreenshotPage_form_col.-col3 {
+    margin-top: 0;
+    margin-right: 20px;
+    text-align: right;
+  }
+}
+
+.ScreenshotPage_form_next {
+  background-color: #47525E;
+  color: white;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 190px;
+  border-radius: 3px;
+  transition: background-color 200ms;
+}
+.ScreenshotPage_form_next:hover {
+  background-color: #37424E;
+}
+
+.ScreenshotPage_form_next_icon {
+  display: flex;
+  align-items: center;
+}
+.ScreenshotPage_form_next_icon-1 {
+  height: 10px;
+  padding-right: 10px;
+  transition: padding-right 300ms;
+}
+.ScreenshotPage_form_next_icon-2 {
+  height: 20px;
+  transform: rotate 200ms;
+}
+.ScreenshotPage_form_next:hover .ScreenshotPage_form_next_icon-1 {
+  padding-right: 15px;
+}
+.ScreenshotPage_form_next.-isLoading .ScreenshotPage_form_next_icon-2 {
+  animation: spin 400ms linear infinite;
+}
+
+@keyframes spin { 100% { transform:rotate(360deg); } }
