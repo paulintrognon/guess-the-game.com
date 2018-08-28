@@ -109,6 +109,8 @@ class ScreenshotPage extends React.Component {
       <div>
         {this.renderHeader()}
         <div className="ScreenshotPage_screenshot">
+          <div className="ScreenshotPage_screenshot_under ScreenshotPage_screenshot_under_left" />
+          <div className="ScreenshotPage_screenshot_under ScreenshotPage_screenshot_under_right" />
           <div
             className="ScreenshotPage_screenshot_image"
             style={{
