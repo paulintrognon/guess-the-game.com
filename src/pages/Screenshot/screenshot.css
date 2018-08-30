@@ -42,6 +42,7 @@
   margin: auto;
   position: relative;
   background-color: #777;
+  overflow: hidden;
 }
 
 .ScreenshotPage_screenshot_under {
@@ -74,6 +75,32 @@
   background-repeat: no-repeat;
   transition: padding-bottom 10ms;
   position: relative;
+}
+
+.ScreenshotPage_screenshot_success_banner {
+  height: 10%;
+  min-height: 35px;
+  width: 0%;
+  background-color: rgba(19,206,102,0.7);
+  position: absolute;
+  z-index: 10;
+  bottom: 10%;
+  left: -10%;
+  transform: rotate(-5deg);
+  transform-origin: bottom left;
+  transition: width 800ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ScreenshotPage_screenshot.-success .ScreenshotPage_screenshot_success_banner {
+  width: 120%;
+}
+.ScreenshotPage_screenshot_success_banner_text {
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  font-family: Norwester;
 }
 
 .ScreenshotPage_footer {

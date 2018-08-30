@@ -103,12 +103,20 @@ class ScreenshotPage extends React.Component {
   };
 
   renderScreenshotBox = () => {
-    const { screenshot, isTryAnotherButtonClicked } = this.props;
+    const {
+      screenshot,
+      isTryAnotherButtonClicked,
+      isProposalRight,
+    } = this.props;
     const isLoading = screenshot.isLoading || isTryAnotherButtonClicked;
     return (
       <div>
         {this.renderHeader()}
-        <div className="ScreenshotPage_screenshot">
+        <div
+          className={`ScreenshotPage_screenshot ${
+            screenshot.isSolved || isProposalRight ? '-success' : ''
+          }`}
+        >
           <div className="ScreenshotPage_screenshot_under ScreenshotPage_screenshot_under_left" />
           <div className="ScreenshotPage_screenshot_under ScreenshotPage_screenshot_under_right" />
           <div
@@ -121,6 +129,11 @@ class ScreenshotPage extends React.Component {
             onTouchMove={this.handleTouchMove}
             onTouchEnd={this.handleTouchEnd}
           />
+          <div className="ScreenshotPage_screenshot_success_banner">
+            <p className="ScreenshotPage_screenshot_success_banner_text">
+              SOLVED
+            </p>
+          </div>
         </div>
         <div className="ScreenshotPage_footer">{this.renderFooter()}</div>
       </div>
