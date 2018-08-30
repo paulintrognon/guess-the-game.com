@@ -157,19 +157,6 @@ class ScreenshotPage extends React.Component {
     );
   };
 
-  renderScreenshot = () => {
-    const { screenshot } = this.props;
-    return (
-      <div className="ScreenshotPage__screenshot__image__container">
-        <img
-          className="ScreenshotPage__screenshot__image"
-          src={screenshot.url}
-          alt={`Guess The Game Screenshot #${screenshot.id}`}
-        />
-      </div>
-    );
-  };
-
   renderFooter = () => {
     const {
       screenshot,
