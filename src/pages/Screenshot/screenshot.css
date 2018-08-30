@@ -84,6 +84,7 @@
   text-align: center;
   max-width: 1024px;
   margin: auto;
+  min-height: 200px;
 }
 
 .ScreenshotPage_form {
@@ -196,5 +197,4 @@
 .ScreenshotPage_form_next.-isLoading .ScreenshotPage_form_next_icon-2 {
   animation: spin 400ms linear infinite;
 }
-
 @keyframes spin { 100% { transform:rotate(360deg); } }

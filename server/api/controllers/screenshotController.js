@@ -26,6 +26,7 @@ async function getfromId(req) {
     imageUrl: cloudinaryService.pathToUrl(res.imagePath),
     createdAt: res.createdAt,
     createdBy: res.user,
+    stats: res.stats,
   };
   if (res.screenshotFounds && res.screenshotFounds.length) {
     screenshot.isSolved = true;

@@ -145,10 +145,12 @@ class ScreenshotPage extends React.Component {
         </div>
         <div className="ScreenshotPage_header_right">
           <p className="ScreenshotPage_header_solvedByCount">
-            Solved by 42 people
+            Solved by {screenshot.stats.foundsCount} people
           </p>
           <p className="ScreenshotPage_header_firstSolvedBy">
-            1st solved by margot
+            {screenshot.stats.firstSolvedBy
+              ? `First solved by ${screenshot.stats.firstSolvedBy}`
+              : 'Be the first one to guess this screenshot!'}
           </p>
         </div>
       </div>
@@ -175,55 +177,53 @@ class ScreenshotPage extends React.Component {
       isProposalWrong,
       isGuessing,
     } = this.props;
-    if (screenshot.isSolved) {
-      return (
-        <p>
-          You have solved this screenshot on{' '}
-          {screenshot.solvedAt.toDateString()}
-        </p>
-      );
-    }
-    if (screenshot.isOwn) {
-      return (
-        <p>
-          You have uploaded this screenshot the{' '}
-          {screenshot.createdAt.toDateString()}
-        </p>
-      );
-    }
     return (
       <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
         <div className="ScreenshotPage_form_col" />
         <div className="ScreenshotPage_form_col">
-          <div
-            className={`ScreenshotPage_form_input 
+          {screenshot.isSolved ? (
+            <p>
+              You have solved this screenshot on{' '}
+              {screenshot.solvedAt.toDateString()}
+            </p>
+          ) : null}
+          {screenshot.isOwn ? (
+            <p>
+              You have uploaded this screenshot the{' '}
+              {screenshot.createdAt.toDateString()}
+            </p>
+          ) : null}
+          {!screenshot.isSolved && !screenshot.isOwn ? (
+            <div
+              className={`ScreenshotPage_form_input 
             ${isGuessing ? '-guessing' : ''}
             ${isProposalRight ? '-success' : ''}
             ${isProposalWrong ? '-error' : ''}
           `}
-          >
-            <input
-              ref={this.guessInputRef}
-              className="ScreenshotPage_form_input_text"
-              type="text"
-              placeholder="What is that game?"
-              value={this.state.proposal}
-              onChange={this.handleChangeProposal}
-            />
-            <button
-              className="ScreenshotPage_form_input_valid"
-              type="submit"
-              disabled={isGuessing}
             >
-              {isGuessing ? (
-                <Loading />
-              ) : (
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-                </svg>
-              )}
-            </button>
-          </div>
+              <input
+                ref={this.guessInputRef}
+                className="ScreenshotPage_form_input_text"
+                type="text"
+                placeholder="What is that game?"
+                value={this.state.proposal}
+                onChange={this.handleChangeProposal}
+              />
+              <button
+                className="ScreenshotPage_form_input_valid"
+                type="submit"
+                disabled={isGuessing}
+              >
+                {isGuessing ? (
+                  <Loading />
+                ) : (
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          ) : null}
         </div>
         <div className="ScreenshotPage_form_col -col3">
           <button

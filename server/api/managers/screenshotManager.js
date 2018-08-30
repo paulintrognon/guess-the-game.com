@@ -51,8 +51,12 @@ async function getFromId(screenshotId, userId) {
       where: { UserId: userId },
     });
   }
-  const res = await db.Screenshot.findById(screenshotId, { include });
+  const [res, stats] = await Promise.all([
+    db.Screenshot.findById(screenshotId, { include }),
+    getScreenshotStats(screenshotId),
+  ]);
   return {
+    stats,
     id: res.id,
     name: res.gameCanonicalName,
     year: res.year,
@@ -74,8 +78,7 @@ async function getLastPosted() {
     id: screenshot.id,
     imagePath: screenshot.imagePath,
     createdAt: screenshot.createdAt,
-    foundsCount: stats.foundsCount,
-    firstSolvedBy: stats.firstSolvedBy,
+    ...stats,
   };
 }
 
@@ -110,7 +113,7 @@ async function getFirstSolvedBy(screenshotId) {
   if (!screenshotFound) {
     return null;
   }
-  return screenshotFound.User.username;
+  return screenshotFound.User.username || 'John Doe';
 }
 
 async function getUnsolved({ userId, exclude }) {
