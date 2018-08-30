@@ -1,0 +1,32 @@
+.RankingPage {
+  max-width: 1024px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.RankingPage_ranking_row {
+  display: flex;
+  margin: 10px 0;
+  padding: 10px;
+  color: #3f576f;
+  font-size: 18px;
+}
+
+.RankingPage_ranking_row:first-child {
+  font-weight: bold;
+}
+.RankingPage_ranking_row:not(:first-child) {
+  border: 1px solid #F5F5F5;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #F8F8F8;
+}
+
+.RankingPage_ranking_col.-name {
+  width: 50%;
+}
+.RankingPage_ranking_col.-solved {
+  width: 25%;
+}
+.RankingPage_ranking_col.-posted {
+  width: 25%;
+}
