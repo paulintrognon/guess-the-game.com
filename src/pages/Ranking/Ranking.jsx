@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading/Loading';
 import userService from '../../services/userService';
-import screenshotActions from '../../actions/screenshotActions';
 import './Ranking.css';
 
 function mapStoreToProps(store) {
@@ -24,7 +23,6 @@ class Homepage extends React.Component {
 
   renderScores() {
     const { scores } = this.state;
-    const { user } = this.props;
 
     if (this.state.isLoading) {
       return <Loading />;
