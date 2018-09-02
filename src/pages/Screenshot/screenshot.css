@@ -94,8 +94,10 @@
   justify-content: center;
   align-items: center;
   color: #fff;
+  visibility: hidden;
 }
 .ScreenshotPage_screenshot.-success .ScreenshotPage_screenshot_success_banner {
+  visibility: visible;
   width: 120%;
 }
 .ScreenshotPage_screenshot_success_banner_gameName {
