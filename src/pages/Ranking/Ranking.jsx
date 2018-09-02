@@ -34,13 +34,16 @@ class Homepage extends React.Component {
       <div className="RankingPage_ranking">
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
-          <div className="RankingPage_ranking_col -solved"># Solved</div>
-          <div className="RankingPage_ranking_col -posted"># Posted</div>
+          <div className="RankingPage_ranking_col -solved">Solved</div>
+          <div className="RankingPage_ranking_col -posted">Posted</div>
         </div>
         {scores.map((score, i) => (
           <div className="RankingPage_ranking_row">
             <div className="RankingPage_ranking_col -name">
-              #{i + 1} {score.username}
+              <span className="RankingPage_ranking_nb">#{i + 6}</span>{' '}
+              <span className="RankingPage_ranking_username">
+                {score.username}
+              </span>
             </div>
             <div className="RankingPage_ranking_col -solved">
               {score.screenshotsFound}
