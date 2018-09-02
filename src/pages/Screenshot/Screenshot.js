@@ -133,6 +133,10 @@ class ScreenshotPage extends React.Component {
             <p className="ScreenshotPage_screenshot_success_banner_text">
               SOLVED
             </p>
+            <p className="ScreenshotPage_screenshot_success_banner_gameName">
+              {screenshot.name}
+              {screenshot.year ? ` (${screenshot.year})` : null}
+            </p>
           </div>
         </div>
         <div className="ScreenshotPage_footer">{this.renderFooter()}</div>

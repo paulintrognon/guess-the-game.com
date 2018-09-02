@@ -90,12 +90,26 @@
   transform-origin: bottom left;
   transition: width 800ms;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #fff;
 }
 .ScreenshotPage_screenshot.-success .ScreenshotPage_screenshot_success_banner {
   width: 120%;
 }
+.ScreenshotPage_screenshot_success_banner_gameName {
+  display: none;
+}
+@media (min-width: 768px) {
+  .ScreenshotPage_screenshot_success_banner {
+    min-height: 60px; 
+  }
+  .ScreenshotPage_screenshot_success_banner_gameName {
+    display: block;
+  }
+}
+
 .ScreenshotPage_screenshot_success_banner_text {
   color: #FFFFFF;
   text-align: center;
