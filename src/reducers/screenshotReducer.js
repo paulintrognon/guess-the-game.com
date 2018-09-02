@@ -33,7 +33,7 @@ export default function reducer(state = initialState, action) {
       isLoading: false,
       id: payload.id,
       name: payload.name,
-      username: payload.createdBy.username,
+      postedBy: payload.postedBy,
       year: payload.year,
       url: payload.imageUrl,
       isSolved: payload.isSolved,

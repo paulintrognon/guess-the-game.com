@@ -157,7 +157,7 @@ class ScreenshotPage extends React.Component {
             Shot #{screenshot.id}
           </h2>
           <h3 className="column ScreenshotPage_header_uploadedBy">
-            Uploaded by <b>{screenshot.isOwn ? 'you!' : screenshot.username}</b>
+            Uploaded by <b>{screenshot.isOwn ? 'you!' : screenshot.postedBy}</b>
           </h3>
         </div>
         <div className="ScreenshotPage_header_right">

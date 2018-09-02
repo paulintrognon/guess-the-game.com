@@ -25,8 +25,7 @@ class Homepage extends React.Component {
       <section className="Homepage">
         <h1 className="Homepage_title">Welcome to Guess&nbsp;The&nbsp;Game</h1>
         <p className="Homepage_subtitle">
-          Guess as many games as possible from screenshots posted by people like
-          you
+          Guess as many games as possible from screenshots posted by people
         </p>
         <p>
           <button className="Homepage_playButton" onClick={this.playHandler}>
@@ -42,8 +41,11 @@ class Homepage extends React.Component {
               Last posted screenshot
             </h2>
             <p className="Homepage_lastPostedScreenshot_subtitle">
-              {this.state.lastScreenshot.firstSolvedBy
-                ? `First solved by ${this.state.lastScreenshot.firstSolvedBy}`
+              {this.state.lastScreenshot.postedBy}
+              {this.state.lastScreenshot.stats.firstSolvedBy
+                ? `First solved by ${
+                    this.state.lastScreenshot.stats.firstSolvedBy
+                  }`
                 : 'Be the first one to guess this screenshot!'}
             </p>
             <div className="Homepage_lastPostedScreenshot_shot_container">

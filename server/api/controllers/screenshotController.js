@@ -25,7 +25,7 @@ async function getfromId(req) {
     id: res.id,
     imageUrl: cloudinaryService.pathToUrl(res.imagePath),
     createdAt: res.createdAt,
-    createdBy: res.user,
+    postedBy: res.user.username,
     stats: res.stats,
   };
   if (res.screenshotFounds && res.screenshotFounds.length) {
@@ -67,12 +67,9 @@ async function getUnsolvedScreenshot(req) {
   }
 }
 
-async function getLastPostedScreenshot() {
-  const screenshot = await screenshotManager.getLastPosted();
-  return {
-    ...screenshot,
-    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
-  };
+async function getLastPostedScreenshot(req) {
+  const screenshotId = await screenshotManager.getLastPosted();
+  return getfromId({ ...req, body: { ...req.body, id: screenshotId } });
 }
 
 async function tryProposal(req) {

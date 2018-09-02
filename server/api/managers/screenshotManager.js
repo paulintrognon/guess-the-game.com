@@ -69,17 +69,11 @@ async function getFromId(screenshotId, userId) {
 
 async function getLastPosted() {
   const screenshot = await db.Screenshot.findOne({
-    attributes: ['id', 'imagePath', 'createdAt'],
+    attributes: ['id'],
     limit: 1,
     order: [['createdAt', 'DESC']],
   });
-  const stats = await getScreenshotStats(screenshot.id);
-  return {
-    id: screenshot.id,
-    imagePath: screenshot.imagePath,
-    createdAt: screenshot.createdAt,
-    ...stats,
-  };
+  return screenshot.id;
 }
 
 async function getScreenshotStats(screenshotId) {
