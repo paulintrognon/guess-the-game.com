@@ -157,13 +157,15 @@ class ScreenshotPage extends React.Component {
             Shot #{screenshot.id}
           </h2>
           <h3 className="column ScreenshotPage_header_uploadedBy">
-            Uploaded by <b>{screenshot.isOwn ? 'you!' : screenshot.postedBy}</b>
+            By <b>{screenshot.isOwn ? 'you!' : screenshot.postedBy}</b>
           </h3>
         </div>
         <div className="ScreenshotPage_header_right">
-          <p className="ScreenshotPage_header_solvedByCount">
-            Solved by {screenshot.stats.foundsCount} people
-          </p>
+          {screenshot.stats.foundsCount ? (
+            <p className="ScreenshotPage_header_solvedByCount">
+              Solved by {screenshot.stats.foundsCount} people
+            </p>
+          ) : null}
           <p className="ScreenshotPage_header_firstSolvedBy">
             {screenshot.stats.firstSolvedBy
               ? `First solved by ${screenshot.stats.firstSolvedBy}`

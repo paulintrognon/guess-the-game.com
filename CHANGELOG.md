@@ -1,3 +1,8 @@
+### v2.0.1
+
+- Fix homepage "uploaded by"
+- Fix smallscreen screenshot top info
+
 # v2.0.0
 
 - Complete redesign
