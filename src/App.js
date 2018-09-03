@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import history from './history';
 
-import 'bulma/css/bulma.css';
 import './App.css';
 
 import Layout from './components/Layout/Layout';
@@ -16,6 +15,7 @@ import ForgotPasswordPage from './pages/login/ForgotPassword/ForgotPassword';
 import NewPasswordPage from './pages/login/NewPassword/NewPassword';
 import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
+import RankingPage from './pages/Ranking/Ranking';
 import TheEnd from './pages/TheEnd/TheEnd';
 import NotFound from './pages/NotFound/NotFound';
 
@@ -26,6 +26,7 @@ export default () => (
         <Switch>
           <Route path="/" exact component={Homepage} />
           <Route path="/shot/:id" exact component={ScreenshotPage} />
+          <Route path="/ranking" exact component={RankingPage} />
           <Route path="/login" exact component={LoginPage} />
           <Route path="/register" exact component={RegisterPage} />
           <Route path="/forgot-password" exact component={ForgotPasswordPage} />

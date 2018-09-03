@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import SmallContainer from '../../../components/SmallContainer/SmallContainer';
+import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
+import Input from '../../../components/Form/Input/Input';
+import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
 import loginActions from '../../../actions/loginActions';
-
-import './register.css';
-import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 
 function mapStoreToProps(store) {
   return {
@@ -42,7 +42,7 @@ class RegisterPage extends React.Component {
     };
   }
 
-  usernameChangeHandler = event => {
+  handleUsernameChange = event => {
     const { value } = event.target;
     this.setState(prevState => ({
       username: { ...prevState.username, value },
@@ -71,7 +71,7 @@ class RegisterPage extends React.Component {
       });
   }, 300);
 
-  passwordChangeHandler = event => {
+  handlePasswordChange = event => {
     const { value } = event.target;
     this.setState(prevState => this.checkPassword(prevState, value));
   };
@@ -103,7 +103,7 @@ class RegisterPage extends React.Component {
     return state;
   };
 
-  passwordConfirmChangeHandler = event => {
+  handlePasswordConfirmChange = event => {
     const { value } = event.target;
     this.setState(prevState => this.checkPasswordConfirm(prevState, value));
   };
@@ -129,7 +129,7 @@ class RegisterPage extends React.Component {
     return state;
   };
 
-  changeEmailHandler = event => {
+  handleEmailChange = event => {
     const { value } = event.target;
     this.setState(prevState => {
       const email = { ...prevState.email, value };
@@ -194,95 +194,55 @@ class RegisterPage extends React.Component {
 
     return (
       <form className="RegisterPage__form" onSubmit={this.handleSubmit}>
-        <h2 className="title is-5">Registration form</h2>
-        <div className="field">
-          <label className="label" htmlFor="username">
-            Username
-            <input
-              id="username"
-              type="text"
-              className={`input
-                  ${username.ok && 'is-success'}
-                  ${username.error && 'is-danger'}`}
-              placeholder="Type your name"
-              value={username.value}
-              onChange={this.usernameChangeHandler}
-            />
-          </label>
-          {username.ok && (
-            <p className="help is-success">This username is available</p>
-          )}
-          {username.error && <p className="help is-danger">{username.error}</p>}
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="email">
-            Email
-            <span className="RegisterPage__form__email__reassurance">
-              (only used for password recovery)
-            </span>
-            <input
-              id="email"
-              type="email"
-              className={`input
-                  ${email.ok && 'is-success'}
-                  ${email.error && 'is-danger'}`}
-              placeholder="Type your password again"
-              value={email.value}
-              onChange={this.changeEmailHandler}
-            />
-          </label>
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="password">
-            Password
-            <input
-              id="password"
-              type="password"
-              className={`input
-                  ${password.ok && 'is-success'}
-                  ${password.error && 'is-danger'}`}
-              placeholder="Type your password"
-              value={password.value}
-              onChange={this.passwordChangeHandler}
-            />
-          </label>
-          {password.error && <p className="help is-danger">{password.error}</p>}
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="password_confirm">
-            Confirm Password
-            <input
-              id="password_confirm"
-              type="password"
-              className={`input
-                  ${passwordConfirm.ok && 'is-success'}
-                  ${passwordConfirm.error && 'is-danger'}`}
-              placeholder="Type your password again"
-              value={passwordConfirm.value}
-              onChange={this.passwordConfirmChangeHandler}
-            />
-          </label>
-          {passwordConfirm.error && (
-            <p className="help is-danger">{passwordConfirm.error}</p>
-          )}
-        </div>
-        {error && <p className="notification is-danger">{error}</p>}
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              type="submit"
-              className={`button is-link ${submitting ? 'is-loading' : ''}`}
-              disabled={!valid}
-            >
-              Submit
-            </button>
-          </div>
-          <div className="control">
-            <Link to="/login" className="button is-text">
-              Login instead
-            </Link>
-          </div>
-        </div>
+        <Input
+          id="username"
+          label="Username"
+          placeholder="Type your username"
+          value={username.value}
+          onChange={this.handleUsernameChange}
+          ok={username.ok && 'This username is available'}
+          error={username.error}
+        />
+        <Input
+          id="email"
+          type="email"
+          label="Email"
+          labelExtraText="(only for password recovery)"
+          placeholder="Type your email"
+          value={email.value}
+          onChange={this.handleEmailChange}
+          ok={email.ok}
+          error={email.error}
+        />
+        <Input
+          id="password"
+          type="password"
+          label="Password"
+          placeholder="Type your password"
+          value={password.value}
+          onChange={this.handlePasswordChange}
+          ok={password.ok}
+          error={password.error}
+        />
+        <Input
+          id="password_confirm"
+          type="password"
+          label="Confirm Password"
+          placeholder="Type the same password again"
+          value={passwordConfirm.value}
+          onChange={this.handlePasswordConfirmChange}
+          ok={passwordConfirm.ok}
+          error={passwordConfirm.error}
+        />
+        {error && <p>{error}</p>}
+        <Button
+          loading={submitting}
+          disabled={!valid}
+          color="dark"
+          type="submit"
+        >
+          Submit
+        </Button>
       </form>
     );
   }
@@ -291,21 +251,20 @@ class RegisterPage extends React.Component {
     const { user } = this.props;
 
     return (
-      <SmallContainer>
-        <section className="RegisterPage">
+      <section className="RegisterPage">
+        <LoginPagesSwitcher />
+        <SmallContainer title="Register">
           {!user.username && this.renderForm()}
           {user.username && (
-            <div className="notification is-info">
-              <p>
-                You are registered!
-                <button type="button" onClick={this.logoutHandler}>
-                  Log out
-                </button>
-              </p>
-            </div>
+            <p>
+              You are already registered and logged as <b>{user.username}</b>!
+              <Button color="dark" onClick={this.logoutHandler}>
+                Log out
+              </Button>
+            </p>
           )}
-        </section>
-      </SmallContainer>
+        </SmallContainer>
+      </section>
     );
   }
 }

@@ -1,0 +1,16 @@
+.LoginPage_form_forgotPassword {
+  position: absolute;
+  right: 10px;
+  top: 28px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.LoginPage .SmallContainer_title, .RegisterPage .SmallContainer_title {
+  display: none;
+}
+@media (min-width: 480px) {
+  .LoginPage .SmallContainer_title, .RegisterPage .SmallContainer_title {
+    display: block;
+  }
+}

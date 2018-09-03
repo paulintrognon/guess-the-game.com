@@ -1,37 +1,64 @@
 body {
-  background-color: #f0f0f0;
+  min-width: 320px;
   min-height: 100vh;
+  font-family: Lato;
+  font-size: 14px;
+  color: #47525e;
+  overscroll-behavior: contain;
 }
 
-button {
-  background: none;
-  border: none;
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato-BoldItalic.woff2') format('woff2'),
+      url('/fonts/Lato-BoldItalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
 }
 
-.container {
-  padding: 0 0.5em;
-}
-
-.label .additionnal-info {
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato-Italic.woff2') format('woff2'),
+      url('/fonts/Lato-Italic.woff') format('woff');
   font-weight: normal;
-  font-size: 0.8em;
+  font-style: italic;
 }
 
-.input::-moz-placeholder {
-  color: #333;
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato-Regular.woff2') format('woff2'),
+      url('/fonts/Lato-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.notification button {
-  color: inherit;
-  cursor: pointer;
-  text-decoration: underline;
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato-Bold.woff2') format('woff2'),
+      url('/fonts/Lato-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
 }
 
-.section {
-  padding: 1rem 0.5rem;
+@font-face {
+  font-family: 'Norwester';
+  src: url('/fonts/Norwester-Regular.woff2') format('woff2'),
+      url('/fonts/Norwester-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
-@media (min-width: 768px) {
-  .section {
-    padding: 3rem 1.5rem;
-  }
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato-Light.woff2') format('woff2'),
+      url('/fonts/Lato-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/Lato-LightItalic.woff2') format('woff2'),
+      url('/fonts/Lato-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
 }

@@ -1,0 +1,27 @@
+.SmallContainer {
+  max-width: 475px;
+  margin: auto;
+  margin-top: 1em;
+  border: 1px solid #F5F5F5;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #F8F8F8;
+  padding: 15px;
+  overflow: hidden;
+}
+
+.SmallContainer_title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px 0 15px;
+}
+
+@media (min-width: 480px) {
+  .SmallContainer {
+    padding: 15px 55px;
+  }
+
+  .SmallContainer_title {
+    margin: 15px 0 40px;
+  }
+}

@@ -12,6 +12,7 @@
     "react/destructuring-assignment": "off",
     "react/prop-types": "off",
     "react/sort-comp": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "react/button-has-type": "off"
   }
 }

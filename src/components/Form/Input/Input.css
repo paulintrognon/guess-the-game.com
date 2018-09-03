@@ -1,0 +1,39 @@
+.FormInput {
+  display: flex;
+  flex-direction: column;
+  margin: 1em 0;
+  position: relative;
+}
+
+.FormInput_label {
+  margin-bottom: 5px;
+}
+
+.FormInput_label_extra {
+  color: #888890;
+  font-size: 12px;
+}
+
+.FormInput_input {
+  border: 1px solid #8492A6;
+  border-radius: 0;
+  height: 30px;
+  padding: 0 10px;
+}
+
+.FormInput.-error .FormInput_input {
+  border-color: #fd464c;
+}
+.FormInput.-ok .FormInput_input {
+  border-color: #0fcf7b;
+}
+
+.FormInput_output {
+  margin-top: 5px;
+}
+.FormInput_output.-ok {
+  color: #0fcf7b;
+}
+.FormInput_output.-error {
+  color: #fd464c;
+}

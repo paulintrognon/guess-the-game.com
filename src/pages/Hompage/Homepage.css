@@ -1,10 +1,57 @@
-.Homepage_header_playButton {
-  background-color: #ff6347;
-  color: #fff;
-  border: none;
-  transition: background-color 200ms;
+.Homepage {
+  text-align: center;
 }
-.Homepage_header_playButton:hover {
-  background-color: #ef5337;
-  color: #fff;
+
+.Homepage_title {
+  font-size: 28px;
+  margin: 30px 20px 15px;
+}
+
+.Homepage_subtitle {
+  font-size: 18px;
+  font-weight: 100;
+  margin: 15px 20px 50px;
+}
+
+.Homepage_playButton {
+  width: 295px;
+  height: 40px;
+  background-color: #fd464c;
+  color: #ffffff;
+  font-family: Norwester;
+  font-size: 23px;
+}
+
+.Homepage_lastPostedScreenshot {
+  display: block;
+  max-width: 1024px;
+  margin: 50px auto 10px;
+  border: 1px solid #EDF2F5;
+  box-shadow: 0 0 20px #F8F8F8;
+  border-radius: 5px;
+  padding: 10px 20px 20px;
+}
+
+.Homepage_lastPostedScreenshot_title {
+  margin: 5px 0 10px;
+  font-size: 24px;
+}
+.Homepage_lastPostedScreenshot_subtitle {
+  margin: 5px 0;
+  font-size: 16px;
+  font-weight: 300;
+}
+.Homepage_lastPostedScreenshot_shot_container {
+  width: 768px;
+  max-width: 100%;
+  margin: auto;
+}
+
+.Homepage_lastPostedScreenshot_shot {
+  height: 0;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }

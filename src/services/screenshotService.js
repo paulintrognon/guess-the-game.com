@@ -4,6 +4,7 @@ export default {
   uploadImage,
   addScreenshot,
   getFromId,
+  getLast,
   getUnsolved,
   guess,
 };
@@ -22,6 +23,10 @@ function addScreenshot(data) {
 
 function getFromId(id) {
   return api.post('/screenshot/get', { id });
+}
+
+function getLast() {
+  return api.get('/screenshot/last');
 }
 
 function getUnsolved(exclude) {

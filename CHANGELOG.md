@@ -1,3 +1,9 @@
+# v2.0.0
+
+- Complete redesign
+- Add ranking page
+- Add "last screenshot added" page
+
 ## v1.2.0
 
 - Prefixing all api calls with /api so we can host the api on the same domain name as the main site
