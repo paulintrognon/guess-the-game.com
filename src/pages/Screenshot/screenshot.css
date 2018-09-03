@@ -6,7 +6,7 @@
 .ScreenshotPage_header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: end;
   padding: 0 20px;
   max-width: 1024px;
   margin: auto;
@@ -17,6 +17,10 @@
   .ScreenshotPage_header {
     margin-bottom: 5px;
   }
+}
+
+.ScreenshotPage_header_left,.ScreenshotPage_header_right {
+  max-width: 50%;
 }
 
 .ScreenshotPage_header_title {
