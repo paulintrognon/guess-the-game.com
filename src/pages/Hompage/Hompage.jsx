@@ -41,12 +41,15 @@ class Homepage extends React.Component {
               Last posted screenshot
             </h2>
             <p className="Homepage_lastPostedScreenshot_subtitle">
-              {this.state.lastScreenshot.postedBy}
-              {this.state.lastScreenshot.stats.firstSolvedBy
-                ? `First solved by ${
-                    this.state.lastScreenshot.stats.firstSolvedBy
-                  }`
-                : 'Be the first one to guess this screenshot!'}
+              Uploaded by <b>{this.state.lastScreenshot.postedBy}</b> -{` `}
+              {this.state.lastScreenshot.stats.firstSolvedBy ? (
+                <span>
+                  First solved by{' '}
+                  <b>{this.state.lastScreenshot.stats.firstSolvedBy}</b>
+                </span>
+              ) : (
+                'Be the first one to guess this screenshot!'
+              )}
             </p>
             <div className="Homepage_lastPostedScreenshot_shot_container">
               <div
