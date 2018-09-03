@@ -1,0 +1,56 @@
+.RankingPage {
+  max-width: 1024px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.RankingPage_ranking_row {
+  display: flex;
+  margin: 10px 0;
+  padding: 10px;
+  color: #3f576f;
+  font-size: 18px;
+}
+
+.RankingPage_ranking_row:first-child {
+  text-align: center;
+}
+.RankingPage_ranking_row:not(:first-child) {
+  border: 1px solid #F5F5F5;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #F8F8F8;
+}
+
+.RankingPage_ranking_nb {
+  font-size: 14px;
+  color:#A7B2Be;
+  width: 30px;
+  margin-right: 10px;
+  display: inline-block;
+  font-weight: bold;
+}
+@media (min-width: 480px) {
+  .RankingPage_ranking_nb {
+    width: 40px;
+  }
+}
+
+.RankingPage_ranking_col {
+  display: flex;
+  align-items: center;
+}
+.RankingPage_ranking_col.-name {
+  width: 40%;
+}
+.RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-posted {
+  width: 30%;
+  justify-content: center;
+}
+@media (min-width: 480px) {
+  .RankingPage_ranking_col.-name {
+    width: 50%;
+  }
+  .RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-posted {
+    width: 25%;
+  }
+}

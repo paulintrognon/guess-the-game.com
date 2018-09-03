@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
+import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
+import Input from '../../../components/Form/Input/Input';
+import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
 import loginActions from '../../../actions/loginActions';
 
@@ -18,7 +20,7 @@ class ForgotPasswordPage extends React.Component {
     this.token = props.match.params.token;
   }
 
-  passwordChangeHandler = event => {
+  handlePasswordChange = event => {
     const password = event.target.value;
     let error = null;
     if (!password) {
@@ -27,7 +29,7 @@ class ForgotPasswordPage extends React.Component {
     this.setState({ password, error });
   };
 
-  passwordConfirmationChangeHandler = event => {
+  handlePasswordConfirmationChange = event => {
     let error = null;
     const { password } = this.state;
     const passwordConfirmation = event.target.value;
@@ -69,49 +71,35 @@ class ForgotPasswordPage extends React.Component {
     const valid = password && passwordConfirmation && !error;
     return (
       <form className="ForgotPasswordPage__form" onSubmit={this.submitHandler}>
-        <div className="field">
-          <label className="label" htmlFor="password">
-            Type your new password
-            <input
-              id="password"
-              type="password"
-              className="input"
-              placeholder="New password"
-              value={password}
-              onChange={this.passwordChangeHandler}
-            />
-          </label>
-        </div>
-        <div className="field">
-          <label className="label" htmlFor="passwordConfirmation">
-            Confirm your new password
-            <input
-              id="passwordConfirmation"
-              type="password"
-              className="input"
-              placeholder="Password confirmation"
-              value={passwordConfirmation}
-              onChange={this.passwordConfirmationChangeHandler}
-            />
-          </label>
-        </div>
+        <Input
+          label="Type your new password"
+          id="password"
+          type="password"
+          className="input"
+          placeholder="New password"
+          value={password}
+          onChange={this.handlePasswordChange}
+        />
+        <Input
+          label="Confirm new password"
+          id="passwordConfirmation"
+          type="password"
+          className="input"
+          placeholder="Password confirmation"
+          value={passwordConfirmation}
+          onChange={this.handlePasswordConfirmationChange}
+        />
+
         {error && <p className="notification is-danger">{error}</p>}
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              type="submit"
-              className={`button is-link ${submitting ? 'is-loading' : ''}`}
-              disabled={!valid}
-            >
-              Submit
-            </button>
-          </div>
-          <div className="control">
-            <Link to="/login" className="button is-text">
-              Login instead
-            </Link>
-          </div>
-        </div>
+
+        <Button
+          color="dark"
+          loading={submitting}
+          disabled={!valid}
+          type="submit"
+        >
+          Set new password
+        </Button>
       </form>
     );
   }
@@ -128,12 +116,12 @@ class ForgotPasswordPage extends React.Component {
   render() {
     const { submitted } = this.state;
     return (
-      <SmallContainer>
-        <section className="ForgotPasswordPage">
-          <h2 className="title is-5">New password form</h2>
+      <section className="ForgotPasswordPage">
+        <LoginPagesSwitcher />
+        <SmallContainer title="New password form">
           {submitted ? this.renderSubmitted() : this.renderForm()}
-        </section>
-      </SmallContainer>
+        </SmallContainer>
+      </section>
     );
   }
 }

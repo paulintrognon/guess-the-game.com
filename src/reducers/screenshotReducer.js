@@ -9,6 +9,7 @@ const initialState = {
   isOwn: false,
   solvedAt: null,
   createdAt: null,
+  stats: {},
   isGuessing: false,
   isProposalRight: false,
   isProposalWrong: false,
@@ -22,12 +23,6 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       isLoading: true,
-    };
-  }
-
-  if (type === 'SCREENSHOT_TRY_ANOTHER') {
-    return {
-      ...state,
       isTryAnotherButtonClicked: true,
     };
   }
@@ -38,17 +33,26 @@ export default function reducer(state = initialState, action) {
       isLoading: false,
       id: payload.id,
       name: payload.name,
-      username: payload.createdBy.username,
+      postedBy: payload.postedBy,
       year: payload.year,
       url: payload.imageUrl,
       isSolved: payload.isSolved,
       isOwn: payload.isOwn,
+      stats: payload.stats,
       solvedAt: new Date(payload.solvedAt),
       createdAt: new Date(payload.createdAt),
       isTryAnotherButtonClicked: false,
       isGuessing: false,
       isProposalWrong: false,
       isProposalRight: false,
+    };
+  }
+
+  if (type === 'SCREENSHOT_PROPOSAL_RESET') {
+    return {
+      ...state,
+      isProposalRight: false,
+      isProposalWrong: false,
     };
   }
 

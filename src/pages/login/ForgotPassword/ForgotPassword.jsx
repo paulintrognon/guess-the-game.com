@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
+import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
+import Input from '../../../components/Form/Input/Input';
+import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
 
 class ForgotPasswordPage extends React.Component {
@@ -16,7 +18,7 @@ class ForgotPasswordPage extends React.Component {
     };
   }
 
-  emailChangeHandler = event => {
+  handleEmailChange = event => {
     const valid = event.target.value.trim().match(/.+@.+/);
     this.setState({ email: event.target.value, valid });
   };
@@ -46,36 +48,26 @@ class ForgotPasswordPage extends React.Component {
     const { email, submitting, valid, error } = this.state;
     return (
       <form className="ForgotPasswordPage__form" onSubmit={this.submitHandler}>
-        <div className="field">
-          <label className="label" htmlFor="username">
-            No worries, we&apos;ll send you a link to re-create your password
-            <input
-              id="username"
-              type="email"
-              className="input"
-              placeholder="Ex: careless_n00b@gmail.com"
-              value={email}
-              onChange={this.emailChangeHandler}
-            />
-          </label>
-        </div>
-        {error && <p className="notification is-danger">{error}</p>}
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              type="submit"
-              className={`button is-link ${submitting ? 'is-loading' : ''}`}
-              disabled={!valid}
-            >
-              Submit
-            </button>
-          </div>
-          <div className="control">
-            <Link to="/login" className="button is-text">
-              Login instead
-            </Link>
-          </div>
-        </div>
+        <Input
+          id="username"
+          label="No worries, we'll send you a link to re-create your password"
+          type="email"
+          className="input"
+          placeholder="Ex: careless_n00b@gmail.com"
+          value={email}
+          onChange={this.handleEmailChange}
+        />
+
+        {error && <p>{error}</p>}
+
+        <Button
+          color="dark"
+          loading={submitting}
+          disabled={!valid}
+          type="submit"
+        >
+          Send email
+        </Button>
       </form>
     );
   }
@@ -92,12 +84,12 @@ class ForgotPasswordPage extends React.Component {
   render() {
     const { submitted } = this.state;
     return (
-      <SmallContainer>
-        <section className="ForgotPasswordPage">
-          <h2 className="title is-5">So you forgot your password...</h2>
+      <section className="ForgotPasswordPage">
+        <LoginPagesSwitcher />
+        <SmallContainer title="So you forgot your password...">
           {submitted ? this.renderSubmitted() : this.renderForm()}
-        </section>
-      </SmallContainer>
+        </SmallContainer>
+      </section>
     );
   }
 }

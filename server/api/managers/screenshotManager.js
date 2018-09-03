@@ -5,6 +5,7 @@ const db = require('../../db/db');
 module.exports = {
   create,
   getFromId,
+  getLastPosted,
   getUnsolved,
   testProposal,
   markScreenshotAsResolved,
@@ -50,8 +51,12 @@ async function getFromId(screenshotId, userId) {
       where: { UserId: userId },
     });
   }
-  const res = await db.Screenshot.findById(screenshotId, { include });
+  const [res, stats] = await Promise.all([
+    db.Screenshot.findById(screenshotId, { include }),
+    getScreenshotStats(screenshotId),
+  ]);
   return {
+    stats,
     id: res.id,
     name: res.gameCanonicalName,
     year: res.year,
@@ -60,6 +65,49 @@ async function getFromId(screenshotId, userId) {
     user: res.User,
     screenshotFounds: res.ScreenshotFounds,
   };
+}
+
+async function getLastPosted() {
+  const screenshot = await db.Screenshot.findOne({
+    attributes: ['id'],
+    limit: 1,
+    order: [['createdAt', 'DESC']],
+  });
+  return screenshot.id;
+}
+
+async function getScreenshotStats(screenshotId) {
+  const [foundsCount, firstSolvedBy] = await Promise.all([
+    countFounds(screenshotId),
+    getFirstSolvedBy(screenshotId),
+  ]);
+  return {
+    foundsCount,
+    firstSolvedBy,
+  };
+}
+
+async function countFounds(screenshotId) {
+  return db.ScreenshotFound.count({
+    where: { ScreenshotId: screenshotId },
+  });
+}
+
+async function getFirstSolvedBy(screenshotId) {
+  const screenshotFound = await db.ScreenshotFound.findOne({
+    attributes: [],
+    where: { ScreenshotId: screenshotId },
+    limit: 1,
+    order: [['createdAt', 'ASC']],
+    include: {
+      attributes: ['username'],
+      model: db.User,
+    },
+  });
+  if (!screenshotFound) {
+    return null;
+  }
+  return screenshotFound.User.username || 'John Doe';
 }
 
 async function getUnsolved({ userId, exclude }) {
