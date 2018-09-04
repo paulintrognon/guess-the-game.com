@@ -1,3 +1,9 @@
+## v2.2.0
+
+- User can delete his screenshots
+- Fix screenshot page when screenshot does not exist
+- Fix user password field on login page
+
 ## v2.1.0
 
 - Add seo meta title & description
