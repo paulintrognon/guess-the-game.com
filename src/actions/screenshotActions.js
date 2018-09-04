@@ -7,6 +7,7 @@ export default {
   getUnsolvedScreenshot,
   tryProposal,
   resetGuess,
+  removeOwnScreenshot,
 };
 
 function addScreenshotAction(screenshot) {
@@ -59,4 +60,14 @@ function tryProposal(screenshotId, proposition) {
 
 function resetGuess() {
   return { type: 'SCREENSHOT_PROPOSAL_RESET' };
+}
+
+function removeOwnScreenshot(screenshotId) {
+  return dispatch => {
+    screenshotService.removeOwn(screenshotId).then(res => {
+      if (!res.error) {
+        dispatch(push('/'));
+      }
+    });
+  };
 }

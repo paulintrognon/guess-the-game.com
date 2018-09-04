@@ -86,6 +86,7 @@ class LoginPage extends React.Component {
         <Input
           id="password"
           label="Password"
+          type="password"
           placeholder="Type your password"
           value={password}
           onChange={this.handlePasswordChange}
