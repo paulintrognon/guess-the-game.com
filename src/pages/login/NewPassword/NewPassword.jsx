@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
 import Input from '../../../components/Form/Input/Input';
@@ -117,6 +118,7 @@ class ForgotPasswordPage extends React.Component {
     const { submitted } = this.state;
     return (
       <section className="ForgotPasswordPage">
+        <Helmet title="Create your new password" />
         <LoginPagesSwitcher />
         <SmallContainer title="New password form">
           {submitted ? this.renderSubmitted() : this.renderForm()}

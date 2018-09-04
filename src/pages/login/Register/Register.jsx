@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import _ from 'lodash';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
@@ -252,6 +253,7 @@ class RegisterPage extends React.Component {
 
     return (
       <section className="RegisterPage">
+        <Helmet title="Register" />
         <LoginPagesSwitcher />
         <SmallContainer title="Register">
           {!user.username && this.renderForm()}

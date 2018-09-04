@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
@@ -111,6 +112,7 @@ class LoginPage extends React.Component {
 
     return (
       <section className="LoginPage">
+        <Helmet title="Login" />
         <LoginPageSwitcher />
         <SmallContainer title="Login">
           {!user.username && this.renderForm()}

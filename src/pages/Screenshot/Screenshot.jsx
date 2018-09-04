@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import screenshotActions from '../../actions/screenshotActions';
 import Loading from '../../components/Loading/Loading';
 import './screenshot.css';
@@ -261,6 +262,7 @@ class ScreenshotPage extends React.Component {
 
   render = () => (
     <section className="section">
+      <Helmet title={`Shot #${this.props.screenshot.id}`} />
       <div className="container">
         <div className="ScreenshotPage">{this.renderScreenshotBox()}</div>
       </div>
