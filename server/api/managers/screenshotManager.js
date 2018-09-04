@@ -7,6 +7,7 @@ module.exports = {
   getFromId,
   getLastPosted,
   getUnsolved,
+  deleteUserScreenshot,
   testProposal,
   markScreenshotAsResolved,
 };
@@ -55,6 +56,9 @@ async function getFromId(screenshotId, userId) {
     db.Screenshot.findById(screenshotId, { include }),
     getScreenshotStats(screenshotId),
   ]);
+  if (!res) {
+    return null;
+  }
   return {
     stats,
     id: res.id,
@@ -141,6 +145,20 @@ async function getUnsolved({ userId, exclude }) {
     { model: db.Screenshot }
   );
   return screenshots[0];
+}
+
+async function deleteUserScreenshot({ userId, screenshotId }) {
+  const screenshot = await db.Screenshot.findOne({
+    attributes: ['id'],
+    where: {
+      id: screenshotId,
+      UserId: userId,
+    },
+  });
+  if (!screenshot) {
+    return null;
+  }
+  return screenshot.destroy();
 }
 
 async function testProposal(screenshotId, proposal) {

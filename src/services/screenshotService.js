@@ -7,6 +7,7 @@ export default {
   getLast,
   getUnsolved,
   guess,
+  removeOwn,
 };
 
 function uploadImage(file, onUploadProgress) {
@@ -37,5 +38,11 @@ function guess(screenshotId, proposal) {
   return api.post('/screenshot/guess', {
     screenshotId,
     proposal,
+  });
+}
+
+function removeOwn(screenshotId) {
+  return api.post('/screenshot/remove-own', {
+    screenshotId,
   });
 }
