@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { apiUrl } from 'config';
 import screenshotService from '../../services/screenshotService';
 import screenshotActions from '../../actions/screenshotActions';
+import Input from '../../components/Form/Input/Input';
+import Button from '../../components/Form/Button/Button';
 import SmallContainer from '../../components/SmallContainer/SmallContainer';
 import Loading from '../../components/Loading/Loading';
 import './addScreenshot.css';
@@ -102,11 +105,11 @@ class AddScreenshotPage extends React.Component {
     });
   };
 
-  changeNameHandler = event => {
+  handleNameChange = event => {
     this.setState({ name: event.target.value });
   };
 
-  changeYearHandler = event => {
+  handleChangeYear = event => {
     this.setState({ year: event.target.value });
   };
 
@@ -122,7 +125,7 @@ class AddScreenshotPage extends React.Component {
     });
   };
 
-  addAlternativeNameHandler = () => {
+  handleAddAlternativeName = () => {
     this.setState(prevState => {
       const alternativeNames = [...prevState.alternativeNames];
       alternativeNames.push('');
@@ -161,99 +164,91 @@ class AddScreenshotPage extends React.Component {
   render() {
     const valid = this.state.uploadedImageName && this.state.name.trim();
     return (
-      <SmallContainer>
-        <form className="AddScreenshot" onSubmit={this.submitHandler}>
-          <h2 className="title is-5">Add new screenshot</h2>
-          <div
-            className="field"
-            onDrop={this.dropFileHandler}
-            onDragOver={this.dragOverHandler}
-            onDragLeave={this.dragLeaveHandler}
-          >
-            <p className="AddScreenshot__dropzoneLabel label">Screenshot</p>
+      <section className="AddScreenshotPage">
+        <Helmet title="Add Screenshot" />
+        <SmallContainer title="Add Screenshot">
+          <form onSubmit={this.submitHandler}>
             <div
-              className={`AddScreenshot__dropzone ${
-                this.state.isFileHover ? '-hover' : ''
-              } ${
-                !this.state.isFileUploading && this.state.uploadedImageUrl
-                  ? '-preview'
-                  : ''
-              }`}
-              style={{
-                backgroundImage:
-                  !this.state.isFileUploading &&
-                  `url(${this.state.uploadedImageUrl})`,
-              }}
+              className="field"
+              onDrop={this.dropFileHandler}
+              onDragOver={this.dragOverHandler}
+              onDragLeave={this.dragLeaveHandler}
             >
-              <div>
-                {this.state.isFileUploading ? (
-                  <div>
-                    <div className="AddScreenshot__dropzone__loading">
-                      <Loading />
+              <p className="AddScreenshotPage_form_screenshot_label">
+                Screenshot
+              </p>
+              <div
+                className={`AddScreenshotPage_form_screenshot_dropzone ${
+                  this.state.isFileHover ? '-hover' : ''
+                } ${
+                  !this.state.isFileUploading && this.state.uploadedImageUrl
+                    ? '-preview'
+                    : ''
+                }`}
+                style={{
+                  backgroundImage:
+                    !this.state.isFileUploading &&
+                    `url(${this.state.uploadedImageUrl})`,
+                }}
+              >
+                <div>
+                  {this.state.isFileUploading ? (
+                    <div>
+                      <div className="AddScreenshotPage_form_screenshot_loading">
+                        <Loading />
+                      </div>
+                      <p>Uploading, please wait...</p>
                     </div>
-                    <p>Uploading, please wait...</p>
-                  </div>
-                ) : null}
-                {!this.state.file ? (
-                  <div>
-                    Drag the screenshot, or<br />
-                    <div className="file">
-                      <label
-                        className="file-label"
-                        htmlFor="uploadScreenshotImageButton"
-                      >
-                        <input
-                          id="uploadScreenshotImageButton"
-                          className="file-input"
-                          type="file"
-                          ref={this.screenshotImageUploadInput}
-                          onChange={this.changeFileFromButtonHandler}
-                        />
-                        <span className="file-cta">
-                          <span className="file-icon">
-                            <i className="fas fa-upload" />
-                          </span>
-                          <span className="file-label">choose a file…</span>
-                        </span>
-                      </label>
+                  ) : null}
+                  {!this.state.file ? (
+                    <div>
+                      <p className="AddScreenshotPage_form_screenshot_dropzone_dropText">
+                        Drag the screenshot, or
+                      </p>
+                      <div>
+                        <label htmlFor="uploadScreenshotImageButton">
+                          <input
+                            id="uploadScreenshotImageButton"
+                            type="file"
+                            ref={this.screenshotImageUploadInput}
+                            onChange={this.changeFileFromButtonHandler}
+                          />
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                ) : null}
+                  ) : null}
+                </div>
               </div>
+              {this.state.uploadedImageUrl && (
+                <p className="AddScreenshotPage_form_screenshot_name_container">
+                  <span className="AddScreenshotPage_form_screenshot_name">
+                    {this.state.file.name}
+                    <button
+                      className="AddScreenshotPage_form_screenshot_name_reset"
+                      type="button"
+                      onClick={this.resetFileHandler}
+                    >
+                      ✖
+                    </button>
+                  </span>
+                </p>
+              )}
             </div>
-            {this.state.uploadedImageUrl && (
-              <p className="AddScreenshot__dropzone__reset">
-                <span className="tag is-success">
-                  {this.state.file.name}
-                  <button
-                    type="button"
-                    className="delete is-small"
-                    onClick={this.resetFileHandler}
-                  />
-                </span>
+            {this.state.fileError && (
+              <p className="AddScreenshotPage_form_error">
+                {this.state.fileError}
               </p>
             )}
-          </div>
-          {this.state.fileError && (
-            <p className="notification is-danger">{this.state.fileError}</p>
-          )}
-          <div className="field">
-            <label className="label" htmlFor="name">
-              Full name of the game
-              <input
-                id="name"
-                type="text"
-                className="input"
-                placeholder="Ex: Grand Theft Auto V"
-                onChange={this.changeNameHandler}
-                value={this.state.name}
-              />
-            </label>
-          </div>
-          <div className="field AddScreenshot__alternativeNames">
-            <div className="label">
+            <Input
+              id="name"
+              label="Full name of the game"
+              placeholder="Ex: Grand Theft Auto V"
+              value={this.state.name}
+              onChange={this.handleNameChange}
+            />
+            <div className="AddScreenshotPage_form_alternativeNames">
               <p>Alternative names</p>
-              <p className="additionnal-info">
+              <p className="AddScreenshotPage_form_alternativeNames_extra">
                 The players will find the game by typing the full name or any of
                 the alternatives.
               </p>
@@ -261,7 +256,7 @@ class AddScreenshotPage extends React.Component {
                 <input
                   key={`alternativeName-${i}`}
                   type="text"
-                  className="input"
+                  className="AddScreenshotPage_form_alternativeNames_input"
                   placeholder={getAlternativeNameExample(i)}
                   onChange={this.onAlternativeNameChange(i)}
                   value={this.state.alternativeNames[i]}
@@ -269,49 +264,36 @@ class AddScreenshotPage extends React.Component {
               ))}
               <button
                 type="button"
-                onClick={this.addAlternativeNameHandler}
-                className="button"
+                onClick={this.handleAddAlternativeName}
+                className="AddScreenshotPage_form_alternativeNames_add"
               >
-                <span className="icon">
-                  <i className="fas fa-plus" />
-                </span>
-                <span>Add an alternative</span>
+                <b>+</b> Add an alternative
               </button>
             </div>
-          </div>
-          <div className="field">
-            <label className="label" htmlFor="year">
-              Year when it came out
-              <input
-                id="year"
-                type="number"
-                className="input"
-                placeholder="Ex: 2017"
-                onChange={this.changeYearHandler}
-                value={this.state.year}
-                min={1900}
-                max={2100}
-              />
-            </label>
-          </div>
-          <div className="field">
-            <div className="control">
-              <button
-                type="submit"
-                className={`button is-link ${
-                  this.state.submitting ? 'is-loading' : ''
-                }`}
-                disabled={!valid || this.state.submitting}
-              >
-                Submit the screenshot
-              </button>
-            </div>
-          </div>
-          {this.state.error && (
-            <p className="notification is-danger">{this.state.error}</p>
-          )}
-        </form>
-      </SmallContainer>
+            <Input
+              id="year"
+              label="Year when it came out"
+              placeholder="Ex: 2017"
+              value={this.state.year}
+              onChange={this.handleChangeYear}
+              type="number"
+              min={1900}
+              max={2100}
+            />
+            {this.state.error && (
+              <p className="AddScreenshotPage_form_error">{this.state.error}</p>
+            )}
+            <Button
+              loading={this.state.submitting}
+              disabled={!valid}
+              color="dark"
+              type="submit"
+            >
+              Submit the screenshot
+            </Button>
+          </form>
+        </SmallContainer>
+      </section>
     );
   }
 }
