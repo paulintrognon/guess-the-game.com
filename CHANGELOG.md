@@ -1,3 +1,7 @@
+### v2.2.1
+
+- Fix add screenshot page design
+
 ## v2.2.0
 
 - User can delete his screenshots
