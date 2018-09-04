@@ -1,10 +1,10 @@
-.AddScreenshot__dropzoneLabel {
-  margin-bottom: 0 !important;
+.AddScreenshotPage_form_screenshot_label {
+  margin-bottom: 5px;
 }
 
-.AddScreenshot__dropzone {
+.AddScreenshotPage_form_screenshot_dropzone {
   height: 130px;
-  border: 1px dashed darkblue;
+  border: 1px dashed #47525e;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -16,39 +16,70 @@
   box-sizing: border-box;
 }
 
-.AddScreenshot__dropzone.-hover {
+.AddScreenshotPage_form_screenshot_dropzone.-hover {
   border-style: solid;
   background-color: #EEE;
 }
 
-.AddScreenshot__dropzone.-preview {
+.AddScreenshotPage_form_screenshot_dropzone.-preview {
   height: 0px;
   padding-bottom: 56.25%;
 }
 
-.AddScreenshot__dropzone__loading {
+.AddScreenshotPage_form_screenshot_dropzone_dropText {
+  margin-bottom: 0.5em;
+}
+
+.AddScreenshotPage_form_screenshot_loading {
   height: 50px;
   text-align: center;
 }
 
-.AddScreenshot__dropzone__reset {
+.AddScreenshotPage_form_screenshot_name_container {
   text-align: center;
   margin-top: 0.5em;
   margin-bottom: 1em;
 }
 
-.AddScreenshot__previewTitle {
-  font-size: 1.2em;
-  margin: 1em 0 0;
+.AddScreenshotPage_form_screenshot_name {
+  background-color: #fd464c;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+.AddScreenshotPage_form_screenshot_name_reset {
+  margin-left: 5px;
+  position: relative;
+  top: 1px;
 }
 
-.AddScreenshot__preview {
-  background-size: contain;
-  background-position: center;
-  padding-bottom: 56.25%;
-  background-repeat: no-repeat;
+.AddScreenshotPage_form_alternativeNames_extra {
+  color: #888890;
+  font-size: 13px;
 }
 
-.AddScreenshot__alternativeNames input {
-  margin-bottom: 0.4em;
+.AddScreenshotPage_form_alternativeNames {
+  margin: 1em 0;
+}
+.AddScreenshotPage_form_alternativeNames_input {
+  display: block;
+  width: 100%;
+  margin: 5px 0;
+  border: 1px solid #8492A6;
+  border-radius: 0;
+  height: 30px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.AddScreenshotPage_form_alternativeNames_add {
+  border: 1px solid #8492A6;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.AddScreenshotPage_form_error {
+  color: #fd464c;
+  font-weight: bold;
+  text-align: center;
 }
