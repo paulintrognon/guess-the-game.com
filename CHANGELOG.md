@@ -1,3 +1,8 @@
+## v2.1.0
+
+- Add seo meta title & description
+- Update pwa assets
+
 ### v2.0.1
 
 - Fix homepage "uploaded by"
