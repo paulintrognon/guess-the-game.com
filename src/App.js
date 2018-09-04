@@ -2,6 +2,7 @@ import React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch, Route } from 'react-router';
 import { Provider } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import store from './store';
 import history from './history';
 
@@ -23,6 +24,17 @@ export default () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Layout>
+        <Helmet
+          defaultTitle="Guess The Game!"
+          titleTemplate="%s - Guess The Game!"
+        >
+          <link rel="canonical" href="https://guess-the-game.com/" />
+          <meta charSet="utf-8" />
+          <meta
+            name="description"
+            content="Guess games from screenshots, post your own screenshots, and show off your gaming knowledge!"
+          />
+        </Helmet>
         <Switch>
           <Route path="/" exact component={Homepage} />
           <Route path="/shot/:id" exact component={ScreenshotPage} />

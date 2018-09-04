@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import Loading from '../../components/Loading/Loading';
 import userService from '../../services/userService';
 import './Ranking.css';
@@ -56,7 +57,17 @@ class Homepage extends React.Component {
   }
 
   render() {
-    return <section className="RankingPage">{this.renderScores()}</section>;
+    return (
+      <section className="RankingPage">
+        <Helmet title="Ranking">
+          <meta
+            name="description"
+            content="Ranking of all players. View the best gamers who solved the most screenshots!"
+          />
+        </Helmet>
+        {this.renderScores()}
+      </section>
+    );
   }
 }
 export default connect(mapStoreToProps)(Homepage);
