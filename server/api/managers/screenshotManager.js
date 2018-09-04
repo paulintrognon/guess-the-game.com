@@ -56,6 +56,9 @@ async function getFromId(screenshotId, userId) {
     db.Screenshot.findById(screenshotId, { include }),
     getScreenshotStats(screenshotId),
   ]);
+  if (!res) {
+    return null;
+  }
   return {
     stats,
     id: res.id,

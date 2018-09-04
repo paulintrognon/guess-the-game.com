@@ -14,6 +14,7 @@ function mapStoreToProps(store) {
     isLoading: store.screenshot.isLoading,
     isProposalRight: store.screenshot.isProposalRight,
     isProposalWrong: store.screenshot.isProposalWrong,
+    error: store.screenshot.error,
   };
 }
 class ScreenshotPage extends React.Component {
@@ -37,7 +38,10 @@ class ScreenshotPage extends React.Component {
     if (this.props.isLoading) {
       return;
     }
-    if (Number(this.props.match.params.id) !== this.props.screenshot.id) {
+    if (
+      !this.props.error &&
+      Number(this.props.match.params.id) !== this.props.screenshot.id
+    ) {
       this.props.dispatch(
         screenshotActions.loadScreenshot(this.props.match.params.id)
       );
@@ -154,7 +158,14 @@ class ScreenshotPage extends React.Component {
   };
 
   renderHeader = () => {
-    const { screenshot, isProposalRight } = this.props;
+    const { screenshot, isProposalRight, error } = this.props;
+    if (error) {
+      return (
+        <div className="ScreenshotPage_header">
+          <p className="ScreenshotPage_header_error">{error}</p>
+        </div>
+      );
+    }
     return (
       <div className="ScreenshotPage_header">
         <div className="ScreenshotPage_header_left">
@@ -199,6 +210,7 @@ class ScreenshotPage extends React.Component {
       isProposalRight,
       isProposalWrong,
       isGuessing,
+      error,
     } = this.props;
     return (
       <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
@@ -216,7 +228,7 @@ class ScreenshotPage extends React.Component {
               {screenshot.createdAt.toDateString()}
             </p>
           ) : null}
-          {!screenshot.isSolved && !screenshot.isOwn ? (
+          {!error && !screenshot.isSolved && !screenshot.isOwn ? (
             <div
               className={`ScreenshotPage_form_input 
             ${isGuessing ? '-guessing' : ''}

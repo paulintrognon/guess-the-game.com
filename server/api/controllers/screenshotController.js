@@ -20,6 +20,14 @@ module.exports = {
 async function getfromId(req) {
   const res = await screenshotManager.getFromId(req.body.id, req.user.id);
 
+  if (!res) {
+    return bluebird.reject({
+      status: 404,
+      code: 'SCREENSHOT_NOT_FOUND',
+      message: 'No screenshot for that ID.',
+    });
+  }
+
   const screenshot = {
     isSolved: false,
     isOwn: req.user.id === res.user.id,

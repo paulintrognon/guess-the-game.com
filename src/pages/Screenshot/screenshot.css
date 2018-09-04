@@ -52,6 +52,13 @@
   cursor: pointer;
 }
 
+.ScreenshotPage_header_error {
+  color: #fd464c;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
 .ScreenshotPage_screenshot {
   max-width: 1024px;
   margin: auto;

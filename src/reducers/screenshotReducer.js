@@ -14,6 +14,7 @@ const initialState = {
   isProposalRight: false,
   isProposalWrong: false,
   isTryAnotherButtonClicked: false,
+  error: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -28,8 +29,25 @@ export default function reducer(state = initialState, action) {
   }
 
   if (type === 'SCREENSHOT_LOAD') {
+    if (payload.error) {
+      if (payload.message) {
+        return {
+          ...state,
+          error: payload.message,
+          isLoading: false,
+          isTryAnotherButtonClicked: false,
+        };
+      }
+      return {
+        ...state,
+        error: true,
+        isLoading: false,
+        isTryAnotherButtonClicked: false,
+      };
+    }
     return {
       ...state,
+      errorMessage: null,
       isLoading: false,
       id: payload.id,
       name: payload.name,
