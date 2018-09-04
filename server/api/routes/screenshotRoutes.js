@@ -25,4 +25,8 @@ router.post('/guess', (req, res, next) =>
   next(screenshotController.tryProposal(req))
 );
 
+router.post('/remove-own', (req, res, next) =>
+  next(screenshotController.removeOwnScreenshot(req))
+);
+
 module.exports = router;

@@ -65,7 +65,7 @@ class ScreenshotPage extends React.Component {
     );
   };
 
-  tryAnotherHandler = () => {
+  handleTryAnother = () => {
     this.setState({ proposal: '' });
     this.props.dispatch(
       screenshotActions.getUnsolvedScreenshot(this.props.match.params.id)
@@ -97,10 +97,18 @@ class ScreenshotPage extends React.Component {
     const currentTouch = event.changedTouches[0];
     const diff = currentTouch.pageX - this.firstTouch.pageX;
     if (diff < -50) {
-      this.tryAnotherHandler();
+      this.handleTryAnother();
     } else if (diff > 50) {
       this.props.history.goBack();
     }
+  };
+
+  handleRemoveOwn = () => {
+    if (!window.confirm('Are you sure to remove this screenshot?')) {
+      return;
+    }
+    const { screenshot } = this.props;
+    this.props.dispatch(screenshotActions.removeOwnScreenshot(screenshot.id));
   };
 
   renderScreenshotBox = () => {
@@ -158,7 +166,15 @@ class ScreenshotPage extends React.Component {
             Shot #{screenshot.id}
           </h2>
           <h3 className="column ScreenshotPage_header_uploadedBy">
-            By <b>{screenshot.isOwn ? 'you!' : screenshot.postedBy}</b>
+            By <b>{screenshot.isOwn ? 'you! — ' : screenshot.postedBy}</b>
+            {screenshot.isOwn ? (
+              <buton
+                className="ScreenshotPage_header_removeScreenshotLink"
+                onClick={this.handleRemoveOwn}
+              >
+                ✖ Remove this shot
+              </buton>
+            ) : null}
           </h3>
         </div>
         <div className="ScreenshotPage_header_right">
@@ -239,7 +255,7 @@ class ScreenshotPage extends React.Component {
               this.props.isTryAnotherButtonClicked ? '-isLoading' : ''
             }`}
             disabled={this.props.isTryAnotherButtonClicked}
-            onClick={this.tryAnotherHandler}
+            onClick={this.handleTryAnother}
           >
             Try another
             <span className="ScreenshotPage_form_next_icon">

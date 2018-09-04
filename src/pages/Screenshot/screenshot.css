@@ -41,6 +41,17 @@
   color: #87878F;
 }
 
+.ScreenshotPage_header_removeScreenshotLink {
+  color: #fd464c;
+  font-weight: bold;
+  border-bottom: 1px solid #fff;
+  transition: border-bottom 200ms;
+}
+.ScreenshotPage_header_removeScreenshotLink:hover {
+  border-bottom: 1px solid #fd464c;
+  cursor: pointer;
+}
+
 .ScreenshotPage_screenshot {
   max-width: 1024px;
   margin: auto;

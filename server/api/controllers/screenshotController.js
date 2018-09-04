@@ -11,6 +11,7 @@ module.exports = {
   getfromId,
   getUnsolvedScreenshot,
   getLastPostedScreenshot,
+  removeOwnScreenshot,
   tryProposal,
   uploadScreenshot,
   addScreenshot,
@@ -70,6 +71,30 @@ async function getUnsolvedScreenshot(req) {
 async function getLastPostedScreenshot(req) {
   const screenshotId = await screenshotManager.getLastPosted();
   return getfromId({ ...req, body: { ...req.body, id: screenshotId } });
+}
+
+async function removeOwnScreenshot(req) {
+  if (!req.user) {
+    return bluebird.reject({
+      status: 400,
+      code: 'MUST_BE_IDENTIFIED',
+      message:
+        'User must be identified in order to delete his own screenshots.',
+    });
+  }
+  const result = await screenshotManager.deleteUserScreenshot({
+    userId: req.user.id,
+    screenshotId: req.body.screenshotId,
+  });
+  if (result === null) {
+    return bluebird.reject({
+      status: 404,
+      code: 'SCREENSHOT_TO_DELETE_NOT_FOUND',
+      message:
+        'The screenshot to delete has not been found. Maybe the user has not posted that screenshot?',
+    });
+  }
+  return { deleted: Boolean(result) };
 }
 
 async function tryProposal(req) {
