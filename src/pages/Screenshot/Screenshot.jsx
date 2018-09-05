@@ -183,7 +183,11 @@ class ScreenshotPage extends React.Component {
                 className="ScreenshotPage_header_removeScreenshotLink"
                 onClick={this.handleRemoveOwn}
               >
-                ✖ Remove this shot
+                ✖ Remove
+                <span className="ScreenshotPage_header_removeScreenshotLink_hideMobile">
+                  {' '}
+                  this shot
+                </span>
               </buton>
             ) : null}
           </h3>
