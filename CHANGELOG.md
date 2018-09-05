@@ -1,3 +1,8 @@
+### v2.2.2
+
+- Fix "add screenshot" header selected link
+- Fix "remove screenshot" link on small devices
+
 ### v2.2.1
 
 - Fix add screenshot page design

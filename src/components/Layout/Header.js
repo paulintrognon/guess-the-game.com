@@ -49,7 +49,12 @@ class Header extends React.Component {
                 Ranking
               </Link>
               {user.username && (
-                <Link to="/add-screenshot" className="Header_nav_link">
+                <Link
+                  to="/add-screenshot"
+                  className={`Header_nav_link ${
+                    isPathActive('/add-screenshot') ? '-active' : ''
+                  }`}
+                >
                   Add&nbsp;<span className="-hideSmartphone">screenshot</span>
                 </Link>
               )}

@@ -51,6 +51,11 @@
   border-bottom: 1px solid #fd464c;
   cursor: pointer;
 }
+@media (max-width: 480px) {
+  .ScreenshotPage_header_removeScreenshotLink_hideMobile {
+    display: none;
+  }
+}
 
 .ScreenshotPage_header_error {
   color: #fd464c;
