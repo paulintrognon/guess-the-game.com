@@ -193,15 +193,24 @@ async function testProposal(screenshotId, proposal) {
 }
 
 async function markScreenshotAsResolved({ screenshotId, userId }) {
-  const [user, screenshot] = await Promise.all([
+  const [user, screenshot, alreadyFound] = await Promise.all([
     db.User.findById(userId),
     db.Screenshot.findById(screenshotId),
+    db.ScreenshotFound.findOne({
+      where: {
+        ScreenshotId: screenshotId,
+        UserId: userId,
+      },
+    }),
   ]);
   if (!user) {
     throw new Error('User not found');
   }
   if (!screenshot) {
     throw new Error('Screenshot not found');
+  }
+  if (alreadyFound) {
+    throw new Error('User has already found this screenshot');
   }
   const screenshotFound = await db.ScreenshotFound.create();
 
