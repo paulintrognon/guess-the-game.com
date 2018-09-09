@@ -1,3 +1,8 @@
+### v2.2.3
+
+- Fix user could solved several times the same screenshot
+- Show screenshot's name when solving on small screens
+
 ### v2.2.2
 
 - Fix "add screenshot" header selected link
