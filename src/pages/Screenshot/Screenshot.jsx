@@ -22,7 +22,6 @@ class ScreenshotPage extends React.Component {
     super(props);
     this.state = {
       proposal: '',
-      screenshotOffset: 0,
     };
     this.guessInputRef = React.createRef();
     this.touch = null;
@@ -76,37 +75,6 @@ class ScreenshotPage extends React.Component {
     );
   };
 
-  handleTouchStart = event => {
-    event.preventDefault();
-    [this.firstTouch] = event.changedTouches;
-  };
-
-  handleTouchMove = event => {
-    event.preventDefault();
-    const currentTouch = event.changedTouches[0];
-    const diff = currentTouch.pageX - this.firstTouch.pageX;
-    this.setState({
-      screenshotOffset: diff / 8,
-    });
-  };
-
-  handleTouchEnd = event => {
-    event.preventDefault();
-    this.setState({
-      screenshotOffset: 0,
-    });
-    if (this.props.isTryAnotherButtonClicked) {
-      return;
-    }
-    const currentTouch = event.changedTouches[0];
-    const diff = currentTouch.pageX - this.firstTouch.pageX;
-    if (diff < -50) {
-      this.handleTryAnother();
-    } else if (diff > 50) {
-      this.props.history.goBack();
-    }
-  };
-
   handleRemoveOwn = () => {
     if (!window.confirm('Are you sure to remove this screenshot?')) {
       return;
@@ -136,11 +104,7 @@ class ScreenshotPage extends React.Component {
             className="ScreenshotPage_screenshot_image"
             style={{
               backgroundImage: isLoading ? '' : `url(${screenshot.url})`,
-              left: `${this.state.screenshotOffset}%`,
             }}
-            onTouchStart={this.handleTouchStart}
-            onTouchMove={this.handleTouchMove}
-            onTouchEnd={this.handleTouchEnd}
           />
           <div className="ScreenshotPage_screenshot_success_banner">
             <p className="ScreenshotPage_screenshot_success_banner_text">
