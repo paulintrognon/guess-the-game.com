@@ -98,8 +98,6 @@ class ScreenshotPage extends React.Component {
             screenshot.isSolved || isProposalRight ? '-success' : ''
           }`}
         >
-          <div className="ScreenshotPage_screenshot_under ScreenshotPage_screenshot_under_left" />
-          <div className="ScreenshotPage_screenshot_under ScreenshotPage_screenshot_under_right" />
           <div
             className="ScreenshotPage_screenshot_image"
             style={{
