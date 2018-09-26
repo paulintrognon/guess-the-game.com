@@ -1,3 +1,7 @@
+### v2.2.4
+
+- Remove swipe to change screenshot because of zoom bugs
+
 ### v2.2.3
 
 - Fix user could solved several times the same screenshot
