@@ -1,3 +1,8 @@
+### v2.2.5
+
+- Remove title from homepage
+- Tweak h1 / h2
+
 ### v2.2.4
 
 - Remove swipe to change screenshot because of zoom bugs
