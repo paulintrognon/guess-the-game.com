@@ -60,8 +60,9 @@ class Header extends React.Component {
               )}
             </nav>
             <div className="Header_nav_right">
-              {!user.username && renderLoginButtons()}
-              {user.username && renderAccountButtons(user.username)}
+              {user.username
+                ? renderAccountButtons(user.username)
+                : renderLoginButtons()}
             </div>
           </div>
         </div>
