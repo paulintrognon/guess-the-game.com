@@ -23,7 +23,6 @@ class Homepage extends React.Component {
   render() {
     return (
       <section className="Homepage">
-        <h1 className="Homepage_title">Welcome to Guess&nbsp;The&nbsp;Game</h1>
         <p className="Homepage_subtitle">
           Guess as many games as possible from screenshots posted by people
         </p>
