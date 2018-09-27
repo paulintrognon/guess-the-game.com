@@ -131,14 +131,14 @@ class ScreenshotPage extends React.Component {
     return (
       <div className="ScreenshotPage_header">
         <div className="ScreenshotPage_header_left">
-          <h2
+          <h1
             className={`ScreenshotPage_header_title ${
               screenshot.isSolved || isProposalRight ? '-isSolved' : ''
             }`}
           >
             Shot #{screenshot.id}
-          </h2>
-          <h3 className="column ScreenshotPage_header_uploadedBy">
+          </h1>
+          <div className="column ScreenshotPage_header_uploadedBy">
             By <b>{screenshot.isOwn ? 'you! — ' : screenshot.postedBy}</b>
             {screenshot.isOwn ? (
               <buton
@@ -152,7 +152,7 @@ class ScreenshotPage extends React.Component {
                 </span>
               </buton>
             ) : null}
-          </h3>
+          </div>
         </div>
         <div className="ScreenshotPage_header_right">
           {screenshot.stats.foundsCount ? (

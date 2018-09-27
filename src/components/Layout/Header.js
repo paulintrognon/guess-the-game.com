@@ -26,9 +26,9 @@ class Header extends React.Component {
     return (
       <header className="Header">
         <div className="Header_container">
-          <h1 className="Header_logo">
+          <div className="Header_logo">
             <Link to="/">Guess The Game!</Link>
-          </h1>
+          </div>
           <div className="Header_nav">
             <nav className="Header_nav_left">
               <button
