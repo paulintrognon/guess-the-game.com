@@ -26,9 +26,9 @@ class Header extends React.Component {
     return (
       <header className="Header">
         <div className="Header_container">
-          <div className="Header_logo">
+          <h1 className="Header_logo">
             <Link to="/">Guess The Game!</Link>
-          </div>
+          </h1>
           <div className="Header_nav">
             <nav className="Header_nav_left">
               <button
@@ -60,8 +60,9 @@ class Header extends React.Component {
               )}
             </nav>
             <div className="Header_nav_right">
-              {!user.username && renderLoginButtons()}
-              {user.username && renderAccountButtons(user.username)}
+              {user.username
+                ? renderAccountButtons(user.username)
+                : renderLoginButtons()}
             </div>
           </div>
         </div>
