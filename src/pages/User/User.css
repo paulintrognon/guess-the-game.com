@@ -1,0 +1,11 @@
+.UserPages {
+  background-color: #fafafa;
+  padding: 20px;
+  min-height: 100%;
+}
+
+.UserPages_content {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 20px;
+}
