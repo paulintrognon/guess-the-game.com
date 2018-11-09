@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Header from './Header';
-import Menu from '../Menu/Menu';
 import './layout.css';
 
 export default function Layout(props) {
@@ -11,7 +10,6 @@ export default function Layout(props) {
   return (
     <div className="Layout">
       <Header />
-      <Menu />
       {children}
     </div>
   );
