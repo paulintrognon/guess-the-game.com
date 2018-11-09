@@ -255,11 +255,9 @@ class ScreenshotPage extends React.Component {
   };
 
   render = () => (
-    <section className="section">
+    <section>
       <Helmet title={`Shot #${this.props.screenshot.id}`} />
-      <div className="container">
-        <div className="ScreenshotPage">{this.renderScreenshotBox()}</div>
-      </div>
+      <div className="ScreenshotPage">{this.renderScreenshotBox()}</div>
     </section>
   );
 }

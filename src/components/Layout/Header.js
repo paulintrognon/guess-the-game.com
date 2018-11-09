@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import loginActions from '../../actions/loginActions';
 import screenshotActions from '../../actions/screenshotActions';
+import layoutActions from '../../actions/layoutActions';
 
 import './Header.css';
 
@@ -18,6 +19,10 @@ class Header extends React.Component {
 
   playHandler = () => {
     this.props.dispatch(screenshotActions.getUnsolvedScreenshot());
+  };
+
+  accountButtonHandler = () => {
+    this.props.dispatch(layoutActions.toggleMenuAction());
   };
 
   render() {
@@ -61,7 +66,10 @@ class Header extends React.Component {
             </nav>
             <div className="Header_nav_right">
               {user.username
-                ? renderAccountButtons(user.username)
+                ? renderAccountMenuButton(
+                    user.username,
+                    this.accountButtonHandler
+                  )
                 : renderLoginButtons()}
             </div>
           </div>
@@ -80,9 +88,13 @@ function renderLoginButtons() {
   );
 }
 
-function renderAccountButtons(username) {
+function renderAccountMenuButton(username, handleOnClick) {
   return (
-    <Link to="/login" className="Header_nav_link -user">
+    <Link
+      to="/user/account"
+      className="Header_nav_link -user"
+      onClick={handleOnClick}
+    >
       <span className="-hideSmartphone">{username}</span>
       {renderUserIconSvg()}
     </Link>

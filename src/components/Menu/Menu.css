@@ -1,0 +1,22 @@
+.Menu {
+  position: fixed;
+  top: 0px;
+  width: 320px;
+  height: 100%;
+  background-color: pink;
+  z-index: 5;
+  left: 0px;
+  transition: left 200ms;
+}
+.Menu.-hidden {
+  left: -320px;
+}
+
+@media (min-width: 768px) {  
+  .Menu {
+    top: 55px;
+  }
+  .Menu.-hidden, .Menu.-visible {
+    left: 0;
+  }
+}
