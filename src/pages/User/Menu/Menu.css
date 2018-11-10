@@ -1,7 +1,7 @@
 .Menu {
   position: fixed;
   top: 0;
-  width: 320px;
+  width: 100%;
   height: 100%;
   background-color: #FFF;
   border-right: 1px solid #f4f3f5;
@@ -10,18 +10,25 @@
   transition: left 200ms;
 }
 .Menu.-hidden {
-  left: -320px;
+  left: -100%;
 }
-@media (min-width: 768px) {
+@media (min-width: 480px) {
   .Menu {
+    position: unset;
     top: 56px;
-    max-width: 30%;
+    width: 30%;
+    max-width: 320px;
   }
   .Menu.-hidden, .Menu.-visible {
     left: 0;
   }
   .Menu_closeButton {
     display: none !important;
+  }
+}
+@media (min-width: 1800px) {
+  .Menu {
+    position: fixed;
   }
 }
 
@@ -47,7 +54,7 @@
   fill: #888888;
   transition: all 300ms;
 }
-@media (min-width: 768px) {
+@media (min-width: 480px) {
   .Menu_item:hover, .Menu_item:hover .Menu_item_icon {
     color: #555;
     fill: #555;

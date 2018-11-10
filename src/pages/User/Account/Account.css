@@ -1,0 +1,27 @@
+.AccountPage_content{
+  max-width: 600px;
+  margin-top: 20px;
+}
+@media (max-width: 1800px) {
+  .AccountPage_content{
+    margin-left: auto;
+    margin-right: auto;
+  } 
+}
+.AccountPage_data {
+  padding: 20px;
+  border: 1px solid #f5f3f4;
+}
+.AccountPage_data hr {
+  border-top: 1px solid #f0f0f0;
+  border-bottom: none;
+}
+.AccountPage_data_line {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.AccountPage_data_line a {
+  text-decoration: underline;
+}
