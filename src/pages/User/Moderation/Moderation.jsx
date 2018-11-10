@@ -1,21 +1,21 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import './Account.css';
+import './Moderation.css';
 import BarTitle from '../../../components/BarTitle/BarTitle';
 
-function AccountPage() {
+function ModerationPage() {
   return (
     <section className="section">
-      <Helmet title="My account" />
+      <Helmet title="Moderation" />
       <div className="container">
-        <div className="AccountPage">
+        <div className="ModerationPage">
           <BarTitle hideOnSmall>
-            <h2>My Account</h2>
+            <h2>Moderation</h2>
           </BarTitle>
         </div>
       </div>
     </section>
   );
 }
-export default AccountPage;
+export default ModerationPage;
