@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import BarTitle from '../../../components/BarTitle/BarTitle';
 import userActions from '../../../actions/userActions';
+import './ScreenshotsFound.css';
 
 function mapStoreToProps(store) {
   return {
@@ -26,7 +27,13 @@ class ScreenshotsFoundPage extends React.Component {
           </BarTitle>
           <div className="ScreenshotsFoundPage_content">
             {screenshotsFound.map(screenshotFound => (
-              <div key={screenshotFound.id}>{screenshotFound.imageUrl}</div>
+              <div
+                key={screenshotFound.id}
+                className="ScreenshotsFoundPage_item"
+                style={{ backgroundImage: `url(${screenshotFound.imageUrl})` }}
+              >
+                {screenshotFound.name}
+              </div>
             ))}
           </div>
         </div>
