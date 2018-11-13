@@ -67,3 +67,10 @@
     fill: #000;
   }
 }
+
+.Menu_item.-category {
+  background-color: #e5e5e5;
+  /* color:#fff; */
+  font-style: italic;
+  color: #757575;
+}
