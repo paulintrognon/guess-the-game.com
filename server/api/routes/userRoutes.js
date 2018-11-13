@@ -11,4 +11,6 @@ router.get(
   (req, res, next) => next(userController.getScores(req))
 );
 
+router.post('/get', (req, res, next) => next(userController.getUser(req)));
+
 module.exports = router;
