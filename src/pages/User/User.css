@@ -3,13 +3,15 @@
     display: flex;
     justify-items: start;
   }
-  .UserPages_content {
+  .UserPages_container {
     flex: 1;
-    padding-left: 20px;
   }
 }
 
-.UserPages_content {
-  max-width: 1024px;
-  margin: 0 auto;
+@media (min-width: 480px) {
+  .UserPages_container {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+  }
 }

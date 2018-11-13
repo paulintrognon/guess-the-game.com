@@ -2,6 +2,7 @@ const initialState = {
   jwt: localStorage.getItem('jwt'),
   username: localStorage.getItem('username'),
   userData: null,
+  screenshotsFound: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -42,6 +43,13 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       userData: payload,
+    };
+  }
+
+  if (type === 'USER_SCREENSHOTS-FOUND_LOADED') {
+    return {
+      ...state,
+      screenshotsFound: payload,
     };
   }
 

@@ -13,4 +13,8 @@ router.get(
 
 router.post('/get', (req, res, next) => next(userController.getUser(req)));
 
+router.post('/screenshots-found', (req, res, next) =>
+  next(userController.getScreenshotFound(req))
+);
+
 module.exports = router;

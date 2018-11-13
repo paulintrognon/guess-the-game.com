@@ -2,6 +2,7 @@ import userService from '../services/userService';
 
 export default {
   loadUserData,
+  loadUserScreenshotsFound,
 };
 
 function loadUserData() {
@@ -14,5 +15,15 @@ function loadUserData() {
       console.warn(err.message);
       dispatch({ type: 'USER_DATA_ERROR', payload: err.message });
     }
+  };
+}
+
+function loadUserScreenshotsFound() {
+  return async dispatch => {
+    const screenshotsFound = await userService.fetchScreenshotsFound();
+    dispatch({
+      type: 'USER_SCREENSHOTS-FOUND_LOADED',
+      payload: screenshotsFound,
+    });
   };
 }
