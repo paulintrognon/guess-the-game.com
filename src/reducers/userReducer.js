@@ -49,7 +49,10 @@ export default function reducer(state = initialState, action) {
   if (type === 'USER_SCREENSHOTS-FOUND_LOADED') {
     return {
       ...state,
-      screenshotsFound: payload,
+      screenshotsFound: payload.map(screenshot => ({
+        ...screenshot,
+        createdAt: new Date(screenshot.createdAt),
+      })),
     };
   }
 

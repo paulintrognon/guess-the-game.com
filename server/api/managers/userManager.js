@@ -59,12 +59,13 @@ async function getScreenshotFound(userId) {
     limit: 100,
     include: {
       model: db.Screenshot,
-      attributes: ['id', 'gameCanonicalName', 'imagePath'],
+      attributes: ['id', 'gameCanonicalName', 'year', 'imagePath'],
     },
   });
   return results.map(res => ({
     id: res.Screenshot.id,
     name: res.Screenshot.gameCanonicalName,
+    year: res.Screenshot.year || null,
     createdAt: res.createdAt,
     imagePath: res.Screenshot.imagePath,
   }));

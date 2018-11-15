@@ -5,14 +5,22 @@
 }
 
 .ScreenshotsFoundPage_item {
-  width: 280px;
-  height: 200px;
-  padding: 20px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  box-shadow: 1px 1px 3px #777;
   margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
+  background-size: cover;
+}
+
+.ScreenshotsFoundPage_item_image {
+  width: 320px;
+  height: 180px;
+}
+
+.ScreenshotsFoundPage_item_legend {
+  padding: 5px;
+  margin-top: -2px;
+}
+.ScreenshotsFoundPage_item_legend_name {
+  font-size: 16px;
   font-family: Norwester;
 }
