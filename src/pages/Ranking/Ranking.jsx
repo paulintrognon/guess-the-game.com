@@ -37,7 +37,7 @@ class Homepage extends React.Component {
           <div className="RankingPage_ranking_col -posted">Posted</div>
         </div>
         {scores.map((score, i) => (
-          <div className="RankingPage_ranking_row">
+          <div className="RankingPage_ranking_row" key={`rank-${i}`}>
             <div className="RankingPage_ranking_col -name">
               <span className="RankingPage_ranking_nb">{iToRank(i)}</span>{' '}
               <span className="RankingPage_ranking_username">

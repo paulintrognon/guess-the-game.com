@@ -10,7 +10,7 @@ function mapStoreToProps(store) {
     isMenuVisisble: store.layout.isMenuVisible,
   };
 }
-const Menu = ({ isMenuVisisble, dispatch, match }) => (
+const Menu = ({ isMenuVisisble, dispatch }) => (
   <div className={`Menu ${isMenuVisisble ? '-visisble' : '-hidden'}`}>
     <button
       className="Menu_closeButton Menu_item"
