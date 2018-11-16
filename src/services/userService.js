@@ -4,6 +4,7 @@ export default {
   fetchScores,
   fetchUser,
   fetchScreenshotsFound,
+  fetchScreenshotsAdded,
 };
 
 async function fetchScores() {
@@ -16,4 +17,8 @@ async function fetchUser() {
 
 async function fetchScreenshotsFound() {
   return api.post('/user/screenshots-found');
+}
+
+async function fetchScreenshotsAdded() {
+  return api.post('/user/screenshots-added');
 }

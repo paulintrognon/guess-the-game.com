@@ -6,7 +6,8 @@ module.exports = {
   update,
   isUsernameFree,
   getScores,
-  getScreenshotFound,
+  getScreenshotsFound,
+  getScreenshotsAdded,
 };
 
 function create(userToCreate) {
@@ -52,7 +53,7 @@ async function getScores() {
   });
 }
 
-async function getScreenshotFound(userId) {
+async function getScreenshotsFound(userId) {
   const results = await db.ScreenshotFound.findAll({
     where: { UserId: userId },
     attributes: ['createdAt'],
@@ -68,5 +69,20 @@ async function getScreenshotFound(userId) {
     year: res.Screenshot.year || null,
     createdAt: res.createdAt,
     imagePath: res.Screenshot.imagePath,
+  }));
+}
+
+async function getScreenshotsAdded(userId) {
+  const results = await db.Screenshot.findAll({
+    where: { UserId: userId },
+    attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
+    limit: 100,
+  });
+  return results.map(res => ({
+    id: res.id,
+    name: res.gameCanonicalName,
+    year: res.year || null,
+    createdAt: res.createdAt,
+    imagePath: res.imagePath,
   }));
 }

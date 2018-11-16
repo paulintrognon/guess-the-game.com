@@ -8,7 +8,7 @@ import './ScreenshotsFound.css';
 
 function mapStoreToProps(store) {
   return {
-    screenshotsFound: store.user.screenshotsFound,
+    screenshotsFound: store.user.screenshotsFound || [],
   };
 }
 class ScreenshotsFoundPage extends React.Component {

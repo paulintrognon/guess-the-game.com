@@ -3,6 +3,7 @@ const initialState = {
   username: localStorage.getItem('username'),
   userData: null,
   screenshotsFound: [],
+  screenshotsAdded: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -50,6 +51,16 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       screenshotsFound: payload.map(screenshot => ({
+        ...screenshot,
+        createdAt: new Date(screenshot.createdAt),
+      })),
+    };
+  }
+
+  if (type === 'USER_SCREENSHOTS-ADDED_LOADED') {
+    return {
+      ...state,
+      screenshotsAdded: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),
