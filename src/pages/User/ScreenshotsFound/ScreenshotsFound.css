@@ -1,6 +1,6 @@
 .ScreenshotsFoundPage_content {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-flow: wrap;
 }
 

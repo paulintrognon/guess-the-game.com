@@ -15,3 +15,15 @@
 .AccountPage_data_line a {
   text-decoration: underline;
 }
+.AccountPage_data_line.-centered {
+  display: flex;
+  justify-content: center;
+}
+
+.AccountPage_data_line_loading {
+  width: 12px;
+}
+
+.AccountPage_data_line_logOutButton {
+  max-width: 200px;
+}
