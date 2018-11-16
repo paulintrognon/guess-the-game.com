@@ -33,9 +33,10 @@ class ScreenshotsFoundPage extends React.Component {
                 className="ScreenshotsFoundPage_item"
                 to={`/shot/${screenshotFound.id}`}
               >
-                <img
-                  alt={screenshotFound.name}
-                  src={screenshotFound.imageUrl}
+                <div
+                  style={{
+                    backgroundImage: `url(${screenshotFound.imageUrl})`,
+                  }}
                   className="ScreenshotsFoundPage_item_image"
                 />
                 <div className="ScreenshotsFoundPage_item_legend">

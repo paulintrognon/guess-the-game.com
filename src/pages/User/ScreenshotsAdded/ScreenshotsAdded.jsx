@@ -49,9 +49,10 @@ class ScreenshotsAddedPage extends React.Component {
                 className="ScreenshotsAddedPage_item"
                 to={`/shot/${screenshotAdded.id}`}
               >
-                <img
-                  alt={screenshotAdded.name}
-                  src={screenshotAdded.imageUrl}
+                <div
+                  style={{
+                    backgroundImage: `url(${screenshotAdded.imageUrl})`,
+                  }}
                   className="ScreenshotsAddedPage_item_image"
                 />
                 <div className="ScreenshotsAddedPage_item_legend">
