@@ -41,7 +41,7 @@ class Menu extends React.Component {
           </svg>
           My Account
         </MenuItem>
-        <MenuItem to="/user/moderation" dispatch={dispatch}>
+        {/* <MenuItem to="/user/moderation" dispatch={dispatch}>
           <svg
             className="Menu_item_icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ class Menu extends React.Component {
             <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z" />
           </svg>
           Moderation
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem to="/user/found" dispatch={dispatch}>
           <svg
             className="Menu_item_icon"
