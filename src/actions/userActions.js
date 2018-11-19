@@ -1,9 +1,11 @@
 import userService from '../services/userService';
+import screenshotsService from '../services/screenshotService';
 
 export default {
   loadUserData,
   loadUserSolvedScreenshots,
   loadUserAddedScreenshots,
+  loadNonModeratedScreenshots,
 };
 
 function loadUserData() {
@@ -23,7 +25,7 @@ function loadUserSolvedScreenshots() {
   return async dispatch => {
     const solvedScreenshots = await userService.fetchSolvedScreenshots();
     dispatch({
-      type: 'USER_SCREENSHOTS-FOUND_LOADED',
+      type: 'USER_SOLVED-SCREENSHOTS_LOADED',
       payload: solvedScreenshots,
     });
   };
@@ -33,8 +35,18 @@ function loadUserAddedScreenshots() {
   return async dispatch => {
     const addedScreenshots = await userService.fetchAddedScreenshots();
     dispatch({
-      type: 'USER_SCREENSHOTS-ADDED_LOADED',
+      type: 'USER_ADDED-SCREENSHOTS_LOADED',
       payload: addedScreenshots,
+    });
+  };
+}
+
+function loadNonModeratedScreenshots() {
+  return async dispatch => {
+    const nonModeratedScreenshots = await screenshotsService.getNonModerated();
+    dispatch({
+      type: 'USER_NON-MODERATED-SCREENSHOTS_LOADED',
+      payload: nonModeratedScreenshots,
     });
   };
 }

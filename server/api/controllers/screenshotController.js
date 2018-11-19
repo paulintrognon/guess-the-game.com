@@ -11,10 +11,12 @@ module.exports = {
   getfromId,
   getUnsolvedScreenshot,
   getLastAddedScreenshot,
+  getNonModeratedScreenshots,
   removeOwnScreenshot,
   tryProposal,
   uploadScreenshot,
   addScreenshot,
+  moderateScreenshot,
 };
 
 async function getfromId(req) {
@@ -81,10 +83,30 @@ async function getLastAddedScreenshot(req) {
   return getfromId({ ...req, body: { ...req.body, id: screenshotId } });
 }
 
+async function getNonModeratedScreenshots(req) {
+  const { user } = req;
+  if (!user) {
+    return bluebird.reject({
+      status: 401,
+      code: 'MUST_BE_IDENTIFIED',
+      message: "User must be identified to proove that he/she's a moderator.",
+    });
+  }
+  if (!user.canModerateScreenshots) {
+    return bluebird.reject({
+      status: 403,
+      code: 'CANNOT_MODERATE_SCREENSHOTS',
+      message: 'User has no right to moderate screenshots.',
+    });
+  }
+  const screenshots = await screenshotManager.getNonModeratedScreenshots();
+  return screenshots.map(addImageUrlFromPath);
+}
+
 async function removeOwnScreenshot(req) {
   if (!req.user) {
     return bluebird.reject({
-      status: 400,
+      status: 401,
       code: 'MUST_BE_IDENTIFIED',
       message:
         'User must be identified in order to delete his own screenshots.',
@@ -179,6 +201,26 @@ async function addScreenshot(req) {
   });
 }
 
+async function moderateScreenshot(req) {
+  const { user } = req;
+  const { screenshotId, approve } = req.body;
+  if (!user) {
+    return bluebird.reject({
+      status: 401,
+      code: 'MUST_BE_IDENTIFIED',
+      message: 'User must be identified to approve screenshots.',
+    });
+  }
+  return screenshotManager.moderateScreenshot({ screenshotId, user, approve });
+}
+
 function getUploadedImageLocalPath(imageName) {
   return `${__dirname}/../../uploads/${imageName}`;
+}
+
+function addImageUrlFromPath(screenshot) {
+  return {
+    ...screenshot,
+    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
+  };
 }

@@ -19,10 +19,37 @@
 }
 
 .ScreenshotsGrid_item_legend {
-  padding: 5px;
+  padding: 7px;
   margin-top: -2px;
 }
 .ScreenshotsGrid_item_legend_name {
   font-size: 16px;
   font-family: Norwester;
+}
+
+.ScreenshotsGrid_item_legend_approve {
+  text-align: center;
+  margin: 12px 0 8px;
+}
+.ScreenshotsGrid_item_legend_approve_button {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 20px;
+  display: inline-flex;
+  align-items: center;
+}
+.ScreenshotsGrid_item_legend_approve_button:hover {
+  text-decoration: underline;
+}
+.ScreenshotsGrid_item_legend_approve_button svg {
+  width: 18px;
+  padding-right: 5px;
+}
+.ScreenshotsGrid_item_legend_approve_button.-approve, .ScreenshotsGrid_item_legend_approve_button.-approve svg {
+  color: #03ae46;
+  fill:  #03ae46;
+} 
+.ScreenshotsGrid_item_legend_approve_button.-reject, .ScreenshotsGrid_item_legend_approve_button.-reject svg {
+  color: #fd464c;
+  fill:  #fd464c;
 }

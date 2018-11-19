@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     models.Screenshot.belongsTo(models.User, { onDelete: 'CASCADE' });
     models.Screenshot.belongsTo(models.User, {
       as: 'ModeratorUser',
-      foreignKey: 'approvedByUserId',
+      foreignKey: 'moderatedBy',
     });
   };
 

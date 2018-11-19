@@ -7,9 +7,11 @@ module.exports = {
   getFromId,
   getLastAdded,
   getUnsolved,
+  getNonModeratedScreenshots,
   deleteUserScreenshot,
   testProposal,
   markScreenshotAsResolved,
+  moderateScreenshot,
 };
 
 async function create(screenshotToCreate) {
@@ -26,7 +28,6 @@ async function create(screenshotToCreate) {
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
-    user.increment('addedScreenshots'),
   ]);
   return screenshot;
 }
@@ -148,6 +149,23 @@ async function getUnsolved({ userId, exclude }) {
   return screenshots[0];
 }
 
+async function getNonModeratedScreenshots() {
+  const results = await db.Screenshot.findAll({
+    attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
+    where: { isApproved: 0 },
+    limit: 100,
+    order: [['createdAt', 'ASC']],
+  });
+  return results.map(res => ({
+    id: res.id,
+    name: res.gameCanonicalName,
+    year: res.year || null,
+    createdAt: res.createdAt,
+    imagePath: res.imagePath,
+    awaitingApproval: true,
+  }));
+}
+
 async function deleteUserScreenshot({ userId, screenshotId }) {
   const screenshot = await db.Screenshot.findOne({
     attributes: ['id'],
@@ -219,6 +237,28 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
     user.addSolvedScreenshot(solvedScreenshot),
     screenshot.addSolvedScreenshot(solvedScreenshot),
     user.increment('solvedScreenshots'),
+  ]);
+}
+
+async function moderateScreenshot({ screenshotId, user, approve }) {
+  const [moderator, screenshot] = await Promise.all([
+    db.User.findById(user.id),
+    db.Screenshot.findById(screenshotId),
+  ]);
+  if (!moderator) {
+    throw new Error('Moderator not found');
+  }
+  if (!screenshot) {
+    throw new Error('Screenshot not found');
+  }
+  const poster = await db.User.findById(screenshot.UserId);
+  console.log('poster', poster.username);
+  return Promise.all([
+    screenshot.update({
+      isApproved: approve ? 1 : -1,
+      moderatedBy: moderator.id,
+    }),
+    approve ? poster.increment('addedScreenshots') : null,
   ]);
 }
 

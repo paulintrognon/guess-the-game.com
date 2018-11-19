@@ -4,6 +4,7 @@ const initialState = {
   userData: null,
   solvedScreenshots: [],
   addedScreenshots: [],
+  nonModeratedScreenshots: [],
   canModerateScreenshots: localStorage.getItem('canModerateScreenshots'),
 };
 
@@ -53,7 +54,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_SCREENSHOTS-FOUND_LOADED') {
+  if (type === 'USER_SOLVED-SCREENSHOTS_LOADED') {
     return {
       ...state,
       solvedScreenshots: payload.map(screenshot => ({
@@ -64,10 +65,20 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_SCREENSHOTS-ADDED_LOADED') {
+  if (type === 'USER_ADDED-SCREENSHOTS_LOADED') {
     return {
       ...state,
       addedScreenshots: payload.map(screenshot => ({
+        ...screenshot,
+        createdAt: new Date(screenshot.createdAt),
+      })),
+    };
+  }
+
+  if (type === 'USER_NON-MODERATED-SCREENSHOTS_LOADED') {
+    return {
+      ...state,
+      nonModeratedScreenshots: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),

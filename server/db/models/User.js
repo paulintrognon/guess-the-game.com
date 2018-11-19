@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     models.User.hasMany(models.SolvedScreenshot);
     models.User.hasMany(models.Screenshot, {
       as: 'ModeratedScreenshot',
-      foreignKey: 'approvedByUserId',
+      foreignKey: 'moderatedBy',
     });
   };
 
