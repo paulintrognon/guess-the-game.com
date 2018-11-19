@@ -1,0 +1,17 @@
+@media (min-width: 480px) and (max-width: 1800px) {
+  .UserPages {
+    display: flex;
+    justify-items: start;
+  }
+  .UserPages_container {
+    flex: 1;
+  }
+}
+
+@media (min-width: 480px) {
+  .UserPages_container {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+}

@@ -24,7 +24,7 @@ class Homepage extends React.Component {
     return (
       <section className="Homepage">
         <p className="Homepage_subtitle">
-          Guess as many games as possible from screenshots posted by people
+          Guess as many games as possible from screenshots added by people
         </p>
         <p>
           <button className="Homepage_playButton" onClick={this.playHandler}>
@@ -34,13 +34,13 @@ class Homepage extends React.Component {
         {this.state.lastScreenshot && (
           <Link
             to={`/shot/${this.state.lastScreenshot.id}`}
-            className="Homepage_lastPostedScreenshot"
+            className="Homepage_lastAddedScreenshot"
           >
-            <h2 className="Homepage_lastPostedScreenshot_title">
-              Last posted screenshot
+            <h2 className="Homepage_lastAddedScreenshot_title">
+              Last added screenshot
             </h2>
-            <p className="Homepage_lastPostedScreenshot_subtitle">
-              Uploaded by <b>{this.state.lastScreenshot.postedBy}</b> -{` `}
+            <p className="Homepage_lastAddedScreenshot_subtitle">
+              Uploaded by <b>{this.state.lastScreenshot.addedBy}</b> -{` `}
               {this.state.lastScreenshot.stats.firstSolvedBy ? (
                 <span>
                   First solved by{' '}
@@ -50,9 +50,9 @@ class Homepage extends React.Component {
                 'Be the first one to guess this screenshot!'
               )}
             </p>
-            <div className="Homepage_lastPostedScreenshot_shot_container">
+            <div className="Homepage_lastAddedScreenshot_shot_container">
               <div
-                className="Homepage_lastPostedScreenshot_shot"
+                className="Homepage_lastAddedScreenshot_shot"
                 style={{
                   backgroundImage: `url(${this.state.lastScreenshot.imageUrl})`,
                 }}

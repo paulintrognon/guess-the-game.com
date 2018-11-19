@@ -1,6 +1,6 @@
 {
   "name": "guess-the-game.com",
-  "version": "2.2.5",
+  "version": "3.0.0",
   "dependencies": {
     "axios": "^0.18.0",
     "babel-eslint": "^8.2.5",

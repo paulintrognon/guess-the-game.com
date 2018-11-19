@@ -1,0 +1,29 @@
+.AccountPage_data {
+  padding: 30px 50px;
+  border: 1px solid #f5f3f4;
+}
+.AccountPage_data hr {
+  border-top: 1px solid #f0f0f0;
+  border-bottom: none;
+}
+.AccountPage_data_line {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.AccountPage_data_line a {
+  text-decoration: underline;
+}
+.AccountPage_data_line.-centered {
+  display: flex;
+  justify-content: center;
+}
+
+.AccountPage_data_line_loading {
+  width: 12px;
+}
+
+.AccountPage_data_line_logOutButton {
+  max-width: 200px;
+}

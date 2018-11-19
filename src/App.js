@@ -9,16 +9,23 @@ import history from './history';
 import './App.css';
 
 import Layout from './components/Layout/Layout';
+
+// Basic components
 import Homepage from './pages/Hompage/Hompage';
-import LoginPage from './pages/login/Login/Login';
-import RegisterPage from './pages/login/Register/Register';
-import ForgotPasswordPage from './pages/login/ForgotPassword/ForgotPassword';
-import NewPasswordPage from './pages/login/NewPassword/NewPassword';
 import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
 import RankingPage from './pages/Ranking/Ranking';
 import TheEnd from './pages/TheEnd/TheEnd';
 import NotFound from './pages/NotFound/NotFound';
+
+// login components
+import LoginPage from './pages/login/Login/Login';
+import RegisterPage from './pages/login/Register/Register';
+import ForgotPasswordPage from './pages/login/ForgotPassword/ForgotPassword';
+import NewPasswordPage from './pages/login/NewPassword/NewPassword';
+
+// User components
+import UserPages from './pages/User/User';
 
 export default () => (
   <Provider store={store}>
@@ -49,6 +56,9 @@ export default () => (
           />
           <Route path="/add-screenshot" exact component={AddScreenshotPage} />
           <Route path="/the-end" exact component={TheEnd} />
+
+          <Route path="/user" component={UserPages} />
+
           <Route component={NotFound} />
         </Switch>
       </Layout>

@@ -75,14 +75,12 @@
   display: none;
 }
 
-.Header_nav_right_userIcon {
+.Header_nav_right_menuIcon {
   margin-left: 10px;
-}
-.Header_nav_right_userIcon svg {
   fill: #a0a0a7;
   transition: fill 200ms;
 }
-.Header_nav_link:hover svg, .Header_nav_link.-active svg {
+.Header_nav_link:hover .Header_nav_right_menuIcon, .Header_nav_link.-active .Header_nav_right_menuIcon {
   fill: #47525E;
 }
 

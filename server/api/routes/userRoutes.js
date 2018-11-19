@@ -11,4 +11,14 @@ router.get(
   (req, res, next) => next(userController.getScores(req))
 );
 
+router.post('/get', (req, res, next) => next(userController.getUser(req)));
+
+router.post('/solved-screenshots', (req, res, next) =>
+  next(userController.getSolvedScreenshots(req))
+);
+
+router.post('/added-screenshots', (req, res, next) =>
+  next(userController.getAddedScreenshots(req))
+);
+
 module.exports = router;

@@ -34,10 +34,10 @@ class Homepage extends React.Component {
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
           <div className="RankingPage_ranking_col -solved">Solved</div>
-          <div className="RankingPage_ranking_col -posted">Posted</div>
+          <div className="RankingPage_ranking_col -added">Added</div>
         </div>
         {scores.map((score, i) => (
-          <div className="RankingPage_ranking_row">
+          <div className="RankingPage_ranking_row" key={`rank-${i}`}>
             <div className="RankingPage_ranking_col -name">
               <span className="RankingPage_ranking_nb">{iToRank(i)}</span>{' '}
               <span className="RankingPage_ranking_username">
@@ -45,10 +45,10 @@ class Homepage extends React.Component {
               </span>
             </div>
             <div className="RankingPage_ranking_col -solved">
-              {score.screenshotsFound}
+              {score.solvedScreenshots}
             </div>
-            <div className="RankingPage_ranking_col -posted">
-              {score.screenshotsAdded}
+            <div className="RankingPage_ranking_col -added">
+              {score.addedScreenshots}
             </div>
           </div>
         ))}

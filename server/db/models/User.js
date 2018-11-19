@@ -28,12 +28,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         allowNull: true,
       },
-      screenshotsFound: {
+      solvedScreenshots: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         allowNull: false,
       },
-      screenshotsAdded: {
+      addedScreenshots: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         allowNull: false,
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = models => {
     models.User.hasMany(models.Screenshot);
-    models.User.hasMany(models.ScreenshotFound);
+    models.User.hasMany(models.SolvedScreenshot);
   };
 
   return User;

@@ -8,6 +8,7 @@ export default ({
   color = 'light',
   children,
   type = 'button',
+  className,
   ...props
 }) => (
   <button
@@ -17,6 +18,7 @@ export default ({
       -${color}
       ${loading ? '-loading' : ''}
       ${disabled ? '-disabled' : ''}
+      ${className}
     `}
     disabled={disabled || loading}
     {...props}

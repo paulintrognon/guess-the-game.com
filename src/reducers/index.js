@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import userReducer from './userReducer';
+import layoutReducer from './layoutReducer';
 import screenshotReducer from './screenshotReducer';
+import userReducer from './userReducer';
 
 export default combineReducers({
-  user: userReducer,
+  layout: layoutReducer,
   screenshot: screenshotReducer,
+  user: userReducer,
 });

@@ -51,7 +51,7 @@ export default function reducer(state = initialState, action) {
       isLoading: false,
       id: payload.id,
       name: payload.name,
-      postedBy: payload.postedBy,
+      addedBy: payload.addedBy,
       year: payload.year,
       url: payload.imageUrl,
       isSolved: payload.isSolved,
