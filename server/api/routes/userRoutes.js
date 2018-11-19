@@ -13,12 +13,12 @@ router.get(
 
 router.post('/get', (req, res, next) => next(userController.getUser(req)));
 
-router.post('/screenshots-found', (req, res, next) =>
-  next(userController.getScreenshotsFound(req))
+router.post('/solved-screenshots', (req, res, next) =>
+  next(userController.getSolvedScreenshots(req))
 );
 
-router.post('/screenshots-added', (req, res, next) =>
-  next(userController.getScreenshotsAdded(req))
+router.post('/added-screenshots', (req, res, next) =>
+  next(userController.getAddedScreenshots(req))
 );
 
 module.exports = router;

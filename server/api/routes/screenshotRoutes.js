@@ -18,7 +18,7 @@ router.post('/get', (req, res, next) =>
 );
 
 router.get('/last', (req, res, next) =>
-  next(screenshotController.getLastPostedScreenshot(req))
+  next(screenshotController.getLastAddedScreenshot(req))
 );
 
 router.post('/guess', (req, res, next) =>

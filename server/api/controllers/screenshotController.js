@@ -10,7 +10,7 @@ const logger = require('../../logger');
 module.exports = {
   getfromId,
   getUnsolvedScreenshot,
-  getLastPostedScreenshot,
+  getLastAddedScreenshot,
   removeOwnScreenshot,
   tryProposal,
   uploadScreenshot,
@@ -34,12 +34,12 @@ async function getfromId(req) {
     id: res.id,
     imageUrl: cloudinaryService.pathToUrl(res.imagePath),
     createdAt: res.createdAt,
-    postedBy: res.user.username,
+    addedBy: res.user.username,
     stats: res.stats,
   };
-  if (res.screenshotFounds && res.screenshotFounds.length) {
+  if (res.solvedScreenshots && res.solvedScreenshots.length) {
     screenshot.isSolved = true;
-    screenshot.solvedAt = res.screenshotFounds[0].createdAt;
+    screenshot.solvedAt = res.solvedScreenshots[0].createdAt;
   }
   if (screenshot.isSolved || res.user.id === req.user.id) {
     screenshot.name = res.name;
@@ -76,8 +76,8 @@ async function getUnsolvedScreenshot(req) {
   }
 }
 
-async function getLastPostedScreenshot(req) {
-  const screenshotId = await screenshotManager.getLastPosted();
+async function getLastAddedScreenshot(req) {
+  const screenshotId = await screenshotManager.getLastAdded();
   return getfromId({ ...req, body: { ...req.body, id: screenshotId } });
 }
 
@@ -99,7 +99,7 @@ async function removeOwnScreenshot(req) {
       status: 404,
       code: 'SCREENSHOT_TO_DELETE_NOT_FOUND',
       message:
-        'The screenshot to delete has not been found. Maybe the user has not posted that screenshot?',
+        'The screenshot to delete has not been found. Maybe the user has not added that screenshot?',
     });
   }
   return { deleted: Boolean(result) };

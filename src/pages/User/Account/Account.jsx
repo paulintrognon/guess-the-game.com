@@ -14,8 +14,8 @@ function mapStoreToProps(store) {
 const AccountPage = ({
   username,
   email,
-  screenshotsFound,
-  screenshotsAdded,
+  solvedScreenshots,
+  addedScreenshots,
   dispatch,
 }) => (
   <section className="section">
@@ -42,17 +42,17 @@ const AccountPage = ({
           </div>
           <hr />
           <div className="AccountPage_data_line">
-            <p className="AccountPage_data_line_left">Screenshots solved</p>
+            <p className="AccountPage_data_line_left">Solved screenshots</p>
             <p className="AccountPage_data_line_right">
-              {screenshotsFound || (
+              {solvedScreenshots || (
                 <Loading className="AccountPage_data_line_loading" />
               )}
             </p>
           </div>
           <div className="AccountPage_data_line">
-            <p className="AccountPage_data_line_left">Screenshots posted</p>
+            <p className="AccountPage_data_line_left">Added Screenshots</p>
             <p className="AccountPage_data_line_right">
-              {screenshotsAdded || (
+              {addedScreenshots || (
                 <Loading className="AccountPage_data_line_loading" />
               )}
             </p>

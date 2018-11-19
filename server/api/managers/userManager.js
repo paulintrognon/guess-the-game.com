@@ -6,8 +6,8 @@ module.exports = {
   update,
   isUsernameFree,
   getScores,
-  getScreenshotsFound,
-  getScreenshotsAdded,
+  getSolvedScreenshots,
+  getAddedScreenshots,
 };
 
 function create(userToCreate) {
@@ -42,19 +42,19 @@ function isUsernameFree(username) {
 
 async function getScores() {
   return db.User.findAll({
-    attributes: ['username', 'screenshotsFound', 'screenshotsAdded'],
+    attributes: ['username', 'solvedScreenshots', 'addedScreenshots'],
     where: {
       username: {
         [db.Sequelize.Op.not]: null,
       },
     },
     limit: 100,
-    order: [['screenshotsFound', 'DESC'], ['screenshotsAdded', 'DESC']],
+    order: [['solvedScreenshots', 'DESC'], ['addedScreenshots', 'DESC']],
   });
 }
 
-async function getScreenshotsFound(userId) {
-  const results = await db.ScreenshotFound.findAll({
+async function getSolvedScreenshots(userId) {
+  const results = await db.SolvedScreenshot.findAll({
     where: { UserId: userId },
     attributes: ['createdAt'],
     limit: 100,
@@ -72,7 +72,7 @@ async function getScreenshotsFound(userId) {
   }));
 }
 
-async function getScreenshotsAdded(userId) {
+async function getAddedScreenshots(userId) {
   const results = await db.Screenshot.findAll({
     where: { UserId: userId },
     attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],

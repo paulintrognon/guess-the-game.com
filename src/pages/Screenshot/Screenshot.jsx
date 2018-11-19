@@ -9,7 +9,7 @@ function mapStoreToProps(store) {
   return {
     screenshot: store.screenshot,
     isTryAnotherButtonClicked: store.screenshot.isTryAnotherButtonClicked,
-    allFound: store.screenshot.allFound,
+    allSolved: store.screenshot.allSolved,
     isGuessing: store.screenshot.isGuessing,
     isLoading: store.screenshot.isLoading,
     isProposalRight: store.screenshot.isProposalRight,
@@ -139,7 +139,7 @@ class ScreenshotPage extends React.Component {
             Shot #{screenshot.id}
           </h1>
           <div className="column ScreenshotPage_header_uploadedBy">
-            By <b>{screenshot.isOwn ? 'you! — ' : screenshot.postedBy}</b>
+            By <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
             {screenshot.isOwn ? (
               <buton
                 className="ScreenshotPage_header_removeScreenshotLink"
@@ -155,9 +155,9 @@ class ScreenshotPage extends React.Component {
           </div>
         </div>
         <div className="ScreenshotPage_header_right">
-          {screenshot.stats.foundsCount ? (
+          {screenshot.stats.solvedCount ? (
             <p className="ScreenshotPage_header_solvedByCount">
-              Solved by {screenshot.stats.foundsCount} people
+              Solved by {screenshot.stats.solvedCount} people
             </p>
           ) : null}
           <p className="ScreenshotPage_header_firstSolvedBy">

@@ -5,7 +5,7 @@ const db = require('../../db/db');
 module.exports = {
   create,
   getFromId,
-  getLastPosted,
+  getLastAdded,
   getUnsolved,
   deleteUserScreenshot,
   testProposal,
@@ -26,7 +26,7 @@ async function create(screenshotToCreate) {
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
-    user.increment('screenshotsAdded'),
+    user.increment('addedScreenshots'),
   ]);
   return screenshot;
 }
@@ -47,7 +47,7 @@ async function getFromId(screenshotId, userId) {
   ];
   if (userId) {
     include.push({
-      model: db.ScreenshotFound,
+      model: db.SolvedScreenshot,
       required: false,
       where: { UserId: userId },
     });
@@ -67,11 +67,11 @@ async function getFromId(screenshotId, userId) {
     imagePath: res.imagePath,
     createdAt: res.createdAt,
     user: res.User,
-    screenshotFounds: res.ScreenshotFounds,
+    solvedScreenshots: res.SolvedScreenshots,
   };
 }
 
-async function getLastPosted() {
+async function getLastAdded() {
   const screenshot = await db.Screenshot.findOne({
     attributes: ['id'],
     limit: 1,
@@ -81,24 +81,24 @@ async function getLastPosted() {
 }
 
 async function getScreenshotStats(screenshotId) {
-  const [foundsCount, firstSolvedBy] = await Promise.all([
-    countFounds(screenshotId),
+  const [solvedCount, firstSolvedBy] = await Promise.all([
+    countSolved(screenshotId),
     getFirstSolvedBy(screenshotId),
   ]);
   return {
-    foundsCount,
+    solvedCount,
     firstSolvedBy,
   };
 }
 
-async function countFounds(screenshotId) {
-  return db.ScreenshotFound.count({
+async function countSolved(screenshotId) {
+  return db.SolvedScreenshot.count({
     where: { ScreenshotId: screenshotId },
   });
 }
 
 async function getFirstSolvedBy(screenshotId) {
-  const screenshotFound = await db.ScreenshotFound.findOne({
+  const solvedScreenshot = await db.SolvedScreenshot.findOne({
     attributes: [],
     where: { ScreenshotId: screenshotId },
     limit: 1,
@@ -108,10 +108,10 @@ async function getFirstSolvedBy(screenshotId) {
       model: db.User,
     },
   });
-  if (!screenshotFound) {
+  if (!solvedScreenshot) {
     return null;
   }
-  return screenshotFound.User.username || 'John Doe';
+  return solvedScreenshot.User.username || 'John Doe';
 }
 
 async function getUnsolved({ userId, exclude }) {
@@ -130,10 +130,10 @@ async function getUnsolved({ userId, exclude }) {
           ? `
       AND (Screenshot.UserId != ${userId})
       AND NOT EXISTS (
-        SELECT id FROM ScreenshotFounds
+        SELECT id FROM SolvedScreenshots
         WHERE
-          ScreenshotFounds.ScreenshotId = Screenshot.id
-          AND ScreenshotFounds.UserId = ${userId}
+          SolvedScreenshots.ScreenshotId = Screenshot.id
+          AND SolvedScreenshots.UserId = ${userId}
       ) `
           : ''
       }
@@ -193,10 +193,10 @@ async function testProposal(screenshotId, proposal) {
 }
 
 async function markScreenshotAsResolved({ screenshotId, userId }) {
-  const [user, screenshot, alreadyFound] = await Promise.all([
+  const [user, screenshot, alreadySolved] = await Promise.all([
     db.User.findById(userId),
     db.Screenshot.findById(screenshotId),
-    db.ScreenshotFound.findOne({
+    db.SolvedScreenshot.findOne({
       where: {
         ScreenshotId: screenshotId,
         UserId: userId,
@@ -209,15 +209,15 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
   if (!screenshot) {
     throw new Error('Screenshot not found');
   }
-  if (alreadyFound) {
-    throw new Error('User has already found this screenshot');
+  if (alreadySolved) {
+    throw new Error('User has already solved this screenshot');
   }
-  const screenshotFound = await db.ScreenshotFound.create();
+  const solvedScreenshot = await db.SolvedScreenshot.create();
 
   return Promise.all([
-    user.addScreenshotFound(screenshotFound),
-    screenshot.addScreenshotFound(screenshotFound),
-    user.increment('screenshotsFound'),
+    user.addSolvedScreenshot(solvedScreenshot),
+    screenshot.addSolvedScreenshot(solvedScreenshot),
+    user.increment('solvedScreenshots'),
   ]);
 }
 
