@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
         allowNull: false,
       },
+      canModerateScreenshots: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      },
     },
     {
       timestamps: true,
@@ -47,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = models => {
     models.User.hasMany(models.Screenshot);
     models.User.hasMany(models.SolvedScreenshot);
+    models.User.hasMany(models.Screenshot, {
+      as: 'ModeratedScreenshot',
+      foreignKey: 'approvedByUserId',
+    });
   };
 
   return User;

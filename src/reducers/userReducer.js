@@ -4,6 +4,7 @@ const initialState = {
   userData: null,
   solvedScreenshots: [],
   addedScreenshots: [],
+  canModerateScreenshots: localStorage.getItem('canModerateScreenshots'),
 };
 
 export default function reducer(state = initialState, action) {
@@ -14,12 +15,17 @@ export default function reducer(state = initialState, action) {
     localStorage.setItem('jwt', payload.jwt);
     if (payload.username) {
       localStorage.setItem('username', payload.username);
+      localStorage.setItem(
+        'canModerateScreenshots',
+        payload.canModerateScreenshots
+      );
     }
 
     return {
       ...state,
       username: payload.username,
       jwt: payload.jwt,
+      canModerateScreenshots: payload.canModerateScreenshots,
     };
   }
 

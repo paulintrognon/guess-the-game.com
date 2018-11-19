@@ -10,6 +10,7 @@ function mapStoreToProps(store) {
   return {
     isMenuVisisble: store.layout.isMenuVisible,
     userData: store.user.userData || {},
+    canModerateScreenshots: store.user.canModerateScreenshots,
   };
 }
 class Menu extends React.Component {
@@ -19,7 +20,7 @@ class Menu extends React.Component {
   }
 
   render() {
-    const { isMenuVisisble, dispatch } = this.props;
+    const { isMenuVisisble, canModerateScreenshots, dispatch } = this.props;
     const { solvedScreenshots, addedScreenshots } = this.props.userData;
     return (
       <div className={`Menu ${isMenuVisisble ? '-visisble' : '-hidden'}`}>
@@ -41,18 +42,20 @@ class Menu extends React.Component {
           </svg>
           My Account
         </MenuItem>
-        {/* <MenuItem to="/user/moderation" dispatch={dispatch}>
-          <svg
-            className="Menu_item_icon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z" />
-          </svg>
-          Moderation
-        </MenuItem> */}
+        {canModerateScreenshots ? (
+          <MenuItem to="/user/moderation" dispatch={dispatch} className="-red">
+            <svg
+              className="Menu_item_icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z" />
+            </svg>
+            Moderation
+          </MenuItem>
+        ) : null}
         <MenuItem to="/user/solved" dispatch={dispatch}>
           <svg
             className="Menu_item_icon"
@@ -83,11 +86,11 @@ class Menu extends React.Component {
 }
 export default connect(mapStoreToProps)(Menu);
 
-function MenuItem({ to, dispatch, children }) {
+function MenuItem({ to, dispatch, children, className }) {
   return (
     <Link
       key={to}
-      className={`Menu_item ${
+      className={`Menu_item ${className} ${
         window.location.pathname === to ? '-active' : ''
       }`}
       to={to}

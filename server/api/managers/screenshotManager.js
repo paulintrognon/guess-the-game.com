@@ -124,7 +124,8 @@ async function getUnsolved({ userId, exclude }) {
     LEFT JOIN
       Users ON Screenshot.UserId = Users.id
     WHERE (
-      Screenshot.deletedAt IS NULL
+      Screenshot.deletedAt IS NULL AND
+      Screenshot.isApproved = 1
       ${
         userId
           ? `

@@ -14,7 +14,14 @@ async function getScores() {
 
 async function getUser(req) {
   const { username } = req.user;
-  return userManager.get(username);
+  const user = await userManager.get(username);
+  return {
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    solvedScreenshots: user.solvedScreenshots,
+    addedScreenshots: user.addedScreenshots,
+  };
 }
 
 async function getSolvedScreenshots(req) {
