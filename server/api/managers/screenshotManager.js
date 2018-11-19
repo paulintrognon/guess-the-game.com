@@ -67,7 +67,7 @@ async function getFromId(screenshotId, userId) {
     imagePath: res.imagePath,
     createdAt: res.createdAt,
     user: res.User,
-    screenshotSolved: res.SolvedScreenshots,
+    solvedScreenshots: res.SolvedScreenshots,
   };
 }
 
@@ -98,7 +98,7 @@ async function countSolved(screenshotId) {
 }
 
 async function getFirstSolvedBy(screenshotId) {
-  const screenshotSolved = await db.SolvedScreenshot.findOne({
+  const solvedScreenshot = await db.SolvedScreenshot.findOne({
     attributes: [],
     where: { ScreenshotId: screenshotId },
     limit: 1,
@@ -108,10 +108,10 @@ async function getFirstSolvedBy(screenshotId) {
       model: db.User,
     },
   });
-  if (!screenshotSolved) {
+  if (!solvedScreenshot) {
     return null;
   }
-  return screenshotSolved.User.username || 'John Doe';
+  return solvedScreenshot.User.username || 'John Doe';
 }
 
 async function getUnsolved({ userId, exclude }) {
@@ -212,11 +212,11 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
   if (alreadySolved) {
     throw new Error('User has already solved this screenshot');
   }
-  const screenshotSolved = await db.SolvedScreenshot.create();
+  const solvedScreenshot = await db.SolvedScreenshot.create();
 
   return Promise.all([
-    user.addSolvedScreenshot(screenshotSolved),
-    screenshot.addSolvedScreenshot(screenshotSolved),
+    user.addSolvedScreenshot(solvedScreenshot),
+    screenshot.addSolvedScreenshot(solvedScreenshot),
     user.increment('solvedScreenshots'),
   ]);
 }

@@ -37,9 +37,9 @@ async function getfromId(req) {
     addedBy: res.user.username,
     stats: res.stats,
   };
-  if (res.screenshotSolved && res.screenshotSolved.length) {
+  if (res.solvedScreenshots && res.solvedScreenshots.length) {
     screenshot.isSolved = true;
-    screenshot.solvedAt = res.screenshotSolved[0].createdAt;
+    screenshot.solvedAt = res.solvedScreenshots[0].createdAt;
   }
   if (screenshot.isSolved || res.user.id === req.user.id) {
     screenshot.name = res.name;

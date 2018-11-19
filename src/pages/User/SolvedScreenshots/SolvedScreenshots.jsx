@@ -27,28 +27,28 @@ class SolvedScreenshotsPage extends React.Component {
             <h2>Screenshots Solved</h2>
           </BarTitle>
           <div className="SolvedScreenshotsPage_content">
-            {solvedScreenshots.map(screenshotSolved => (
+            {solvedScreenshots.map(solvedScreenshot => (
               <Link
-                key={screenshotSolved.id}
+                key={solvedScreenshot.id}
                 className="SolvedScreenshotsPage_item"
-                to={`/shot/${screenshotSolved.id}`}
+                to={`/shot/${solvedScreenshot.id}`}
               >
                 <div
                   style={{
-                    backgroundImage: `url(${screenshotSolved.imageUrl})`,
+                    backgroundImage: `url(${solvedScreenshot.imageUrl})`,
                   }}
                   className="SolvedScreenshotsPage_item_image"
                 />
                 <div className="SolvedScreenshotsPage_item_legend">
                   <p className="SolvedScreenshotsPage_item_legend_name">
-                    {screenshotSolved.name}{' '}
-                    {screenshotSolved.year
-                      ? `(${screenshotSolved.year})`
+                    {solvedScreenshot.name}{' '}
+                    {solvedScreenshot.year
+                      ? `(${solvedScreenshot.year})`
                       : null}
                   </p>
                   <p className="SolvedScreenshotsPage_item_legend_createdat">
-                    Solved the {screenshotSolved.createdAt.toLocaleDateString()}{' '}
-                    at {screenshotSolved.createdAt.toLocaleTimeString()}
+                    Solved the {solvedScreenshot.createdAt.toLocaleDateString()}{' '}
+                    at {solvedScreenshot.createdAt.toLocaleTimeString()}
                   </p>
                 </div>
               </Link>
