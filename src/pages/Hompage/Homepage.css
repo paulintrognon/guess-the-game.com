@@ -22,7 +22,7 @@
   font-size: 23px;
 }
 
-.Homepage_lastPostedScreenshot {
+.Homepage_lastAddedScreenshot {
   display: block;
   max-width: 1024px;
   margin: 50px auto 10px;
@@ -32,22 +32,22 @@
   padding: 10px 20px 20px;
 }
 
-.Homepage_lastPostedScreenshot_title {
+.Homepage_lastAddedScreenshot_title {
   margin: 5px 0 10px;
   font-size: 24px;
 }
-.Homepage_lastPostedScreenshot_subtitle {
+.Homepage_lastAddedScreenshot_subtitle {
   margin: 5px 0;
   font-size: 16px;
   font-weight: 300;
 }
-.Homepage_lastPostedScreenshot_shot_container {
+.Homepage_lastAddedScreenshot_shot_container {
   width: 768px;
   max-width: 100%;
   margin: auto;
 }
 
-.Homepage_lastPostedScreenshot_shot {
+.Homepage_lastAddedScreenshot_shot {
   height: 0;
   width: 100%;
   padding-bottom: 56.25%;

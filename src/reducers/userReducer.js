@@ -2,8 +2,8 @@ const initialState = {
   jwt: localStorage.getItem('jwt'),
   username: localStorage.getItem('username'),
   userData: null,
-  screenshotsFound: [],
-  screenshotsAdded: [],
+  solvedScreenshots: [],
+  addedScreenshots: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -50,7 +50,7 @@ export default function reducer(state = initialState, action) {
   if (type === 'USER_SCREENSHOTS-FOUND_LOADED') {
     return {
       ...state,
-      screenshotsFound: payload.map(screenshot => ({
+      solvedScreenshots: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),
@@ -60,7 +60,7 @@ export default function reducer(state = initialState, action) {
   if (type === 'USER_SCREENSHOTS-ADDED_LOADED') {
     return {
       ...state,
-      screenshotsAdded: payload.map(screenshot => ({
+      addedScreenshots: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),

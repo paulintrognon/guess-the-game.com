@@ -42,7 +42,7 @@
 .RankingPage_ranking_col.-name {
   width: 40%;
 }
-.RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-posted {
+.RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-added {
   width: 30%;
   justify-content: center;
 }
@@ -50,7 +50,7 @@
   .RankingPage_ranking_col.-name {
     width: 50%;
   }
-  .RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-posted {
+  .RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-added {
     width: 25%;
   }
 }

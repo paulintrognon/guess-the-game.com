@@ -18,10 +18,10 @@ function toPhonetikSuite() {
     it(`should ${test[0]} == ${test[1]}`, () => {
       const a = phonetikService.toPhonetik(test[0]);
       const b = phonetikService.toPhonetik(test[1]);
-      const isFound = a.some(stemmedA =>
+      const isSolved = a.some(stemmedA =>
         b.some(stemmedB => stemmedA === stemmedB)
       );
-      should(isFound).equal(true, `${a} VS ${b}`);
+      should(isSolved).equal(true, `${a} VS ${b}`);
     });
   });
 
@@ -35,10 +35,10 @@ function toPhonetikSuite() {
     it(`should ${test[0]} != ${test[1]}`, () => {
       const a = phonetikService.toPhonetik(test[0]);
       const b = phonetikService.toPhonetik(test[1]);
-      const isFound = a.some(stemmedA =>
+      const isSolved = a.some(stemmedA =>
         b.some(stemmedB => stemmedA === stemmedB)
       );
-      should(isFound).equal(false, `${a} VS ${b}`);
+      should(isSolved).equal(false, `${a} VS ${b}`);
     });
   });
 }

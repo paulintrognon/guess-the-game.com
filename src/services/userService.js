@@ -3,8 +3,8 @@ import api from './api';
 export default {
   fetchScores,
   fetchUser,
-  fetchScreenshotsFound,
-  fetchScreenshotsAdded,
+  fetchSolvedScreenshots,
+  fetchAddedScreenshots,
 };
 
 async function fetchScores() {
@@ -15,10 +15,10 @@ async function fetchUser() {
   return api.post('/user/get');
 }
 
-async function fetchScreenshotsFound() {
-  return api.post('/user/screenshots-found');
+async function fetchSolvedScreenshots() {
+  return api.post('/user/screenshots-solved');
 }
 
-async function fetchScreenshotsAdded() {
+async function fetchAddedScreenshots() {
   return api.post('/user/screenshots-added');
 }

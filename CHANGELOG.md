@@ -55,7 +55,7 @@
 
 - Password recovery & email settings
 - Autofocus guess input on play page
-- Fix "try another" button when 1 screenshot left to be found
+- Fix "try another" button when 1 screenshot left to be solved
 
 # v1.0.0
 
