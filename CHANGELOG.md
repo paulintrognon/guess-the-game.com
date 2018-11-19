@@ -1,3 +1,7 @@
+### v3.0.1
+
+- Add licence & licence file
+
 # v3.0.0
 
 - Add user space with menu
