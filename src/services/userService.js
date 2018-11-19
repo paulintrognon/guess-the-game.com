@@ -16,9 +16,9 @@ async function fetchUser() {
 }
 
 async function fetchSolvedScreenshots() {
-  return api.post('/user/screenshots-solved');
+  return api.post('/user/solved-screenshots');
 }
 
 async function fetchAddedScreenshots() {
-  return api.post('/user/screenshots-added');
+  return api.post('/user/added-screenshots');
 }
