@@ -1,3 +1,13 @@
+# v3.0.0
+
+- Add user space with menu
+  - Can view user data
+  - Can view solved screenshots
+  - Can view added screenshots
+- Logout now from user space
+- More consistant namings ("screenshot posted" => "added screenshot" ; "screenshot found" => "solved screenshot")
+- Various bug fixes
+
 ### v2.2.5
 
 - Remove title from homepage
