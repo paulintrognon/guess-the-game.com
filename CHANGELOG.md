@@ -5,6 +5,7 @@
   - Can view solved screenshots
   - Can view added screenshots
 - Logout now from user space
+- More consistant namings ("screenshot posted" => "added screenshot" ; "screenshot found" => "solved screenshot")
 - Various bug fixes
 
 ### v2.2.5
