@@ -11,6 +11,7 @@ export default () => (
   <div className="LoginPagesSwitcher">
     {links.map(link => (
       <Link
+        key={link.label}
         className={`LoginPagesSwitcher_link ${
           isPathActive(link.to) ? '-active' : ''
         }`}

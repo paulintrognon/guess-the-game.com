@@ -1,0 +1,28 @@
+.ScreenshotsFoundPage_content {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: wrap;
+}
+
+.ScreenshotsFoundPage_item {
+  box-shadow: 1px 1px 3px #777;
+  margin-bottom: 20px;
+}
+
+.ScreenshotsFoundPage_item_image {
+  width: 320px;
+  height: 180px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #f5f5f5;
+}
+
+.ScreenshotsFoundPage_item_legend {
+  padding: 5px;
+  margin-top: -2px;
+}
+.ScreenshotsFoundPage_item_legend_name {
+  font-size: 16px;
+  font-family: Norwester;
+}

@@ -1,31 +1,69 @@
 const initialState = {
   jwt: localStorage.getItem('jwt'),
   username: localStorage.getItem('username'),
+  userData: null,
+  screenshotsFound: [],
+  screenshotsAdded: [],
 };
 
 export default function reducer(state = initialState, action) {
   const newState = { ...state };
+  const { type, payload } = action;
 
-  if (action.type === 'USER_LOG_IN') {
-    localStorage.setItem('jwt', action.payload.jwt);
-    if (action.payload.username) {
-      localStorage.setItem('username', action.payload.username);
+  if (type === 'USER_LOG_IN') {
+    localStorage.setItem('jwt', payload.jwt);
+    if (payload.username) {
+      localStorage.setItem('username', payload.username);
     }
 
     return {
       ...state,
-      username: action.payload.username,
-      jwt: action.payload.jwt,
+      username: payload.username,
+      jwt: payload.jwt,
     };
   }
 
-  if (action.type === 'USER_LOG_OUT') {
+  if (type === 'USER_LOG_OUT') {
     localStorage.removeItem('jwt');
     localStorage.removeItem('username');
     return {
       ...state,
       username: '',
       jwt: '',
+    };
+  }
+
+  if (type === 'USER_DATA_LOADING') {
+    return {
+      ...state,
+      userData: null,
+    };
+  }
+
+  if (type === 'USER_DATA_LOADED') {
+    return {
+      ...state,
+      userData: payload,
+    };
+  }
+
+  if (type === 'USER_SCREENSHOTS-FOUND_LOADED') {
+    return {
+      ...state,
+      screenshotsFound: payload.map(screenshot => ({
+        ...screenshot,
+        createdAt: new Date(screenshot.createdAt),
+      })),
+    };
+  }
+
+  if (type === 'USER_SCREENSHOTS-ADDED_LOADED') {
+    return {
+      ...state,
+      screenshotsAdded: payload.map(screenshot => ({
+        ...screenshot,
+        createdAt: new Date(screenshot.createdAt),
+      })),
     };
   }
 

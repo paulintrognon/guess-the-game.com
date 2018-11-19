@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import loginActions from '../../actions/loginActions';
 import screenshotActions from '../../actions/screenshotActions';
+import layoutActions from '../../actions/layoutActions';
 
 import './Header.css';
 
@@ -18,6 +19,10 @@ class Header extends React.Component {
 
   playHandler = () => {
     this.props.dispatch(screenshotActions.getUnsolvedScreenshot());
+  };
+
+  accountButtonHandler = () => {
+    this.props.dispatch(layoutActions.toggleMenuAction());
   };
 
   render() {
@@ -61,7 +66,10 @@ class Header extends React.Component {
             </nav>
             <div className="Header_nav_right">
               {user.username
-                ? renderAccountButtons(user.username)
+                ? renderAccountMenuButton(
+                    user.username,
+                    this.accountButtonHandler
+                  )
                 : renderLoginButtons()}
             </div>
           </div>
@@ -80,9 +88,15 @@ function renderLoginButtons() {
   );
 }
 
-function renderAccountButtons(username) {
+function renderAccountMenuButton(username, handleOnClick) {
   return (
-    <Link to="/login" className="Header_nav_link -user">
+    <Link
+      to="/user/account"
+      className={`Header_nav_link -user ${
+        window.location.pathname.indexOf('/user') === 0 ? '-active' : null
+      }`}
+      onClick={handleOnClick}
+    >
       <span className="-hideSmartphone">{username}</span>
       {renderUserIconSvg()}
     </Link>
@@ -91,23 +105,15 @@ function renderAccountButtons(username) {
 
 function renderUserIconSvg() {
   return (
-    <span className="Header_nav_right_userIcon">
-      <svg
-        version="1.1"
-        x="0px"
-        y="0px"
-        width="30"
-        height="30"
-        viewBox="0 0 30 30"
-      >
-        <g transform="matrix(0.05910153,0,0,0.05910153,0.0112456,-0.04828975)">
-          <path
-            d="M 255,0 C 114.75,0 0,114.75 0,255 0,395.25 114.75,510 255,510 395.25,510 510,395.25 510,255 510,114.75 395.25,0 255,0 Z m 0,76.5 c 43.35,0 76.5,33.15 76.5,76.5 0,43.35 -33.15,76.5 -76.5,76.5 -43.35,0 -76.5,-33.15 -76.5,-76.5 0,-43.35 33.15,-76.5 76.5,-76.5 z m 0,362.1 c -63.75,0 -119.85,-33.149 -153,-81.6 0,-51 102,-79.05 153,-79.05 51,0 153,28.05 153,79.05 -33.15,48.45 -89.25,81.6 -153,81.6 z"
-            id="path2"
-          />
-        </g>
-      </svg>
-    </span>
+    <svg
+      className="Header_nav_right_menuIcon"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 17h-12v-2h12v2zm0-4h-12v-2h12v2zm0-4h-12v-2h12v2z" />
+    </svg>
   );
 }
 
