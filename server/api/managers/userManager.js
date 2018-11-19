@@ -55,9 +55,10 @@ async function getScores() {
 
 async function getSolvedScreenshots(userId) {
   const results = await db.SolvedScreenshot.findAll({
-    where: { UserId: userId },
     attributes: ['createdAt'],
+    where: { UserId: userId },
     limit: 100,
+    order: [['createdAt', 'DESC']],
     include: {
       model: db.Screenshot,
       attributes: ['id', 'gameCanonicalName', 'year', 'imagePath'],
@@ -74,9 +75,10 @@ async function getSolvedScreenshots(userId) {
 
 async function getAddedScreenshots(userId) {
   const results = await db.Screenshot.findAll({
-    where: { UserId: userId },
     attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
+    where: { UserId: userId },
     limit: 100,
+    order: [['createdAt', 'DESC']],
   });
   return results.map(res => ({
     id: res.id,
