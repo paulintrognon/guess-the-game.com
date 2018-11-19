@@ -59,6 +59,7 @@ export default function reducer(state = initialState, action) {
       solvedScreenshots: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
+        solvedAt: new Date(screenshot.solvedAt),
       })),
     };
   }

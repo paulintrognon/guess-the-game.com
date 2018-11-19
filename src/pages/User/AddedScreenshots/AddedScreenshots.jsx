@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 import BarTitle from '../../../components/BarTitle/BarTitle';
+import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
 import userActions from '../../../actions/userActions';
 import './AddedScreenshots.css';
 
@@ -26,8 +27,8 @@ class AddedScreenshotsPage extends React.Component {
           <BarTitle hideOnSmall>
             <h2>Screenshots Solved</h2>
           </BarTitle>
-          <div className="AddedScreenshotsPage_content">
-            <Link className="AddedScreenshotsPage_item" to="/add-screenshot">
+          <ScreenshotsGrid screenshots={addedScreenshots}>
+            <Link className="ScreenshotsGrid_item" to="/add-screenshot">
               <div className="AddedScreenshotsPage_item_add">
                 <svg
                   className="AddedScreenshotsPage_item_add_icon"
@@ -43,31 +44,7 @@ class AddedScreenshotsPage extends React.Component {
                 <p>Add new shot</p>
               </div>
             </Link>
-            {addedScreenshots.map(addedScreenshot => (
-              <Link
-                key={addedScreenshot.id}
-                className="AddedScreenshotsPage_item"
-                to={`/shot/${addedScreenshot.id}`}
-              >
-                <div
-                  style={{
-                    backgroundImage: `url(${addedScreenshot.imageUrl})`,
-                  }}
-                  className="AddedScreenshotsPage_item_image"
-                />
-                <div className="AddedScreenshotsPage_item_legend">
-                  <p className="AddedScreenshotsPage_item_legend_name">
-                    {addedScreenshot.name}{' '}
-                    {addedScreenshot.year ? `(${addedScreenshot.year})` : null}
-                  </p>
-                  <p className="AddedScreenshotsPage_item_legend_createdat">
-                    Added the {addedScreenshot.createdAt.toLocaleDateString()}{' '}
-                    at {addedScreenshot.createdAt.toLocaleTimeString()}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          </ScreenshotsGrid>
         </div>
       </section>
     );

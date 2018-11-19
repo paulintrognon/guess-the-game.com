@@ -61,14 +61,15 @@ async function getSolvedScreenshots(userId) {
     order: [['createdAt', 'DESC']],
     include: {
       model: db.Screenshot,
-      attributes: ['id', 'gameCanonicalName', 'year', 'imagePath'],
+      attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
     },
   });
   return results.map(res => ({
     id: res.Screenshot.id,
     name: res.Screenshot.gameCanonicalName,
     year: res.Screenshot.year || null,
-    createdAt: res.createdAt,
+    createdAt: res.Screenshot.createdAt,
+    solvedAt: res.createdAt,
     imagePath: res.Screenshot.imagePath,
   }));
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 import BarTitle from '../../../components/BarTitle/BarTitle';
+import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
 import userActions from '../../../actions/userActions';
 import './SolvedScreenshots.css';
 
@@ -26,34 +27,7 @@ class SolvedScreenshotsPage extends React.Component {
           <BarTitle hideOnSmall>
             <h2>Screenshots Solved</h2>
           </BarTitle>
-          <div className="SolvedScreenshotsPage_content">
-            {solvedScreenshots.map(solvedScreenshot => (
-              <Link
-                key={solvedScreenshot.id}
-                className="SolvedScreenshotsPage_item"
-                to={`/shot/${solvedScreenshot.id}`}
-              >
-                <div
-                  style={{
-                    backgroundImage: `url(${solvedScreenshot.imageUrl})`,
-                  }}
-                  className="SolvedScreenshotsPage_item_image"
-                />
-                <div className="SolvedScreenshotsPage_item_legend">
-                  <p className="SolvedScreenshotsPage_item_legend_name">
-                    {solvedScreenshot.name}{' '}
-                    {solvedScreenshot.year
-                      ? `(${solvedScreenshot.year})`
-                      : null}
-                  </p>
-                  <p className="SolvedScreenshotsPage_item_legend_createdat">
-                    Solved the {solvedScreenshot.createdAt.toLocaleDateString()}{' '}
-                    at {solvedScreenshot.createdAt.toLocaleTimeString()}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <ScreenshotsGrid screenshots={solvedScreenshots} />
         </div>
       </section>
     );
