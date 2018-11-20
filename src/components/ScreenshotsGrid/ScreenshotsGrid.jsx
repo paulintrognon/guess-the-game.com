@@ -2,11 +2,11 @@ import React from 'react';
 import ScreenshotItem from './ScreenshotItem';
 import './ScreenshotsGrid.css';
 
-const ScreenshotsGrid = ({ screenshots, children }) => (
+const ScreenshotsGrid = ({ screenshots, noScreenshotSentence, children }) => (
   <div className="ScreenshotsGrid">
     {children}
     {screenshots.length === 0 ? (
-      <p>No screenshot to moderate.</p>
+      <p>{noScreenshotSentence}</p>
     ) : (
       screenshots.map(screenshot => <ScreenshotItem screenshot={screenshot} />)
     )}
