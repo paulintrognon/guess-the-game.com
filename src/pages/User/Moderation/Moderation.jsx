@@ -30,6 +30,7 @@ class ModerationPage extends React.Component {
             <ScreenshotsGrid
               screenshots={nonModeratedScreenshots}
               onModerate={this.handleModeration}
+              noScreenshotSentence="All screenshots have been moderated."
             />
           </div>
         </div>
