@@ -127,5 +127,6 @@ async function returnLoggedUser(user) {
   return {
     jwt,
     username: user.username,
+    canModerateScreenshots: user.canModerateScreenshots,
   };
 }

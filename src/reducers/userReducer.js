@@ -4,6 +4,8 @@ const initialState = {
   userData: null,
   solvedScreenshots: [],
   addedScreenshots: [],
+  nonModeratedScreenshots: [],
+  canModerateScreenshots: localStorage.getItem('canModerateScreenshots'),
 };
 
 export default function reducer(state = initialState, action) {
@@ -14,12 +16,17 @@ export default function reducer(state = initialState, action) {
     localStorage.setItem('jwt', payload.jwt);
     if (payload.username) {
       localStorage.setItem('username', payload.username);
+      localStorage.setItem(
+        'canModerateScreenshots',
+        payload.canModerateScreenshots
+      );
     }
 
     return {
       ...state,
       username: payload.username,
       jwt: payload.jwt,
+      canModerateScreenshots: payload.canModerateScreenshots,
     };
   }
 
@@ -47,20 +54,31 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_SCREENSHOTS-FOUND_LOADED') {
+  if (type === 'USER_SOLVED-SCREENSHOTS_LOADED') {
     return {
       ...state,
       solvedScreenshots: payload.map(screenshot => ({
+        ...screenshot,
+        createdAt: new Date(screenshot.createdAt),
+        solvedAt: new Date(screenshot.solvedAt),
+      })),
+    };
+  }
+
+  if (type === 'USER_ADDED-SCREENSHOTS_LOADED') {
+    return {
+      ...state,
+      addedScreenshots: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),
     };
   }
 
-  if (type === 'USER_SCREENSHOTS-ADDED_LOADED') {
+  if (type === 'USER_NON-MODERATED-SCREENSHOTS_LOADED') {
     return {
       ...state,
-      addedScreenshots: payload.map(screenshot => ({
+      nonModeratedScreenshots: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),

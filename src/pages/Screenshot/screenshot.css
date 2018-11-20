@@ -254,3 +254,9 @@
   animation: spin 400ms linear infinite;
 }
 @keyframes spin { 100% { transform:rotate(360deg); } }
+
+.Screenshot_ApprovalStatus {
+  text-transform: uppercase;
+  font-style: italic;
+  color: #fd464c;
+}
