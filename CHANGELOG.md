@@ -1,3 +1,8 @@
+### v4.0.1
+
+- Fix #19 - /user/* should not be accessible when not logged
+- Fix "no screenshots" messages in user space
+
 # v4.0.0 - Moderation
 
 - New uploaded screenshots needs to be approved by moderators
