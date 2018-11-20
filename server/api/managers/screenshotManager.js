@@ -7,9 +7,11 @@ module.exports = {
   getFromId,
   getLastAdded,
   getUnsolved,
+  getNonModeratedScreenshots,
   deleteUserScreenshot,
   testProposal,
   markScreenshotAsResolved,
+  moderateScreenshot,
 };
 
 async function create(screenshotToCreate) {
@@ -26,7 +28,6 @@ async function create(screenshotToCreate) {
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
-    user.increment('addedScreenshots'),
   ]);
   return screenshot;
 }
@@ -66,6 +67,7 @@ async function getFromId(screenshotId, userId) {
     year: res.year,
     imagePath: res.imagePath,
     createdAt: res.createdAt,
+    approvalStatus: res.approvalStatus,
     user: res.User,
     solvedScreenshots: res.SolvedScreenshots,
   };
@@ -74,6 +76,7 @@ async function getFromId(screenshotId, userId) {
 async function getLastAdded() {
   const screenshot = await db.Screenshot.findOne({
     attributes: ['id'],
+    where: { approvalStatus: 1 },
     limit: 1,
     order: [['createdAt', 'DESC']],
   });
@@ -124,7 +127,8 @@ async function getUnsolved({ userId, exclude }) {
     LEFT JOIN
       Users ON Screenshot.UserId = Users.id
     WHERE (
-      Screenshot.deletedAt IS NULL
+      Screenshot.deletedAt IS NULL AND
+      Screenshot.approvalStatus = 1
       ${
         userId
           ? `
@@ -145,6 +149,23 @@ async function getUnsolved({ userId, exclude }) {
     { model: db.Screenshot }
   );
   return screenshots[0];
+}
+
+async function getNonModeratedScreenshots() {
+  const results = await db.Screenshot.findAll({
+    attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
+    where: { approvalStatus: 0 },
+    limit: 100,
+    order: [['createdAt', 'ASC']],
+  });
+  return results.map(res => ({
+    id: res.id,
+    name: res.gameCanonicalName,
+    year: res.year || null,
+    createdAt: res.createdAt,
+    imagePath: res.imagePath,
+    awaitingApproval: true,
+  }));
 }
 
 async function deleteUserScreenshot({ userId, screenshotId }) {
@@ -218,6 +239,27 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
     user.addSolvedScreenshot(solvedScreenshot),
     screenshot.addSolvedScreenshot(solvedScreenshot),
     user.increment('solvedScreenshots'),
+  ]);
+}
+
+async function moderateScreenshot({ screenshotId, user, approve }) {
+  const [moderator, screenshot] = await Promise.all([
+    db.User.findById(user.id),
+    db.Screenshot.findById(screenshotId),
+  ]);
+  if (!moderator) {
+    throw new Error('Moderator not found');
+  }
+  if (!screenshot) {
+    throw new Error('Screenshot not found');
+  }
+  const poster = await db.User.findById(screenshot.UserId);
+  return Promise.all([
+    screenshot.update({
+      approvalStatus: approve ? 1 : -1,
+      moderatedBy: moderator.id,
+    }),
+    approve ? poster.increment('addedScreenshots') : null,
   ]);
 }
 

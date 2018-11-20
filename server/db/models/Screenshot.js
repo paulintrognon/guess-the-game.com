@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      approvalStatus: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
     },
     {
       timestamps: true,
@@ -30,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
     models.Screenshot.hasMany(models.ScreenshotName);
     models.Screenshot.hasMany(models.SolvedScreenshot);
     models.Screenshot.belongsTo(models.User, { onDelete: 'CASCADE' });
+    models.Screenshot.belongsTo(models.User, {
+      as: 'ModeratorUser',
+      foreignKey: 'moderatedBy',
+    });
   };
 
   return Screenshot;

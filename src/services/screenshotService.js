@@ -6,8 +6,10 @@ export default {
   getFromId,
   getLast,
   getUnsolved,
+  getNonModerated,
   guess,
   removeOwn,
+  moderate,
 };
 
 function uploadImage(file, onUploadProgress) {
@@ -34,6 +36,10 @@ function getUnsolved(exclude) {
   return api.post('/screenshot/unsolved', { exclude });
 }
 
+function getNonModerated() {
+  return api.post('/screenshot/non-moderated');
+}
+
 function guess(screenshotId, proposal) {
   return api.post('/screenshot/guess', {
     screenshotId,
@@ -44,5 +50,12 @@ function guess(screenshotId, proposal) {
 function removeOwn(screenshotId) {
   return api.post('/screenshot/remove-own', {
     screenshotId,
+  });
+}
+
+function moderate({ screenshotId, approve }) {
+  return api.post('/screenshot/moderate', {
+    screenshotId,
+    approve,
   });
 }
