@@ -1,8 +1,14 @@
+# v4.0.0 - Moderation
+
+- New uploaded screenshots needs to be approved by moderators
+- Non-approved screenshots are excluded from the game
+- Moderators can see the list of screenshots waiting to be approved
+
 ### v3.0.1
 
 - Add licence & licence file
 
-# v3.0.0
+# v3.0.0 - User space
 
 - Add user space with menu
   - Can view user data
@@ -51,7 +57,7 @@
 - Fix homepage "uploaded by"
 - Fix smallscreen screenshot top info
 
-# v2.0.0
+# v2.0.0 - Redesign
 
 - Complete redesign
 - Add ranking page
