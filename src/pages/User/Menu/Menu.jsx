@@ -21,7 +21,7 @@ class Menu extends React.Component {
 
   render() {
     const { isMenuVisisble, canModerateScreenshots, dispatch } = this.props;
-    const { solvedScreenshots, addedScreenshots } = this.props.userData;
+    const { nbSolvedScreenshots, nbAddedScreenshots } = this.props.userData;
     return (
       <div className={`Menu ${isMenuVisisble ? '-visisble' : '-hidden'}`}>
         <button
@@ -66,7 +66,7 @@ class Menu extends React.Component {
           >
             <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.25 17.292l-4.5-4.364 1.857-1.858 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.643z" />
           </svg>{' '}
-          {solvedScreenshots} Solved Screenshots
+          {nbSolvedScreenshots} Solved Screenshots
         </MenuItem>
         <MenuItem to="/user/added" dispatch={dispatch}>
           <svg
@@ -78,7 +78,7 @@ class Menu extends React.Component {
           >
             <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z" />
           </svg>
-          {addedScreenshots} Added Screenshots
+          {nbAddedScreenshots} Added Screenshots
         </MenuItem>
       </div>
     );

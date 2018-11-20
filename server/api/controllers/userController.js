@@ -19,8 +19,8 @@ async function getUser(req) {
     id: user.id,
     username: user.username,
     email: user.email,
-    solvedScreenshots: user.solvedScreenshots,
-    addedScreenshots: user.addedScreenshots,
+    nbSolvedScreenshots: user.solvedScreenshots,
+    nbAddedScreenshots: user.addedScreenshots,
   };
 }
 

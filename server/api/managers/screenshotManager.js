@@ -75,6 +75,7 @@ async function getFromId(screenshotId, userId) {
 async function getLastAdded() {
   const screenshot = await db.Screenshot.findOne({
     attributes: ['id'],
+    where: { isApproved: 1 },
     limit: 1,
     order: [['createdAt', 'DESC']],
   });

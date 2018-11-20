@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       isApproved: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
       },
     },
     {
