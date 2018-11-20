@@ -36,6 +36,7 @@ async function getfromId(req) {
     id: res.id,
     imageUrl: cloudinaryService.pathToUrl(res.imagePath),
     createdAt: res.createdAt,
+    approvalStatus: res.approvalStatus,
     addedBy: res.user.username,
     stats: res.stats,
   };

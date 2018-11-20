@@ -136,7 +136,8 @@ class ScreenshotPage extends React.Component {
               screenshot.isSolved || isProposalRight ? '-isSolved' : ''
             }`}
           >
-            Shot #{screenshot.id}
+            Shot #{screenshot.id}{' '}
+            <ApprovalStatus approvalStatus={screenshot.approvalStatus} />
           </h1>
           <div className="column ScreenshotPage_header_uploadedBy">
             By <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
@@ -194,7 +195,20 @@ class ScreenshotPage extends React.Component {
               {screenshot.createdAt.toDateString()}
             </p>
           ) : null}
-          {!error && !screenshot.isSolved && !screenshot.isOwn ? (
+          {screenshot.approvalStatus === 0 ? (
+            <p>
+              This shot is <b>awaiting approval</b> from moderators.
+            </p>
+          ) : null}
+          {screenshot.approvalStatus === -1 ? (
+            <p>
+              This shot has been <b>rejected</b> by the moderators.
+            </p>
+          ) : null}
+          {!error &&
+          !screenshot.isSolved &&
+          !screenshot.isOwn &&
+          screenshot.approvalStatus === 1 ? (
             <div
               className={`ScreenshotPage_form_input 
             ${isGuessing ? '-guessing' : ''}
@@ -262,3 +276,20 @@ class ScreenshotPage extends React.Component {
   );
 }
 export default connect(mapStoreToProps)(ScreenshotPage);
+
+function ApprovalStatus({ approvalStatus }) {
+  if (approvalStatus === 0) {
+    return (
+      <span className="Screenshot_ApprovalStatus -awaiting">
+        {' '}
+        - Awaiting Approval
+      </span>
+    );
+  }
+  if (approvalStatus === -1) {
+    return (
+      <span className="Screenshot_ApprovalStatus -rejected"> - Rejected</span>
+    );
+  }
+  return null;
+}

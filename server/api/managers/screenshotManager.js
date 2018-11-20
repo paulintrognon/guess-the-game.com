@@ -67,6 +67,7 @@ async function getFromId(screenshotId, userId) {
     year: res.year,
     imagePath: res.imagePath,
     createdAt: res.createdAt,
+    approvalStatus: res.approvalStatus,
     user: res.User,
     solvedScreenshots: res.SolvedScreenshots,
   };
@@ -75,7 +76,7 @@ async function getFromId(screenshotId, userId) {
 async function getLastAdded() {
   const screenshot = await db.Screenshot.findOne({
     attributes: ['id'],
-    where: { isApproved: 1 },
+    where: { approvalStatus: 1 },
     limit: 1,
     order: [['createdAt', 'DESC']],
   });
@@ -127,7 +128,7 @@ async function getUnsolved({ userId, exclude }) {
       Users ON Screenshot.UserId = Users.id
     WHERE (
       Screenshot.deletedAt IS NULL AND
-      Screenshot.isApproved = 1
+      Screenshot.approvalStatus = 1
       ${
         userId
           ? `
@@ -153,7 +154,7 @@ async function getUnsolved({ userId, exclude }) {
 async function getNonModeratedScreenshots() {
   const results = await db.Screenshot.findAll({
     attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
-    where: { isApproved: 0 },
+    where: { approvalStatus: 0 },
     limit: 100,
     order: [['createdAt', 'ASC']],
   });
@@ -253,10 +254,9 @@ async function moderateScreenshot({ screenshotId, user, approve }) {
     throw new Error('Screenshot not found');
   }
   const poster = await db.User.findById(screenshot.UserId);
-  console.log('poster', poster.username);
   return Promise.all([
     screenshot.update({
-      isApproved: approve ? 1 : -1,
+      approvalStatus: approve ? 1 : -1,
       moderatedBy: moderator.id,
     }),
     approve ? poster.increment('addedScreenshots') : null,
