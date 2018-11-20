@@ -26,7 +26,10 @@ class SolvedScreenshotsPage extends React.Component {
           <BarTitle hideOnSmall>
             <h2>Screenshots Solved</h2>
           </BarTitle>
-          <ScreenshotsGrid screenshots={solvedScreenshots} />
+          <ScreenshotsGrid
+            screenshots={solvedScreenshots}
+            noScreenshotSentence="You haven't solved any screenshots yet."
+          />
         </div>
       </section>
     );
