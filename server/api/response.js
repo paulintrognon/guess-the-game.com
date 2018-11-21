@@ -19,7 +19,7 @@ function responseMiddleware(promise, req, res, next) {
   function handleSuccess(result) {
     res.status(200).send({
       status: 200,
-      result,
+      result: result !== undefined ? result : { error: false },
     });
   }
 

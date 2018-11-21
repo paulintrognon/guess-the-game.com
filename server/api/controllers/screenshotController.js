@@ -106,26 +106,19 @@ async function getNonModeratedScreenshots(req) {
 
 async function removeOwnScreenshot(req) {
   if (!req.user) {
-    return bluebird.reject({
+    bluebird.reject({
       status: 401,
       code: 'MUST_BE_IDENTIFIED',
       message:
         'User must be identified in order to delete his own screenshots.',
     });
+    return;
   }
-  const result = await screenshotManager.deleteUserScreenshot({
+  // We delete the screenshot
+  await screenshotManager.deleteUserScreenshot({
     userId: req.user.id,
     screenshotId: req.body.screenshotId,
   });
-  if (result === null) {
-    return bluebird.reject({
-      status: 404,
-      code: 'SCREENSHOT_TO_DELETE_NOT_FOUND',
-      message:
-        'The screenshot to delete has not been found. Maybe the user has not added that screenshot?',
-    });
-  }
-  return { deleted: Boolean(result) };
 }
 
 async function tryProposal(req) {
