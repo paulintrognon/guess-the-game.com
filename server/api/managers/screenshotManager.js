@@ -23,6 +23,7 @@ async function create(screenshotToCreate) {
     gameCanonicalName: screenshotToCreate.gameCanonicalName,
     imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
+    approvalStatus: screenshotToCreate.approvalStatus,
   });
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([
