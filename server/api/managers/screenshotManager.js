@@ -23,12 +23,13 @@ async function create(screenshotToCreate) {
     gameCanonicalName: screenshotToCreate.gameCanonicalName,
     imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
-    approvalStatus: screenshotToCreate.approvalStatus,
+    approvalStatus: user.canModerateScreenshots ? 1 : 0,
   });
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
+    user.canModerateScreenshots ? user.increment('addedScreenshots') : null,
   ]);
   return screenshot;
 }

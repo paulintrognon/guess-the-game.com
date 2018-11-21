@@ -195,14 +195,14 @@ async function addScreenshot(req) {
 
   const imagePath = await cloudinaryService.uploadImage(localImagePath);
 
-  return screenshotManager.create({
+  const screenshot = {
     imagePath,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
     year: req.body.year,
     userId: user.id,
-    approvalStatus: user.canModerateScreenshots ? 1 : 0,
-  });
+  };
+  return screenshotManager.create(screenshot);
 }
 
 async function moderateScreenshot(req) {
