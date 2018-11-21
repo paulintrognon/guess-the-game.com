@@ -178,9 +178,25 @@ async function deleteUserScreenshot({ userId, screenshotId }) {
     },
   });
   if (!screenshot) {
-    return null;
+    return;
   }
-  return screenshot.destroy();
+  await screenshot.destroy();
+  const [originalPoster, solvedScreenshots] = await Promise.all([
+    db.User.findById(userId),
+    db.SolvedScreenshot.findAll({
+      where: { ScreenshotId: screenshotId },
+      include: { model: db.User },
+    }),
+  ]);
+  await Promise.all([
+    originalPoster && originalPoster.decrement('addedScreenshots'),
+    bluebird.map(solvedScreenshots, solvedScreenshot =>
+      Promise.all([
+        solvedScreenshot.User.decrement('solvedScreenshots'),
+        solvedScreenshot.destroy(),
+      ])
+    ),
+  ]);
 }
 
 async function testProposal(screenshotId, proposal) {

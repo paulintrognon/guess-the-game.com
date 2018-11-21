@@ -24,7 +24,6 @@ class ScreenshotItem extends React.Component {
     const { approvementStatus } = this.state;
     return (
       <div
-        key={screenshot.id}
         className="ScreenshotsGrid_item"
         to={`/shot/${screenshot.id}`}
         title={screenshot.name}

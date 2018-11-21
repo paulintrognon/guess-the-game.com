@@ -142,7 +142,7 @@ class ScreenshotPage extends React.Component {
           <div className="column ScreenshotPage_header_uploadedBy">
             By <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
             {screenshot.isOwn ? (
-              <buton
+              <button
                 className="ScreenshotPage_header_removeScreenshotLink"
                 onClick={this.handleRemoveOwn}
               >
@@ -151,7 +151,7 @@ class ScreenshotPage extends React.Component {
                   {' '}
                   this shot
                 </span>
-              </buton>
+              </button>
             ) : null}
           </div>
         </div>
