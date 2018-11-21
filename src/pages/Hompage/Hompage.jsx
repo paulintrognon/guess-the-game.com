@@ -32,10 +32,7 @@ class Homepage extends React.Component {
           </button>
         </p>
         {this.state.lastScreenshot && (
-          <Link
-            to={`/shot/${this.state.lastScreenshot.id}`}
-            className="Homepage_lastAddedScreenshot"
-          >
+          <div className="Homepage_lastAddedScreenshot">
             <h2 className="Homepage_lastAddedScreenshot_title">
               Last added screenshot
             </h2>
@@ -51,14 +48,18 @@ class Homepage extends React.Component {
               )}
             </p>
             <div className="Homepage_lastAddedScreenshot_shot_container">
-              <div
-                className="Homepage_lastAddedScreenshot_shot"
-                style={{
-                  backgroundImage: `url(${this.state.lastScreenshot.imageUrl})`,
-                }}
-              />
+              <Link to={`/shot/${this.state.lastScreenshot.id}`}>
+                <div
+                  className="Homepage_lastAddedScreenshot_shot"
+                  style={{
+                    backgroundImage: `url(${
+                      this.state.lastScreenshot.imageUrl
+                    })`,
+                  }}
+                />
+              </Link>
             </div>
-          </Link>
+          </div>
         )}
       </section>
     );
