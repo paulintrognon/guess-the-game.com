@@ -26,6 +26,7 @@ export default function reducer(state = initialState, action) {
       ...state,
       isLoading: true,
       isTryAnotherButtonClicked: true,
+      error: null,
     };
   }
 
