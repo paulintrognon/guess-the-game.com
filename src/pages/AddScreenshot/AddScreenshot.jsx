@@ -249,8 +249,8 @@ class AddScreenshotPage extends React.Component {
             <div className="AddScreenshotPage_form_alternativeNames">
               <p>Alternative names</p>
               <p className="AddScreenshotPage_form_alternativeNames_extra">
-                The players will find the game by typing the full name or any of
-                the alternatives.
+                Players will solve that screenshot by typing the full name or
+                any of the alternatives.
               </p>
               {this.state.alternativeNames.map((alternativeName, i) => (
                 <input

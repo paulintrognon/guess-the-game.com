@@ -65,6 +65,9 @@
 .Header_nav_link.-active::after {
   opacity: 1;
 }
+.Header_nav_link.-user::after {
+  display: none;
+}
 
 .Header_nav_left,.Header_nav_right {
   display: flex;

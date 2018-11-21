@@ -179,6 +179,15 @@ function uploadScreenshot(req) {
 }
 
 async function addScreenshot(req) {
+  const { user } = req;
+  if (!user) {
+    return bluebird.reject({
+      status: 401,
+      code: 'MUST_BE_IDENTIFIED',
+      message: 'User must be identified to add a new screenshot.',
+    });
+  }
+
   ['name', 'localImageName'].forEach(field => {
     if (!req.body[field]) {
       throw new Error(`User ${field} cannot be null`);
@@ -198,7 +207,8 @@ async function addScreenshot(req) {
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
     year: req.body.year,
-    userId: req.user.id,
+    userId: user.id,
+    approvalStatus: user.canModerateScreenshots ? 1 : 0,
   });
 }
 
