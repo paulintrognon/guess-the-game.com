@@ -8,7 +8,9 @@ const ScreenshotsGrid = ({ screenshots, noScreenshotSentence, children }) => (
     {screenshots.length === 0 ? (
       <p>{noScreenshotSentence}</p>
     ) : (
-      screenshots.map(screenshot => <ScreenshotItem screenshot={screenshot} />)
+      screenshots.map(screenshot => (
+        <ScreenshotItem key={screenshot.id} screenshot={screenshot} />
+      ))
     )}
   </div>
 );
