@@ -1,3 +1,8 @@
+### v4.1.1
+
+- Update scores after screenshot deletion
+- Various other bug fixes
+
 ## v4.1.0
 
 - New screenshots from moderators are now automatically approved
