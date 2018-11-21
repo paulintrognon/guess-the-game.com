@@ -1,3 +1,7 @@
+### v4.1.3
+
+- Fix count of added screenshots for moderators
+
 ### v4.1.2
 
 - Now only picture of last added screenshot is clickable. Closes #17
