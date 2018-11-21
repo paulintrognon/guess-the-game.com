@@ -1,3 +1,7 @@
+### v4.1.2
+
+- Now only picture of last added screenshot is clickable. Closes #17
+
 ### v4.1.1
 
 - Update scores after screenshot deletion
