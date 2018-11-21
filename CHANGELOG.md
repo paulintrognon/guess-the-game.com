@@ -1,3 +1,8 @@
+## v4.1.0
+
+- New screenshots from moderators are now automatically approved
+- Bugfixes
+
 ### v4.0.1
 
 - Fix #19 - /user/* should not be accessible when not logged
