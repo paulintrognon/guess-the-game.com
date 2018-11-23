@@ -1,5 +1,6 @@
 ## v4.3.0
 
+- Alternative scoring: formula is solved / (total - added)
 - Fix homepage when no screenshot added yet
 - Fix account page infinite loader when no screenshot solved / added
 
