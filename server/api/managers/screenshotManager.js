@@ -143,7 +143,11 @@ async function getUnsolved({ userId, exclude }) {
       ) `
           : ''
       }
-      ${exclude ? `AND (Screenshot.Id != ${exclude})` : ''}
+      ${
+        exclude && exclude.length
+          ? `AND (Screenshot.Id NOT IN (${exclude.join(',')}) )`
+          : ''
+      }
     )
     ORDER BY RAND()
     LIMIT 1

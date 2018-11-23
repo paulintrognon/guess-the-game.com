@@ -15,6 +15,7 @@ function mapStoreToProps(store) {
     isProposalRight: store.screenshot.isProposalRight,
     isProposalWrong: store.screenshot.isProposalWrong,
     error: store.screenshot.error,
+    lastViewedRandomScreenshots: store.user.lastViewedRandomScreenshots,
   };
 }
 class ScreenshotPage extends React.Component {
@@ -71,7 +72,9 @@ class ScreenshotPage extends React.Component {
   handleTryAnother = () => {
     this.setState({ proposal: '' });
     this.props.dispatch(
-      screenshotActions.getUnsolvedScreenshot(this.props.match.params.id)
+      screenshotActions.getUnsolvedScreenshot(
+        this.props.lastViewedRandomScreenshots
+      )
     );
   };
 
