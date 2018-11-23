@@ -6,6 +6,7 @@ const initialState = {
   addedScreenshots: [],
   nonModeratedScreenshots: [],
   canModerateScreenshots: localStorage.getItem('canModerateScreenshots'),
+  lastViewedRandomScreenshots: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -82,6 +83,29 @@ export default function reducer(state = initialState, action) {
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),
+    };
+  }
+
+  if (type === 'SCREENSHOT_LOAD' && !payload.error) {
+    if (state.lastViewedRandomScreenshots.indexOf(payload.id) !== -1) {
+      return {
+        ...state,
+        lastViewedRandomScreenshots: [payload.id],
+      };
+    }
+    if (state.lastViewedRandomScreenshots.length > 3) {
+      return {
+        ...state,
+        lastViewedRandomScreenshots: state.lastViewedRandomScreenshots
+          .slice(1)
+          .concat([payload.id]),
+      };
+    }
+    return {
+      ...state,
+      lastViewedRandomScreenshots: state.lastViewedRandomScreenshots.concat([
+        payload.id,
+      ]),
     };
   }
 
