@@ -87,13 +87,15 @@ export default function reducer(state = initialState, action) {
   }
 
   if (type === 'SCREENSHOT_LOAD' && !payload.error) {
+    // Si la screenshot retournée est déjà dans notre liste, on recommence la liste
     if (state.lastViewedRandomScreenshots.indexOf(payload.id) !== -1) {
       return {
         ...state,
         lastViewedRandomScreenshots: [payload.id],
       };
     }
-    if (state.lastViewedRandomScreenshots.length > 3) {
+    // Si le nombre de screenshots dépasse la limite, on supprime la première avant de rajouter la nouvelle
+    if (state.lastViewedRandomScreenshots.length > 200) {
       return {
         ...state,
         lastViewedRandomScreenshots: state.lastViewedRandomScreenshots
@@ -101,6 +103,7 @@ export default function reducer(state = initialState, action) {
           .concat([payload.id]),
       };
     }
+    // Sinon, on ajoute la nouvelle screenshot à la liste des screenshots vues
     return {
       ...state,
       lastViewedRandomScreenshots: state.lastViewedRandomScreenshots.concat([
