@@ -2,6 +2,7 @@
 
 - Alternative scoring: formula is solved / (total - added)
 - Fix homepage when no screenshot added yet
+- Fix approve / disapprove already moderated screenshots
 - Fix account page infinite loader when no screenshot solved / added
 
 ## v4.2.0
