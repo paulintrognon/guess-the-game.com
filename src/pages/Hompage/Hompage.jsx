@@ -12,7 +12,9 @@ class Homepage extends React.Component {
       lastScreenshot: null,
     };
     screenshotService.getLast().then(lastScreenshot => {
-      this.setState({ lastScreenshot });
+      if (!lastScreenshot.error) {
+        this.setState({ lastScreenshot });
+      }
     });
   }
 

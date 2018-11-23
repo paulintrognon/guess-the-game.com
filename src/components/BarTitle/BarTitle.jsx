@@ -4,11 +4,11 @@ import './BarTitle.css';
 const BarTitle = ({
   children,
   className = '',
-  showOnlyOnSmartphones = false,
+  onlyOnSmartphones = false,
 }) => (
   <div
     className={`BarTitle ${className} ${
-      showOnlyOnSmartphones ? '-showOnlyOnSmartphones' : ''
+      onlyOnSmartphones ? '-onlyOnSmartphones' : ''
     }`}
   >
     <div className="BarTitle_text">{children}</div>

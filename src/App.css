@@ -70,7 +70,7 @@ body {
 }
 
 @media (min-width: 480px) {
-  .-showOnlyOnSmartphones {
+  .-onlyOnSmartphones {
     display: none !important;
   }
 }

@@ -4,7 +4,7 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-const SCORE_CACHE_DURATION = 60 * 10; // One minute
+const SCORE_CACHE_DURATION = 30; // 30 seconds
 router.get(
   '/scores',
   routeCache.cacheSeconds(SCORE_CACHE_DURATION),

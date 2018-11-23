@@ -24,7 +24,7 @@ class ModerationPage extends React.Component {
         <Helmet title="Moderation" />
         <div className="container">
           <div className="ModerationPage">
-            <BarTitle showOnlyOnSmartphones>
+            <BarTitle onlyOnSmartphones>
               <h2>Moderation</h2>
             </BarTitle>
             <ScreenshotsGrid
