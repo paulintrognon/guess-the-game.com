@@ -62,3 +62,16 @@ body {
   font-weight: 300;
   font-style: italic;
 }
+
+@media (max-width: 480px) {
+  .-hideOnSmartphones {
+    display: none !important;
+  }
+}
+
+@media (min-width: 480px) {
+  .-showOnlyOnSmartphones {
+    display: none !important;
+  }
+}
+
