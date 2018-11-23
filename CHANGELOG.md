@@ -1,3 +1,8 @@
+## v4.3.0
+
+- Fix homepage when no screenshot added yet
+- Fix account page infinite loader when no screenshot solved / added
+
 ## v4.2.0
 
 - Better random screenshots: you see all unseen screenshots without repetition (with 200 unseen sc max)

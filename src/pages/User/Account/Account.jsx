@@ -21,7 +21,7 @@ const AccountPage = ({
   <section className="section">
     <Helmet title="My account" />
     <div className="AccountPage">
-      <BarTitle showOnlyOnSmartphones>
+      <BarTitle onlyOnSmartphones>
         <h2>My Account</h2>
       </BarTitle>
       <div className="AccountPage_content">

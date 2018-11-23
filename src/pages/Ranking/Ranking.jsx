@@ -33,8 +33,14 @@ class Homepage extends React.Component {
       <div className="RankingPage_ranking">
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
-          <div className="RankingPage_ranking_col -solved">Solved</div>
-          <div className="RankingPage_ranking_col -added">Added</div>
+          <div className="RankingPage_ranking_col -centered">
+            <span className="-onlyOnSmartphones">Cpt</span>
+            <span className="-hideOnSmartphones">Completeness</span>
+          </div>
+          <div className="RankingPage_ranking_col -centered">Solved</div>
+          <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
+            Added
+          </div>
         </div>
         {scores.map((score, i) => (
           <div className="RankingPage_ranking_row" key={`rank-${i}`}>
@@ -44,11 +50,14 @@ class Homepage extends React.Component {
                 {score.username}
               </span>
             </div>
-            <div className="RankingPage_ranking_col -solved">
-              {score.solvedScreenshots}
+            <div className="RankingPage_ranking_col -centered">
+              {(score.completeness * 100).toFixed(2)}&nbsp;%
             </div>
-            <div className="RankingPage_ranking_col -added">
-              {score.addedScreenshots}
+            <div className="RankingPage_ranking_col -centered">
+              {score.nbSolvedScreenshots}
+            </div>
+            <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
+              {score.nbAddedScreenshots}
             </div>
           </div>
         ))}

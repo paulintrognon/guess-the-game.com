@@ -243,7 +243,7 @@ class ScreenshotPage extends React.Component {
             </div>
           ) : null}
         </div>
-        <p className="ScreenshotPage_form_or -showOnlyOnSmartphones">or</p>
+        <p className="ScreenshotPage_form_or -onlyOnSmartphones">or</p>
         <div className="ScreenshotPage_form_col -col3">
           <button
             type="button"

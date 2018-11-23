@@ -82,6 +82,9 @@ async function getLastAdded() {
     limit: 1,
     order: [['createdAt', 'DESC']],
   });
+  if (!screenshot) {
+    return null;
+  }
   return screenshot.id;
 }
 
