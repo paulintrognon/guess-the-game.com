@@ -23,7 +23,7 @@ class SolvedScreenshotsPage extends React.Component {
       <section className="section">
         <Helmet title="Screenshots Solved" />
         <div className="SolvedScreenshotsPage">
-          <BarTitle hideOnSmall>
+          <BarTitle showOnlyOnSmartphones>
             <h2>Screenshots Solved</h2>
           </BarTitle>
           <ScreenshotsGrid

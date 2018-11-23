@@ -1,3 +1,10 @@
+## v4.2.0
+
+- Better random screenshots: you see all unseen screenshots without repetition (with 200 unseen sc max)
+- Validation button more obvious
+- Improved buttons on mobile so that the validation button will not be confused with "next screenshot" button
+- CSS naming fix
+
 ### v4.1.3
 
 - Fix count of added screenshots for moderators

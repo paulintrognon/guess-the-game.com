@@ -5,13 +5,6 @@
   align-items: center;
 }
 
-@media (min-width: 480px) {
-  .BarTitle.-hideOnSmall {
-    display: none;
-  }
-}
-
-
 .BarTitle_text {
   font-size: 18px;
   font-family: Norwester;

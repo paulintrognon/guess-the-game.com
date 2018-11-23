@@ -55,7 +55,11 @@ async function getUnsolvedScreenshot(req) {
   const userId = req.user.id;
   let screenshot = await screenshotManager.getUnsolved({
     userId,
-    exclude: req.body.exclude,
+    exclude:
+      // Si "exclude" n'est pas un tableau, on le transforme en tableau (rétrocompabilité)
+      req.body.exclude && !req.body.exclude.join
+        ? [req.body.exclude]
+        : req.body.exclude,
   });
 
   if (!screenshot) {
