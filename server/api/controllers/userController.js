@@ -9,7 +9,14 @@ module.exports = {
 };
 
 async function getScores() {
-  return userManager.getScores();
+  const userScores = await userManager.getScores();
+  return userScores.map(userScore => ({
+    id: userScore.id,
+    username: userScore.username,
+    nbSolvedScreenshots: userScore.solvedScreenshots,
+    nbAddedScreenshots: userScore.addedScreenshots,
+    completeness: userScore.completeness,
+  }));
 }
 
 async function getUser(req) {

@@ -82,6 +82,9 @@ async function getLastAdded() {
     limit: 1,
     order: [['createdAt', 'DESC']],
   });
+  if (!screenshot) {
+    return null;
+  }
   return screenshot.id;
 }
 
@@ -269,18 +272,29 @@ async function moderateScreenshot({ screenshotId, user, approve }) {
     db.User.findById(user.id),
     db.Screenshot.findById(screenshotId),
   ]);
+  console.log({ approve, approvalStatus: screenshot.approvalStatus });
   if (!moderator) {
     throw new Error('Moderator not found');
   }
   if (!screenshot) {
     throw new Error('Screenshot not found');
   }
+  if (approve && screenshot.approvalStatus === 1) {
+    return;
+  }
+  if (!approve && screenshot.approvalStatus === -1) {
+    return;
+  }
+  const shouldDecrement = !approve && screenshot.approvalStatus === 1;
+  console.log('increment', approve);
+  console.log('decrement', shouldDecrement);
   const poster = await db.User.findById(screenshot.UserId);
-  return Promise.all([
+  await Promise.all([
     screenshot.update({
       approvalStatus: approve ? 1 : -1,
       moderatedBy: moderator.id,
     }),
+    shouldDecrement ? poster.decrement('addedScreenshots') : null,
     approve ? poster.increment('addedScreenshots') : null,
   ]);
 }

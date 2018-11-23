@@ -21,7 +21,7 @@ const AccountPage = ({
   <section className="section">
     <Helmet title="My account" />
     <div className="AccountPage">
-      <BarTitle showOnlyOnSmartphones>
+      <BarTitle onlyOnSmartphones>
         <h2>My Account</h2>
       </BarTitle>
       <div className="AccountPage_content">
@@ -44,7 +44,9 @@ const AccountPage = ({
           <div className="AccountPage_data_line">
             <p className="AccountPage_data_line_left">Solved screenshots</p>
             <p className="AccountPage_data_line_right">
-              {nbSolvedScreenshots || (
+              {nbSolvedScreenshots !== undefined ? (
+                nbSolvedScreenshots
+              ) : (
                 <Loading className="AccountPage_data_line_loading" />
               )}
             </p>
@@ -52,7 +54,9 @@ const AccountPage = ({
           <div className="AccountPage_data_line">
             <p className="AccountPage_data_line_left">Added Screenshots</p>
             <p className="AccountPage_data_line_right">
-              {nbAddedScreenshots || (
+              {nbAddedScreenshots !== undefined ? (
+                nbAddedScreenshots
+              ) : (
                 <Loading className="AccountPage_data_line_loading" />
               )}
             </p>
