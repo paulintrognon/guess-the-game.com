@@ -1,3 +1,7 @@
+### v4.4.1
+
+- Replace query-string with qs
+
 ## v4.4.0
 
 - Moderators can edit screenshots

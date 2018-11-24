@@ -1,5 +1,5 @@
 import React from 'react';
-import queryString from 'query-string';
+import queryString from 'qs';
 import { Link } from 'react-router-dom';
 import moderationService from '../../services/moderationService';
 
