@@ -25,7 +25,18 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
     where,
     limit: 500,
     order: [['createdAt', 'ASC']],
-  }).map(screenshot => screenshot.get({ plain: true }));
+    include: { model: db.ScreenshotName },
+  }).map(screenshot => ({
+    id: screenshot.id,
+    gameCanonicalName: screenshot.gameCanonicalName,
+    alternativeNames: screenshot.ScreenshotNames.map(name => name.name).filter(
+      name => name !== screenshot.gameCanonicalName
+    ),
+    year: screenshot.year,
+    imagePath: screenshot.imagePath,
+    createdAt: screenshot.createdAt,
+    approvalStatus: screenshot.approvalStatus,
+  }));
 }
 async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
   const [moderator, screenshot] = await Promise.all([

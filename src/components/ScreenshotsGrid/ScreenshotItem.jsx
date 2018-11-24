@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import moderationService from '../../services/moderationService';
 
@@ -37,7 +38,15 @@ class ScreenshotItem extends React.Component {
             {screenshot.gameCanonicalName}{' '}
             {screenshot.year ? `(${screenshot.year})` : null}
           </p>
-          {screenshot.solvedAt ? (
+          {(screenshot.alternativeNames || []).map(name => (
+            <p>
+              or{' '}
+              <span className="ScreenshotsGrid_item_legend_alternativeName">
+                {name}
+              </span>
+            </p>
+          ))}
+          {!canModerateScreenshots && screenshot.solvedAt ? (
             <p>
               Solved the {screenshot.solvedAt.toLocaleDateString()} at{' '}
               {screenshot.solvedAt.toLocaleTimeString()}
@@ -75,6 +84,8 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
         >
           <span>Reject</span>
         </button>
+        -
+        <EditScreenshotLink screenshot={screenshot} />
       </p>
     );
   }
@@ -88,6 +99,8 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
         >
           <span>Approve</span>
         </button>
+        -
+        <EditScreenshotLink screenshot={screenshot} />
       </p>
     );
   }
@@ -106,6 +119,29 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
       >
         <span>Reject</span>
       </button>
+      -
+      <EditScreenshotLink screenshot={screenshot} />
     </p>
   );
+}
+
+function EditScreenshotLink({ screenshot }) {
+  return (
+    <a
+      target="_blank"
+      className="ScreenshotsGrid_item_legend_approve_button"
+      href={generateEditLink(screenshot)}
+    >
+      Edit
+    </a>
+  );
+}
+
+function generateEditLink(screenshot) {
+  return `/edit/${screenshot.id}?${queryString.stringify({
+    name: screenshot.gameCanonicalName,
+    alternativeNames: screenshot.alternativeNames,
+    year: screenshot.year || '',
+    url: screenshot.imageUrl,
+  })}`;
 }

@@ -27,6 +27,11 @@
   font-family: Norwester;
 }
 
+.ScreenshotsGrid_item_legend_alternativeName {
+  font-size: 12px;
+  font-family: Norwester;
+}
+
 .ScreenshotsGrid_item_legend_approve {
   text-align: center;
   margin: 12px 0 8px;
