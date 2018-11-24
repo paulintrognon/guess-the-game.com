@@ -1,3 +1,8 @@
+## v4.4.0
+
+- Moderators can edit screenshots
+- Moderators can view all screenshots
+
 ## v4.3.0
 
 - Alternative scoring: formula is solved / (total - added)
