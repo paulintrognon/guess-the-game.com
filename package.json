@@ -1,6 +1,6 @@
 {
   "name": "guess-the-game.com",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "license": "MPL-2.0",
   "dependencies": {
     "axios": "^0.18.0",
@@ -20,7 +20,7 @@
     "mailgun.js": "^2.0.1",
     "mysql2": "^1.5.3",
     "prop-types": "^15.6.2",
-    "query-string": "^6.2.0",
+    "qs": "^6.5.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-helmet": "^5.2.0",
