@@ -1,43 +1,51 @@
-const bluebird = require('bluebird');
 const moderationManager = require('../managers/moderationManager');
 const cloudinaryService = require('../services/cloudinaryService');
 
 module.exports = {
   getNonModeratedScreenshots,
+  getApprovedScreenshots,
+  getRejectedScreenshots,
+  getModeratedByYouScreenshots,
   moderateScreenshot,
 };
 
-async function getNonModeratedScreenshots(req) {
+async function getNonModeratedScreenshots() {
+  const screenshots = await moderationManager.getScreenshots({
+    approvalStatus: 0,
+  });
+  return screenshots.map(addImageUrlFromPath);
+}
+
+async function getApprovedScreenshots() {
+  const screenshots = await moderationManager.getScreenshots({
+    approvalStatus: 1,
+  });
+  return screenshots.map(addImageUrlFromPath);
+}
+
+async function getRejectedScreenshots() {
+  const screenshots = await moderationManager.getScreenshots({
+    approvalStatus: -1,
+  });
+  return screenshots.map(addImageUrlFromPath);
+}
+
+async function getModeratedByYouScreenshots(req) {
   const { user } = req;
-  if (!user) {
-    return bluebird.reject({
-      status: 401,
-      code: 'MUST_BE_IDENTIFIED',
-      message: "User must be identified to proove that he/she's a moderator.",
-    });
-  }
-  if (!user.canModerateScreenshots) {
-    return bluebird.reject({
-      status: 403,
-      code: 'CANNOT_MODERATE_SCREENSHOTS',
-      message: 'User has no right to moderate screenshots.',
-    });
-  }
-  const screenshots = await moderationManager.getNonModeratedScreenshots();
+  const screenshots = await moderationManager.getScreenshots({
+    userId: user.id,
+  });
   return screenshots.map(addImageUrlFromPath);
 }
 
 async function moderateScreenshot(req) {
   const { user } = req;
-  const { screenshotId, approve } = req.body;
-  if (!user) {
-    return bluebird.reject({
-      status: 401,
-      code: 'MUST_BE_IDENTIFIED',
-      message: 'User must be identified to approve screenshots.',
-    });
-  }
-  return moderationManager.moderateScreenshot({ screenshotId, user, approve });
+  const { screenshotId, newApprovalStatus } = req.body;
+  return moderationManager.moderateScreenshot({
+    screenshotId,
+    user,
+    newApprovalStatus,
+  });
 }
 
 function addImageUrlFromPath(screenshot) {

@@ -1,28 +1,33 @@
 const db = require('../../db/db');
 
 module.exports = {
-  getNonModeratedScreenshots,
+  getScreenshots,
   moderateScreenshot,
 };
 
-async function getNonModeratedScreenshots() {
-  const results = await db.Screenshot.findAll({
-    attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
-    where: { approvalStatus: 0 },
-    limit: 100,
+async function getScreenshots({ approvalStatus = null, userId = null }) {
+  const where = {};
+  if (approvalStatus !== null) {
+    where.approvalStatus = approvalStatus;
+  }
+  if (userId !== null) {
+    where.moderatedBy = userId;
+  }
+  return db.Screenshot.findAll({
+    attributes: [
+      'id',
+      'gameCanonicalName',
+      'year',
+      'imagePath',
+      'createdAt',
+      'approvalStatus',
+    ],
+    where,
+    limit: 500,
     order: [['createdAt', 'ASC']],
-  });
-  return results.map(res => ({
-    id: res.id,
-    name: res.gameCanonicalName,
-    year: res.year || null,
-    createdAt: res.createdAt,
-    imagePath: res.imagePath,
-    awaitingApproval: true,
-  }));
+  }).map(screenshot => screenshot.get({ plain: true }));
 }
-
-async function moderateScreenshot({ screenshotId, user, approve }) {
+async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
   const [moderator, screenshot] = await Promise.all([
     db.User.findById(user.id),
     db.Screenshot.findById(screenshotId),
@@ -33,20 +38,19 @@ async function moderateScreenshot({ screenshotId, user, approve }) {
   if (!screenshot) {
     throw new Error('Screenshot not found');
   }
-  if (approve && screenshot.approvalStatus === 1) {
+  if (newApprovalStatus === screenshot.approvalStatus) {
     return;
   }
-  if (!approve && screenshot.approvalStatus === -1) {
-    return;
-  }
-  const shouldDecrement = !approve && screenshot.approvalStatus === 1;
+  const shouldIncrement = newApprovalStatus === 1;
+  const shouldDecrement =
+    newApprovalStatus === -1 && screenshot.approvalStatus === 1;
   const poster = await db.User.findById(screenshot.UserId);
   await Promise.all([
     screenshot.update({
-      approvalStatus: approve ? 1 : -1,
+      approvalStatus: newApprovalStatus,
       moderatedBy: moderator.id,
     }),
+    shouldIncrement ? poster.increment('addedScreenshots') : null,
     shouldDecrement ? poster.decrement('addedScreenshots') : null,
-    approve ? poster.increment('addedScreenshots') : null,
   ]);
 }

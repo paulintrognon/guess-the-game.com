@@ -1,17 +1,32 @@
 import api from './api';
 
 export default {
-  getNonModerated,
+  fetchNonModerated,
+  fetchApproved,
+  fetchRejected,
+  fetchModeratedByYou,
   moderate,
 };
 
-function getNonModerated() {
+function fetchNonModerated() {
   return api.post('/moderation/non-moderated');
 }
 
-function moderate({ screenshotId, approve }) {
+function fetchApproved() {
+  return api.post('/moderation/approved');
+}
+
+function fetchRejected() {
+  return api.post('/moderation/rejected');
+}
+
+function fetchModeratedByYou() {
+  return api.post('/moderation/moderated-by-you');
+}
+
+function moderate({ screenshotId, newApprovalStatus }) {
   return api.post('/moderation/moderate', {
     screenshotId,
-    approve,
+    newApprovalStatus,
   });
 }

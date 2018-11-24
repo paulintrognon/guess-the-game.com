@@ -11,6 +11,7 @@ export default ({ links }) => (
           isPathActive(link.to) ? '-active' : ''
         }`}
         to={link.to}
+        onClick={link.onClick}
       >
         {link.label}
       </Link>

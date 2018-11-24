@@ -86,13 +86,9 @@ async function getSolvedScreenshots(userId) {
       attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
     },
   });
-  return results.map(res => ({
-    id: res.Screenshot.id,
-    name: res.Screenshot.gameCanonicalName,
-    year: res.Screenshot.year || null,
-    createdAt: res.Screenshot.createdAt,
+  return results.map(res => res.get({ plain: true })).map(res => ({
+    ...res.Screenshot,
     solvedAt: res.createdAt,
-    imagePath: res.Screenshot.imagePath,
   }));
 }
 
@@ -103,11 +99,5 @@ async function getAddedScreenshots(userId) {
     limit: 100,
     order: [['createdAt', 'DESC']],
   });
-  return results.map(res => ({
-    id: res.id,
-    name: res.gameCanonicalName,
-    year: res.year || null,
-    createdAt: res.createdAt,
-    imagePath: res.imagePath,
-  }));
+  return results.map(res => res.get({ plain: true }));
 }
