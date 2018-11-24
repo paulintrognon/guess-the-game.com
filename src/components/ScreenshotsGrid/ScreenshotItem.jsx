@@ -81,7 +81,7 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
   if (approvalStatus === -1) {
     return (
       <p>
-        <b>Screenshot is rejected.</b>
+        <b>✖ Screenshot is rejected.</b>
         <button
           className="ScreenshotsGrid_item_legend_approve_button -approve"
           onClick={handleModeration(screenshot.id, 1)}
