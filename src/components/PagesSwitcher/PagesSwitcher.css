@@ -1,5 +1,4 @@
 .PagesSwitcher {
-  width: 200px;
   margin: 20px auto 10px;
   text-align: center;
 }
@@ -11,8 +10,8 @@
 
 .PagesSwitcher_link {
   display: inline-block;
-  padding: 5px 0;
-  width: 100px;
+  padding: 5px 15px;
+  min-width: 100px;
   font-size: 16px;
   background: #FFFFFF;
   box-sizing: border-box;

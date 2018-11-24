@@ -19,5 +19,5 @@ export default ({ links }) => (
 );
 
 function isPathActive(path) {
-  return window.location.pathname.indexOf(path) === 0;
+  return window.location.pathname === path;
 }

@@ -43,7 +43,11 @@ class Menu extends React.Component {
           My Account
         </MenuItem>
         {canModerateScreenshots ? (
-          <MenuItem to="/user/moderation" dispatch={dispatch} className="-red">
+          <MenuItem
+            to="/user/moderation/waiting"
+            dispatch={dispatch}
+            className="-red"
+          >
             <svg
               className="Menu_item_icon"
               xmlns="http://www.w3.org/2000/svg"
