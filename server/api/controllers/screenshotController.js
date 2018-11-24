@@ -15,6 +15,7 @@ module.exports = {
   tryProposal,
   uploadScreenshot,
   addScreenshot,
+  editScreenshot,
 };
 
 async function getfromId(req) {
@@ -185,6 +186,33 @@ async function addScreenshot(req) {
     userId: user.id,
   };
   return screenshotManager.create(screenshot);
+}
+
+function editScreenshot(req) {
+  const { user } = req;
+  if (!user) {
+    return bluebird.reject({
+      status: 401,
+      code: 'MUST_BE_IDENTIFIED',
+      message: 'User must be identified to add a new screenshot.',
+    });
+  }
+
+  ['name', 'id'].forEach(field => {
+    if (!req.body.name) {
+      throw new Error(`User ${field} cannot be null`);
+    }
+  });
+
+  return screenshotManager.edit({
+    id: req.body.id,
+    user: req.user,
+    data: {
+      gameCanonicalName: req.body.name,
+      alternativeNames: req.body.alternativeNames,
+      year: req.body.year,
+    },
+  });
 }
 
 function getUploadedImageLocalPath(imageName) {

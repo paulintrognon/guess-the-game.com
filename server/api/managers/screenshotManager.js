@@ -4,6 +4,7 @@ const db = require('../../db/db');
 
 module.exports = {
   create,
+  edit,
   getFromId,
   getLastAdded,
   getUnsolved,
@@ -29,6 +30,24 @@ async function create(screenshotToCreate) {
     addScreenshotNames(screenshot, names),
     user.canModerateScreenshots ? user.increment('addedScreenshots') : null,
   ]);
+  return screenshot;
+}
+
+async function edit({ id, user, data }) {
+  const screenshot = await db.Screenshot.findById(id);
+  if (!screenshot) {
+    throw new Error('screenshot not found');
+  }
+  if (!user.canModerateScreenshots && user.id !== screenshot.UserId) {
+    throw new Error('No rights to edit that screenshot');
+  }
+  screenshot.update({
+    gameCanonicalName: data.gameCanonicalName,
+    year: data.year,
+  });
+  const names = getScreenshotNames(data);
+  await db.ScreenshotName.destroy({ where: { ScreenshotId: id } });
+  await addScreenshotNames(screenshot, names);
   return screenshot;
 }
 

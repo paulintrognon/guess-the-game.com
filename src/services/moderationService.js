@@ -1,12 +1,17 @@
 import api from './api';
 
 export default {
+  fetchScreenshot,
   fetchNonModerated,
   fetchApproved,
   fetchRejected,
   fetchModeratedByYou,
   moderate,
 };
+
+function fetchScreenshot(id) {
+  return api.post(`/moderation/get-screenshot/${id}`);
+}
 
 function fetchNonModerated() {
   return api.post('/moderation/non-moderated');

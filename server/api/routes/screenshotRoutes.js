@@ -9,6 +9,10 @@ router.post('/add', (req, res, next) =>
   next(screenshotController.addScreenshot(req))
 );
 
+router.post('/edit', (req, res, next) =>
+  next(screenshotController.editScreenshot(req))
+);
+
 router.post('/unsolved', (req, res, next) =>
   next(screenshotController.getUnsolvedScreenshot(req))
 );

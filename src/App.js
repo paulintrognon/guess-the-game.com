@@ -12,7 +12,7 @@ import Layout from './components/Layout/Layout';
 
 // Basic components
 import Homepage from './pages/Hompage/Hompage';
-import AddScreenshotPage from './pages/AddScreenshot/AddScreenshot';
+import EditScreenshotPage from './pages/EditScreenshot/EditScreenshot';
 import ScreenshotPage from './pages/Screenshot/Screenshot';
 import RankingPage from './pages/Ranking/Ranking';
 import TheEnd from './pages/TheEnd/TheEnd';
@@ -54,7 +54,8 @@ export default () => (
             exact
             component={NewPasswordPage}
           />
-          <Route path="/add-screenshot" exact component={AddScreenshotPage} />
+          <Route path="/add-screenshot" exact component={EditScreenshotPage} />
+          <Route path="/edit/:id" exact component={EditScreenshotPage} />
           <Route path="/the-end" exact component={TheEnd} />
 
           <Route path="/user" component={UserPages} />

@@ -3,6 +3,7 @@ import api from './api';
 export default {
   uploadImage,
   addScreenshot,
+  editScreenshot,
   getFromId,
   getLast,
   getUnsolved,
@@ -20,6 +21,10 @@ function uploadImage(file, onUploadProgress) {
 
 function addScreenshot(data) {
   return api.post('/screenshot/add', data);
+}
+
+function editScreenshot(data) {
+  return api.post('/screenshot/edit', data);
 }
 
 function getFromId(id) {
