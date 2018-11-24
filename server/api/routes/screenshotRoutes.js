@@ -21,20 +21,12 @@ router.get('/last', (req, res, next) =>
   next(screenshotController.getLastAddedScreenshot(req))
 );
 
-router.post('/non-moderated', (req, res, next) =>
-  next(screenshotController.getNonModeratedScreenshots(req))
-);
-
 router.post('/guess', (req, res, next) =>
   next(screenshotController.tryProposal(req))
 );
 
 router.post('/remove-own', (req, res, next) =>
   next(screenshotController.removeOwnScreenshot(req))
-);
-
-router.post('/moderate', (req, res, next) =>
-  next(screenshotController.moderateScreenshot(req))
 );
 
 module.exports = router;

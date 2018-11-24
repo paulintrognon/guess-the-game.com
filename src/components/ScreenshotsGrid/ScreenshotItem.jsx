@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import screenshotService from '../../services/screenshotService';
+import moderationService from '../../services/moderationService';
 
 class ScreenshotItem extends React.Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class ScreenshotItem extends React.Component {
   }
 
   handleModeration = (screenshotId, approve) => async () => {
-    await screenshotService.moderate({ screenshotId, approve });
+    await moderationService.moderate({ screenshotId, approve });
     this.setState({ approvementStatus: approve });
   };
 
