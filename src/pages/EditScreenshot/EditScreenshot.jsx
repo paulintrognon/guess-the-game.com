@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import queryString from 'query-string';
 import { apiUrl } from 'config';
 import screenshotService from '../../services/screenshotService';
 import screenshotActions from '../../actions/screenshotActions';
@@ -8,14 +9,20 @@ import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Form/Button/Button';
 import SmallContainer from '../../components/SmallContainer/SmallContainer';
 import Loading from '../../components/Loading/Loading';
-import './addScreenshot.css';
+import './EditScreenshot.css';
 
-function mapStoreToProps() {
-  return {};
-}
-class AddScreenshotPage extends React.Component {
+class EditScreenshotPage extends React.Component {
   constructor(props) {
     super(props);
+    const params = queryString.parse(this.props.location.search);
+    let alternativeNames = ['', '', ''];
+    if (params.alternativeNames) {
+      if (params.alternativeNames.map) {
+        alternativeNames = params.alternativeNames;
+      } else {
+        alternativeNames = [params.alternativeNames];
+      }
+    }
     this.state = {
       submitting: false,
       error: null,
@@ -24,14 +31,14 @@ class AddScreenshotPage extends React.Component {
       isFileHover: false,
       isFileUploading: false,
       fileError: null,
-      uploadedImageUrl: null,
+      uploadedImageUrl: params.url,
       uploadedImageName: null,
 
       // Fields values
       file: null,
-      name: '',
-      alternativeNames: ['', '', ''],
-      year: '',
+      name: params.name || '',
+      alternativeNames,
+      year: params.year || '',
     };
     this.screenshotImageUploadInput = React.createRef();
   }
@@ -136,49 +143,60 @@ class AddScreenshotPage extends React.Component {
     });
   };
 
-  submitHandler = event => {
+  submitHandler = screenshotId => event => {
     event.preventDefault();
     this.setState({
       submitting: true,
       error: null,
     });
-    screenshotService
-      .addScreenshot({
-        name: this.state.name,
-        alternativeNames: this.state.alternativeNames,
-        year: this.state.year,
-        localImageName: this.state.uploadedImageName,
-      })
-      .then(res => {
-        if (res.error) {
-          this.setState({
-            submitting: false,
-            error: res.message,
-          });
-        } else {
-          this.props.dispatch(screenshotActions.addScreenshotAction(res));
-        }
-      });
+    const promise = screenshotId
+      ? screenshotService.editScreenshot({
+          id: screenshotId,
+          name: this.state.name,
+          alternativeNames: this.state.alternativeNames,
+          year: this.state.year,
+        })
+      : screenshotService.addScreenshot({
+          name: this.state.name,
+          alternativeNames: this.state.alternativeNames,
+          year: this.state.year,
+          localImageName: this.state.uploadedImageName,
+        });
+    promise.then(res => {
+      if (res.error) {
+        this.setState({
+          submitting: false,
+          error: res.message,
+        });
+      } else {
+        this.props.dispatch(screenshotActions.goToScreenshot(res));
+      }
+    });
   };
 
   render() {
-    const valid = this.state.uploadedImageName && this.state.name.trim();
+    const screenshotId = this.props.match.params.id;
+    const valid =
+      (screenshotId || this.state.uploadedImageName) && this.state.name.trim();
+    const title = `${screenshotId ? 'Edit' : 'Add'} Screenshot ${
+      screenshotId ? `#${screenshotId}` : ''
+    }`;
     return (
-      <section className="AddScreenshotPage">
-        <Helmet title="Add Screenshot" />
-        <SmallContainer title="Add Screenshot">
-          <form onSubmit={this.submitHandler}>
+      <section className="EditScreenshotPage">
+        <Helmet title={title} />
+        <SmallContainer title={title}>
+          <form onSubmit={this.submitHandler(screenshotId)}>
             <div
               className="field"
-              onDrop={this.dropFileHandler}
-              onDragOver={this.dragOverHandler}
-              onDragLeave={this.dragLeaveHandler}
+              onDrop={screenshotId ? null : this.dropFileHandler}
+              onDragOver={screenshotId ? null : this.dragOverHandler}
+              onDragLeave={screenshotId ? null : this.dragLeaveHandler}
             >
-              <p className="AddScreenshotPage_form_screenshot_label">
+              <p className="EditScreenshotPage_form_screenshot_label">
                 Screenshot
               </p>
               <div
-                className={`AddScreenshotPage_form_screenshot_dropzone ${
+                className={`EditScreenshotPage_form_screenshot_dropzone ${
                   this.state.isFileHover ? '-hover' : ''
                 } ${
                   !this.state.isFileUploading && this.state.uploadedImageUrl
@@ -194,15 +212,15 @@ class AddScreenshotPage extends React.Component {
                 <div>
                   {this.state.isFileUploading ? (
                     <div>
-                      <div className="AddScreenshotPage_form_screenshot_loading">
+                      <div className="EditScreenshotPage_form_screenshot_loading">
                         <Loading />
                       </div>
                       <p>Uploading, please wait...</p>
                     </div>
                   ) : null}
-                  {!this.state.file ? (
+                  {!this.state.file && !screenshotId ? (
                     <div>
-                      <p className="AddScreenshotPage_form_screenshot_dropzone_dropText">
+                      <p className="EditScreenshotPage_form_screenshot_dropzone_dropText">
                         Drag the screenshot, or
                       </p>
                       <div>
@@ -219,23 +237,24 @@ class AddScreenshotPage extends React.Component {
                   ) : null}
                 </div>
               </div>
-              {this.state.uploadedImageUrl && (
-                <p className="AddScreenshotPage_form_screenshot_name_container">
-                  <span className="AddScreenshotPage_form_screenshot_name">
-                    {this.state.file.name}
-                    <button
-                      className="AddScreenshotPage_form_screenshot_name_reset"
-                      type="button"
-                      onClick={this.resetFileHandler}
-                    >
-                      ✖
-                    </button>
-                  </span>
-                </p>
-              )}
+              {this.state.uploadedImageUrl &&
+                this.state.file && (
+                  <p className="EditScreenshotPage_form_screenshot_name_container">
+                    <span className="EditScreenshotPage_form_screenshot_name">
+                      {this.state.file.name}
+                      <button
+                        className="EditScreenshotPage_form_screenshot_name_reset"
+                        type="button"
+                        onClick={this.resetFileHandler}
+                      >
+                        ✖
+                      </button>
+                    </span>
+                  </p>
+                )}
             </div>
             {this.state.fileError && (
-              <p className="AddScreenshotPage_form_error">
+              <p className="EditScreenshotPage_form_error">
                 {this.state.fileError}
               </p>
             )}
@@ -243,12 +262,16 @@ class AddScreenshotPage extends React.Component {
               id="name"
               label="Full name of the game"
               placeholder="Ex: Grand Theft Auto V"
-              value={this.state.name}
+              value={
+                this.state.name ||
+                (this.state.screenshot && this.state.screenshot.name) ||
+                ''
+              }
               onChange={this.handleNameChange}
             />
-            <div className="AddScreenshotPage_form_alternativeNames">
+            <div className="EditScreenshotPage_form_alternativeNames">
               <p>Alternative names</p>
-              <p className="AddScreenshotPage_form_alternativeNames_extra">
+              <p className="EditScreenshotPage_form_alternativeNames_extra">
                 Players will solve that screenshot by typing the full name or
                 any of the alternatives.
               </p>
@@ -256,7 +279,7 @@ class AddScreenshotPage extends React.Component {
                 <input
                   key={`alternativeName-${i}`}
                   type="text"
-                  className="AddScreenshotPage_form_alternativeNames_input"
+                  className="EditScreenshotPage_form_alternativeNames_input"
                   placeholder={getAlternativeNameExample(i)}
                   onChange={this.onAlternativeNameChange(i)}
                   value={this.state.alternativeNames[i]}
@@ -265,7 +288,7 @@ class AddScreenshotPage extends React.Component {
               <button
                 type="button"
                 onClick={this.handleAddAlternativeName}
-                className="AddScreenshotPage_form_alternativeNames_add"
+                className="EditScreenshotPage_form_alternativeNames_add"
               >
                 <b>+</b> Add an alternative
               </button>
@@ -281,7 +304,9 @@ class AddScreenshotPage extends React.Component {
               max={2100}
             />
             {this.state.error && (
-              <p className="AddScreenshotPage_form_error">{this.state.error}</p>
+              <p className="EditScreenshotPage_form_error">
+                {this.state.error}
+              </p>
             )}
             <Button
               loading={this.state.submitting}
@@ -289,7 +314,7 @@ class AddScreenshotPage extends React.Component {
               color="dark"
               type="submit"
             >
-              Submit the screenshot
+              {screenshotId ? 'Edit' : 'Submit'} the screenshot
             </Button>
           </form>
         </SmallContainer>
@@ -297,7 +322,7 @@ class AddScreenshotPage extends React.Component {
     );
   }
 }
-export default connect(mapStoreToProps)(AddScreenshotPage);
+export default connect()(EditScreenshotPage);
 
 function getAlternativeNameExample(index) {
   const alternativeNames = ['Ex: GTA V', 'Ex: Grand Theft Auto 5', 'Ex: GTA 5'];

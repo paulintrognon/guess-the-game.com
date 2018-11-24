@@ -11,12 +11,11 @@ module.exports = {
   getfromId,
   getUnsolvedScreenshot,
   getLastAddedScreenshot,
-  getNonModeratedScreenshots,
   removeOwnScreenshot,
   tryProposal,
   uploadScreenshot,
   addScreenshot,
-  moderateScreenshot,
+  editScreenshot,
 };
 
 async function getfromId(req) {
@@ -86,26 +85,6 @@ async function getUnsolvedScreenshot(req) {
 async function getLastAddedScreenshot(req) {
   const screenshotId = await screenshotManager.getLastAdded();
   return getfromId({ ...req, body: { ...req.body, id: screenshotId } });
-}
-
-async function getNonModeratedScreenshots(req) {
-  const { user } = req;
-  if (!user) {
-    return bluebird.reject({
-      status: 401,
-      code: 'MUST_BE_IDENTIFIED',
-      message: "User must be identified to proove that he/she's a moderator.",
-    });
-  }
-  if (!user.canModerateScreenshots) {
-    return bluebird.reject({
-      status: 403,
-      code: 'CANNOT_MODERATE_SCREENSHOTS',
-      message: 'User has no right to moderate screenshots.',
-    });
-  }
-  const screenshots = await screenshotManager.getNonModeratedScreenshots();
-  return screenshots.map(addImageUrlFromPath);
 }
 
 async function removeOwnScreenshot(req) {
@@ -209,26 +188,33 @@ async function addScreenshot(req) {
   return screenshotManager.create(screenshot);
 }
 
-async function moderateScreenshot(req) {
+function editScreenshot(req) {
   const { user } = req;
-  const { screenshotId, approve } = req.body;
   if (!user) {
     return bluebird.reject({
       status: 401,
       code: 'MUST_BE_IDENTIFIED',
-      message: 'User must be identified to approve screenshots.',
+      message: 'User must be identified to add a new screenshot.',
     });
   }
-  return screenshotManager.moderateScreenshot({ screenshotId, user, approve });
+
+  ['name', 'id'].forEach(field => {
+    if (!req.body.name) {
+      throw new Error(`User ${field} cannot be null`);
+    }
+  });
+
+  return screenshotManager.edit({
+    id: req.body.id,
+    user: req.user,
+    data: {
+      gameCanonicalName: req.body.name,
+      alternativeNames: req.body.alternativeNames,
+      year: req.body.year,
+    },
+  });
 }
 
 function getUploadedImageLocalPath(imageName) {
   return `${__dirname}/../../uploads/${imageName}`;
-}
-
-function addImageUrlFromPath(screenshot) {
-  return {
-    ...screenshot,
-    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
-  };
 }

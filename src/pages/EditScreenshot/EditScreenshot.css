@@ -1,8 +1,8 @@
-.AddScreenshotPage_form_screenshot_label {
+.EditScreenshotPage_form_screenshot_label {
   margin-bottom: 5px;
 }
 
-.AddScreenshotPage_form_screenshot_dropzone {
+.EditScreenshotPage_form_screenshot_dropzone {
   height: 130px;
   border: 1px dashed #47525e;
   border-radius: 10px;
@@ -16,52 +16,52 @@
   box-sizing: border-box;
 }
 
-.AddScreenshotPage_form_screenshot_dropzone.-hover {
+.EditScreenshotPage_form_screenshot_dropzone.-hover {
   border-style: solid;
   background-color: #EEE;
 }
 
-.AddScreenshotPage_form_screenshot_dropzone.-preview {
+.EditScreenshotPage_form_screenshot_dropzone.-preview {
   height: 0px;
   padding-bottom: 56.25%;
 }
 
-.AddScreenshotPage_form_screenshot_dropzone_dropText {
+.EditScreenshotPage_form_screenshot_dropzone_dropText {
   margin-bottom: 0.5em;
 }
 
-.AddScreenshotPage_form_screenshot_loading {
+.EditScreenshotPage_form_screenshot_loading {
   height: 50px;
   text-align: center;
 }
 
-.AddScreenshotPage_form_screenshot_name_container {
+.EditScreenshotPage_form_screenshot_name_container {
   text-align: center;
   margin-top: 0.5em;
   margin-bottom: 1em;
 }
 
-.AddScreenshotPage_form_screenshot_name {
+.EditScreenshotPage_form_screenshot_name {
   background-color: #fd464c;
   color: #fff;
   padding: 5px 10px;
   border-radius: 3px;
 }
-.AddScreenshotPage_form_screenshot_name_reset {
+.EditScreenshotPage_form_screenshot_name_reset {
   margin-left: 5px;
   position: relative;
   top: 1px;
 }
 
-.AddScreenshotPage_form_alternativeNames_extra {
+.EditScreenshotPage_form_alternativeNames_extra {
   color: #888890;
   font-size: 13px;
 }
 
-.AddScreenshotPage_form_alternativeNames {
+.EditScreenshotPage_form_alternativeNames {
   margin: 1em 0;
 }
-.AddScreenshotPage_form_alternativeNames_input {
+.EditScreenshotPage_form_alternativeNames_input {
   display: block;
   width: 100%;
   margin: 5px 0;
@@ -72,13 +72,13 @@
   box-sizing: border-box;
 }
 
-.AddScreenshotPage_form_alternativeNames_add {
+.EditScreenshotPage_form_alternativeNames_add {
   border: 1px solid #8492A6;
   padding: 5px 10px;
   border-radius: 3px;
 }
 
-.AddScreenshotPage_form_error {
+.EditScreenshotPage_form_error {
   color: #fd464c;
   font-weight: bold;
   text-align: center;
