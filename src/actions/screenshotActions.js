@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import screenshotService from '../services/screenshotService';
 
 export default {
-  addScreenshotAction,
+  goToScreenshot,
   loadScreenshot,
   getUnsolvedScreenshot,
   tryProposal,
@@ -10,7 +10,7 @@ export default {
   removeOwnScreenshot,
 };
 
-function addScreenshotAction(screenshot) {
+function goToScreenshot(screenshot) {
   return dispatch => {
     dispatch(push(`/shot/${screenshot.id}`));
   };

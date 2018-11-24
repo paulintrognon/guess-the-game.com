@@ -4,7 +4,6 @@ const initialState = {
   userData: null,
   solvedScreenshots: [],
   addedScreenshots: [],
-  nonModeratedScreenshots: [],
   canModerateScreenshots: localStorage.getItem('canModerateScreenshots'),
   lastViewedRandomScreenshots: [],
 };
@@ -70,16 +69,6 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       addedScreenshots: payload.map(screenshot => ({
-        ...screenshot,
-        createdAt: new Date(screenshot.createdAt),
-      })),
-    };
-  }
-
-  if (type === 'USER_NON-MODERATED-SCREENSHOTS_LOADED') {
-    return {
-      ...state,
-      nonModeratedScreenshots: payload.map(screenshot => ({
         ...screenshot,
         createdAt: new Date(screenshot.createdAt),
       })),
