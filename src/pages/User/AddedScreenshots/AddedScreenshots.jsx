@@ -28,7 +28,7 @@ class AddedScreenshotsPage extends React.Component {
             <h2>Screenshots Ajoutes</h2>
           </BarTitle>
           <ScreenshotsGrid screenshots={addedScreenshots}>
-            <Link className="ScreenshotsGrid_item" to="/add-screenshot">
+            <Link className="ScreenshotsGrid_item" to="/ajouter-un-screenshot">
               <div className="AddedScreenshotsPage_item_add">
                 <svg
                   className="AddedScreenshotsPage_item_add_icon"
@@ -41,7 +41,7 @@ class AddedScreenshotsPage extends React.Component {
                 </svg>
               </div>
               <div className="AddedScreenshotsPage_item_legend">
-                <p>Ajouter une nouvelle</p>
+                <p>Ajouter un nouveau</p>
               </div>
             </Link>
           </ScreenshotsGrid>

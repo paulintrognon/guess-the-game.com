@@ -123,7 +123,6 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
 function EditScreenshotLink({ screenshot }) {
   return (
     <a
-      target="_blank"
       className="ScreenshotsGrid_item_legend_approve_button"
       href={generateEditLink(screenshot)}
     >
@@ -133,7 +132,7 @@ function EditScreenshotLink({ screenshot }) {
 }
 
 function generateEditLink(screenshot) {
-  return `/edit/${screenshot.id}?${queryString.stringify({
+  return `/modifier/${screenshot.id}?${queryString.stringify({
     name: screenshot.gameCanonicalName,
     alternativeNames: screenshot.alternativeNames,
     year: screenshot.year || '',

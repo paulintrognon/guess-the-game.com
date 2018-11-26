@@ -33,7 +33,7 @@ function getUnsolvedScreenshot(exclude) {
     dispatch({ type: 'SCREENSHOT_LOADING' });
     screenshotService.getUnsolved(exclude).then(res => {
       if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
-        dispatch(push('/the-end'));
+        dispatch(push('/la-fin'));
       } else {
         dispatch(push(`/shot/${res.id}`));
         dispatch({ type: 'SCREENSHOT_LOAD', payload: res });

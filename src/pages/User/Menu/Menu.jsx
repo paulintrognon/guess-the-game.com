@@ -30,7 +30,7 @@ class Menu extends React.Component {
         >
           Close
         </button>
-        <MenuItem to="/user/account" dispatch={dispatch}>
+        <MenuItem to="/moi/mon-compte" dispatch={dispatch}>
           <svg
             className="Menu_item_icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ class Menu extends React.Component {
         </MenuItem>
         {canModerateScreenshots ? (
           <MenuItem
-            to="/user/moderation/waiting"
+            to="/moi/moderation/en-attente"
             dispatch={dispatch}
             className="-red"
           >
@@ -60,7 +60,7 @@ class Menu extends React.Component {
             Moderation
           </MenuItem>
         ) : null}
-        <MenuItem to="/user/solved" dispatch={dispatch}>
+        <MenuItem to="/moi/resolus" dispatch={dispatch}>
           <svg
             className="Menu_item_icon"
             xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ class Menu extends React.Component {
           </svg>{' '}
           {nbSolvedScreenshots} Screens Resolus
         </MenuItem>
-        <MenuItem to="/user/added" dispatch={dispatch}>
+        <MenuItem to="/moi/ajoutes" dispatch={dispatch}>
           <svg
             className="Menu_item_icon"
             xmlns="http://www.w3.org/2000/svg"

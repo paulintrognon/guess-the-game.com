@@ -37,7 +37,7 @@ const AccountPage = ({
           <div className="AccountPage_data_line">
             <p className="AccountPage_data_line_left">Mot de passe</p>
             <p className="AccountPage_data_line_right">
-              <Link to="/forgot-password">Réinitialiser</Link>
+              <Link to="/mot-de-passe-oublie">Réinitialiser</Link>
             </p>
           </div>
           <hr />

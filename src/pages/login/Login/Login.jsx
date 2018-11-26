@@ -91,7 +91,10 @@ class LoginPage extends React.Component {
           value={password}
           onChange={this.handlePasswordChange}
         >
-          <Link to="/forgot-password" className="LoginPage_form_forgotPassword">
+          <Link
+            to="/mot-de-passe-oublie"
+            className="LoginPage_form_forgotPassword"
+          >
             oublié&nbsp;?
           </Link>
         </Input>

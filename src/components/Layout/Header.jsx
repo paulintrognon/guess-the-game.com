@@ -46,18 +46,18 @@ class Header extends React.Component {
                 Jouer
               </button>
               <Link
-                to="/ranking"
+                to="/classement"
                 className={`Header_nav_link ${
-                  isPathActive('/ranking') ? '-active' : ''
+                  isPathActive('/classement') ? '-active' : ''
                 }`}
               >
                 Classement
               </Link>
               {user.username && (
                 <Link
-                  to="/add-screenshot"
+                  to="/ajouter-un-screenshot"
                   className={`Header_nav_link ${
-                    isPathActive('/add-screenshot') ? '-active' : ''
+                    isPathActive('/ajouter-un-screenshot') ? '-active' : ''
                   }`}
                 >
                   Ajouter&nbsp;<span className="-hideOnSmartphones">
@@ -84,7 +84,7 @@ export default connect(mapStoreToProps)(Header);
 
 function renderLoginButtons() {
   return (
-    <Link key="navLoginLink" to="/login" className="Header_login_link">
+    <Link key="navLoginLink" to="/connexion" className="Header_login_link">
       Login
     </Link>
   );
@@ -93,9 +93,9 @@ function renderLoginButtons() {
 function renderAccountMenuButton(username, handleOnClick) {
   return (
     <Link
-      to="/user/account"
+      to="/moi/mon-compte"
       className={`Header_nav_link -user ${
-        window.location.pathname.indexOf('/user') === 0 ? '-active' : null
+        window.location.pathname.indexOf('/moi') === 0 ? '-active' : null
       }`}
       onClick={handleOnClick}
     >

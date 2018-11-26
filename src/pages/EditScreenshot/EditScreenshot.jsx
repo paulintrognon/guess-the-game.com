@@ -178,7 +178,7 @@ class EditScreenshotPage extends React.Component {
     const screenshotId = this.props.match.params.id;
     const valid =
       (screenshotId || this.state.uploadedImageName) && this.state.name.trim();
-    const title = `${screenshotId ? 'Modifier la' : 'Nouvelle'} Screenshot ${
+    const title = `${screenshotId ? 'Modifier le' : 'Nouveau'} Screenshot ${
       screenshotId ? `#${screenshotId}` : ''
     }`;
     return (

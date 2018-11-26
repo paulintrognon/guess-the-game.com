@@ -61,28 +61,28 @@ class ModerationPage extends React.Component {
                 links={[
                   {
                     label: 'En attente de validation',
-                    to: '/user/moderation/waiting',
+                    to: '/moi/moderation/en-attente',
                     onClick: this.fetchNonModeratedScreenshots,
                   },
                   {
                     label: 'Modérée par vous',
-                    to: '/user/moderation/by-you',
+                    to: '/moi/moderation/par-moi',
                     onClick: this.fetchModeratedByYouScreenshots,
                   },
                   {
                     label: 'Tous les approuvés',
-                    to: '/user/moderation/approved',
+                    to: '/moi/moderation/approuve',
                     onClick: this.fetchApprovedScreenshots,
                   },
                   {
                     label: 'Tous les rejetés',
-                    to: '/user/moderation/rejected',
+                    to: '/moi/moderation/rejete',
                     onClick: this.fetchRejectedScreenshots,
                   },
                 ]}
               />
               <Route
-                path="/user/moderation/waiting"
+                path="/moi/moderation/en-attente"
                 render={() => (
                   <ScreenshotsGrid
                     canModerateScreenshots
@@ -92,7 +92,7 @@ class ModerationPage extends React.Component {
                 )}
               />
               <Route
-                path="/user/moderation/by-you"
+                path="/moi/moderation/par-moi"
                 render={() => (
                   <ScreenshotsGrid
                     canModerateScreenshots
@@ -102,7 +102,7 @@ class ModerationPage extends React.Component {
                 )}
               />
               <Route
-                path="/user/moderation/approved"
+                path="/moi/moderation/approuve"
                 render={() => (
                   <ScreenshotsGrid
                     canModerateScreenshots
@@ -112,7 +112,7 @@ class ModerationPage extends React.Component {
                 )}
               />
               <Route
-                path="/user/moderation/rejected"
+                path="/moi/moderation/rejete"
                 render={() => (
                   <ScreenshotsGrid
                     canModerateScreenshots

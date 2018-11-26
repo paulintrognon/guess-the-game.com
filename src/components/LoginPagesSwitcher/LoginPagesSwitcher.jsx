@@ -4,8 +4,8 @@ import PageSwitcher from '../PagesSwitcher/PagesSwitcher';
 export default () => (
   <PageSwitcher
     links={[
-      { label: 'Connexion', to: '/login' },
-      { label: 'Inscription', to: '/register' },
+      { label: 'Connexion', to: '/connexion' },
+      { label: 'Inscription', to: '/inscription' },
     ]}
   />
 );

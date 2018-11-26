@@ -15,6 +15,6 @@ function login(user) {
 function logout() {
   return dispatch => {
     dispatch({ type: 'USER_LOG_OUT' });
-    dispatch(push('/login'));
+    dispatch(push('/connexion'));
   };
 }
