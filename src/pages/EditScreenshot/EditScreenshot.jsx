@@ -14,7 +14,10 @@ import './EditScreenshot.css';
 class EditScreenshotPage extends React.Component {
   constructor(props) {
     super(props);
-    const params = queryString.parse(this.props.location.search);
+    const params = queryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    console.log(params);
     let alternativeNames = ['', '', ''];
     if (params.alternativeNames) {
       if (params.alternativeNames.map) {
