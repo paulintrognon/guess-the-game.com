@@ -1,3 +1,7 @@
+### v5.0.1
+
+- Moderation screenshots now appear in reversed order (lastest first)
+
 # v5.0.0 - French... French everywhere
 
 - Translate the whole game into french
