@@ -51,7 +51,7 @@ class Homepage extends React.Component {
               )}
             </p>
             <div className="Homepage_lastAddedScreenshot_shot_container">
-              <Link to={`/shot/${this.state.lastScreenshot.id}`}>
+              <Link to={`/screen/${this.state.lastScreenshot.id}`}>
                 <div
                   className="Homepage_lastAddedScreenshot_shot"
                   style={{

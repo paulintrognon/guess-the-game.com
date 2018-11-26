@@ -23,10 +23,10 @@ class ScreenshotItem extends React.Component {
     return (
       <div
         className="ScreenshotsGrid_item"
-        to={`/shot/${screenshot.id}`}
+        to={`/screen/${screenshot.id}`}
         title={screenshot.name}
       >
-        <Link to={`/shot/${screenshot.id}`}>
+        <Link to={`/screen/${screenshot.id}`}>
           <div
             style={{
               backgroundImage: `url(${screenshot.imageUrl})`,

@@ -44,7 +44,7 @@ export default () => (
         </Helmet>
         <Switch>
           <Route path="/" exact component={Homepage} />
-          <Route path="/shot/:id" exact component={ScreenshotPage} />
+          <Route path="/screen/:id" exact component={ScreenshotPage} />
           <Route path="/classement" exact component={RankingPage} />
           <Route path="/connexion" exact component={LoginPage} />
           <Route path="/inscription" exact component={RegisterPage} />

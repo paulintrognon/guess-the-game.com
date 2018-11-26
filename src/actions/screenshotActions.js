@@ -12,7 +12,7 @@ export default {
 
 function goToScreenshot(screenshot) {
   return dispatch => {
-    dispatch(push(`/shot/${screenshot.id}`));
+    dispatch(push(`/screen/${screenshot.id}`));
   };
 }
 
@@ -22,7 +22,7 @@ function loadScreenshot(screenshotId, navigate = false) {
     screenshotService.getFromId(screenshotId).then(screenshot => {
       dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
       if (navigate) {
-        dispatch(push(`/shot/${screenshot.id}`));
+        dispatch(push(`/screen/${screenshot.id}`));
       }
     });
   };
@@ -35,7 +35,7 @@ function getUnsolvedScreenshot(exclude) {
       if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
         dispatch(push('/la-fin'));
       } else {
-        dispatch(push(`/shot/${res.id}`));
+        dispatch(push(`/screen/${res.id}`));
         dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
       }
     });
