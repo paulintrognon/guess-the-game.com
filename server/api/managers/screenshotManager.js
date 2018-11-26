@@ -118,14 +118,28 @@ async function getScreenshotStats(screenshotId) {
 
 async function countSolved(screenshotId) {
   return db.SolvedScreenshot.count({
-    where: { ScreenshotId: screenshotId },
+    where: {
+      ScreenshotId: screenshotId,
+      '$User.username$': {
+        [db.Sequelize.Op.not]: null,
+      },
+    },
+    include: {
+      attributes: ['username'],
+      model: db.User,
+    },
   });
 }
 
 async function getFirstSolvedBy(screenshotId) {
   const solvedScreenshot = await db.SolvedScreenshot.findOne({
     attributes: [],
-    where: { ScreenshotId: screenshotId },
+    where: {
+      ScreenshotId: screenshotId,
+      '$User.username$': {
+        [db.Sequelize.Op.not]: null,
+      },
+    },
     limit: 1,
     order: [['createdAt', 'ASC']],
     include: {

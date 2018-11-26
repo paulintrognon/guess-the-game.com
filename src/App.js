@@ -39,26 +39,34 @@ export default () => (
           <meta charSet="utf-8" />
           <meta
             name="description"
-            content="Guess games from screenshots, post your own screenshots, and show off your gaming knowledge!"
+            content="Trouver les jeux des screenshots, postez vous propres jeux, et montrez votre connaissance du jeu-vidéo !"
           />
         </Helmet>
         <Switch>
           <Route path="/" exact component={Homepage} />
-          <Route path="/shot/:id" exact component={ScreenshotPage} />
-          <Route path="/ranking" exact component={RankingPage} />
-          <Route path="/login" exact component={LoginPage} />
-          <Route path="/register" exact component={RegisterPage} />
-          <Route path="/forgot-password" exact component={ForgotPasswordPage} />
+          <Route path="/screen/:id" exact component={ScreenshotPage} />
+          <Route path="/classement" exact component={RankingPage} />
+          <Route path="/connexion" exact component={LoginPage} />
+          <Route path="/inscription" exact component={RegisterPage} />
           <Route
-            path="/new-password/:token"
+            path="/mot-de-passe-oublie"
+            exact
+            component={ForgotPasswordPage}
+          />
+          <Route
+            path="/nouveau-mot-de-passe/:token"
             exact
             component={NewPasswordPage}
           />
-          <Route path="/add-screenshot" exact component={EditScreenshotPage} />
-          <Route path="/edit/:id" exact component={EditScreenshotPage} />
-          <Route path="/the-end" exact component={TheEnd} />
+          <Route
+            path="/ajouter-un-screenshot"
+            exact
+            component={EditScreenshotPage}
+          />
+          <Route path="/modifier/:id" exact component={EditScreenshotPage} />
+          <Route path="/la-fin" exact component={TheEnd} />
 
-          <Route path="/user" component={UserPages} />
+          <Route path="/moi" component={UserPages} />
 
           <Route component={NotFound} />
         </Switch>

@@ -78,21 +78,24 @@ class LoginPage extends React.Component {
       <form className="LoginPage_form" onSubmit={this.submitHandler}>
         <Input
           id="username"
-          label="Username or email"
-          placeholder="Type your username or your email"
+          label="Pseudo ou email"
+          placeholder="Entrez votre pseudo ou votre email"
           value={username}
           onChange={this.handleUsernameChange}
         />
         <Input
           id="password"
-          label="Password"
+          label="Mot de passe"
           type="password"
-          placeholder="Type your password"
+          placeholder="Entrez votre mot de passe"
           value={password}
           onChange={this.handlePasswordChange}
         >
-          <Link to="/forgot-password" className="LoginPage_form_forgotPassword">
-            Forgot?
+          <Link
+            to="/mot-de-passe-oublie"
+            className="LoginPage_form_forgotPassword"
+          >
+            oublié&nbsp;?
           </Link>
         </Input>
         {error && <p>{error}</p>}
@@ -102,7 +105,7 @@ class LoginPage extends React.Component {
           color="dark"
           type="submit"
         >
-          Submit
+          Valider
         </Button>
       </form>
     );
@@ -113,15 +116,15 @@ class LoginPage extends React.Component {
 
     return (
       <section className="LoginPage">
-        <Helmet title="Login" />
+        <Helmet title="Connexion" />
         <LoginPageSwitcher />
-        <SmallContainer title="Login">
+        <SmallContainer title="Connexion">
           {!user.username && this.renderForm()}
           {user.username && (
             <p>
-              You are logged as <b>{user.username}</b>!
+              Vous êtes connecté(e) en tant que <b>{user.username}</b> !
               <Button color="dark" onClick={this.logoutHandler}>
-                Log out
+                Déconnexion
               </Button>
             </p>
           )}

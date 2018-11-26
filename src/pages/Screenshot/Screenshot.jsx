@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import screenshotActions from '../../actions/screenshotActions';
+import helperService from '../../services/helperService';
 import Loading from '../../components/Loading/Loading';
 import './screenshot.css';
 
@@ -109,7 +110,7 @@ class ScreenshotPage extends React.Component {
           />
           <div className="ScreenshotPage_screenshot_success_banner">
             <p className="ScreenshotPage_screenshot_success_banner_text">
-              SOLVED
+              RESOLU !
             </p>
             <p className="ScreenshotPage_screenshot_success_banner_gameName">
               {screenshot.name}
@@ -139,20 +140,20 @@ class ScreenshotPage extends React.Component {
               screenshot.isSolved || isProposalRight ? '-isSolved' : ''
             }`}
           >
-            Shot #{screenshot.id}{' '}
+            Screen #{screenshot.id}{' '}
             <ApprovalStatus approvalStatus={screenshot.approvalStatus} />
           </h1>
           <div className="column ScreenshotPage_header_uploadedBy">
-            By <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
+            Par <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
             {screenshot.isOwn ? (
               <button
                 className="ScreenshotPage_header_removeScreenshotLink"
                 onClick={this.handleRemoveOwn}
               >
-                ✖ Remove
+                ✖ Supprimer
                 <span className="ScreenshotPage_header_removeScreenshotLink_hideMobile">
                   {' '}
-                  this shot
+                  le screen
                 </span>
               </button>
             ) : null}
@@ -161,13 +162,20 @@ class ScreenshotPage extends React.Component {
         <div className="ScreenshotPage_header_right">
           {screenshot.stats.solvedCount ? (
             <p className="ScreenshotPage_header_solvedByCount">
-              Solved by {screenshot.stats.solvedCount} people
+              Résolu par {screenshot.stats.solvedCount} personne{screenshot
+                .stats.solvedCount >= 2
+                ? 's'
+                : null}
             </p>
           ) : null}
           <p className="ScreenshotPage_header_firstSolvedBy">
-            {screenshot.stats.firstSolvedBy
-              ? `First solved by ${screenshot.stats.firstSolvedBy}`
-              : 'Be the first one to guess this screenshot!'}
+            {screenshot.stats.firstSolvedBy ? (
+              <span>
+                Premier·ère à trouver : <b>{screenshot.stats.firstSolvedBy}</b>
+              </span>
+            ) : (
+              'Soyez le premier ou la première à trouver !'
+            )}
           </p>
         </div>
       </div>
@@ -188,24 +196,24 @@ class ScreenshotPage extends React.Component {
         <div className="ScreenshotPage_form_col">
           {screenshot.isSolved ? (
             <p>
-              You have solved this screenshot on{' '}
-              {screenshot.solvedAt.toDateString()}
+              Vous avez résolu ce screen le{' '}
+              {helperService.formatDate(screenshot.solvedAt)}
             </p>
           ) : null}
           {screenshot.isOwn ? (
             <p>
-              You have uploaded this screenshot the{' '}
-              {screenshot.createdAt.toDateString()}
+              Vous avez ajouté ce screen le{' '}
+              {helperService.formatDate(screenshot.createdAt)}
             </p>
           ) : null}
           {screenshot.approvalStatus === 0 ? (
             <p>
-              This shot is <b>awaiting approval</b> from moderators.
+              Ce screen est <b>en attente de validation</b>.
             </p>
           ) : null}
           {screenshot.approvalStatus === -1 ? (
             <p>
-              This shot has been <b>rejected</b> by the moderators.
+              Ce screen a été <b>rejeté</b> par les modérateurs.
             </p>
           ) : null}
           {!error &&
@@ -253,7 +261,7 @@ class ScreenshotPage extends React.Component {
             disabled={this.props.isTryAnotherButtonClicked}
             onClick={this.handleTryAnother}
           >
-            Try another
+            Une autre&nbsp;!
             <span className="ScreenshotPage_form_next_icon">
               <img
                 className="ScreenshotPage_form_next_icon-1"
@@ -286,13 +294,13 @@ function ApprovalStatus({ approvalStatus }) {
     return (
       <span className="Screenshot_ApprovalStatus -awaiting">
         {' '}
-        - Awaiting Approval
+        - En attente de validation
       </span>
     );
   }
   if (approvalStatus === -1) {
     return (
-      <span className="Screenshot_ApprovalStatus -rejected"> - Rejected</span>
+      <span className="Screenshot_ApprovalStatus -rejected"> - Rejete</span>
     );
   }
   return null;

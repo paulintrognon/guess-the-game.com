@@ -1,3 +1,10 @@
+# v5.0.0 - French... French everywhere
+
+- Translate the whole game into french
+- John Does hidden from screenshot stats
+- Fix edit screenshot
+- Go back after editing a screenshot
+
 ### v4.4.1
 
 - Replace query-string with qs

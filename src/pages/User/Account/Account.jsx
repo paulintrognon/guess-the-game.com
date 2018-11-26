@@ -22,12 +22,12 @@ const AccountPage = ({
     <Helmet title="My account" />
     <div className="AccountPage">
       <BarTitle onlyOnSmartphones>
-        <h2>My Account</h2>
+        <h2>Mon compte</h2>
       </BarTitle>
       <div className="AccountPage_content">
         <div className="AccountPage_data">
           <div className="AccountPage_data_line">
-            <p className="AccountPage_data_line_left">Username</p>
+            <p className="AccountPage_data_line_left">Pseudo</p>
             <p className="AccountPage_data_line_right">{username}</p>
           </div>
           <div className="AccountPage_data_line">
@@ -35,14 +35,14 @@ const AccountPage = ({
             <p className="AccountPage_data_line_right">{email}</p>
           </div>
           <div className="AccountPage_data_line">
-            <p className="AccountPage_data_line_left">Password</p>
+            <p className="AccountPage_data_line_left">Mot de passe</p>
             <p className="AccountPage_data_line_right">
-              <Link to="/forgot-password">reset it!</Link>
+              <Link to="/mot-de-passe-oublie">Réinitialiser</Link>
             </p>
           </div>
           <hr />
           <div className="AccountPage_data_line">
-            <p className="AccountPage_data_line_left">Solved screenshots</p>
+            <p className="AccountPage_data_line_left">Screens résolus</p>
             <p className="AccountPage_data_line_right">
               {nbSolvedScreenshots !== undefined ? (
                 nbSolvedScreenshots
@@ -52,7 +52,7 @@ const AccountPage = ({
             </p>
           </div>
           <div className="AccountPage_data_line">
-            <p className="AccountPage_data_line_left">Added Screenshots</p>
+            <p className="AccountPage_data_line_left">Screens ajoutés</p>
             <p className="AccountPage_data_line_right">
               {nbAddedScreenshots !== undefined ? (
                 nbAddedScreenshots
@@ -68,7 +68,7 @@ const AccountPage = ({
               onClick={() => dispatch(loginActions.logout())}
               className="AccountPage_data_line_logOutButton"
             >
-              Log out
+              Déconnexion
             </Button>
           </div>
         </div>

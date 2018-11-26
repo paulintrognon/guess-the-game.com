@@ -58,7 +58,7 @@ class ForgotPasswordPage extends React.Component {
           const newState = { submitting: false };
           if (res.code === 'OUTDATED_TOKEN') {
             newState.error =
-              "Your new password's link have expired. Please start all over. Sorry about that.";
+              'Déso, le lien de regénération de votre mot de passe a éxpiré. Vous devez tout recommencer.';
           } else {
             newState.error = res.message;
           }
@@ -73,20 +73,20 @@ class ForgotPasswordPage extends React.Component {
     return (
       <form className="ForgotPasswordPage__form" onSubmit={this.submitHandler}>
         <Input
-          label="Type your new password"
+          label="Nouveau mot de passe"
           id="password"
           type="password"
           className="input"
-          placeholder="New password"
+          placeholder="Entrez votre nouveau mot de passe"
           value={password}
           onChange={this.handlePasswordChange}
         />
         <Input
-          label="Confirm new password"
+          label="Confirmer le mot de passe"
           id="passwordConfirmation"
           type="password"
           className="input"
-          placeholder="Password confirmation"
+          placeholder="Entrez la confirmation du mot de passe"
           value={passwordConfirmation}
           onChange={this.handlePasswordConfirmationChange}
         />
@@ -99,7 +99,7 @@ class ForgotPasswordPage extends React.Component {
           disabled={!valid}
           type="submit"
         >
-          Set new password
+          Valider le nouveau mot de passe
         </Button>
       </form>
     );
@@ -109,7 +109,7 @@ class ForgotPasswordPage extends React.Component {
     const { email } = this.state;
     return (
       <p className="notification is-success">
-        Done! An email is on its way to {email}.
+        C&apos;est bon&nbsp;! Un email a été envoyé à {email}.
       </p>
     );
   }
@@ -118,9 +118,9 @@ class ForgotPasswordPage extends React.Component {
     const { submitted } = this.state;
     return (
       <section className="ForgotPasswordPage">
-        <Helmet title="Create your new password" />
+        <Helmet title="Réinitialiser son mot de passe" />
         <LoginPagesSwitcher />
-        <SmallContainer title="New password form">
+        <SmallContainer title="Réinitialiser son mot de passe">
           {submitted ? this.renderSubmitted() : this.renderForm()}
         </SmallContainer>
       </section>
