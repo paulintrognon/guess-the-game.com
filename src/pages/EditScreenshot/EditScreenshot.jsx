@@ -178,7 +178,7 @@ class EditScreenshotPage extends React.Component {
     const screenshotId = this.props.match.params.id;
     const valid =
       (screenshotId || this.state.uploadedImageName) && this.state.name.trim();
-    const title = `${screenshotId ? 'Edit' : 'Add'} Screenshot ${
+    const title = `${screenshotId ? 'Modifier la' : 'Nouvelle'} Screenshot ${
       screenshotId ? `#${screenshotId}` : ''
     }`;
     return (
@@ -215,13 +215,13 @@ class EditScreenshotPage extends React.Component {
                       <div className="EditScreenshotPage_form_screenshot_loading">
                         <Loading />
                       </div>
-                      <p>Uploading, please wait...</p>
+                      <p>Ça charge...</p>
                     </div>
                   ) : null}
                   {!this.state.file && !screenshotId ? (
                     <div>
                       <p className="EditScreenshotPage_form_screenshot_dropzone_dropText">
-                        Drag the screenshot, or
+                        Glissez l&apos;image, ou
                       </p>
                       <div>
                         <label htmlFor="uploadScreenshotImageButton">
@@ -260,7 +260,7 @@ class EditScreenshotPage extends React.Component {
             )}
             <Input
               id="name"
-              label="Full name of the game"
+              label="Nom complet du jeu (tel qu'on le voit sur wikipedia par exemple)"
               placeholder="Ex: Grand Theft Auto V"
               value={
                 this.state.name ||
@@ -270,10 +270,12 @@ class EditScreenshotPage extends React.Component {
               onChange={this.handleNameChange}
             />
             <div className="EditScreenshotPage_form_alternativeNames">
-              <p>Alternative names</p>
+              <p>Noms alternatifs</p>
               <p className="EditScreenshotPage_form_alternativeNames_extra">
-                Players will solve that screenshot by typing the full name or
-                any of the alternatives.
+                Les joueurs pourront valider la screen avec soit le nom complet
+                exact, soit une des variantes proposée ici.<br />
+                Il n&apos;est pas nécéssaire de mettre les variantes majuscules
+                / non majuscules (le jeu gère déjà ces variantes).
               </p>
               {this.state.alternativeNames.map((alternativeName, i) => (
                 <input
@@ -290,12 +292,12 @@ class EditScreenshotPage extends React.Component {
                 onClick={this.handleAddAlternativeName}
                 className="EditScreenshotPage_form_alternativeNames_add"
               >
-                <b>+</b> Add an alternative
+                <b>+</b> Ajouter une alternative
               </button>
             </div>
             <Input
               id="year"
-              label="Year when it came out"
+              label="Année de sortie du jeu"
               placeholder="Ex: 2017"
               value={this.state.year}
               onChange={this.handleChangeYear}
@@ -314,7 +316,9 @@ class EditScreenshotPage extends React.Component {
               color="dark"
               type="submit"
             >
-              {screenshotId ? 'Edit' : 'Submit'} the screenshot
+              {screenshotId
+                ? 'Enregistrer les modifications'
+                : 'Ajouter la screenshot'}
             </Button>
           </form>
         </SmallContainer>

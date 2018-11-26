@@ -60,22 +60,22 @@ class ModerationPage extends React.Component {
               <PagesSwitcher
                 links={[
                   {
-                    label: 'Waiting for approval',
+                    label: 'En attente de validation',
                     to: '/user/moderation/waiting',
                     onClick: this.fetchNonModeratedScreenshots,
                   },
                   {
-                    label: 'Moderated by you',
+                    label: 'Modérée par vous',
                     to: '/user/moderation/by-you',
                     onClick: this.fetchModeratedByYouScreenshots,
                   },
                   {
-                    label: 'All approved',
+                    label: 'Tous les approuvés',
                     to: '/user/moderation/approved',
                     onClick: this.fetchApprovedScreenshots,
                   },
                   {
-                    label: 'All rejected',
+                    label: 'Tous les rejetés',
                     to: '/user/moderation/rejected',
                     onClick: this.fetchRejectedScreenshots,
                   },
@@ -87,7 +87,7 @@ class ModerationPage extends React.Component {
                   <ScreenshotsGrid
                     canModerateScreenshots
                     screenshots={waitingScreenshots}
-                    noScreenshotSentence="All screenshots have been moderated."
+                    noScreenshotSentence="Tous les screens ont été modérés."
                   />
                 )}
               />
@@ -97,7 +97,7 @@ class ModerationPage extends React.Component {
                   <ScreenshotsGrid
                     canModerateScreenshots
                     screenshots={byYouScreenshots}
-                    noScreenshotSentence="You have moderated no screenshots."
+                    noScreenshotSentence="Vous n'avez modéré aucun screen."
                   />
                 )}
               />
@@ -107,7 +107,7 @@ class ModerationPage extends React.Component {
                   <ScreenshotsGrid
                     canModerateScreenshots
                     screenshots={approvedScreenshots}
-                    noScreenshotSentence="No screenshots have been approved so far."
+                    noScreenshotSentence="Aucun screen apprové pour le moment."
                   />
                 )}
               />
@@ -117,7 +117,7 @@ class ModerationPage extends React.Component {
                   <ScreenshotsGrid
                     canModerateScreenshots
                     screenshots={rejectedScreenshots}
-                    noScreenshotSentence="No screenshots have been rejected so far."
+                    noScreenshotSentence="Aucun screen rejeté pour le moment."
                   />
                 )}
               />

@@ -2,6 +2,7 @@ import React from 'react';
 import queryString from 'qs';
 import { Link } from 'react-router-dom';
 import moderationService from '../../services/moderationService';
+import helperService from '../../services/helperService';
 
 class ScreenshotItem extends React.Component {
   constructor(props) {
@@ -40,22 +41,16 @@ class ScreenshotItem extends React.Component {
           </p>
           {(screenshot.alternativeNames || []).map(name => (
             <p>
-              or{' '}
+              ou{' '}
               <span className="ScreenshotsGrid_item_legend_alternativeName">
                 {name}
               </span>
             </p>
           ))}
           {!canModerateScreenshots && screenshot.solvedAt ? (
-            <p>
-              Solved the {screenshot.solvedAt.toLocaleDateString()} at{' '}
-              {screenshot.solvedAt.toLocaleTimeString()}
-            </p>
+            <p>Résolu le {helperService.formatDate(screenshot.solvedAt)}</p>
           ) : (
-            <p>
-              Added the {screenshot.createdAt.toLocaleDateString()} at{' '}
-              {screenshot.createdAt.toLocaleTimeString()}
-            </p>
+            <p>Ajouté le {helperService.formatDate(screenshot.createdAt)}</p>
           )}
           {canModerateScreenshots ? (
             <div className="ScreenshotsGrid_item_legend_approve">
@@ -77,12 +72,12 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
   if (approvalStatus === 1) {
     return (
       <p>
-        <b>Screenshot is approved.</b>
+        <b>Le screen est approuvé.</b>
         <button
           className="ScreenshotsGrid_item_legend_approve_button -reject"
           onClick={handleModeration(screenshot.id, -1)}
         >
-          <span>Reject</span>
+          <span>Désapprouver</span>
         </button>
         -
         <EditScreenshotLink screenshot={screenshot} />
@@ -92,12 +87,12 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
   if (approvalStatus === -1) {
     return (
       <p>
-        <b>✖ Screenshot is rejected.</b>
+        <b>✖ Le screen est désapprouvé.</b>
         <button
           className="ScreenshotsGrid_item_legend_approve_button -approve"
           onClick={handleModeration(screenshot.id, 1)}
         >
-          <span>Approve</span>
+          <span>Approuver</span>
         </button>
         -
         <EditScreenshotLink screenshot={screenshot} />
@@ -110,14 +105,14 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
         className="ScreenshotsGrid_item_legend_approve_button -approve"
         onClick={handleModeration(screenshot.id, 1)}
       >
-        <span>Approve</span>
+        <span>Approuver</span>
       </button>
       -
       <button
         className="ScreenshotsGrid_item_legend_approve_button -reject"
         onClick={handleModeration(screenshot.id, -1)}
       >
-        <span>Reject</span>
+        <span>Désapprouver</span>
       </button>
       -
       <EditScreenshotLink screenshot={screenshot} />
@@ -132,7 +127,7 @@ function EditScreenshotLink({ screenshot }) {
       className="ScreenshotsGrid_item_legend_approve_button"
       href={generateEditLink(screenshot)}
     >
-      Edit
+      Modifier
     </a>
   );
 }

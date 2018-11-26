@@ -34,12 +34,12 @@ class Homepage extends React.Component {
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
           <div className="RankingPage_ranking_col -centered">
-            <span className="-onlyOnSmartphones">Cpt</span>
-            <span className="-hideOnSmartphones">Completeness</span>
+            <span className="-onlyOnSmartphones">Prog</span>
+            <span className="-hideOnSmartphones">Progression</span>
           </div>
-          <div className="RankingPage_ranking_col -centered">Solved</div>
+          <div className="RankingPage_ranking_col -centered">Résolus</div>
           <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-            Added
+            Ajoutés
           </div>
         </div>
         {scores.map((score, i) => (

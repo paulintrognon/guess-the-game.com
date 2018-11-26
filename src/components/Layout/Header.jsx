@@ -43,7 +43,7 @@ class Header extends React.Component {
                 }`}
                 onClick={this.playHandler}
               >
-                Play
+                Jouer
               </button>
               <Link
                 to="/ranking"
@@ -51,7 +51,7 @@ class Header extends React.Component {
                   isPathActive('/ranking') ? '-active' : ''
                 }`}
               >
-                Ranking
+                Classement
               </Link>
               {user.username && (
                 <Link
@@ -60,7 +60,9 @@ class Header extends React.Component {
                     isPathActive('/add-screenshot') ? '-active' : ''
                   }`}
                 >
-                  Add&nbsp;<span className="-hideSmartphone">screenshot</span>
+                  Ajouter&nbsp;<span className="-hideOnSmartphones">
+                    un screenshot
+                  </span>
                 </Link>
               )}
             </nav>
@@ -97,7 +99,7 @@ function renderAccountMenuButton(username, handleOnClick) {
       }`}
       onClick={handleOnClick}
     >
-      <span className="-hideSmartphone">{username}</span>
+      <span className="-hideOnSmartphones">{username}</span>
       {renderUserIconSvg()}
     </Link>
   );
