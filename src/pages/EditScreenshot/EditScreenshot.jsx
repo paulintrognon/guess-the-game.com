@@ -17,7 +17,6 @@ class EditScreenshotPage extends React.Component {
     const params = queryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
-    console.log(params);
     let alternativeNames = ['', '', ''];
     if (params.alternativeNames) {
       if (params.alternativeNames.map) {
@@ -152,29 +151,43 @@ class EditScreenshotPage extends React.Component {
       submitting: true,
       error: null,
     });
-    const promise = screenshotId
-      ? screenshotService.editScreenshot({
+    if (!screenshotId) {
+      screenshotService
+        .addScreenshot({
+          name: this.state.name,
+          alternativeNames: this.state.alternativeNames,
+          year: this.state.year,
+          localImageName: this.state.uploadedImageName,
+        })
+        .then(res => {
+          if (res.error) {
+            this.setState({
+              submitting: false,
+              error: res.message,
+            });
+          } else {
+            this.props.dispatch(screenshotActions.goToScreenshot(res));
+          }
+        });
+    } else {
+      screenshotService
+        .editScreenshot({
           id: screenshotId,
           name: this.state.name,
           alternativeNames: this.state.alternativeNames,
           year: this.state.year,
         })
-      : screenshotService.addScreenshot({
-          name: this.state.name,
-          alternativeNames: this.state.alternativeNames,
-          year: this.state.year,
-          localImageName: this.state.uploadedImageName,
+        .then(res => {
+          if (res.error) {
+            this.setState({
+              submitting: false,
+              error: res.message,
+            });
+          } else {
+            window.history.back();
+          }
         });
-    promise.then(res => {
-      if (res.error) {
-        this.setState({
-          submitting: false,
-          error: res.message,
-        });
-      } else {
-        this.props.dispatch(screenshotActions.goToScreenshot(res));
-      }
-    });
+    }
   };
 
   render() {

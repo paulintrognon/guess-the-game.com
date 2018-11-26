@@ -27,7 +27,7 @@ class AddedScreenshotsPage extends React.Component {
           <BarTitle onlyOnSmartphones>
             <h2>Screenshots Ajoutes</h2>
           </BarTitle>
-          <ScreenshotsGrid screenshots={addedScreenshots}>
+          <ScreenshotsGrid screenshots={addedScreenshots} canEditScreenshots>
             <Link className="ScreenshotsGrid_item" to="/ajouter-un-screenshot">
               <div className="AddedScreenshotsPage_item_add">
                 <svg

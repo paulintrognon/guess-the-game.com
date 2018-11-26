@@ -18,7 +18,11 @@ class ScreenshotItem extends React.Component {
   };
 
   render() {
-    const { screenshot, canModerateScreenshots } = this.props;
+    const {
+      screenshot,
+      canModerateScreenshots,
+      canEditScreenshots,
+    } = this.props;
     const { approvalStatus } = this.state;
     return (
       <div
@@ -35,6 +39,11 @@ class ScreenshotItem extends React.Component {
           />
         </Link>
         <div className="ScreenshotsGrid_item_legend">
+          {canEditScreenshots ? (
+            <div style={{ float: 'right' }}>
+              <EditScreenshotLink screenshot={screenshot} />
+            </div>
+          ) : null}
           <p className="ScreenshotsGrid_item_legend_name">
             {screenshot.gameCanonicalName}{' '}
             {screenshot.year ? `(${screenshot.year})` : null}
