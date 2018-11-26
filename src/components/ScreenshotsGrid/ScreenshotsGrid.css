@@ -24,12 +24,12 @@
 }
 .ScreenshotsGrid_item_legend_name {
   font-size: 16px;
-  font-family: Norwester;
+  font-weight: bold;
 }
 
 .ScreenshotsGrid_item_legend_alternativeName {
-  font-size: 12px;
-  font-family: Norwester;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .ScreenshotsGrid_item_legend_approve {
