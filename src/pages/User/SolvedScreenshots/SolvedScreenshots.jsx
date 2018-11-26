@@ -24,11 +24,11 @@ class SolvedScreenshotsPage extends React.Component {
         <Helmet title="Screenshots Solved" />
         <div className="SolvedScreenshotsPage">
           <BarTitle onlyOnSmartphones>
-            <h2>Screenshots Solved</h2>
+            <h2>Screens Resolus</h2>
           </BarTitle>
           <ScreenshotsGrid
             screenshots={solvedScreenshots}
-            noScreenshotSentence="You haven't solved any screenshots yet."
+            noScreenshotSentence="Vous n'avez encore résolu aucun screen."
           />
         </div>
       </section>

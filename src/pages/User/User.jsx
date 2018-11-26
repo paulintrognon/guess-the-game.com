@@ -15,16 +15,19 @@ function mapStoreToProps(store) {
 }
 const UserPages = ({ user, match }) => {
   if (!user || !user.jwt) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/connexion" />;
   }
   return (
     <div className="UserPages">
       <Menu />
       <div className="UserPages_container">
-        <Route path={`${match.url}/account`} component={AccountPage} />
+        <Route path={`${match.url}/mon-compte`} component={AccountPage} />
         <Route path={`${match.url}/moderation`} component={ModerationPage} />
-        <Route path={`${match.url}/solved`} component={SolvedScreenshotsPage} />
-        <Route path={`${match.url}/added`} component={AddedScreenshotsPage} />
+        <Route
+          path={`${match.url}/resolus`}
+          component={SolvedScreenshotsPage}
+        />
+        <Route path={`${match.url}/ajoutes`} component={AddedScreenshotsPage} />
       </div>
     </div>
   );

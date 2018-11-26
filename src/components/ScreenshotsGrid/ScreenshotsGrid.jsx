@@ -6,6 +6,7 @@ const ScreenshotsGrid = ({
   screenshots,
   noScreenshotSentence,
   canModerateScreenshots,
+  canEditScreenshots,
   children,
 }) => (
   <div className="ScreenshotsGrid">
@@ -18,6 +19,7 @@ const ScreenshotsGrid = ({
           key={screenshot.id}
           screenshot={screenshot}
           canModerateScreenshots={canModerateScreenshots}
+          canEditScreenshots={canEditScreenshots}
         />
       ))
     )}

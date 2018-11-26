@@ -89,7 +89,7 @@ async function requestNewPassword(req) {
   }
 
   const token = await tokenService.createNewPasswordRequestToken(user);
-  const link = `${config.frontUrl}/new-password/${token}`;
+  const link = `${config.frontUrl}/nouveau-mot-de-passe/${token}`;
 
   return emailService.sendRequestNewPasswordEmail({
     link,

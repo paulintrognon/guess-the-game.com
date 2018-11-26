@@ -22,13 +22,13 @@ class AddedScreenshotsPage extends React.Component {
     const { addedScreenshots } = this.props;
     return (
       <section className="section">
-        <Helmet title="Screenshots Solved" />
+        <Helmet title="Screenshots Ajoutés" />
         <div className="AddedScreenshotsPage">
           <BarTitle onlyOnSmartphones>
-            <h2>Screenshots Solved</h2>
+            <h2>Screenshots Ajoutes</h2>
           </BarTitle>
-          <ScreenshotsGrid screenshots={addedScreenshots}>
-            <Link className="ScreenshotsGrid_item" to="/add-screenshot">
+          <ScreenshotsGrid screenshots={addedScreenshots} canEditScreenshots>
+            <Link className="ScreenshotsGrid_item" to="/ajouter-un-screenshot">
               <div className="AddedScreenshotsPage_item_add">
                 <svg
                   className="AddedScreenshotsPage_item_add_icon"
@@ -41,7 +41,7 @@ class AddedScreenshotsPage extends React.Component {
                 </svg>
               </div>
               <div className="AddedScreenshotsPage_item_legend">
-                <p>Add new shot</p>
+                <p>Ajouter un nouveau</p>
               </div>
             </Link>
           </ScreenshotsGrid>

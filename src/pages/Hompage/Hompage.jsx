@@ -26,31 +26,32 @@ class Homepage extends React.Component {
     return (
       <section className="Homepage">
         <p className="Homepage_subtitle">
-          Guess as many games as possible from screenshots added by people
+          Testez votre connaissance des jeux vidéos en trouvant le plus de jeux
+          à partir de screenshots postées par d&apos;autres joueurs&nbsp;!
         </p>
         <p>
           <button className="Homepage_playButton" onClick={this.playHandler}>
-            play!
+            C&apos;est parti&nbsp;!
           </button>
         </p>
         {this.state.lastScreenshot && (
           <div className="Homepage_lastAddedScreenshot">
             <h2 className="Homepage_lastAddedScreenshot_title">
-              Last added screenshot
+              Dernière screen ajouté
             </h2>
             <p className="Homepage_lastAddedScreenshot_subtitle">
-              Uploaded by <b>{this.state.lastScreenshot.addedBy}</b> -{` `}
+              Ajouté par <b>{this.state.lastScreenshot.addedBy}</b> -{` `}
               {this.state.lastScreenshot.stats.firstSolvedBy ? (
                 <span>
-                  First solved by{' '}
-                  <b>{this.state.lastScreenshot.stats.firstSolvedBy}</b>
+                  Premier·ère à trouver&nbsp;:
+                  <b> {this.state.lastScreenshot.stats.firstSolvedBy}</b>
                 </span>
               ) : (
-                'Be the first one to guess this screenshot!'
+                'Soyez le premier ou la première à trouver !'
               )}
             </p>
             <div className="Homepage_lastAddedScreenshot_shot_container">
-              <Link to={`/shot/${this.state.lastScreenshot.id}`}>
+              <Link to={`/screen/${this.state.lastScreenshot.id}`}>
                 <div
                   className="Homepage_lastAddedScreenshot_shot"
                   style={{

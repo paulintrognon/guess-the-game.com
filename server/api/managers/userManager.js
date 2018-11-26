@@ -95,9 +95,20 @@ async function getSolvedScreenshots(userId) {
 async function getAddedScreenshots(userId) {
   const results = await db.Screenshot.findAll({
     attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
+    include: { model: db.ScreenshotName },
     where: { UserId: userId },
     limit: 100,
     order: [['createdAt', 'DESC']],
   });
-  return results.map(res => res.get({ plain: true }));
+  return results.map(screenshot => ({
+    id: screenshot.id,
+    gameCanonicalName: screenshot.gameCanonicalName,
+    alternativeNames: screenshot.ScreenshotNames.map(name => name.name).filter(
+      name => name !== screenshot.gameCanonicalName
+    ),
+    year: screenshot.year,
+    imagePath: screenshot.imagePath,
+    createdAt: screenshot.createdAt,
+    approvalStatus: screenshot.approvalStatus,
+  }));
 }
