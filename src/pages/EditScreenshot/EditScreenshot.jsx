@@ -178,13 +178,20 @@ class EditScreenshotPage extends React.Component {
           year: this.state.year,
         })
         .then(res => {
+          this.setState({ submitting: false });
           if (res.error) {
             this.setState({
-              submitting: false,
               error: res.message,
             });
-          } else {
+          } else if (
+            window.history &&
+            window.document.referrer &&
+            (window.document.referrer.indexOf('guess-the-game') !== -1 ||
+              window.document.referrer.indexOf('localhost') !== -1)
+          ) {
             window.history.back();
+          } else {
+            this.props.dispatch(screenshotActions.goToScreenshot(res));
           }
         });
     }
