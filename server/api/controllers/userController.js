@@ -1,4 +1,5 @@
 const userManager = require('../managers/userManager');
+const screenshotManager = require('../managers/screenshotManager');
 const cloudinaryService = require('../services/cloudinaryService');
 
 module.exports = {
@@ -9,14 +10,12 @@ module.exports = {
 };
 
 async function getScores() {
-  const userScores = await userManager.getScores();
-  return userScores.map(userScore => ({
-    id: userScore.id,
-    username: userScore.username,
-    nbSolvedScreenshots: userScore.solvedScreenshots,
-    nbAddedScreenshots: userScore.addedScreenshots,
-    completeness: userScore.completeness,
-  }));
+  const totalNbScreenshots = await screenshotManager.getTotalNb();
+  const scores = await userManager.getScores({ totalNbScreenshots });
+  return {
+    totalNbScreenshots,
+    scores,
+  };
 }
 
 async function getUser(req) {

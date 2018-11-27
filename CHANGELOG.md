@@ -1,3 +1,9 @@
+## v5.1.0
+
+- Add nb total screenshots in ranking + explanation about completeness
+- Screenshot footer no longer overlaps with image
+- Moderators can now verify if game exists in jeuxvideo.com
+
 ### v5.0.2
 
 - Add screenshot rules

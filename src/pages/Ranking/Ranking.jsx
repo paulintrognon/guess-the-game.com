@@ -16,14 +16,19 @@ class Homepage extends React.Component {
     this.state = {
       isLoading: true,
       scores: [],
+      totalNbScreenshots: 0,
     };
-    userService.fetchScores().then(scores => {
-      this.setState({ scores, isLoading: false });
+    userService.fetchScores().then(res => {
+      this.setState({
+        scores: res.scores,
+        totalNbScreenshots: res.totalNbScreenshots,
+        isLoading: false,
+      });
     });
   }
 
   renderScores() {
-    const { scores } = this.state;
+    const { scores, totalNbScreenshots } = this.state;
 
     if (this.state.isLoading) {
       return <Loading />;
@@ -31,6 +36,9 @@ class Homepage extends React.Component {
 
     return (
       <div className="RankingPage_ranking">
+        <p className="RankingPage_ranking_total">
+          Nombre total de screenshots: <b>{totalNbScreenshots}</b>
+        </p>
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
           <div className="RankingPage_ranking_col -centered">
@@ -50,7 +58,14 @@ class Homepage extends React.Component {
                 {score.username}
               </span>
             </div>
-            <div className="RankingPage_ranking_col -centered">
+            <div
+              className="RankingPage_ranking_col -centered"
+              title={`= ${
+                score.nbSolvedScreenshots
+              } résolus / (${totalNbScreenshots} total - ${
+                score.nbAddedScreenshots
+              } ajoutés)`}
+            >
               {(score.completeness * 100).toFixed(2)}&nbsp;%
             </div>
             <div className="RankingPage_ranking_col -centered">

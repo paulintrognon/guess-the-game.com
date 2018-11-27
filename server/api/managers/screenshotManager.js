@@ -8,6 +8,7 @@ module.exports = {
   getFromId,
   getLastAdded,
   getUnsolved,
+  getTotalNb,
   deleteUserScreenshot,
   removeSolvedPointsForScreenshot,
   testProposal,
@@ -190,6 +191,12 @@ async function getUnsolved({ userId, exclude }) {
     { model: db.Screenshot }
   );
   return screenshots[0];
+}
+
+async function getTotalNb() {
+  return db.Screenshot.count({
+    where: { approvalStatus: 1 },
+  });
 }
 
 async function deleteUserScreenshot({ userId, screenshotId }) {
