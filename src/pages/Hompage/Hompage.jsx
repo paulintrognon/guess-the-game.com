@@ -27,7 +27,8 @@ class Homepage extends React.Component {
       <section className="Homepage">
         <p className="Homepage_subtitle">
           Testez votre connaissance des jeux vidéos en trouvant le plus de jeux
-          à partir de screenshots postées par d&apos;autres joueurs&nbsp;!
+          possibles à partir de screenshots postées par d&apos;autres
+          joueurs&nbsp;!
         </p>
         <p>
           <button className="Homepage_playButton" onClick={this.playHandler}>
