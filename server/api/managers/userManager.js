@@ -40,10 +40,7 @@ function isUsernameFree(username) {
   }).then(user => user === null);
 }
 
-async function getScores() {
-  const totalScreenshots = await db.Screenshot.count({
-    where: { approvalStatus: 1 },
-  });
+async function getScores({ totalNbScreenshots }) {
   return db.User.findAll({
     attributes: [
       'username',
@@ -51,7 +48,7 @@ async function getScores() {
       'addedScreenshots',
       [
         db.Sequelize.literal(
-          `solvedScreenshots / (${totalScreenshots} - addedScreenshots)`
+          `solvedScreenshots / (${totalNbScreenshots} - addedScreenshots)`
         ),
         'completeness',
       ],
@@ -65,14 +62,22 @@ async function getScores() {
     order: [
       [
         db.Sequelize.literal(
-          `solvedScreenshots / (${totalScreenshots} - addedScreenshots)`
+          `solvedScreenshots / (${totalNbScreenshots} - addedScreenshots)`
         ),
         'DESC',
       ],
       ['solvedScreenshots', 'DESC'],
       ['addedScreenshots', 'DESC'],
     ],
-  }).map(user => user.get({ plain: true }));
+  })
+    .map(user => user.get({ plain: true }))
+    .map(userScore => ({
+      id: userScore.id,
+      username: userScore.username,
+      nbSolvedScreenshots: userScore.solvedScreenshots,
+      nbAddedScreenshots: userScore.addedScreenshots,
+      completeness: userScore.completeness,
+    }));
 }
 
 async function getSolvedScreenshots(userId) {
