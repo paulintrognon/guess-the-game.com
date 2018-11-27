@@ -215,6 +215,34 @@ class EditScreenshotPage extends React.Component {
               onDragOver={screenshotId ? null : this.dragOverHandler}
               onDragLeave={screenshotId ? null : this.dragLeaveHandler}
             >
+              <div className="EditScreenshotPage_form_screenshot_label">
+                <b>Règles à lire avant de poster</b>
+                <ul>
+                  <li>
+                    Le jeu doit <b>avoir une fiche sur jeuxvideo.com</b>
+                  </li>
+                  <li>
+                    La screenshot doit être de <b>bonne qualité</b>
+                  </li>
+                  <li>
+                    Il est interdit de ne montrer qu&apos;une partie du
+                    screenshot, ce dernier doit montrer{' '}
+                    <b>la totalité de l&apos;écran</b>
+                  </li>
+                  <li>
+                    La screenshot ne doit <b>pas provenir de Google Image</b>{' '}
+                    (vous pouvez la prendre depuis votre jeu, ou depuis un{' '}
+                    <a
+                      style={{ textDecoration: 'underline' }}
+                      href="https://www.youtube.com/watch?v=TtVSPilTy2k"
+                      target="_blank"
+                    >
+                      Long Play
+                    </a>{' '}
+                    de Youtube par exemple)
+                  </li>
+                </ul>
+              </div>
               <p className="EditScreenshotPage_form_screenshot_label">
                 Screenshot
               </p>

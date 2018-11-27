@@ -13,6 +13,7 @@
     "react/prop-types": "off",
     "react/sort-comp": "off",
     "react/no-array-index-key": "off",
+    "react/jsx-no-target-blank": "off",
     "react/button-has-type": "off"
   }
 }
