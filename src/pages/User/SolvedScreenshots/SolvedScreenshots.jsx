@@ -21,7 +21,7 @@ class SolvedScreenshotsPage extends React.Component {
     const { solvedScreenshots } = this.props;
     return (
       <section className="section">
-        <Helmet title="Screenshots Solved" />
+        <Helmet title="Screenshots Résolus" />
         <div className="SolvedScreenshotsPage">
           <BarTitle onlyOnSmartphones>
             <h2>Screens Resolus</h2>

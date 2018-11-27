@@ -231,7 +231,7 @@ class ScreenshotPage extends React.Component {
                 ref={this.guessInputRef}
                 className="ScreenshotPage_form_input_text"
                 type="text"
-                placeholder="What is that game?"
+                placeholder="Quel est ce jeu ?"
                 value={this.state.proposal}
                 onChange={this.handleChangeProposal}
               />
