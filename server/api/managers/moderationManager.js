@@ -1,4 +1,5 @@
 const db = require('../../db/db');
+const screenshotManager = require('./screenshotManager');
 
 module.exports = {
   getScreenshots,
@@ -61,7 +62,9 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
       approvalStatus: newApprovalStatus,
       moderatedBy: moderator.id,
     }),
-    shouldIncrement ? poster.increment('addedScreenshots') : null,
-    shouldDecrement ? poster.decrement('addedScreenshots') : null,
+    shouldIncrement && poster.increment('addedScreenshots'),
+    shouldDecrement && poster.decrement('addedScreenshots'),
+    newApprovalStatus === -1 &&
+      screenshotManager.removeSolvedPointsForScreenshot({ screenshotId }),
   ]);
 }
