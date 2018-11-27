@@ -1,3 +1,8 @@
+## v5.1.0
+
+- Screenshot footer no longer overlaps with image
+- Moderators can now verify if game exists in jeuxvideo.com
+
 ### v5.0.2
 
 - Add screenshot rules
