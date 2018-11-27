@@ -1,17 +1,29 @@
 .ScreenshotPage {
   background-color: #FFF;
-  margin: 20px 0;
+  margin: 10px 0;
 }
+@media (min-width: 480px) {
+  .ScreenshotPage {
+    margin: 20px 0;
+  }
+}
+
 
 .ScreenshotPage_header {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  padding: 0 20px;
+  padding: 0 10px;
   max-width: 1024px;
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   max-height: 40px;
+}
+@media (min-width: 480px) {
+  .ScreenshotPage_header {
+    padding: 0 20px;
+    margin-bottom: 10px;
+  }
 }
 @media (min-width: 769px) {
   .ScreenshotPage_header {
@@ -19,8 +31,16 @@
   }
 }
 
-.ScreenshotPage_header_left,.ScreenshotPage_header_right {
-  max-width: 50%;
+.ScreenshotPage_header_left {
+  max-width: 30%;
+}
+.ScreenshotPage_header_right {
+  max-width: 70%;
+}
+@media (min-width: 480px) {
+  .ScreenshotPage_header_left,.ScreenshotPage_header_right {
+    max-width: 50%;
+  }
 }
 
 .ScreenshotPage_header_title {
@@ -258,5 +278,5 @@
 }
 
 .ScreenshotPage_form_or {
-  margin: 20px 0 -10px;
+  margin: 10px 0 -5px;
 }

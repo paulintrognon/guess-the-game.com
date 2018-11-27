@@ -140,7 +140,7 @@ class ScreenshotPage extends React.Component {
               screenshot.isSolved || isProposalRight ? '-isSolved' : ''
             }`}
           >
-            Screen #{screenshot.id}{' '}
+            <span className="-hideOnSmartphones">Screen </span>#{screenshot.id}{' '}
             <ApprovalStatus approvalStatus={screenshot.approvalStatus} />
           </h1>
           <div className="column ScreenshotPage_header_uploadedBy">
@@ -251,7 +251,7 @@ class ScreenshotPage extends React.Component {
             </div>
           ) : null}
         </div>
-        <p className="ScreenshotPage_form_or -onlyOnSmartphones">or</p>
+        <p className="ScreenshotPage_form_or -onlyOnSmartphones">ou</p>
         <div className="ScreenshotPage_form_col -col3">
           <button
             type="button"
