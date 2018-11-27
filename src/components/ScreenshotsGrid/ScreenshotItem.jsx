@@ -86,7 +86,7 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
           className="ScreenshotsGrid_item_legend_approve_button -reject"
           onClick={handleModeration(screenshot.id, -1)}
         >
-          <span>Désapprouver</span>
+          Rejeter
         </button>
         -
         <EditScreenshotLink screenshot={screenshot} />
@@ -96,7 +96,7 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
   if (approvalStatus === -1) {
     return (
       <p>
-        <b>✖ Le screen est désapprouvé.</b>
+        <b>✖ Le screen est rejeté.</b>
         <button
           className="ScreenshotsGrid_item_legend_approve_button -approve"
           onClick={handleModeration(screenshot.id, 1)}
@@ -121,7 +121,7 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
         className="ScreenshotsGrid_item_legend_approve_button -reject"
         onClick={handleModeration(screenshot.id, -1)}
       >
-        <span>Désapprouver</span>
+        Rejeter
       </button>
       -
       <EditScreenshotLink screenshot={screenshot} />

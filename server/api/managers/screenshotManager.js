@@ -9,6 +9,7 @@ module.exports = {
   getLastAdded,
   getUnsolved,
   deleteUserScreenshot,
+  removeSolvedPointsForScreenshot,
   testProposal,
   markScreenshotAsResolved,
 };
@@ -202,23 +203,30 @@ async function deleteUserScreenshot({ userId, screenshotId }) {
   if (!screenshot) {
     return;
   }
+  // On supprime le screenshot
   await screenshot.destroy();
-  const [originalPoster, solvedScreenshots] = await Promise.all([
-    db.User.findById(userId),
-    db.SolvedScreenshot.findAll({
-      where: { ScreenshotId: screenshotId },
-      include: { model: db.User },
-    }),
-  ]);
+  // Si ça s'est bien passé
   await Promise.all([
-    originalPoster && originalPoster.decrement('addedScreenshots'),
-    bluebird.map(solvedScreenshots, solvedScreenshot =>
-      Promise.all([
-        solvedScreenshot.User.decrement('solvedScreenshots'),
-        solvedScreenshot.destroy(),
-      ])
+    // on décrémente le compte de screenshots ajoutés par le user
+    db.User.findById(userId).then(
+      user => user && user.decrement('addedScreenshots')
     ),
+    // et on enlève les points du screenshot aux joueurs qui l'ont trouvé
+    removeSolvedPointsForScreenshot({ screenshotId }),
   ]);
+}
+
+async function removeSolvedPointsForScreenshot({ screenshotId }) {
+  const solvedScreenshots = await db.SolvedScreenshot.findAll({
+    where: { ScreenshotId: screenshotId },
+    include: { model: db.User },
+  });
+  await bluebird.map(solvedScreenshots, solvedScreenshot =>
+    Promise.all([
+      solvedScreenshot.User.decrement('solvedScreenshots'),
+      solvedScreenshot.destroy(),
+    ])
+  );
 }
 
 async function testProposal(screenshotId, proposal) {
