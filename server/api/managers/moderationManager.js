@@ -26,7 +26,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
     where,
     limit: 500,
     order: [['createdAt', 'DESC']],
-    include: { model: db.ScreenshotName },
+    include: { model: db.ScreenshotName, attributes: ['name'] },
   }).map(screenshot => ({
     id: screenshot.id,
     gameCanonicalName: screenshot.gameCanonicalName,

@@ -45,7 +45,7 @@ class ScreenshotItem extends React.Component {
             </div>
           ) : null}
           <p className="ScreenshotsGrid_item_legend_name">
-            {screenshot.gameCanonicalName}{' '}
+            #{screenshot.id} - {screenshot.gameCanonicalName}{' '}
             {screenshot.year ? `(${screenshot.year})` : null}
           </p>
           {(screenshot.alternativeNames || []).map(name => (
