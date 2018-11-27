@@ -1,3 +1,9 @@
+## v5.2.0
+
+- More compact mobile display
+- Better homepage welcome text
+- Fix english text
+
 ## v5.1.0
 
 - Add nb total screenshots in ranking + explanation about completeness
