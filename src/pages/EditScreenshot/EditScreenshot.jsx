@@ -236,6 +236,7 @@ class EditScreenshotPage extends React.Component {
                       style={{ textDecoration: 'underline' }}
                       href="https://www.youtube.com/watch?v=TtVSPilTy2k"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Long Play
                     </a>{' '}
