@@ -1,5 +1,6 @@
 ### v5.0.2
 
+- Add screenshot rules
 - Remove points when rejecting an accepted screenshot
 - Fix go back after edit
 - Fix css
