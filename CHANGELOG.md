@@ -1,4 +1,4 @@
-### v5.2.0
+## v5.2.0
 
 - More compact mobile display
 - Better homepage welcome text
