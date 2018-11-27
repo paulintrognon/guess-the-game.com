@@ -1,3 +1,9 @@
+### v5.0.2
+
+- Remove points when rejecting an accepted screenshot
+- Fix go back after edit
+- Fix css
+
 ### v5.0.1
 
 - Moderation screenshots now appear in reversed order (lastest first)
