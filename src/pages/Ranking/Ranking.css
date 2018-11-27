@@ -4,6 +4,11 @@
   padding: 20px;
 }
 
+.RankingPage_ranking_total {
+  text-align: center;
+  margin-bottom: 23px;
+}
+
 .RankingPage_ranking_row {
   display: flex;
   margin: 10px 0;

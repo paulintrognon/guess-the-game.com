@@ -62,7 +62,18 @@ class ScreenshotItem extends React.Component {
             <p>Ajouté le {helperService.formatDate(screenshot.createdAt)}</p>
           )}
           {canModerateScreenshots ? (
-            <div className="ScreenshotsGrid_item_legend_approve">
+            <div className="ScreenshotsGrid_item_legend_moderate">
+              <p className="ScreenshotsGrid_item_legend_moderate_verify">
+                <a
+                  href={`http://www.jeuxvideo.com/recherche.php?m=9&q=${
+                    screenshot.gameCanonicalName
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Vérifier sur jv.com
+                </a>
+              </p>
               <ApprovalBox
                 screenshot={screenshot}
                 approvalStatus={approvalStatus}
@@ -83,7 +94,7 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
       <p>
         <b>Le screen est approuvé.</b>
         <button
-          className="ScreenshotsGrid_item_legend_approve_button -reject"
+          className="ScreenshotsGrid_item_legend_moderate_button -reject"
           onClick={handleModeration(screenshot.id, -1)}
         >
           Rejeter
@@ -98,7 +109,7 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
       <p>
         <b>✖ Le screen est rejeté.</b>
         <button
-          className="ScreenshotsGrid_item_legend_approve_button -approve"
+          className="ScreenshotsGrid_item_legend_moderate_button -approve"
           onClick={handleModeration(screenshot.id, 1)}
         >
           <span>Approuver</span>
@@ -111,14 +122,14 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
   return (
     <p>
       <button
-        className="ScreenshotsGrid_item_legend_approve_button -approve"
+        className="ScreenshotsGrid_item_legend_moderate_button -approve"
         onClick={handleModeration(screenshot.id, 1)}
       >
         <span>Approuver</span>
       </button>
       -
       <button
-        className="ScreenshotsGrid_item_legend_approve_button -reject"
+        className="ScreenshotsGrid_item_legend_moderate_button -reject"
         onClick={handleModeration(screenshot.id, -1)}
       >
         Rejeter
@@ -132,7 +143,7 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
 function EditScreenshotLink({ screenshot }) {
   return (
     <a
-      className="ScreenshotsGrid_item_legend_approve_button"
+      className="ScreenshotsGrid_item_legend_moderate_button"
       href={generateEditLink(screenshot)}
     >
       Modifier
