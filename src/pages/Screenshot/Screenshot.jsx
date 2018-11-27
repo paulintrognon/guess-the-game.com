@@ -4,6 +4,8 @@ import { Helmet } from 'react-helmet';
 import screenshotActions from '../../actions/screenshotActions';
 import helperService from '../../services/helperService';
 import Loading from '../../components/Loading/Loading';
+import heartIcon from './heart.png';
+import heartEmptyIcon from './heart_empty.png';
 import './screenshot.css';
 
 function mapStoreToProps(store) {
@@ -191,92 +193,106 @@ class ScreenshotPage extends React.Component {
       error,
     } = this.props;
     return (
-      <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
-        <div className="ScreenshotPage_form_col" />
-        <div className="ScreenshotPage_form_col">
-          {screenshot.isSolved ? (
-            <p>
-              Vous avez résolu ce screen le{' '}
-              {helperService.formatDate(screenshot.solvedAt)}
-            </p>
-          ) : null}
-          {screenshot.isOwn ? (
-            <p>
-              Vous avez ajouté ce screen le{' '}
-              {helperService.formatDate(screenshot.createdAt)}
-            </p>
-          ) : null}
-          {screenshot.approvalStatus === 0 ? (
-            <p>
-              Ce screen est <b>en attente de validation</b>.
-            </p>
-          ) : null}
-          {screenshot.approvalStatus === -1 ? (
-            <p>
-              Ce screen a été <b>rejeté</b> par les modérateurs.
-            </p>
-          ) : null}
-          {!error &&
-          !screenshot.isSolved &&
-          !screenshot.isOwn &&
-          screenshot.approvalStatus === 1 ? (
-            <div
-              className={`ScreenshotPage_form_input 
+      <div>
+        <p>
+          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
+          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
+        </p>
+        <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
+          <div className="ScreenshotPage_form_col" />
+          <div className="ScreenshotPage_form_col">
+            {screenshot.isSolved ? (
+              <p>
+                Vous avez résolu ce screen le{' '}
+                {helperService.formatDate(screenshot.solvedAt)}
+              </p>
+            ) : null}
+            {screenshot.isOwn ? (
+              <p>
+                Vous avez ajouté ce screen le{' '}
+                {helperService.formatDate(screenshot.createdAt)}
+              </p>
+            ) : null}
+            {screenshot.approvalStatus === 0 ? (
+              <p>
+                Ce screen est <b>en attente de validation</b>.
+              </p>
+            ) : null}
+            {screenshot.approvalStatus === -1 ? (
+              <p>
+                Ce screen a été <b>rejeté</b> par les modérateurs.
+              </p>
+            ) : null}
+            {!error &&
+            !screenshot.isSolved &&
+            !screenshot.isOwn &&
+            screenshot.approvalStatus === 1 ? (
+              <div
+                className={`ScreenshotPage_form_input 
             ${isGuessing ? '-guessing' : ''}
             ${isProposalRight ? '-success' : ''}
             ${isProposalWrong ? '-error' : ''}
-          `}
-            >
-              <input
-                ref={this.guessInputRef}
-                className="ScreenshotPage_form_input_text"
-                type="text"
-                placeholder="Quel est ce jeu ?"
-                value={this.state.proposal}
-                onChange={this.handleChangeProposal}
-              />
-              <button
-                className="ScreenshotPage_form_input_valid"
-                type="submit"
-                disabled={isGuessing}
+            `}
               >
-                {isGuessing ? (
-                  <Loading />
-                ) : (
-                  <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          ) : null}
-        </div>
-        <p className="ScreenshotPage_form_or -onlyOnSmartphones">ou</p>
-        <div className="ScreenshotPage_form_col -col3">
-          <button
-            type="button"
-            className={`ScreenshotPage_form_next ${
-              this.props.isTryAnotherButtonClicked ? '-isLoading' : ''
-            }`}
-            disabled={this.props.isTryAnotherButtonClicked}
-            onClick={this.handleTryAnother}
-          >
-            Une autre&nbsp;!
-            <span className="ScreenshotPage_form_next_icon">
-              <img
-                className="ScreenshotPage_form_next_icon-1"
-                src="/icons/random-1.svg"
-                alt="next"
-              />
-              <img
-                className="ScreenshotPage_form_next_icon-2"
-                src="/icons/random-2.svg"
-                alt="screenshot"
-              />
-            </span>
-          </button>
-        </div>
-      </form>
+                <input
+                  ref={this.guessInputRef}
+                  className="ScreenshotPage_form_input_text"
+                  type="text"
+                  placeholder="Quel est ce jeu ?"
+                  value={this.state.proposal}
+                  onChange={this.handleChangeProposal}
+                />
+                <button
+                  className="ScreenshotPage_form_input_valid"
+                  type="submit"
+                  disabled={isGuessing}
+                >
+                  {isGuessing ? (
+                    <Loading />
+                  ) : (
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                      <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+            ) : null}
+          </div>
+          <p className="ScreenshotPage_form_or -onlyOnSmartphones">ou</p>
+          <div className="ScreenshotPage_form_col -col3">
+            <button
+              type="button"
+              className={`ScreenshotPage_form_next ${
+                this.props.isTryAnotherButtonClicked ? '-isLoading' : ''
+              }`}
+              disabled={this.props.isTryAnotherButtonClicked}
+              onClick={this.handleTryAnother}
+            >
+              Une autre&nbsp;!
+              <span className="ScreenshotPage_form_next_icon">
+                <img
+                  className="ScreenshotPage_form_next_icon-1"
+                  src="/icons/random-1.svg"
+                  alt="next"
+                />
+                <img
+                  className="ScreenshotPage_form_next_icon-2"
+                  src="/icons/random-2.svg"
+                  alt="screenshot"
+                />
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
     );
   };
 
