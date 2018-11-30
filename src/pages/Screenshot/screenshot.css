@@ -159,6 +159,30 @@
   min-height: 200px;
 }
 
+.ScreenshotPage_prevNext_link {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  position: relative;
+  bottom: 4px;
+  background: #444;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 0px 4px 2px;
+  margin: 0 5px;
+}
+.ScreenshotPage_prevNext_link.-prev {
+  margin-left: 0px;
+}
+.ScreenshotPage_prevNext_link.-next {
+  margin-right: 0px;
+}
+.ScreenshotPage_prevNext_link.-disabled {
+  background: #999;
+  cursor: default;
+}
+
 .ScreenshotPage_form {
   padding-top: 20px;
 }

@@ -11,6 +11,7 @@ module.exports = {
   getfromId,
   getUnsolvedScreenshot,
   getLastAddedScreenshot,
+  getPrevAndNext,
   removeOwnScreenshot,
   tryProposal,
   uploadScreenshot,
@@ -85,6 +86,11 @@ async function getUnsolvedScreenshot(req) {
 async function getLastAddedScreenshot(req) {
   const screenshotId = await screenshotManager.getLastAdded();
   return getfromId({ ...req, body: { ...req.body, id: screenshotId } });
+}
+
+async function getPrevAndNext(req) {
+  const { screenshotId } = req.body;
+  return screenshotManager.getPrevAndNext({ screenshotId });
 }
 
 async function removeOwnScreenshot(req) {

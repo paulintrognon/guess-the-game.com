@@ -25,6 +25,10 @@ router.get('/last', (req, res, next) =>
   next(screenshotController.getLastAddedScreenshot(req))
 );
 
+router.post('/prev-and-next', (req, res, next) =>
+  next(screenshotController.getPrevAndNext(req))
+);
+
 router.post('/guess', (req, res, next) =>
   next(screenshotController.tryProposal(req))
 );
