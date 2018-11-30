@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import screenshotActions from '../../actions/screenshotActions';
@@ -136,13 +137,41 @@ class ScreenshotPage extends React.Component {
     }
     return (
       <div className="ScreenshotPage_header">
-        <div className="ScreenshotPage_header_left">
+        <div
+          className={
+            screenshot.approvalStatus === 1 ? 'ScreenshotPage_header_left' : ''
+          }
+        >
           <h1
             className={`ScreenshotPage_header_title ${
               screenshot.isSolved || isProposalRight ? '-isSolved' : ''
             }`}
           >
-            <span className="-hideOnSmartphones">Screen </span>#{screenshot.id}{' '}
+            {screenshot.prevScreenshotId ? (
+              <Link
+                to={`/screen/${screenshot.prevScreenshotId}`}
+                className="ScreenshotPage_prevNext_link -prev"
+              >
+                ‹
+              </Link>
+            ) : (
+              <span className="ScreenshotPage_prevNext_link -prev -disabled">
+                ‹
+              </span>
+            )}
+            #{screenshot.id}
+            {screenshot.nextScreenshotId ? (
+              <Link
+                to={`/screen/${screenshot.nextScreenshotId}`}
+                className="ScreenshotPage_prevNext_link -next"
+              >
+                ›
+              </Link>
+            ) : (
+              <span className="ScreenshotPage_prevNext_link -next -disabled">
+                ›
+              </span>
+            )}{' '}
             <ApprovalStatus approvalStatus={screenshot.approvalStatus} />
           </h1>
           <div className="column ScreenshotPage_header_uploadedBy">
@@ -161,25 +190,28 @@ class ScreenshotPage extends React.Component {
             ) : null}
           </div>
         </div>
-        <div className="ScreenshotPage_header_right">
-          {screenshot.stats.solvedCount ? (
-            <p className="ScreenshotPage_header_solvedByCount">
-              Résolu par {screenshot.stats.solvedCount} personne{screenshot
-                .stats.solvedCount >= 2
-                ? 's'
-                : null}
+        {screenshot.approvalStatus === 1 ? (
+          <div className="ScreenshotPage_header_right">
+            {screenshot.stats.solvedCount ? (
+              <p className="ScreenshotPage_header_solvedByCount">
+                Résolu par {screenshot.stats.solvedCount} personne{screenshot
+                  .stats.solvedCount >= 2
+                  ? 's'
+                  : null}
+              </p>
+            ) : null}
+            <p className="ScreenshotPage_header_firstSolvedBy">
+              {screenshot.stats.firstSolvedBy ? (
+                <span>
+                  Premier·ère à trouver :{' '}
+                  <b>{screenshot.stats.firstSolvedBy}</b>
+                </span>
+              ) : (
+                'Soyez le premier ou la première à trouver !'
+              )}
             </p>
-          ) : null}
-          <p className="ScreenshotPage_header_firstSolvedBy">
-            {screenshot.stats.firstSolvedBy ? (
-              <span>
-                Premier·ère à trouver : <b>{screenshot.stats.firstSolvedBy}</b>
-              </span>
-            ) : (
-              'Soyez le premier ou la première à trouver !'
-            )}
-          </p>
-        </div>
+          </div>
+        ) : null}
       </div>
     );
   };
@@ -207,7 +239,17 @@ class ScreenshotPage extends React.Component {
           <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
         </p>
         <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
-          <div className="ScreenshotPage_form_col" />
+          <div className="ScreenshotPage_form_col -left">
+            {window.history ? (
+              <button
+                type="button"
+                className="ScreenshotPage_form_prev -hideOnSmartphones"
+                onClick={() => window.history.back()}
+              >
+                &lt; Retour
+              </button>
+            ) : null}
+          </div>
           <div className="ScreenshotPage_form_col">
             {screenshot.isSolved ? (
               <p>
@@ -240,7 +282,7 @@ class ScreenshotPage extends React.Component {
             ${isGuessing ? '-guessing' : ''}
             ${isProposalRight ? '-success' : ''}
             ${isProposalWrong ? '-error' : ''}
-            `}
+          `}
               >
                 <input
                   ref={this.guessInputRef}
@@ -267,7 +309,7 @@ class ScreenshotPage extends React.Component {
             ) : null}
           </div>
           <p className="ScreenshotPage_form_or -onlyOnSmartphones">ou</p>
-          <div className="ScreenshotPage_form_col -col3">
+          <div className="ScreenshotPage_form_col -right">
             <button
               type="button"
               className={`ScreenshotPage_form_next ${

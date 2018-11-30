@@ -5,6 +5,7 @@
 }
 
 .ScreenshotsGrid_item {
+  width: 320px;
   box-shadow: 1px 1px 3px #777;
   margin-bottom: 20px;
 }
