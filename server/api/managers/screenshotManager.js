@@ -9,6 +9,7 @@ module.exports = {
   getLastAdded,
   getUnsolved,
   getTotalNb,
+  getPrevAndNext,
   deleteUserScreenshot,
   removeSolvedPointsForScreenshot,
   testProposal,
@@ -197,6 +198,22 @@ async function getTotalNb() {
   return db.Screenshot.count({
     where: { approvalStatus: 1 },
   });
+}
+
+async function getPrevAndNext({ screenshotId }) {
+  const [prev, next] = await Promise.all([
+    db.Screenshot.findOne({
+      attributes: ['id'],
+      where: { approvalStatus: 1, id: { [db.sequelize.Op.lt]: screenshotId } },
+      order: [['createdAt', 'DESC']],
+    }),
+    db.Screenshot.findOne({
+      attributes: ['id'],
+      where: { approvalStatus: 1, id: { [db.sequelize.Op.gt]: screenshotId } },
+      order: [['createdAt', 'ASC']],
+    }),
+  ]);
+  return { prev: prev && prev.id, next: next && next.id };
 }
 
 async function deleteUserScreenshot({ userId, screenshotId }) {

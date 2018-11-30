@@ -17,14 +17,17 @@ function goToScreenshot(screenshot) {
 }
 
 function loadScreenshot(screenshotId, navigate = false) {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: 'SCREENSHOT_LOADING' });
-    screenshotService.getFromId(screenshotId).then(screenshot => {
-      dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
-      if (navigate) {
-        dispatch(push(`/screen/${screenshot.id}`));
-      }
+    const screenshot = await screenshotService.getFromId(screenshotId);
+    dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
+    if (navigate) {
+      dispatch(push(`/screen/${screenshot.id}`));
+    }
+    const prevAndNext = await screenshotService.getPrevAndNext({
+      screenshotId,
     });
+    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 

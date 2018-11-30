@@ -10,6 +10,8 @@ const initialState = {
   solvedAt: null,
   createdAt: null,
   approvalStatus: false,
+  prevScreenshotId: null,
+  nextScreenshotId: null,
   stats: {},
   isGuessing: false,
   isProposalRight: false,
@@ -27,6 +29,8 @@ export default function reducer(state = initialState, action) {
       isLoading: true,
       isTryAnotherButtonClicked: true,
       error: null,
+      prevScreenshotId: null,
+      nextScreenshotId: null,
     };
   }
 
@@ -66,6 +70,15 @@ export default function reducer(state = initialState, action) {
       isGuessing: false,
       isProposalWrong: false,
       isProposalRight: false,
+    };
+  }
+
+  if (type === 'SCREENSHOT_LOAD_PREV_AND_NEXT') {
+    const { prev, next } = payload;
+    return {
+      ...state,
+      prevScreenshotId: prev,
+      nextScreenshotId: next,
     };
   }
 
