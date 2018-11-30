@@ -1,3 +1,7 @@
+## v5.3.0
+
+- Add prev/next links next to screenshot id
+
 ## v5.2.0
 
 - More compact mobile display
