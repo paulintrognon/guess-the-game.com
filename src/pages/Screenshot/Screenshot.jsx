@@ -225,7 +225,17 @@ class ScreenshotPage extends React.Component {
     return (
       <div>
         <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
-          <div className="ScreenshotPage_form_col" />
+          <div className="ScreenshotPage_form_col -left">
+            {window.history ? (
+              <button
+                type="button"
+                className="ScreenshotPage_form_prev -hideOnSmartphones"
+                onClick={() => window.history.back()}
+              >
+                &lt; Retour
+              </button>
+            ) : null}
+          </div>
           <div className="ScreenshotPage_form_col">
             {screenshot.isSolved ? (
               <p>
@@ -285,7 +295,7 @@ class ScreenshotPage extends React.Component {
             ) : null}
           </div>
           <p className="ScreenshotPage_form_or -onlyOnSmartphones">ou</p>
-          <div className="ScreenshotPage_form_col -col3">
+          <div className="ScreenshotPage_form_col -right">
             <button
               type="button"
               className={`ScreenshotPage_form_next ${

@@ -201,6 +201,14 @@
   }
 }
 
+.ScreenshotPage_form_prev {
+  background-color: #47525E;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 3px;
+  transition: background-color 200ms;
+}
+
 .ScreenshotPage_form_input {
   display: flex;
   justify-content: center;
@@ -248,13 +256,15 @@
   background: #2fffab;
 }
 
-.ScreenshotPage_form_col.-col3 {
+.ScreenshotPage_form_col.-left {
+  text-align: left;
+}
+.ScreenshotPage_form_col.-right {
   margin-top: 20px;
 }
 @media (min-width: 768px) {
-  .ScreenshotPage_form_col.-col3 {
+  .ScreenshotPage_form_col.-right {
     margin-top: 0;
-    margin-right: 20px;
     text-align: right;
   }
 }
