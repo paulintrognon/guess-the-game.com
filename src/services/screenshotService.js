@@ -7,6 +7,7 @@ export default {
   getFromId,
   getLast,
   getUnsolved,
+  getPrevAndNext,
   guess,
   removeOwn,
 };
@@ -37,6 +38,10 @@ function getLast() {
 
 function getUnsolved(exclude) {
   return api.post('/screenshot/unsolved', { exclude });
+}
+
+function getPrevAndNext({ screenshotId }) {
+  return api.post('/screenshot/prev-and-next', { screenshotId });
 }
 
 function guess(screenshotId, proposal) {
