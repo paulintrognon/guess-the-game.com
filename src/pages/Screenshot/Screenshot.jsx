@@ -224,16 +224,6 @@ class ScreenshotPage extends React.Component {
     } = this.props;
     return (
       <div>
-        <div className="ScreenshotPage_prevNext">
-          {screenshot.nextScreenshotId ? (
-            <Link
-              to={`/screen/${screenshot.nextScreenshotId}`}
-              className="ScreenshotPage_prevNext_link -next"
-            >
-              <span className="-hideOnSmartphones">Screen</span> suivante &gt;
-            </Link>
-          ) : null}
-        </div>
         <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
           <div className="ScreenshotPage_form_col" />
           <div className="ScreenshotPage_form_col">
