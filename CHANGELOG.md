@@ -1,6 +1,7 @@
 ## v5.3.0
 
 - Add prev/next links next to screenshot id
+- Add back button
 
 ## v5.2.0
 
