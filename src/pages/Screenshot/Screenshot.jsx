@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import screenshotActions from '../../actions/screenshotActions';
 import helperService from '../../services/helperService';
 import Loading from '../../components/Loading/Loading';
+import ScreenshotRating from './ScreenshotRating';
 import './screenshot.css';
 
 function mapStoreToProps(store) {
@@ -224,6 +225,11 @@ class ScreenshotPage extends React.Component {
     } = this.props;
     return (
       <div>
+        <ScreenshotRating
+          screenshotId={screenshot.id}
+          rating={screenshot.rating}
+          ownRating={screenshot.ownRating}
+        />
         <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
           <div className="ScreenshotPage_form_col -left">
             {window.history ? (

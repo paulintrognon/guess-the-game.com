@@ -49,6 +49,9 @@ class Homepage extends React.Component {
           <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
             Ajoutés
           </div>
+          <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
+            Score des ajouts
+          </div>
         </div>
         {scores.map((score, i) => (
           <div className="RankingPage_ranking_row" key={`rank-${i}`}>
@@ -73,6 +76,11 @@ class Homepage extends React.Component {
             </div>
             <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
               {score.nbAddedScreenshots}
+            </div>
+            <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
+              {score.averageUploadScore
+                ? score.averageUploadScore.toFixed(2)
+                : 0}
             </div>
           </div>
         ))}

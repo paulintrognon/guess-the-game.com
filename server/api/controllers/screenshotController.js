@@ -17,10 +17,16 @@ module.exports = {
   uploadScreenshot,
   addScreenshot,
   editScreenshot,
+  rateScreenshot,
 };
 
 async function getfromId(req) {
-  const res = await screenshotManager.getFromId(req.body.id, req.user.id);
+  const userId = req.user.id;
+  const screenshotId = req.body.id;
+  const [res, ownRating] = await Promise.all([
+    await screenshotManager.getFromId(screenshotId, userId),
+    await userManager.getScreenshotRating({ screenshotId, userId }),
+  ]);
 
   if (!res) {
     return bluebird.reject({
@@ -37,8 +43,10 @@ async function getfromId(req) {
     imageUrl: cloudinaryService.pathToUrl(res.imagePath),
     createdAt: res.createdAt,
     approvalStatus: res.approvalStatus,
+    rating: res.rating,
     addedBy: res.user.username,
     stats: res.stats,
+    ownRating,
   };
   if (res.solvedScreenshots && res.solvedScreenshots.length) {
     screenshot.isSolved = true;
@@ -218,6 +226,22 @@ function editScreenshot(req) {
       alternativeNames: req.body.alternativeNames,
       year: req.body.year,
     },
+  });
+}
+
+async function rateScreenshot(req) {
+  const userId = req.user.id;
+  const { screenshotId, rating } = req.body;
+  let checkedRating = rating;
+  if (rating > 10) {
+    checkedRating = 10;
+  } else if (rating < 0) {
+    checkedRating = 0;
+  }
+  return screenshotManager.rate({
+    screenshotId,
+    userId,
+    rating: checkedRating,
   });
 }
 
