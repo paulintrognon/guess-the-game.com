@@ -15,6 +15,10 @@ class ScreenshotRating extends React.Component {
   }
 
   toggleRatingPopup = () => {
+    if (this.props.screenshot.isOwn) {
+      alert('Désolé, vous ne pouvez pas noter vos propres screenshots.');
+      return;
+    }
     const { isRatingPopupVisible } = this.state;
     this.setState({ isRatingPopupVisible: !isRatingPopupVisible });
   };
@@ -31,10 +35,10 @@ class ScreenshotRating extends React.Component {
   };
 
   handleValid = async () => {
-    const { screenshotId } = this.props;
+    const { id } = this.props.screenshot;
     const ownRating = this.state.selectedOption;
     const res = await screenshotService.rate({
-      screenshotId,
+      screenshotId: id,
       rating: ownRating,
     });
     this.setState({
@@ -142,7 +146,7 @@ class ScreenshotRating extends React.Component {
   };
 
   render() {
-    const { rating, ownRating } = this.props;
+    const { rating, ownRating, isOwn } = this.props.screenshot;
     const { isRatingPopupVisible } = this.state;
     let title = 'Soyez le premier à noter cette screenshot !';
     if (rating !== null) {
