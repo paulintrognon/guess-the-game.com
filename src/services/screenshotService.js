@@ -10,6 +10,7 @@ export default {
   getPrevAndNext,
   guess,
   removeOwn,
+  rate,
 };
 
 function uploadImage(file, onUploadProgress) {
@@ -54,5 +55,12 @@ function guess(screenshotId, proposal) {
 function removeOwn(screenshotId) {
   return api.post('/screenshot/remove-own', {
     screenshotId,
+  });
+}
+
+function rate({ screenshotId, rating }) {
+  return api.post('/screenshot/rate', {
+    screenshotId,
+    rating,
   });
 }

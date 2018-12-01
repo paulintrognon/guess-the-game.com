@@ -37,4 +37,8 @@ router.post('/remove-own', (req, res, next) =>
   next(screenshotController.removeOwnScreenshot(req))
 );
 
+router.post('/rate', (req, res, next) =>
+  next(screenshotController.rateScreenshot(req))
+);
+
 module.exports = router;

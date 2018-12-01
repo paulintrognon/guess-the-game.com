@@ -32,16 +32,19 @@ function loadScreenshot(screenshotId, navigate = false) {
 }
 
 function getUnsolvedScreenshot(exclude) {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: 'SCREENSHOT_LOADING' });
-    screenshotService.getUnsolved(exclude).then(res => {
-      if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
-        dispatch(push('/la-fin'));
-      } else {
-        dispatch(push(`/screen/${res.id}`));
-        dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
-      }
-    });
+    const res = await screenshotService.getUnsolved(exclude);
+    if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
+      dispatch(push('/la-fin'));
+    } else {
+      dispatch(push(`/screen/${res.id}`));
+      dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
+      const prevAndNext = await screenshotService.getPrevAndNext({
+        screenshotId: res.id,
+      });
+      dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+    }
   };
 }
 

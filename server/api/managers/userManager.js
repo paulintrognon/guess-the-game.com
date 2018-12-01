@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const db = require('../../db/db');
 
 module.exports = {
@@ -8,6 +9,7 @@ module.exports = {
   getScores,
   getSolvedScreenshots,
   getAddedScreenshots,
+  getScreenshotRating,
 };
 
 function create(userToCreate) {
@@ -41,8 +43,9 @@ function isUsernameFree(username) {
 }
 
 async function getScores({ totalNbScreenshots }) {
-  return db.User.findAll({
+  const usersScores = await db.User.findAll({
     attributes: [
+      'id',
       'username',
       'solvedScreenshots',
       'addedScreenshots',
@@ -69,15 +72,28 @@ async function getScores({ totalNbScreenshots }) {
       ['solvedScreenshots', 'DESC'],
       ['addedScreenshots', 'DESC'],
     ],
-  })
-    .map(user => user.get({ plain: true }))
-    .map(userScore => ({
+  }).map(user => user.get({ plain: true }));
+
+  return bluebird.mapSeries(usersScores, async userScore => {
+    const screenshot = await db.Screenshot.findOne({
+      attributes: [
+        [db.Sequelize.fn('AVG', db.Sequelize.col('rating')), 'averageRating'],
+      ],
+      where: { UserId: userScore.id },
+    });
+    const averageUploadScore =
+      screenshot !== null
+        ? screenshot.get({ plain: true }).averageRating
+        : null;
+    return {
       id: userScore.id,
       username: userScore.username,
       nbSolvedScreenshots: userScore.solvedScreenshots,
       nbAddedScreenshots: userScore.addedScreenshots,
       completeness: userScore.completeness,
-    }));
+      averageUploadScore: Number(averageUploadScore),
+    };
+  });
 }
 
 async function getSolvedScreenshots(userId) {
@@ -116,4 +132,15 @@ async function getAddedScreenshots(userId) {
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
   }));
+}
+
+async function getScreenshotRating({ userId, screenshotId }) {
+  const rating = await db.ScreenshotRating.findOne({
+    attributes: ['rating'],
+    where: { UserId: userId, ScreenshotId: screenshotId },
+  });
+  if (!rating) {
+    return null;
+  }
+  return rating.rating;
 }
