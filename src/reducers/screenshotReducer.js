@@ -90,7 +90,7 @@ export default function reducer(state = initialState, action) {
     const { averageRating, ownRating } = payload;
     return {
       ...state,
-      rating: averageRating,
+      rating: Number(averageRating),
       ownRating,
     };
   }

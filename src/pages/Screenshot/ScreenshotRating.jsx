@@ -148,10 +148,10 @@ class ScreenshotRating extends React.Component {
     if (rating !== null) {
       const ownRatingText =
         ownRating === null ? '' : ` ; Votre note : ${ownRating}`;
-      title = `̀🤮 Note moyenne : ${rating}${ownRatingText}̀`;
+      title = `̀Note moyenne : ${rating.toFixed(2)}${ownRatingText}̀`;
     }
     return (
-      <div>
+      <div className={rating === null ? 'ScreenshotRating_disabled' : ''}>
         <button onClick={this.toggleRatingPopup} title={title}>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(rate => {
             const isEmpty = rating === null || Math.round(rating) < rate;

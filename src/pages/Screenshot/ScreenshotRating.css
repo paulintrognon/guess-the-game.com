@@ -3,7 +3,7 @@
   margin-top: 10px;
   width: 18px;
 }
-.ScreenshotRating_heart.-disabled {
+.ScreenshotRating_disabled .ScreenshotRating_heart {
   opacity: 0.4;
 }
 
