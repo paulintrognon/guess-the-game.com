@@ -14,6 +14,7 @@ module.exports = {
   removeSolvedPointsForScreenshot,
   testProposal,
   markScreenshotAsResolved,
+  rate,
 };
 
 async function create(screenshotToCreate) {
@@ -92,6 +93,7 @@ async function getFromId(screenshotId, userId) {
     approvalStatus: res.approvalStatus,
     user: res.User,
     solvedScreenshots: res.SolvedScreenshots,
+    rating: res.rating || null,
   };
 }
 
@@ -311,6 +313,52 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
     screenshot.addSolvedScreenshot(solvedScreenshot),
     user.increment('solvedScreenshots'),
   ]);
+}
+
+async function rate({ screenshotId, userId, rating }) {
+  // On vérifie que l'utilisateur a bien le droit de noter le screenshot
+  const [screenshot, user] = await Promise.all([
+    db.Screenshot.findById(screenshotId),
+    db.User.findById(userId),
+  ]);
+  if (!screenshot) {
+    throw new Error('Screenshot does not exist');
+  }
+  if (!user) {
+    throw new Error('User does not exist');
+  }
+  if (screenshot.UserId === userId) {
+    throw new Error('Cannot rate your own screenshot');
+  }
+
+  // On supprime la précédente note
+  await db.ScreenshotRating.destroy({
+    where: { ScreenshotId: screenshotId, UserId: userId },
+  });
+
+  // On ajoute la nouvelle note
+  const screenshotRating = await db.ScreenshotRating.create({ rating });
+  await Promise.all([
+    user.addScreenshotRating(screenshotRating),
+    screenshot.addScreenshotRating(screenshotRating),
+  ]);
+
+  // On récupère l'average
+  const average = await db.ScreenshotRating.findOne({
+    attributes: [
+      [db.Sequelize.fn('AVG', db.Sequelize.col('rating')), 'averageRating'],
+    ],
+    where: { ScreenshotId: screenshotId },
+  });
+  const averageRating = average
+    ? average.get({ plain: true }).averageRating
+    : null;
+
+  // On met à jour le score de la screnshot
+  await screenshot.update({
+    rating: averageRating,
+  });
+  return { averageRating };
 }
 
 function getScreenshotNames(screenshot) {

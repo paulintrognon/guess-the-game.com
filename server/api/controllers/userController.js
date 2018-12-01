@@ -7,6 +7,7 @@ module.exports = {
   getUser,
   getSolvedScreenshots,
   getAddedScreenshots,
+  getScreenshotRating,
 };
 
 async function getScores() {
@@ -46,4 +47,10 @@ async function getAddedScreenshots(req) {
     ...screenshot,
     imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
   }));
+}
+
+async function getScreenshotRating(req) {
+  const userId = req.user.id;
+  const { screenshotId } = req.body;
+  return userManager.getScreenshotRating({ screenshotId, userId });
 }

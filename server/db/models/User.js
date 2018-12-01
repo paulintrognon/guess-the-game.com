@@ -51,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = models => {
     models.User.hasMany(models.Screenshot);
+    models.User.hasMany(models.ScreenshotRating);
     models.User.hasMany(models.SolvedScreenshot);
     models.User.hasMany(models.Screenshot, {
       as: 'ModeratedScreenshot',

@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: 0,
       },
+      rating: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
@@ -34,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   Screenshot.associate = models => {
     models.Screenshot.hasMany(models.ScreenshotName);
     models.Screenshot.hasMany(models.SolvedScreenshot);
+    models.Screenshot.hasMany(models.ScreenshotRating);
     models.Screenshot.belongsTo(models.User, { onDelete: 'CASCADE' });
     models.Screenshot.belongsTo(models.User, {
       as: 'ModeratorUser',

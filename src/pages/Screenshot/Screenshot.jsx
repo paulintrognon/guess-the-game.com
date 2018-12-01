@@ -5,8 +5,7 @@ import { Helmet } from 'react-helmet';
 import screenshotActions from '../../actions/screenshotActions';
 import helperService from '../../services/helperService';
 import Loading from '../../components/Loading/Loading';
-import heartIcon from './heart.png';
-import heartEmptyIcon from './heart_empty.png';
+import ScreenshotRating from './ScreenshotRating';
 import './screenshot.css';
 
 function mapStoreToProps(store) {
@@ -226,18 +225,11 @@ class ScreenshotPage extends React.Component {
     } = this.props;
     return (
       <div>
-        <p>
-          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
-          <img src={heartEmptyIcon} className="ScreenshotPage_rating_heart" />
-        </p>
+        <ScreenshotRating
+          screenshotId={screenshot.id}
+          rating={screenshot.rating}
+          ownRating={screenshot.ownRating}
+        />
         <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
           <div className="ScreenshotPage_form_col -left">
             {window.history ? (

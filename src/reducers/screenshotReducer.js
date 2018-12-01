@@ -10,6 +10,8 @@ const initialState = {
   solvedAt: null,
   createdAt: null,
   approvalStatus: false,
+  rating: null,
+  ownRating: null,
   prevScreenshotId: null,
   nextScreenshotId: null,
   stats: {},
@@ -66,6 +68,8 @@ export default function reducer(state = initialState, action) {
       solvedAt: new Date(payload.solvedAt),
       createdAt: new Date(payload.createdAt),
       approvalStatus: payload.approvalStatus,
+      rating: payload.rating,
+      ownRating: payload.ownRating,
       isTryAnotherButtonClicked: false,
       isGuessing: false,
       isProposalWrong: false,
@@ -79,6 +83,15 @@ export default function reducer(state = initialState, action) {
       ...state,
       prevScreenshotId: prev,
       nextScreenshotId: next,
+    };
+  }
+
+  if (type === 'SCREENSHOT_LOAD_NEW_RATING') {
+    const { averageRating, ownRating } = payload;
+    return {
+      ...state,
+      rating: averageRating,
+      ownRating,
     };
   }
 

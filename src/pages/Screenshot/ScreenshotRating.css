@@ -1,0 +1,86 @@
+.ScreenshotRating_heart {
+  padding-right: 2px;
+  margin-top: 10px;
+  width: 18px;
+}
+.ScreenshotRating_heart.-disabled {
+  opacity: 0.4;
+}
+
+.ScreenshotRating_ownRating {
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.ScreenshotRating_poup {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #999;
+  border-radius: 2px;
+  z-index: 100;
+}
+@media (min-width: 480px) {
+  .ScreenshotRating_poup {
+    top: 15%;
+  height: auto;
+  }
+}
+
+.ScreenshotRating_poup_title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.ScreenshotRating_popup_option {
+  display: block;
+  border: 1px solid #CCC;
+  width: 80%;
+  text-align: left;
+  margin: 10px auto;
+  padding: 7px;
+  border-radius: 2px;
+  transition: all 200ms;
+  font-size: 16px;
+}
+.ScreenshotRating_popup_option.-selected {
+  color: black;
+  border-color: black;
+  font-weight: bold;
+}
+@media (min-width: 480px) {
+  .ScreenshotRating_popup_option {
+    font-size: 20px;
+  }
+  .ScreenshotRating_popup_option:hover {
+    border-color: #999;
+    background-color: #f5f5f5;
+  }
+  .ScreenshotRating_popup_option:hover.-selected {
+    border-color: black;
+  }
+}
+
+.ScreenshotRating_popup_button {
+  padding: 10px 30px;
+  margin: 10px 0 5px 20px;
+  border: 1px solid white;
+}
+.ScreenshotRating_popup_button:hover {
+  border: 1px solid black;
+}
+.ScreenshotRating_popup_button.-valid {
+  font-weight: bold;
+  color: white;
+  background-color: rgba(19,206,102);
+}
+.ScreenshotRating_popup_button.-cancel {
+  background-color: #eee;
+}

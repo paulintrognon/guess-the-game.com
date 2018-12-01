@@ -8,6 +8,7 @@ module.exports = {
   getScores,
   getSolvedScreenshots,
   getAddedScreenshots,
+  getScreenshotRating,
 };
 
 function create(userToCreate) {
@@ -116,4 +117,15 @@ async function getAddedScreenshots(userId) {
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
   }));
+}
+
+async function getScreenshotRating({ userId, screenshotId }) {
+  const rating = await db.ScreenshotRating.findOne({
+    attributes: ['rating'],
+    where: { UserId: userId, ScreenshotId: screenshotId },
+  });
+  if (!rating) {
+    return null;
+  }
+  return rating.rating;
 }
