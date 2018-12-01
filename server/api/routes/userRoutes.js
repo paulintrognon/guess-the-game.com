@@ -21,4 +21,8 @@ router.post('/added-screenshots', (req, res, next) =>
   next(userController.getAddedScreenshots(req))
 );
 
+router.post('/screenshot-rating', (req, res, next) =>
+  next(userController.getScreenshotRating(req))
+);
+
 module.exports = router;

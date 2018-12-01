@@ -5,6 +5,7 @@ export default {
   fetchUser,
   fetchSolvedScreenshots,
   fetchAddedScreenshots,
+  fetchScreenshotRating,
 };
 
 async function fetchScores() {
@@ -21,4 +22,8 @@ async function fetchSolvedScreenshots() {
 
 async function fetchAddedScreenshots() {
   return api.post('/user/added-screenshots');
+}
+
+async function fetchScreenshotRating({ screenshotId }) {
+  return api.post('/user/screenshot-rating', { screenshotId });
 }
