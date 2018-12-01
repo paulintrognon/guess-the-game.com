@@ -1,3 +1,7 @@
+### v6.0.1
+
+- User cannot rate their own screenshot
+
 # v6.0.0 - Ratings!
 
 - Now possible to rate screenshots
