@@ -1,3 +1,9 @@
+# v6.0.0 - Ratings!
+
+- Now possible to rate screenshots
+- Upload score is showned on ranking page
+- Fix next/prev bug when clicking random button
+
 ## v5.3.0
 
 - Add prev/next links next to screenshot id
