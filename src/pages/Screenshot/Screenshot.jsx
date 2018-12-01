@@ -225,11 +225,7 @@ class ScreenshotPage extends React.Component {
     } = this.props;
     return (
       <div>
-        <ScreenshotRating
-          screenshotId={screenshot.id}
-          rating={screenshot.rating}
-          ownRating={screenshot.ownRating}
-        />
+        <ScreenshotRating screenshot={screenshot} />
         <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
           <div className="ScreenshotPage_form_col -left">
             {window.history ? (
