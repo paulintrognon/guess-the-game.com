@@ -146,7 +146,7 @@ class ScreenshotRating extends React.Component {
   };
 
   render() {
-    const { rating, ownRating, isOwn } = this.props.screenshot;
+    const { rating, ownRating } = this.props.screenshot;
     const { isRatingPopupVisible } = this.state;
     let title = 'Soyez le premier à noter cette screenshot !';
     if (rating !== null) {
