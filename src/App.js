@@ -3,6 +3,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Switch, Route } from 'react-router';
 import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { loadReCaptcha } from 'react-recaptcha-google';
 import store from './store';
 import history from './history';
 
@@ -27,50 +28,62 @@ import NewPasswordPage from './pages/login/NewPassword/NewPassword';
 // User components
 import UserPages from './pages/User/User';
 
-export default () => (
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Layout>
-        <Helmet
-          defaultTitle="Guess The Game!"
-          titleTemplate="%s - Guess The Game!"
-        >
-          <link rel="canonical" href="https://guess-the-game.com/" />
-          <meta charSet="utf-8" />
-          <meta
-            name="description"
-            content="Trouver les jeux des screenshots, postez vous propres jeux, et montrez votre connaissance du jeu-vidéo !"
-          />
-        </Helmet>
-        <Switch>
-          <Route path="/" exact component={Homepage} />
-          <Route path="/screen/:id" exact component={ScreenshotPage} />
-          <Route path="/classement" exact component={RankingPage} />
-          <Route path="/connexion" exact component={LoginPage} />
-          <Route path="/inscription" exact component={RegisterPage} />
-          <Route
-            path="/mot-de-passe-oublie"
-            exact
-            component={ForgotPasswordPage}
-          />
-          <Route
-            path="/nouveau-mot-de-passe/:token"
-            exact
-            component={NewPasswordPage}
-          />
-          <Route
-            path="/ajouter-un-screenshot"
-            exact
-            component={EditScreenshotPage}
-          />
-          <Route path="/modifier/:id" exact component={EditScreenshotPage} />
-          <Route path="/la-fin" exact component={TheEnd} />
+export default class App extends React.Component {
+  componentDidMount() {
+    loadReCaptcha();
+  }
 
-          <Route path="/moi" component={UserPages} />
+  render() {
+    return (
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Layout>
+            <Helmet
+              defaultTitle="Guess The Game!"
+              titleTemplate="%s - Guess The Game!"
+            >
+              <link rel="canonical" href="https://guess-the-game.com/" />
+              <meta charSet="utf-8" />
+              <meta
+                name="description"
+                content="Trouver les jeux des screenshots, postez vous propres jeux, et montrez votre connaissance du jeu-vidéo !"
+              />
+            </Helmet>
+            <Switch>
+              <Route path="/" exact component={Homepage} />
+              <Route path="/screen/:id" exact component={ScreenshotPage} />
+              <Route path="/classement" exact component={RankingPage} />
+              <Route path="/connexion" exact component={LoginPage} />
+              <Route path="/inscription" exact component={RegisterPage} />
+              <Route
+                path="/mot-de-passe-oublie"
+                exact
+                component={ForgotPasswordPage}
+              />
+              <Route
+                path="/nouveau-mot-de-passe/:token"
+                exact
+                component={NewPasswordPage}
+              />
+              <Route
+                path="/ajouter-un-screenshot"
+                exact
+                component={EditScreenshotPage}
+              />
+              <Route
+                path="/modifier/:id"
+                exact
+                component={EditScreenshotPage}
+              />
+              <Route path="/la-fin" exact component={TheEnd} />
 
-          <Route component={NotFound} />
-        </Switch>
-      </Layout>
-    </ConnectedRouter>
-  </Provider>
-);
+              <Route path="/moi" component={UserPages} />
+
+              <Route component={NotFound} />
+            </Switch>
+          </Layout>
+        </ConnectedRouter>
+      </Provider>
+    );
+  }
+}
