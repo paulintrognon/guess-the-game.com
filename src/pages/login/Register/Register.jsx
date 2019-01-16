@@ -63,7 +63,6 @@ class RegisterPage extends React.Component {
   };
 
   onRecaptchaExpired = () => {
-    console.log('expired');
     this.setState({ recaptchaToken: null });
   };
 
@@ -275,7 +274,6 @@ class RegisterPage extends React.Component {
           }}
           size="normal"
           render="explicit"
-          style={{ width: '100%' }}
           sitekey="6LcQbmQUAAAAACyOdZhhEsUfUAO3TmUGqMMClngr"
           onloadCallback={this.onLoadRecaptcha}
           verifyCallback={this.onRecaptchaTokenRetrieved}
