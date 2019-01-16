@@ -91,7 +91,7 @@ class ForgotPasswordPage extends React.Component {
           onChange={this.handlePasswordConfirmationChange}
         />
 
-        {error && <p className="notification is-danger">{error}</p>}
+        {error && <p className="login_form_error">{error}</p>}
 
         <Button
           color="dark"

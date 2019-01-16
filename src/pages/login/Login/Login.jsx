@@ -98,7 +98,7 @@ class LoginPage extends React.Component {
             oublié&nbsp;?
           </Link>
         </Input>
-        {error && <p>{error}</p>}
+        {error && <p className="login_form_error">{error}</p>}
         <Button
           loading={submitting}
           disabled={!valid}

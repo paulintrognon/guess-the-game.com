@@ -9,7 +9,7 @@ import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
 import loginActions from '../../../actions/loginActions';
-import './Register.css';
+import '../login.css';
 
 function mapStoreToProps(store) {
   return {
@@ -279,7 +279,7 @@ class RegisterPage extends React.Component {
           verifyCallback={this.onRecaptchaTokenRetrieved}
           expiredCallback={this.onRecaptchaExpired}
         />
-        {error && <p className="RegisterPage_form_error">{error}</p>}
+        {error && <p className="login_form_error">{error}</p>}
         <Button
           loading={submitting}
           disabled={!valid}
