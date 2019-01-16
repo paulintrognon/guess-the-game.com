@@ -1,3 +1,8 @@
+# v7.0.0 - I'm not a robot
+
+- Robot test by recaptcha when registering and submitting a new screenshot
+- Error messages now red on login related pages
+
 ### v6.0.1
 
 - User cannot rate their own screenshot

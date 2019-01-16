@@ -59,7 +59,7 @@ class ForgotPasswordPage extends React.Component {
           onChange={this.handleEmailChange}
         />
 
-        {error && <p>{error}</p>}
+        {error && <p className="login_form_error">{error}</p>}
 
         <Button
           color="dark"

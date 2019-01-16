@@ -30,7 +30,7 @@ function login(req) {
     if (!user) {
       return bluebird.reject({
         code: 'LOGIN_USER_NOT_FOUND',
-        message: 'User not found',
+        message: 'Utilisateur inconnu',
       });
     }
     return bcrypt
@@ -39,7 +39,7 @@ function login(req) {
         if (!passwordsMatch) {
           return bluebird.reject({
             code: 'LOGIN_INCORRECT_PASSWORD',
-            message: 'Wrong password',
+            message: 'Mot de passe incorrect',
           });
         }
         return returnLoggedUser(user);
@@ -96,7 +96,7 @@ async function requestNewPassword(req) {
   if (!user) {
     return bluebird.reject({
       code: 'LOGIN_USER_NOT_FOUND',
-      message: 'User not found',
+      message: 'Cet email ne correspond à aucun utilisateur',
     });
   }
 
