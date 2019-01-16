@@ -23,5 +23,8 @@
     "url": "CHANGE-ME",
     "host": "CHANGE-ME",
     "key": "CHANGE-ME"
+  },
+  "recaptcha": {
+    "secret": "CHANGE-ME"
   }
 }

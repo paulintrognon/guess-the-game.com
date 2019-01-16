@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { ReCaptcha } from 'react-recaptcha-google';
 import _ from 'lodash';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
@@ -8,6 +9,7 @@ import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
 import loginActions from '../../../actions/loginActions';
+import './Register.css';
 
 function mapStoreToProps(store) {
   return {
@@ -40,8 +42,30 @@ class RegisterPage extends React.Component {
         ok: false,
         error: false,
       },
+      recaptchaToken: null,
     };
   }
+
+  componentDidMount = () => {
+    if (this.recaptchaElement) {
+      this.recaptchaElement.reset();
+    }
+  };
+
+  onLoadRecaptcha = () => {
+    if (this.recaptchaElement) {
+      this.recaptchaElement.reset();
+    }
+  };
+
+  onRecaptchaTokenRetrieved = recaptchaToken => {
+    this.setState({ recaptchaToken });
+  };
+
+  onRecaptchaExpired = () => {
+    console.log('expired');
+    this.setState({ recaptchaToken: null });
+  };
 
   handleUsernameChange = event => {
     const { value } = event.target;
@@ -159,21 +183,25 @@ class RegisterPage extends React.Component {
         username: this.state.username.value.trim(),
         password: this.state.password.value,
         email: this.state.email.value.trim(),
+        recaptchaToken: this.state.recaptchaToken,
         jwt: this.props.user.jwt,
       })
       .then(res => {
+        if (!res.error) {
+          this.props.dispatch(loginActions.login(res));
+          return;
+        }
+        let error = "Une erreur s'est produite.";
         if (res.errors && res.errors.length) {
-          let error = res.errors[0].message;
+          error = res.errors[0].message;
           if (res.errors[0].message === 'email must be unique') {
             error = 'Cet email est déjà utilisé.';
           }
-          this.setState({
-            submitting: false,
-            error,
-          });
-        } else {
-          this.props.dispatch(loginActions.login(res));
         }
+        this.setState({
+          submitting: false,
+          error,
+        });
       });
   };
 
@@ -187,14 +215,20 @@ class RegisterPage extends React.Component {
       password,
       passwordConfirm,
       email,
+      recaptchaToken,
       submitting,
       error,
     } = this.state;
 
-    const valid = username.ok && password.ok && passwordConfirm.ok && email.ok;
+    const valid =
+      username.ok &&
+      password.ok &&
+      passwordConfirm.ok &&
+      email.ok &&
+      recaptchaToken;
 
     return (
-      <form className="RegisterPage__form" onSubmit={this.handleSubmit}>
+      <form className="RegisterPage_form" onSubmit={this.handleSubmit}>
         <Input
           id="username"
           label="Pseudo"
@@ -235,7 +269,19 @@ class RegisterPage extends React.Component {
           ok={passwordConfirm.ok}
           error={passwordConfirm.error}
         />
-        {error && <p>{error}</p>}
+        <ReCaptcha
+          ref={el => {
+            this.recaptchaElement = el;
+          }}
+          size="normal"
+          render="explicit"
+          style={{ width: '100%' }}
+          sitekey="6LcQbmQUAAAAACyOdZhhEsUfUAO3TmUGqMMClngr"
+          onloadCallback={this.onLoadRecaptcha}
+          verifyCallback={this.onRecaptchaTokenRetrieved}
+          expiredCallback={this.onRecaptchaExpired}
+        />
+        {error && <p className="RegisterPage_form_error">{error}</p>}
         <Button
           loading={submitting}
           disabled={!valid}

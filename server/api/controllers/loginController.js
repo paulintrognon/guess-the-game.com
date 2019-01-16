@@ -4,6 +4,7 @@ const config = require('../../../config/index');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
 const emailService = require('../services/emailService');
+const recaptchaService = require('../services/recaptchaService');
 const logger = require('../../logger');
 
 const SALT_ROUNDS = 4;
@@ -52,12 +53,23 @@ function preLog() {
     .then(user => tokenService.createUserToken(user));
 }
 
-function register(req) {
-  ['email', 'username', 'password'].forEach(field => {
+async function register(req) {
+  ['email', 'username', 'password', 'recaptchaToken'].forEach(field => {
     if (!req.body[field]) {
       throw new Error(`User ${field} cannot be null`);
     }
   });
+
+  // I'm not a robot (Google Recaptcha)
+  const isTokenVerified = await recaptchaService.verifyToken(
+    req.body.recaptchaToken
+  );
+  if (!isTokenVerified) {
+    return bluebird.reject({
+      code: 'RECAPTCHA_ERROR',
+      message: 'Recaptcha challenge not successful.',
+    });
+  }
 
   return hashPassword(req.body.password)
     .then(hashedPassword => {
