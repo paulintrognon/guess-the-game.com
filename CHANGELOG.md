@@ -1,3 +1,7 @@
+### v7.0.1
+
+- Fix "Jouer" link active style 
+
 # v7.0.0 - I'm not a robot
 
 - Robot test by recaptcha when registering and submitting a new screenshot
