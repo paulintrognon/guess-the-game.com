@@ -5,6 +5,7 @@ const screenshotManager = require('../managers/screenshotManager');
 const userManager = require('../managers/userManager');
 const cloudinaryService = require('../services/cloudinaryService');
 const tokenService = require('../services/tokenService');
+const recaptchaService = require('../services/recaptchaService');
 const logger = require('../../logger');
 
 module.exports = {
@@ -178,11 +179,22 @@ async function addScreenshot(req) {
     });
   }
 
-  ['name', 'localImageName'].forEach(field => {
+  ['name', 'localImageName', 'recaptchaToken'].forEach(field => {
     if (!req.body[field]) {
       throw new Error(`User ${field} cannot be null`);
     }
   });
+
+  // I'm not a robot (Google Recaptcha)
+  const isTokenVerified = await recaptchaService.verifyToken(
+    req.body.recaptchaToken
+  );
+  if (!isTokenVerified) {
+    return bluebird.reject({
+      code: 'RECAPTCHA_ERROR',
+      message: 'Recaptcha challenge not successful.',
+    });
+  }
 
   const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
 

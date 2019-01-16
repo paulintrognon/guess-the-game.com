@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import queryString from 'qs';
 import { apiUrl } from 'config';
+import { ReCaptcha } from 'react-recaptcha-google';
 import screenshotService from '../../services/screenshotService';
 import screenshotActions from '../../actions/screenshotActions';
 import Input from '../../components/Form/Input/Input';
@@ -41,9 +42,30 @@ class EditScreenshotPage extends React.Component {
       name: params.name || '',
       alternativeNames,
       year: params.year || '',
+      recaptchaToken: null,
     };
     this.screenshotImageUploadInput = React.createRef();
   }
+
+  componentDidMount = () => {
+    if (!this.props.match.params.id && this.recaptchaElement) {
+      this.recaptchaElement.reset();
+    }
+  };
+
+  onLoadRecaptcha = () => {
+    if (!this.props.match.params.id && this.recaptchaElement) {
+      this.recaptchaElement.reset();
+    }
+  };
+
+  onRecaptchaTokenRetrieved = recaptchaToken => {
+    this.setState({ recaptchaToken });
+  };
+
+  onRecaptchaExpired = () => {
+    this.setState({ recaptchaToken: null });
+  };
 
   uploadScreenshotImage = file => {
     if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
@@ -158,6 +180,7 @@ class EditScreenshotPage extends React.Component {
           alternativeNames: this.state.alternativeNames,
           year: this.state.year,
           localImageName: this.state.uploadedImageName,
+          recaptchaToken: this.state.recaptchaToken,
         })
         .then(res => {
           if (res.error) {
@@ -200,7 +223,9 @@ class EditScreenshotPage extends React.Component {
   render() {
     const screenshotId = this.props.match.params.id;
     const valid =
-      (screenshotId || this.state.uploadedImageName) && this.state.name.trim();
+      (screenshotId || this.state.uploadedImageName) &&
+      this.state.name.trim() &&
+      this.state.recaptchaToken;
     const title = `${screenshotId ? 'Modifier le' : 'Nouveau'} Screenshot ${
       screenshotId ? `#${screenshotId}` : ''
     }`;
@@ -357,6 +382,20 @@ class EditScreenshotPage extends React.Component {
               min={1900}
               max={2100}
             />
+            {!screenshotId && (
+              <ReCaptcha
+                ref={el => {
+                  this.recaptchaElement = el;
+                }}
+                size="normal"
+                render="explicit"
+                sitekey="6LcQbmQUAAAAACyOdZhhEsUfUAO3TmUGqMMClngr"
+                onloadCallback={this.onLoadRecaptcha}
+                verifyCallback={this.onRecaptchaTokenRetrieved}
+                expiredCallback={this.onRecaptchaExpired}
+              />
+            )}
+
             {this.state.error && (
               <p className="EditScreenshotPage_form_error">
                 {this.state.error}
@@ -365,7 +404,7 @@ class EditScreenshotPage extends React.Component {
             <Button
               loading={this.state.submitting}
               disabled={!valid}
-              color="dark"
+              color="dark && this.state.recaptchaToken"
               type="submit"
             >
               {screenshotId

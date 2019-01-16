@@ -15,10 +15,7 @@ function checkUsernameAvailability(username) {
 }
 
 function register(user) {
-  return api.post('/user/register', user).then(res => ({
-    ...res,
-    error: false,
-  }));
+  return api.post('/user/register', user);
 }
 
 function login(credentials) {
