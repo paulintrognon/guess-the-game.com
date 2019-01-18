@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   border-radius: 5px;
   height: 30px;
   transition: background-color 200ms;
