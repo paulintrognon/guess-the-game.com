@@ -38,7 +38,7 @@ class Homepage extends React.Component {
         {this.state.lastScreenshot && (
           <div className="Homepage_lastAddedScreenshot">
             <h2 className="Homepage_lastAddedScreenshot_title">
-              Dernière screen ajouté
+              Dernier screenshot ajouté
             </h2>
             <p className="Homepage_lastAddedScreenshot_subtitle">
               Ajouté par <b>{this.state.lastScreenshot.addedBy}</b> -{` `}
