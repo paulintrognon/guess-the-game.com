@@ -1,3 +1,8 @@
+### v7.0.2
+
+- Fix #42
+- Fix #43
+
 ### v7.0.1
 
 - Fix "Jouer" link active style 

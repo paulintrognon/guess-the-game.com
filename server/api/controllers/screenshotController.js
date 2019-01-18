@@ -33,7 +33,7 @@ async function getfromId(req) {
     return bluebird.reject({
       status: 404,
       code: 'SCREENSHOT_NOT_FOUND',
-      message: 'No screenshot for that ID.',
+      message: 'Screenshot inconnu.',
     });
   }
 
