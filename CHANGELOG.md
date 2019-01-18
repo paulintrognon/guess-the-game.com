@@ -1,3 +1,7 @@
+### v7.0.2
+
+- Fix grammar
+
 ### v7.0.1
 
 - Fix "Jouer" link active style 
