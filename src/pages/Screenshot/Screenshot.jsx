@@ -11,6 +11,7 @@ import './screenshot.css';
 function mapStoreToProps(store) {
   return {
     screenshot: store.screenshot,
+    isUserLoggedIn: Boolean(store.user.username),
     isTryAnotherButtonClicked: store.screenshot.isTryAnotherButtonClicked,
     allSolved: store.screenshot.allSolved,
     isGuessing: store.screenshot.isGuessing,
@@ -218,6 +219,7 @@ class ScreenshotPage extends React.Component {
   renderFooter = () => {
     const {
       screenshot,
+      isUserLoggedIn,
       isProposalRight,
       isProposalWrong,
       isGuessing,
@@ -225,7 +227,7 @@ class ScreenshotPage extends React.Component {
     } = this.props;
     return (
       <div>
-        <ScreenshotRating screenshot={screenshot} />
+        <ScreenshotRating screenshot={screenshot} canRate={isUserLoggedIn} />
         <form className="ScreenshotPage_form" onSubmit={this.trySubmitHandler}>
           <div className="ScreenshotPage_form_col -left">
             {window.history ? (
