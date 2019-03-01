@@ -15,6 +15,12 @@ class ScreenshotRating extends React.Component {
   }
 
   toggleRatingPopup = () => {
+    if (!this.props.canRate) {
+      alert(
+        'Désolé, vous devez vous connecter pour pouvoir noter cette screenshot !'
+      );
+      return;
+    }
     if (this.props.screenshot.isOwn) {
       alert('Désolé, vous ne pouvez pas noter vos propres screenshots.');
       return;
