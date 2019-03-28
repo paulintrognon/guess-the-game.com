@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Header from './Header';
 import './layout.css';
 
@@ -10,7 +11,7 @@ export default function Layout(props) {
   return (
     <div className="Layout">
       <Header />
-      {children}
+      <ErrorBoundary>{children}</ErrorBoundary>
     </div>
   );
 }
