@@ -1,3 +1,7 @@
+### v7.0.4
+
+- Now catching crashes
+
 ### v7.0.3
 
 - Fix #44
