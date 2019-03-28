@@ -28,7 +28,7 @@ function uploadImage(path) {
           width: 1024,
           height: 576,
           crop: 'fit',
-          quality: 70,
+          quality: 90,
         },
       },
       (error, response) => {
