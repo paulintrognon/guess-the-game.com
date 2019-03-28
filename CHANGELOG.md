@@ -1,3 +1,7 @@
+### v7.0.6
+
+- Change Cloudinary quality to 90%
+
 ### v7.0.5
 
 - Fix display for screenshot waiting for approval on small screens
