@@ -174,7 +174,7 @@ class ScreenshotPage extends React.Component {
             )}{' '}
             <ApprovalStatus approvalStatus={screenshot.approvalStatus} />
           </h1>
-          <div className="column ScreenshotPage_header_uploadedBy">
+          <div className="ScreenshotPage_header_uploadedBy">
             Par <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
             {screenshot.isOwn ? (
               <button

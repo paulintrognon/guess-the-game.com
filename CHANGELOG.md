@@ -1,3 +1,7 @@
+### v7.0.5
+
+- Fix display of screenshot page on very small screens
+
 ### v7.0.4
 
 - Now catching crashes
