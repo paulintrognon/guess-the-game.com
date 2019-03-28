@@ -174,7 +174,7 @@ class ScreenshotPage extends React.Component {
             )}{' '}
             <ApprovalStatus approvalStatus={screenshot.approvalStatus} />
           </h1>
-          <div className="column ScreenshotPage_header_uploadedBy">
+          <div className="ScreenshotPage_header_uploadedBy">
             Par <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
             {screenshot.isOwn ? (
               <button
@@ -342,7 +342,7 @@ function ApprovalStatus({ approvalStatus }) {
     return (
       <span className="Screenshot_ApprovalStatus -awaiting">
         {' '}
-        - En attente de validation
+        - En attente<span className="-hideOnSmartphones"> de validation</span>
       </span>
     );
   }
