@@ -1,3 +1,7 @@
+### v7.0.7
+
+- Translate ranking suffixes into french
+
 ### v7.0.6
 
 - Change Cloudinary quality to 90%
