@@ -342,7 +342,7 @@ function ApprovalStatus({ approvalStatus }) {
     return (
       <span className="Screenshot_ApprovalStatus -awaiting">
         {' '}
-        - En attente de validation
+        - En attente<span className="-hideOnSmartphones"> de validation</span>
       </span>
     );
   }
