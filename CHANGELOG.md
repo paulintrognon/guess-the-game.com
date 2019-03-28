@@ -1,6 +1,8 @@
 ### v7.0.5
 
-- Fix display of screenshot page on very small screens
+- Check for username length in react form
+- Reset recaptcha if form submit comes back in error
+- Fix display of header of screenshot page on very small screens
 
 ### v7.0.4
 
