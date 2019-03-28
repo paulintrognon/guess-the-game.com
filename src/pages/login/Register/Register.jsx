@@ -83,6 +83,8 @@ class RegisterPage extends React.Component {
           if (!username.value || username.value.length < 2) {
             username.ok = false;
             username.error = 'Le pseudo doit avoir au minimum 2 lettres.';
+          } else if (username.value.length > 20) {
+            username.error = 'Trop long ! Maximum 20 lettres.';
           } else if (!isAvailable) {
             username.ok = false;
             username.error = 'Ce pseudo est déjà pris.';
@@ -197,6 +199,7 @@ class RegisterPage extends React.Component {
             error = 'Cet email est déjà utilisé.';
           }
         }
+        this.recaptchaElement.reset();
         this.setState({
           submitting: false,
           error,

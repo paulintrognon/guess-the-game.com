@@ -49,6 +49,7 @@
   text-transform: uppercase;
 }
 .ScreenshotPage_header_uploadedBy {
+  white-space: nowrap;
   color: #87878F;
   font-size: 14px;
 }
