@@ -67,7 +67,7 @@ class ForgotPasswordPage extends React.Component {
           disabled={!valid}
           type="submit"
         >
-          Envoyer l&apos;email de reset
+          Envoyer l&apos;email
         </Button>
       </form>
     );
@@ -77,7 +77,7 @@ class ForgotPasswordPage extends React.Component {
     const { email } = this.state;
     return (
       <p className="notification is-success">
-        Done! An email is on its way to {email}.
+        C&apos;est fait ! L&apos;email a été envoyé à {email}.
       </p>
     );
   }
@@ -88,7 +88,7 @@ class ForgotPasswordPage extends React.Component {
       <section className="ForgotPasswordPage">
         <Helmet title="Forgot password" />
         <LoginPagesSwitcher />
-        <SmallContainer title="Il parait que vous avez oublié votre mot de passe...">
+        <SmallContainer title="Alors, on a oublié son mot de passe&nbsp;?">
           {submitted ? this.renderSubmitted() : this.renderForm()}
         </SmallContainer>
       </section>

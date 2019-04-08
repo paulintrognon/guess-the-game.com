@@ -1,6 +1,6 @@
 module.exports = ({ username, link }) => ({
-  subject: 'New Password Request - Guess The Game',
-  text: `Hi! You requested a new password. Follow this link to generate it: ${link}`,
+  subject: 'Réinitialisation du MDP - Guess The Game',
+  text: `Bonjour ! Vous avez demandé une réinitialisation de votre mot de passe. Pour ce faire, cliquez ici : ${link}`,
   html: `
   <!doctype html>
   <html>
@@ -100,16 +100,16 @@ module.exports = ({ username, link }) => ({
                       <tr>
                         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
                           <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
-                            Hi <b>${username}</b>,
+                            Bonjour ${username},
                           </p>
                           <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
-                            You requested a new password. You can create a new one by clicking the link bellow:
+                            Vous avez demandé la création d'un nouveau mot de passe. Pour le créer, cliquez sur le lien suivant :
                           </p>
                           <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
                             <a href="${link}">${link}</a>
                           </p>
                           <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">
-                            Thanks and see you soon at <a href="https://guess-the-game.com">guess-the-game.com</a>!
+                            Merci et à bientôt sur <a href="https://guess-the-game.com">guess-the-game.com</a> !
                           </p>
                         </td>
                       </tr>
@@ -125,7 +125,7 @@ module.exports = ({ username, link }) => ({
                 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                   <tr>
                     <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
-                      <a href="https://guess-the-game.com" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">© Guess the Game!</a>
+                      <a href="https://guess-the-game.com" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">Email automatique envoyé par Guess the Game</a>
                     </td>
                   </tr>
                 </table>
