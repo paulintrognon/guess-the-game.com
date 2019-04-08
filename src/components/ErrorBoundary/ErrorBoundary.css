@@ -1,0 +1,9 @@
+.ErrorBundary {
+  margin: 50px 0;
+  text-align: center;
+}
+
+.ErrorBundary_reload {
+  color: blue;
+  text-decoration: underline;
+}

@@ -10,6 +10,10 @@ const initialState = {
   solvedAt: null,
   createdAt: null,
   approvalStatus: false,
+  rating: null,
+  ownRating: null,
+  prevScreenshotId: null,
+  nextScreenshotId: null,
   stats: {},
   isGuessing: false,
   isProposalRight: false,
@@ -26,6 +30,9 @@ export default function reducer(state = initialState, action) {
       ...state,
       isLoading: true,
       isTryAnotherButtonClicked: true,
+      error: null,
+      prevScreenshotId: null,
+      nextScreenshotId: null,
     };
   }
 
@@ -61,10 +68,30 @@ export default function reducer(state = initialState, action) {
       solvedAt: new Date(payload.solvedAt),
       createdAt: new Date(payload.createdAt),
       approvalStatus: payload.approvalStatus,
+      rating: payload.rating,
+      ownRating: payload.ownRating,
       isTryAnotherButtonClicked: false,
       isGuessing: false,
       isProposalWrong: false,
       isProposalRight: false,
+    };
+  }
+
+  if (type === 'SCREENSHOT_LOAD_PREV_AND_NEXT') {
+    const { prev, next } = payload;
+    return {
+      ...state,
+      prevScreenshotId: prev,
+      nextScreenshotId: next,
+    };
+  }
+
+  if (type === 'SCREENSHOT_LOAD_NEW_RATING') {
+    const { averageRating, ownRating } = payload;
+    return {
+      ...state,
+      rating: Number(averageRating),
+      ownRating,
     };
   }
 

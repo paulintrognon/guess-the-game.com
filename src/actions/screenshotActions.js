@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import screenshotService from '../services/screenshotService';
 
 export default {
-  addScreenshotAction,
+  goToScreenshot,
   loadScreenshot,
   getUnsolvedScreenshot,
   tryProposal,
@@ -10,35 +10,41 @@ export default {
   removeOwnScreenshot,
 };
 
-function addScreenshotAction(screenshot) {
+function goToScreenshot(screenshot) {
   return dispatch => {
-    dispatch(push(`/shot/${screenshot.id}`));
+    dispatch(push(`/screen/${screenshot.id}`));
   };
 }
 
 function loadScreenshot(screenshotId, navigate = false) {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: 'SCREENSHOT_LOADING' });
-    screenshotService.getFromId(screenshotId).then(screenshot => {
-      dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
-      if (navigate) {
-        dispatch(push(`/shot/${screenshot.id}`));
-      }
+    const screenshot = await screenshotService.getFromId(screenshotId);
+    dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
+    if (navigate) {
+      dispatch(push(`/screen/${screenshot.id}`));
+    }
+    const prevAndNext = await screenshotService.getPrevAndNext({
+      screenshotId,
     });
+    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 
 function getUnsolvedScreenshot(exclude) {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: 'SCREENSHOT_LOADING' });
-    screenshotService.getUnsolved(exclude).then(res => {
-      if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
-        dispatch(push('/the-end'));
-      } else {
-        dispatch(push(`/shot/${res.id}`));
-        dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
-      }
-    });
+    const res = await screenshotService.getUnsolved(exclude);
+    if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
+      dispatch(push('/la-fin'));
+    } else {
+      dispatch(push(`/screen/${res.id}`));
+      dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
+      const prevAndNext = await screenshotService.getPrevAndNext({
+        screenshotId: res.id,
+      });
+      dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+    }
   };
 }
 

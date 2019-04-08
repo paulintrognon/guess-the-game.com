@@ -1,21 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './LoginPagesSwitcher.css';
+import './PagesSwitcher.css';
 
-const links = [
-  { label: 'Login', to: '/login' },
-  { label: 'Register', to: '/register' },
-];
-
-export default () => (
-  <div className="LoginPagesSwitcher">
+export default ({ links }) => (
+  <div className="PagesSwitcher">
     {links.map(link => (
       <Link
         key={link.label}
-        className={`LoginPagesSwitcher_link ${
+        className={`PagesSwitcher_link ${
           isPathActive(link.to) ? '-active' : ''
         }`}
         to={link.to}
+        onClick={link.onClick}
       >
         {link.label}
       </Link>
@@ -24,5 +20,5 @@ export default () => (
 );
 
 function isPathActive(path) {
-  return window.location.pathname.indexOf(path) === 0;
+  return window.location.pathname === path;
 }

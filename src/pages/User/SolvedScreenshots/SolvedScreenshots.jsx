@@ -21,12 +21,15 @@ class SolvedScreenshotsPage extends React.Component {
     const { solvedScreenshots } = this.props;
     return (
       <section className="section">
-        <Helmet title="Screenshots Solved" />
+        <Helmet title="Screenshots Résolus" />
         <div className="SolvedScreenshotsPage">
-          <BarTitle hideOnSmall>
-            <h2>Screenshots Solved</h2>
+          <BarTitle onlyOnSmartphones>
+            <h2>Screens Resolus</h2>
           </BarTitle>
-          <ScreenshotsGrid screenshots={solvedScreenshots} />
+          <ScreenshotsGrid
+            screenshots={solvedScreenshots}
+            noScreenshotSentence="Vous n'avez encore résolu aucun screen."
+          />
         </div>
       </section>
     );

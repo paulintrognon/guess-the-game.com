@@ -1,35 +1,36 @@
 import React from 'react';
+import queryString from 'qs';
 import { Link } from 'react-router-dom';
-import screenshotService from '../../services/screenshotService';
+import moderationService from '../../services/moderationService';
+import helperService from '../../services/helperService';
 
 class ScreenshotItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      approvementStatus: null,
+      approvalStatus: this.props.screenshot.approvalStatus,
     };
   }
 
-  handleModeration = (screenshotId, approve) => async () => {
-    await screenshotService.moderate({ screenshotId, approve });
-    this.setState({ approvementStatus: approve });
-  };
-
-  handleCancel = () => {
-    this.setState({ approvementStatus: null });
+  handleModeration = (screenshotId, newApprovalStatus) => async () => {
+    await moderationService.moderate({ screenshotId, newApprovalStatus });
+    this.setState({ approvalStatus: newApprovalStatus });
   };
 
   render() {
-    const { screenshot } = this.props;
-    const { approvementStatus } = this.state;
+    const {
+      screenshot,
+      canModerateScreenshots,
+      canEditScreenshots,
+    } = this.props;
+    const { approvalStatus } = this.state;
     return (
       <div
-        key={screenshot.id}
         className="ScreenshotsGrid_item"
-        to={`/shot/${screenshot.id}`}
+        to={`/screen/${screenshot.id}`}
         title={screenshot.name}
       >
-        <Link to={`/shot/${screenshot.id}`}>
+        <Link to={`/screen/${screenshot.id}`}>
           <div
             style={{
               backgroundImage: `url(${screenshot.imageUrl})`,
@@ -38,45 +39,46 @@ class ScreenshotItem extends React.Component {
           />
         </Link>
         <div className="ScreenshotsGrid_item_legend">
+          {canEditScreenshots ? (
+            <div style={{ float: 'right' }}>
+              <EditScreenshotLink screenshot={screenshot} />
+            </div>
+          ) : null}
           <p className="ScreenshotsGrid_item_legend_name">
-            {screenshot.name} {screenshot.year ? `(${screenshot.year})` : null}
+            #{screenshot.id} - {screenshot.gameCanonicalName}{' '}
+            {screenshot.year ? `(${screenshot.year})` : null}
           </p>
-          {screenshot.solvedAt ? (
-            <p>
-              Solved the {screenshot.solvedAt.toLocaleDateString()} at{' '}
-              {screenshot.solvedAt.toLocaleTimeString()}
+          {(screenshot.alternativeNames || []).map(name => (
+            <p key={name}>
+              ou{' '}
+              <span className="ScreenshotsGrid_item_legend_alternativeName">
+                {name}
+              </span>
             </p>
+          ))}
+          {!canModerateScreenshots && screenshot.solvedAt ? (
+            <p>Résolu le {helperService.formatDate(screenshot.solvedAt)}</p>
           ) : (
-            <p>
-              Added the {screenshot.createdAt.toLocaleDateString()} at{' '}
-              {screenshot.createdAt.toLocaleTimeString()}
-            </p>
+            <p>Ajouté le {helperService.formatDate(screenshot.createdAt)}</p>
           )}
-          {screenshot.awaitingApproval ? (
-            <div className="ScreenshotsGrid_item_legend_approve">
-              {approvementStatus === null ? (
-                <p>
-                  <button
-                    className="ScreenshotsGrid_item_legend_approve_button -approve"
-                    onClick={this.handleModeration(screenshot.id, true)}
-                  >
-                    <span>Approve</span>
-                  </button>
-                  -
-                  <button
-                    className="ScreenshotsGrid_item_legend_approve_button -reject"
-                    onClick={this.handleModeration(screenshot.id, false)}
-                  >
-                    <span>Reject</span>
-                  </button>
-                </p>
-              ) : (
-                <p>
-                  Screenshot{' '}
-                  <b>{approvementStatus ? 'approved' : 'rejected'}</b>&nbsp;! -{' '}
-                  <button onClick={this.handleCancel}>Undo</button>
-                </p>
-              )}
+          {canModerateScreenshots ? (
+            <div className="ScreenshotsGrid_item_legend_moderate">
+              <p className="ScreenshotsGrid_item_legend_moderate_verify">
+                <a
+                  href={`http://www.jeuxvideo.com/recherche.php?m=9&q=${
+                    screenshot.gameCanonicalName
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Vérifier sur jv.com
+                </a>
+              </p>
+              <ApprovalBox
+                screenshot={screenshot}
+                approvalStatus={approvalStatus}
+                handleModeration={this.handleModeration}
+              />
             </div>
           ) : null}
         </div>
@@ -85,3 +87,75 @@ class ScreenshotItem extends React.Component {
   }
 }
 export default ScreenshotItem;
+
+function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
+  if (approvalStatus === 1) {
+    return (
+      <p>
+        <b>Le screen est approuvé.</b>
+        <button
+          className="ScreenshotsGrid_item_legend_moderate_button -reject"
+          onClick={handleModeration(screenshot.id, -1)}
+        >
+          Rejeter
+        </button>
+        -
+        <EditScreenshotLink screenshot={screenshot} />
+      </p>
+    );
+  }
+  if (approvalStatus === -1) {
+    return (
+      <p>
+        <b>✖ Le screen est rejeté.</b>
+        <button
+          className="ScreenshotsGrid_item_legend_moderate_button -approve"
+          onClick={handleModeration(screenshot.id, 1)}
+        >
+          <span>Approuver</span>
+        </button>
+        -
+        <EditScreenshotLink screenshot={screenshot} />
+      </p>
+    );
+  }
+  return (
+    <p>
+      <button
+        className="ScreenshotsGrid_item_legend_moderate_button -approve"
+        onClick={handleModeration(screenshot.id, 1)}
+      >
+        <span>Approuver</span>
+      </button>
+      -
+      <button
+        className="ScreenshotsGrid_item_legend_moderate_button -reject"
+        onClick={handleModeration(screenshot.id, -1)}
+      >
+        Rejeter
+      </button>
+      -
+      <EditScreenshotLink screenshot={screenshot} />
+    </p>
+  );
+}
+
+function EditScreenshotLink({ screenshot }) {
+  return (
+    <a
+      className="ScreenshotsGrid_item_legend_moderate_button"
+      href={generateEditLink(screenshot)}
+    >
+      Modifier
+    </a>
+  );
+}
+
+function generateEditLink(screenshot) {
+  return `/modifier/${screenshot.id}?${queryString.stringify({
+    name: screenshot.gameCanonicalName,
+    alternativeNames: screenshot.alternativeNames,
+    year: screenshot.year || '',
+    url: screenshot.imageUrl,
+  })}`;
+}

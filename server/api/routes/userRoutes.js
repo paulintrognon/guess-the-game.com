@@ -4,7 +4,7 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-const SCORE_CACHE_DURATION = 60 * 10; // One minute
+const SCORE_CACHE_DURATION = 30; // 30 seconds
 router.get(
   '/scores',
   routeCache.cacheSeconds(SCORE_CACHE_DURATION),
@@ -19,6 +19,10 @@ router.post('/solved-screenshots', (req, res, next) =>
 
 router.post('/added-screenshots', (req, res, next) =>
   next(userController.getAddedScreenshots(req))
+);
+
+router.post('/screenshot-rating', (req, res, next) =>
+  next(userController.getScreenshotRating(req))
 );
 
 module.exports = router;

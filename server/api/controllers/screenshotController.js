@@ -5,28 +5,35 @@ const screenshotManager = require('../managers/screenshotManager');
 const userManager = require('../managers/userManager');
 const cloudinaryService = require('../services/cloudinaryService');
 const tokenService = require('../services/tokenService');
+const recaptchaService = require('../services/recaptchaService');
 const logger = require('../../logger');
 
 module.exports = {
   getfromId,
   getUnsolvedScreenshot,
   getLastAddedScreenshot,
-  getNonModeratedScreenshots,
+  getPrevAndNext,
   removeOwnScreenshot,
   tryProposal,
   uploadScreenshot,
   addScreenshot,
-  moderateScreenshot,
+  editScreenshot,
+  rateScreenshot,
 };
 
 async function getfromId(req) {
-  const res = await screenshotManager.getFromId(req.body.id, req.user.id);
+  const userId = req.user.id;
+  const screenshotId = req.body.id;
+  const [res, ownRating] = await Promise.all([
+    await screenshotManager.getFromId(screenshotId, userId),
+    await userManager.getScreenshotRating({ screenshotId, userId }),
+  ]);
 
   if (!res) {
     return bluebird.reject({
       status: 404,
       code: 'SCREENSHOT_NOT_FOUND',
-      message: 'No screenshot for that ID.',
+      message: 'Screenshot inconnu.',
     });
   }
 
@@ -37,8 +44,10 @@ async function getfromId(req) {
     imageUrl: cloudinaryService.pathToUrl(res.imagePath),
     createdAt: res.createdAt,
     approvalStatus: res.approvalStatus,
+    rating: res.rating,
     addedBy: res.user.username,
     stats: res.stats,
+    ownRating,
   };
   if (res.solvedScreenshots && res.solvedScreenshots.length) {
     screenshot.isSolved = true;
@@ -55,7 +64,11 @@ async function getUnsolvedScreenshot(req) {
   const userId = req.user.id;
   let screenshot = await screenshotManager.getUnsolved({
     userId,
-    exclude: req.body.exclude,
+    exclude:
+      // Si "exclude" n'est pas un tableau, on le transforme en tableau (rétrocompabilité)
+      req.body.exclude && !req.body.exclude.join
+        ? [req.body.exclude]
+        : req.body.exclude,
   });
 
   if (!screenshot) {
@@ -84,48 +97,26 @@ async function getLastAddedScreenshot(req) {
   return getfromId({ ...req, body: { ...req.body, id: screenshotId } });
 }
 
-async function getNonModeratedScreenshots(req) {
-  const { user } = req;
-  if (!user) {
-    return bluebird.reject({
-      status: 401,
-      code: 'MUST_BE_IDENTIFIED',
-      message: "User must be identified to proove that he/she's a moderator.",
-    });
-  }
-  if (!user.canModerateScreenshots) {
-    return bluebird.reject({
-      status: 403,
-      code: 'CANNOT_MODERATE_SCREENSHOTS',
-      message: 'User has no right to moderate screenshots.',
-    });
-  }
-  const screenshots = await screenshotManager.getNonModeratedScreenshots();
-  return screenshots.map(addImageUrlFromPath);
+async function getPrevAndNext(req) {
+  const { screenshotId } = req.body;
+  return screenshotManager.getPrevAndNext({ screenshotId });
 }
 
 async function removeOwnScreenshot(req) {
   if (!req.user) {
-    return bluebird.reject({
+    bluebird.reject({
       status: 401,
       code: 'MUST_BE_IDENTIFIED',
       message:
         'User must be identified in order to delete his own screenshots.',
     });
+    return;
   }
-  const result = await screenshotManager.deleteUserScreenshot({
+  // We delete the screenshot
+  await screenshotManager.deleteUserScreenshot({
     userId: req.user.id,
     screenshotId: req.body.screenshotId,
   });
-  if (result === null) {
-    return bluebird.reject({
-      status: 404,
-      code: 'SCREENSHOT_TO_DELETE_NOT_FOUND',
-      message:
-        'The screenshot to delete has not been found. Maybe the user has not added that screenshot?',
-    });
-  }
-  return { deleted: Boolean(result) };
 }
 
 async function tryProposal(req) {
@@ -179,11 +170,31 @@ function uploadScreenshot(req) {
 }
 
 async function addScreenshot(req) {
-  ['name', 'localImageName'].forEach(field => {
+  const { user } = req;
+  if (!user) {
+    return bluebird.reject({
+      status: 401,
+      code: 'MUST_BE_IDENTIFIED',
+      message: 'User must be identified to add a new screenshot.',
+    });
+  }
+
+  ['name', 'localImageName', 'recaptchaToken'].forEach(field => {
     if (!req.body[field]) {
       throw new Error(`User ${field} cannot be null`);
     }
   });
+
+  // I'm not a robot (Google Recaptcha)
+  const isTokenVerified = await recaptchaService.verifyToken(
+    req.body.recaptchaToken
+  );
+  if (!isTokenVerified) {
+    return bluebird.reject({
+      code: 'RECAPTCHA_ERROR',
+      message: 'Recaptcha challenge not successful.',
+    });
+  }
 
   const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
 
@@ -193,35 +204,59 @@ async function addScreenshot(req) {
 
   const imagePath = await cloudinaryService.uploadImage(localImagePath);
 
-  return screenshotManager.create({
+  const screenshot = {
     imagePath,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
     year: req.body.year,
-    userId: req.user.id,
-  });
+    userId: user.id,
+  };
+  return screenshotManager.create(screenshot);
 }
 
-async function moderateScreenshot(req) {
+function editScreenshot(req) {
   const { user } = req;
-  const { screenshotId, approve } = req.body;
   if (!user) {
     return bluebird.reject({
       status: 401,
       code: 'MUST_BE_IDENTIFIED',
-      message: 'User must be identified to approve screenshots.',
+      message: 'User must be identified to add a new screenshot.',
     });
   }
-  return screenshotManager.moderateScreenshot({ screenshotId, user, approve });
+
+  ['name', 'id'].forEach(field => {
+    if (!req.body.name) {
+      throw new Error(`User ${field} cannot be null`);
+    }
+  });
+
+  return screenshotManager.edit({
+    id: req.body.id,
+    user: req.user,
+    data: {
+      gameCanonicalName: req.body.name,
+      alternativeNames: req.body.alternativeNames,
+      year: req.body.year,
+    },
+  });
+}
+
+async function rateScreenshot(req) {
+  const userId = req.user.id;
+  const { screenshotId, rating } = req.body;
+  let checkedRating = rating;
+  if (rating > 10) {
+    checkedRating = 10;
+  } else if (rating < 0) {
+    checkedRating = 0;
+  }
+  return screenshotManager.rate({
+    screenshotId,
+    userId,
+    rating: checkedRating,
+  });
 }
 
 function getUploadedImageLocalPath(imageName) {
   return `${__dirname}/../../uploads/${imageName}`;
-}
-
-function addImageUrlFromPath(screenshot) {
-  return {
-    ...screenshot,
-    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
-  };
 }

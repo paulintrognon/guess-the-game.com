@@ -1,17 +1,29 @@
 .ScreenshotPage {
   background-color: #FFF;
-  margin: 20px 0;
+  margin: 10px 0;
 }
+@media (min-width: 480px) {
+  .ScreenshotPage {
+    margin: 20px 0;
+  }
+}
+
 
 .ScreenshotPage_header {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  padding: 0 20px;
+  padding: 0 10px;
   max-width: 1024px;
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   max-height: 40px;
+}
+@media (min-width: 480px) {
+  .ScreenshotPage_header {
+    padding: 0 20px;
+    margin-bottom: 10px;
+  }
 }
 @media (min-width: 769px) {
   .ScreenshotPage_header {
@@ -19,8 +31,16 @@
   }
 }
 
-.ScreenshotPage_header_left,.ScreenshotPage_header_right {
-  max-width: 50%;
+.ScreenshotPage_header_left {
+  max-width: 30%;
+}
+.ScreenshotPage_header_right {
+  max-width: 70%;
+}
+@media (min-width: 480px) {
+  .ScreenshotPage_header_left,.ScreenshotPage_header_right {
+    max-width: 50%;
+  }
 }
 
 .ScreenshotPage_header_title {
@@ -29,6 +49,7 @@
   text-transform: uppercase;
 }
 .ScreenshotPage_header_uploadedBy {
+  white-space: nowrap;
   color: #87878F;
   font-size: 14px;
 }
@@ -82,6 +103,7 @@
   background-repeat: no-repeat;
   transition: padding-bottom 10ms;
   position: relative;
+  pointer-events: none;
 }
 
 .ScreenshotPage_screenshot_success_banner {
@@ -91,7 +113,7 @@
   background-color: rgba(19,206,102,0.7);
   position: absolute;
   z-index: 10;
-  bottom: 10%;
+  bottom: 5%;
   left: -10%;
   transform: rotate(-5deg);
   transform-origin: bottom left;
@@ -133,14 +155,34 @@
 }
 
 .ScreenshotPage_footer {
-  background: rgba(255,255,255,0.98);
-  position: relative;
-  top: -25px;
-  border-radius: 20px;
   text-align: center;
   max-width: 1024px;
   margin: auto;
   min-height: 200px;
+}
+
+.ScreenshotPage_prevNext_link {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  position: relative;
+  bottom: 4px;
+  background: #444;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 0px 4px 2px;
+  margin: 0 5px;
+}
+.ScreenshotPage_prevNext_link.-prev {
+  margin-left: 0px;
+}
+.ScreenshotPage_prevNext_link.-next {
+  margin-right: 0px;
+}
+.ScreenshotPage_prevNext_link.-disabled {
+  background: #999;
+  cursor: default;
 }
 
 .ScreenshotPage_form {
@@ -159,6 +201,14 @@
   .ScreenshotPage_form_col {
     width: 33.33%;
   }
+}
+
+.ScreenshotPage_form_prev {
+  background-color: #47525E;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 3px;
+  transition: background-color 200ms;
 }
 
 .ScreenshotPage_form_input {
@@ -189,7 +239,7 @@
 .ScreenshotPage_form_input_valid {
   width: 40px;
   height: 40px;
-  border-radius: 40px;
+  border-radius: 3px;
   background: #47525E;
   display: flex;
   justify-content: center;
@@ -208,13 +258,15 @@
   background: #2fffab;
 }
 
-.ScreenshotPage_form_col.-col3 {
+.ScreenshotPage_form_col.-left {
+  text-align: left;
+}
+.ScreenshotPage_form_col.-right {
   margin-top: 20px;
 }
 @media (min-width: 768px) {
-  .ScreenshotPage_form_col.-col3 {
+  .ScreenshotPage_form_col.-right {
     margin-top: 0;
-    margin-right: 20px;
     text-align: right;
   }
 }
@@ -260,3 +312,8 @@
   font-style: italic;
   color: #fd464c;
 }
+
+.ScreenshotPage_form_or {
+  margin: 10px 0 -5px;
+}
+

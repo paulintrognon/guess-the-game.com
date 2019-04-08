@@ -4,6 +4,7 @@ const apiRoutes = require('./api');
 const userRoutes = require('./userRoutes');
 const loginRoutes = require('./loginRoutes');
 const screenshotRoutes = require('./screenshotRoutes');
+const moderationRoutes = require('./moderationRoutes');
 
 function addRoutes(app) {
   app.use('/api', apiRoutes);
@@ -11,4 +12,5 @@ function addRoutes(app) {
   app.use('/api/user', userRoutes);
   app.use('/api/user', loginRoutes);
   app.use('/api/screenshot', screenshotRoutes);
+  app.use('/api/moderation', moderationRoutes);
 }

@@ -39,28 +39,30 @@ class Header extends React.Component {
               <button
                 type="button"
                 className={`Header_nav_link ${
-                  isPathActive('/shot') ? '-active' : ''
+                  isPathActive('/screen') ? '-active' : ''
                 }`}
                 onClick={this.playHandler}
               >
-                Play
+                Jouer
               </button>
               <Link
-                to="/ranking"
+                to="/classement"
                 className={`Header_nav_link ${
-                  isPathActive('/ranking') ? '-active' : ''
+                  isPathActive('/classement') ? '-active' : ''
                 }`}
               >
-                Ranking
+                Classement
               </Link>
               {user.username && (
                 <Link
-                  to="/add-screenshot"
+                  to="/ajouter-un-screenshot"
                   className={`Header_nav_link ${
-                    isPathActive('/add-screenshot') ? '-active' : ''
+                    isPathActive('/ajouter-un-screenshot') ? '-active' : ''
                   }`}
                 >
-                  Add&nbsp;<span className="-hideSmartphone">screenshot</span>
+                  Ajouter&nbsp;<span className="-hideOnSmartphones">
+                    un screenshot
+                  </span>
                 </Link>
               )}
             </nav>
@@ -82,7 +84,7 @@ export default connect(mapStoreToProps)(Header);
 
 function renderLoginButtons() {
   return (
-    <Link key="navLoginLink" to="/login" className="Header_login_link">
+    <Link key="navLoginLink" to="/connexion" className="Header_login_link">
       Login
     </Link>
   );
@@ -91,13 +93,13 @@ function renderLoginButtons() {
 function renderAccountMenuButton(username, handleOnClick) {
   return (
     <Link
-      to="/user/account"
+      to="/moi/mon-compte"
       className={`Header_nav_link -user ${
-        window.location.pathname.indexOf('/user') === 0 ? '-active' : null
+        window.location.pathname.indexOf('/moi') === 0 ? '-active' : null
       }`}
       onClick={handleOnClick}
     >
-      <span className="-hideSmartphone">{username}</span>
+      <span className="-hideOnSmartphones">{username}</span>
       {renderUserIconSvg()}
     </Link>
   );

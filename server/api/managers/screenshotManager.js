@@ -4,14 +4,17 @@ const db = require('../../db/db');
 
 module.exports = {
   create,
+  edit,
   getFromId,
   getLastAdded,
   getUnsolved,
-  getNonModeratedScreenshots,
+  getTotalNb,
+  getPrevAndNext,
   deleteUserScreenshot,
+  removeSolvedPointsForScreenshot,
   testProposal,
   markScreenshotAsResolved,
-  moderateScreenshot,
+  rate,
 };
 
 async function create(screenshotToCreate) {
@@ -23,12 +26,32 @@ async function create(screenshotToCreate) {
     gameCanonicalName: screenshotToCreate.gameCanonicalName,
     imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
+    approvalStatus: user.canModerateScreenshots ? 1 : 0,
   });
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
+    user.canModerateScreenshots ? user.increment('addedScreenshots') : null,
   ]);
+  return screenshot;
+}
+
+async function edit({ id, user, data }) {
+  const screenshot = await db.Screenshot.findById(id);
+  if (!screenshot) {
+    throw new Error('screenshot not found');
+  }
+  if (!user.canModerateScreenshots && user.id !== screenshot.UserId) {
+    throw new Error('No rights to edit that screenshot');
+  }
+  screenshot.update({
+    gameCanonicalName: data.gameCanonicalName,
+    year: data.year,
+  });
+  const names = getScreenshotNames(data);
+  await db.ScreenshotName.destroy({ where: { ScreenshotId: id } });
+  await addScreenshotNames(screenshot, names);
   return screenshot;
 }
 
@@ -70,6 +93,7 @@ async function getFromId(screenshotId, userId) {
     approvalStatus: res.approvalStatus,
     user: res.User,
     solvedScreenshots: res.SolvedScreenshots,
+    rating: res.rating || null,
   };
 }
 
@@ -80,6 +104,9 @@ async function getLastAdded() {
     limit: 1,
     order: [['createdAt', 'DESC']],
   });
+  if (!screenshot) {
+    return null;
+  }
   return screenshot.id;
 }
 
@@ -96,14 +123,28 @@ async function getScreenshotStats(screenshotId) {
 
 async function countSolved(screenshotId) {
   return db.SolvedScreenshot.count({
-    where: { ScreenshotId: screenshotId },
+    where: {
+      ScreenshotId: screenshotId,
+      '$User.username$': {
+        [db.Sequelize.Op.not]: null,
+      },
+    },
+    include: {
+      attributes: ['username'],
+      model: db.User,
+    },
   });
 }
 
 async function getFirstSolvedBy(screenshotId) {
   const solvedScreenshot = await db.SolvedScreenshot.findOne({
     attributes: [],
-    where: { ScreenshotId: screenshotId },
+    where: {
+      ScreenshotId: screenshotId,
+      '$User.username$': {
+        [db.Sequelize.Op.not]: null,
+      },
+    },
     limit: 1,
     order: [['createdAt', 'ASC']],
     include: {
@@ -141,7 +182,11 @@ async function getUnsolved({ userId, exclude }) {
       ) `
           : ''
       }
-      ${exclude ? `AND (Screenshot.Id != ${exclude})` : ''}
+      ${
+        exclude && exclude.length
+          ? `AND (Screenshot.Id NOT IN (${exclude.join(',')}) )`
+          : ''
+      }
     )
     ORDER BY RAND()
     LIMIT 1
@@ -151,21 +196,26 @@ async function getUnsolved({ userId, exclude }) {
   return screenshots[0];
 }
 
-async function getNonModeratedScreenshots() {
-  const results = await db.Screenshot.findAll({
-    attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
-    where: { approvalStatus: 0 },
-    limit: 100,
-    order: [['createdAt', 'ASC']],
+async function getTotalNb() {
+  return db.Screenshot.count({
+    where: { approvalStatus: 1 },
   });
-  return results.map(res => ({
-    id: res.id,
-    name: res.gameCanonicalName,
-    year: res.year || null,
-    createdAt: res.createdAt,
-    imagePath: res.imagePath,
-    awaitingApproval: true,
-  }));
+}
+
+async function getPrevAndNext({ screenshotId }) {
+  const [prev, next] = await Promise.all([
+    db.Screenshot.findOne({
+      attributes: ['id'],
+      where: { approvalStatus: 1, id: { [db.sequelize.Op.lt]: screenshotId } },
+      order: [['createdAt', 'DESC']],
+    }),
+    db.Screenshot.findOne({
+      attributes: ['id'],
+      where: { approvalStatus: 1, id: { [db.sequelize.Op.gt]: screenshotId } },
+      order: [['createdAt', 'ASC']],
+    }),
+  ]);
+  return { prev: prev && prev.id, next: next && next.id };
 }
 
 async function deleteUserScreenshot({ userId, screenshotId }) {
@@ -177,9 +227,32 @@ async function deleteUserScreenshot({ userId, screenshotId }) {
     },
   });
   if (!screenshot) {
-    return null;
+    return;
   }
-  return screenshot.destroy();
+  // On supprime le screenshot
+  await screenshot.destroy();
+  // Si ça s'est bien passé
+  await Promise.all([
+    // on décrémente le compte de screenshots ajoutés par le user
+    db.User.findById(userId).then(
+      user => user && user.decrement('addedScreenshots')
+    ),
+    // et on enlève les points du screenshot aux joueurs qui l'ont trouvé
+    removeSolvedPointsForScreenshot({ screenshotId }),
+  ]);
+}
+
+async function removeSolvedPointsForScreenshot({ screenshotId }) {
+  const solvedScreenshots = await db.SolvedScreenshot.findAll({
+    where: { ScreenshotId: screenshotId },
+    include: { model: db.User },
+  });
+  await bluebird.map(solvedScreenshots, solvedScreenshot =>
+    Promise.all([
+      solvedScreenshot.User.decrement('solvedScreenshots'),
+      solvedScreenshot.destroy(),
+    ])
+  );
 }
 
 async function testProposal(screenshotId, proposal) {
@@ -242,25 +315,50 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
   ]);
 }
 
-async function moderateScreenshot({ screenshotId, user, approve }) {
-  const [moderator, screenshot] = await Promise.all([
-    db.User.findById(user.id),
+async function rate({ screenshotId, userId, rating }) {
+  // On vérifie que l'utilisateur a bien le droit de noter le screenshot
+  const [screenshot, user] = await Promise.all([
     db.Screenshot.findById(screenshotId),
+    db.User.findById(userId),
   ]);
-  if (!moderator) {
-    throw new Error('Moderator not found');
-  }
   if (!screenshot) {
-    throw new Error('Screenshot not found');
+    throw new Error('Screenshot does not exist');
   }
-  const poster = await db.User.findById(screenshot.UserId);
-  return Promise.all([
-    screenshot.update({
-      approvalStatus: approve ? 1 : -1,
-      moderatedBy: moderator.id,
-    }),
-    approve ? poster.increment('addedScreenshots') : null,
+  if (!user) {
+    throw new Error('User does not exist');
+  }
+  if (screenshot.UserId === userId) {
+    throw new Error('Cannot rate your own screenshot');
+  }
+
+  // On supprime la précédente note
+  await db.ScreenshotRating.destroy({
+    where: { ScreenshotId: screenshotId, UserId: userId },
+  });
+
+  // On ajoute la nouvelle note
+  const screenshotRating = await db.ScreenshotRating.create({ rating });
+  await Promise.all([
+    user.addScreenshotRating(screenshotRating),
+    screenshot.addScreenshotRating(screenshotRating),
   ]);
+
+  // On récupère l'average
+  const average = await db.ScreenshotRating.findOne({
+    attributes: [
+      [db.Sequelize.fn('AVG', db.Sequelize.col('rating')), 'averageRating'],
+    ],
+    where: { ScreenshotId: screenshotId },
+  });
+  const averageRating = average
+    ? average.get({ plain: true }).averageRating
+    : null;
+
+  // On met à jour le score de la screnshot
+  await screenshot.update({
+    rating: averageRating,
+  });
+  return { averageRating };
 }
 
 function getScreenshotNames(screenshot) {

@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const db = require('../../db/db');
 
 module.exports = {
@@ -8,6 +9,7 @@ module.exports = {
   getScores,
   getSolvedScreenshots,
   getAddedScreenshots,
+  getScreenshotRating,
 };
 
 function create(userToCreate) {
@@ -40,16 +42,57 @@ function isUsernameFree(username) {
   }).then(user => user === null);
 }
 
-async function getScores() {
-  return db.User.findAll({
-    attributes: ['username', 'solvedScreenshots', 'addedScreenshots'],
+async function getScores({ totalNbScreenshots }) {
+  const usersScores = await db.User.findAll({
+    attributes: [
+      'id',
+      'username',
+      'solvedScreenshots',
+      'addedScreenshots',
+      [
+        db.Sequelize.literal(
+          `solvedScreenshots / (${totalNbScreenshots} - addedScreenshots)`
+        ),
+        'completeness',
+      ],
+    ],
     where: {
       username: {
         [db.Sequelize.Op.not]: null,
       },
     },
     limit: 100,
-    order: [['solvedScreenshots', 'DESC'], ['addedScreenshots', 'DESC']],
+    order: [
+      [
+        db.Sequelize.literal(
+          `solvedScreenshots / (${totalNbScreenshots} - addedScreenshots)`
+        ),
+        'DESC',
+      ],
+      ['solvedScreenshots', 'DESC'],
+      ['addedScreenshots', 'DESC'],
+    ],
+  }).map(user => user.get({ plain: true }));
+
+  return bluebird.mapSeries(usersScores, async userScore => {
+    const screenshot = await db.Screenshot.findOne({
+      attributes: [
+        [db.Sequelize.fn('AVG', db.Sequelize.col('rating')), 'averageRating'],
+      ],
+      where: { UserId: userScore.id },
+    });
+    const averageUploadScore =
+      screenshot !== null
+        ? screenshot.get({ plain: true }).averageRating
+        : null;
+    return {
+      id: userScore.id,
+      username: userScore.username,
+      nbSolvedScreenshots: userScore.solvedScreenshots,
+      nbAddedScreenshots: userScore.addedScreenshots,
+      completeness: userScore.completeness,
+      averageUploadScore: Number(averageUploadScore),
+    };
   });
 }
 
@@ -64,28 +107,40 @@ async function getSolvedScreenshots(userId) {
       attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
     },
   });
-  return results.map(res => ({
-    id: res.Screenshot.id,
-    name: res.Screenshot.gameCanonicalName,
-    year: res.Screenshot.year || null,
-    createdAt: res.Screenshot.createdAt,
+  return results.map(res => res.get({ plain: true })).map(res => ({
+    ...res.Screenshot,
     solvedAt: res.createdAt,
-    imagePath: res.Screenshot.imagePath,
   }));
 }
 
 async function getAddedScreenshots(userId) {
   const results = await db.Screenshot.findAll({
     attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
+    include: { model: db.ScreenshotName },
     where: { UserId: userId },
     limit: 100,
     order: [['createdAt', 'DESC']],
   });
-  return results.map(res => ({
-    id: res.id,
-    name: res.gameCanonicalName,
-    year: res.year || null,
-    createdAt: res.createdAt,
-    imagePath: res.imagePath,
+  return results.map(screenshot => ({
+    id: screenshot.id,
+    gameCanonicalName: screenshot.gameCanonicalName,
+    alternativeNames: screenshot.ScreenshotNames.map(name => name.name).filter(
+      name => name !== screenshot.gameCanonicalName
+    ),
+    year: screenshot.year,
+    imagePath: screenshot.imagePath,
+    createdAt: screenshot.createdAt,
+    approvalStatus: screenshot.approvalStatus,
   }));
+}
+
+async function getScreenshotRating({ userId, screenshotId }) {
+  const rating = await db.ScreenshotRating.findOne({
+    attributes: ['rating'],
+    where: { UserId: userId, ScreenshotId: screenshotId },
+  });
+  if (!rating) {
+    return null;
+  }
+  return rating.rating;
 }

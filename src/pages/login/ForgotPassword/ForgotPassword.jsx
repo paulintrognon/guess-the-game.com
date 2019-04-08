@@ -51,15 +51,15 @@ class ForgotPasswordPage extends React.Component {
       <form className="ForgotPasswordPage__form" onSubmit={this.submitHandler}>
         <Input
           id="username"
-          label="No worries, we'll send you a link to re-create your password"
+          label="Pas de problème, on va vous envoyer un lien pour le recréer."
           type="email"
           className="input"
-          placeholder="Ex: careless_n00b@gmail.com"
+          placeholder="Ex: noob59@gmail.com"
           value={email}
           onChange={this.handleEmailChange}
         />
 
-        {error && <p>{error}</p>}
+        {error && <p className="login_form_error">{error}</p>}
 
         <Button
           color="dark"
@@ -67,7 +67,7 @@ class ForgotPasswordPage extends React.Component {
           disabled={!valid}
           type="submit"
         >
-          Send email
+          Envoyer l&apos;email de reset
         </Button>
       </form>
     );
@@ -88,7 +88,7 @@ class ForgotPasswordPage extends React.Component {
       <section className="ForgotPasswordPage">
         <Helmet title="Forgot password" />
         <LoginPagesSwitcher />
-        <SmallContainer title="So you forgot your password...">
+        <SmallContainer title="Il parait que vous avez oublié votre mot de passe...">
           {submitted ? this.renderSubmitted() : this.renderForm()}
         </SmallContainer>
       </section>

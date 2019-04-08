@@ -3,7 +3,7 @@ import './TheEnd.css';
 
 export default () => (
   <section className="TheEndPage">
-    <p>You have resolved all screenshots... Congratz.</p>
+    <p>GG, il n&apos;en reste plus...</p>
     <p>
       <img
         className="TheEndPage_gif"

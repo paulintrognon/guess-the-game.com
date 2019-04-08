@@ -3,13 +3,14 @@ import api from './api';
 export default {
   uploadImage,
   addScreenshot,
+  editScreenshot,
   getFromId,
   getLast,
   getUnsolved,
-  getNonModerated,
+  getPrevAndNext,
   guess,
   removeOwn,
-  moderate,
+  rate,
 };
 
 function uploadImage(file, onUploadProgress) {
@@ -24,6 +25,10 @@ function addScreenshot(data) {
   return api.post('/screenshot/add', data);
 }
 
+function editScreenshot(data) {
+  return api.post('/screenshot/edit', data);
+}
+
 function getFromId(id) {
   return api.post('/screenshot/get', { id });
 }
@@ -36,8 +41,8 @@ function getUnsolved(exclude) {
   return api.post('/screenshot/unsolved', { exclude });
 }
 
-function getNonModerated() {
-  return api.post('/screenshot/non-moderated');
+function getPrevAndNext({ screenshotId }) {
+  return api.post('/screenshot/prev-and-next', { screenshotId });
 }
 
 function guess(screenshotId, proposal) {
@@ -53,9 +58,9 @@ function removeOwn(screenshotId) {
   });
 }
 
-function moderate({ screenshotId, approve }) {
-  return api.post('/screenshot/moderate', {
+function rate({ screenshotId, rating }) {
+  return api.post('/screenshot/rate', {
     screenshotId,
-    approve,
+    rating,
   });
 }

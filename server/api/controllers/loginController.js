@@ -4,6 +4,7 @@ const config = require('../../../config/index');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
 const emailService = require('../services/emailService');
+const recaptchaService = require('../services/recaptchaService');
 const logger = require('../../logger');
 
 const SALT_ROUNDS = 4;
@@ -29,7 +30,7 @@ function login(req) {
     if (!user) {
       return bluebird.reject({
         code: 'LOGIN_USER_NOT_FOUND',
-        message: 'User not found',
+        message: 'Utilisateur inconnu',
       });
     }
     return bcrypt
@@ -38,7 +39,7 @@ function login(req) {
         if (!passwordsMatch) {
           return bluebird.reject({
             code: 'LOGIN_INCORRECT_PASSWORD',
-            message: 'Wrong password',
+            message: 'Mot de passe incorrect',
           });
         }
         return returnLoggedUser(user);
@@ -52,12 +53,23 @@ function preLog() {
     .then(user => tokenService.createUserToken(user));
 }
 
-function register(req) {
-  ['email', 'username', 'password'].forEach(field => {
+async function register(req) {
+  ['email', 'username', 'password', 'recaptchaToken'].forEach(field => {
     if (!req.body[field]) {
       throw new Error(`User ${field} cannot be null`);
     }
   });
+
+  // I'm not a robot (Google Recaptcha)
+  const isTokenVerified = await recaptchaService.verifyToken(
+    req.body.recaptchaToken
+  );
+  if (!isTokenVerified) {
+    return bluebird.reject({
+      code: 'RECAPTCHA_ERROR',
+      message: 'Recaptcha challenge not successful.',
+    });
+  }
 
   return hashPassword(req.body.password)
     .then(hashedPassword => {
@@ -84,12 +96,12 @@ async function requestNewPassword(req) {
   if (!user) {
     return bluebird.reject({
       code: 'LOGIN_USER_NOT_FOUND',
-      message: 'User not found',
+      message: 'Cet email ne correspond à aucun utilisateur',
     });
   }
 
   const token = await tokenService.createNewPasswordRequestToken(user);
-  const link = `${config.frontUrl}/new-password/${token}`;
+  const link = `${config.frontUrl}/nouveau-mot-de-passe/${token}`;
 
   return emailService.sendRequestNewPasswordEmail({
     link,

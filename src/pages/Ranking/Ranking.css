@@ -4,6 +4,11 @@
   padding: 20px;
 }
 
+.RankingPage_ranking_total {
+  text-align: center;
+  margin-bottom: 23px;
+}
+
 .RankingPage_ranking_row {
   display: flex;
   margin: 10px 0;
@@ -35,6 +40,10 @@
   }
 }
 
+.RankingPage_ranking_nb_suffix {
+  font-size: 12px;
+}
+
 .RankingPage_ranking_col {
   display: flex;
   align-items: center;
@@ -42,7 +51,7 @@
 .RankingPage_ranking_col.-name {
   width: 40%;
 }
-.RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-added {
+.RankingPage_ranking_col.-centered {
   width: 30%;
   justify-content: center;
 }
@@ -50,7 +59,7 @@
   .RankingPage_ranking_col.-name {
     width: 50%;
   }
-  .RankingPage_ranking_col.-solved, .RankingPage_ranking_col.-added {
+  .RankingPage_ranking_col.-centered {
     width: 25%;
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { ReCaptcha } from 'react-recaptcha-google';
 import _ from 'lodash';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
@@ -8,6 +9,7 @@ import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
 import loginActions from '../../../actions/loginActions';
+import '../login.css';
 
 function mapStoreToProps(store) {
   return {
@@ -40,8 +42,29 @@ class RegisterPage extends React.Component {
         ok: false,
         error: false,
       },
+      recaptchaToken: null,
     };
   }
+
+  componentDidMount = () => {
+    if (this.recaptchaElement) {
+      this.recaptchaElement.reset();
+    }
+  };
+
+  onLoadRecaptcha = () => {
+    if (this.recaptchaElement) {
+      this.recaptchaElement.reset();
+    }
+  };
+
+  onRecaptchaTokenRetrieved = recaptchaToken => {
+    this.setState({ recaptchaToken });
+  };
+
+  onRecaptchaExpired = () => {
+    this.setState({ recaptchaToken: null });
+  };
 
   handleUsernameChange = event => {
     const { value } = event.target;
@@ -59,10 +82,12 @@ class RegisterPage extends React.Component {
           const username = { ...prevState.username };
           if (!username.value || username.value.length < 2) {
             username.ok = false;
-            username.error = 'The username needs to be at least 2 letters long';
+            username.error = 'Le pseudo doit avoir au minimum 2 lettres.';
+          } else if (username.value.length > 20) {
+            username.error = 'Trop long ! Maximum 20 lettres.';
           } else if (!isAvailable) {
             username.ok = false;
-            username.error = 'This username is already taken.';
+            username.error = 'Ce pseudo est déjà pris.';
           } else {
             username.ok = true;
             username.error = false;
@@ -85,15 +110,15 @@ class RegisterPage extends React.Component {
     };
     if (!value) {
       state.password.ok = false;
-      state.password.error = 'Password cannot be empty';
+      state.password.error = 'Le mot de passe ne peut être vide.';
       return state;
     }
     if (prevState.passwordConfirm.value) {
       if (prevState.passwordConfirm.value !== value) {
         state.password.ok = false;
-        state.password.error = 'Passwords do not match';
+        state.password.error = 'Les mots de passes sont différents.';
         state.passwordConfirm.ok = false;
-        state.passwordConfirm.error = 'Passwords do not match';
+        state.passwordConfirm.error = 'Les mots de passes sont différents.';
         return state;
       }
       state.passwordConfirm.ok = true;
@@ -118,7 +143,7 @@ class RegisterPage extends React.Component {
 
     if (prevState.password.value !== value) {
       state.passwordConfirm.ok = false;
-      state.passwordConfirm.error = 'Passwords do not match';
+      state.passwordConfirm.error = 'Les mots de passe sont différents.';
       return state;
     }
     if (prevState.password.value) {
@@ -136,10 +161,10 @@ class RegisterPage extends React.Component {
       const email = { ...prevState.email, value };
       if (!value) {
         email.ok = false;
-        email.error = 'Email is required';
+        email.error = "L'email est requis.";
       } else if (!value.match(/.+@.+/)) {
         email.ok = false;
-        email.error = 'Email is not valid';
+        email.error = "L'email ne ressemble pas à un email.";
       } else {
         email.ok = true;
         email.error = false;
@@ -159,21 +184,26 @@ class RegisterPage extends React.Component {
         username: this.state.username.value.trim(),
         password: this.state.password.value,
         email: this.state.email.value.trim(),
+        recaptchaToken: this.state.recaptchaToken,
         jwt: this.props.user.jwt,
       })
       .then(res => {
-        if (res.errors && res.errors.length) {
-          let error = res.errors[0].message;
-          if (res.errors[0].message === 'email must be unique') {
-            error = 'This email is already in use';
-          }
-          this.setState({
-            submitting: false,
-            error,
-          });
-        } else {
+        if (!res.error) {
           this.props.dispatch(loginActions.login(res));
+          return;
         }
+        let error = "Une erreur s'est produite.";
+        if (res.errors && res.errors.length) {
+          error = res.errors[0].message;
+          if (res.errors[0].message === 'email must be unique') {
+            error = 'Cet email est déjà utilisé.';
+          }
+        }
+        this.recaptchaElement.reset();
+        this.setState({
+          submitting: false,
+          error,
+        });
       });
   };
 
@@ -187,29 +217,35 @@ class RegisterPage extends React.Component {
       password,
       passwordConfirm,
       email,
+      recaptchaToken,
       submitting,
       error,
     } = this.state;
 
-    const valid = username.ok && password.ok && passwordConfirm.ok && email.ok;
+    const valid =
+      username.ok &&
+      password.ok &&
+      passwordConfirm.ok &&
+      email.ok &&
+      recaptchaToken;
 
     return (
-      <form className="RegisterPage__form" onSubmit={this.handleSubmit}>
+      <form className="RegisterPage_form" onSubmit={this.handleSubmit}>
         <Input
           id="username"
-          label="Username"
-          placeholder="Type your username"
+          label="Pseudo"
+          placeholder="Ex: tartiflette73"
           value={username.value}
           onChange={this.handleUsernameChange}
-          ok={username.ok && 'This username is available'}
+          ok={username.ok && 'Ce pseudo est dispo ! Classe'}
           error={username.error}
         />
         <Input
           id="email"
           type="email"
           label="Email"
-          labelExtraText="(only for password recovery)"
-          placeholder="Type your email"
+          labelExtraText="(c'est juste pour la récup du mot de passe en cas d'oubli)"
+          placeholder="Ex: tartiflette73@email.com"
           value={email.value}
           onChange={this.handleEmailChange}
           ok={email.ok}
@@ -218,8 +254,8 @@ class RegisterPage extends React.Component {
         <Input
           id="password"
           type="password"
-          label="Password"
-          placeholder="Type your password"
+          label="Mot de passe"
+          placeholder="Ex: ●●●●●●●●"
           value={password.value}
           onChange={this.handlePasswordChange}
           ok={password.ok}
@@ -228,21 +264,32 @@ class RegisterPage extends React.Component {
         <Input
           id="password_confirm"
           type="password"
-          label="Confirm Password"
-          placeholder="Type the same password again"
+          label="Confirmation du mot de passe"
+          placeholder="Entrez à nouveau le même mot de passe"
           value={passwordConfirm.value}
           onChange={this.handlePasswordConfirmChange}
           ok={passwordConfirm.ok}
           error={passwordConfirm.error}
         />
-        {error && <p>{error}</p>}
+        <ReCaptcha
+          ref={el => {
+            this.recaptchaElement = el;
+          }}
+          size="normal"
+          render="explicit"
+          sitekey="6LcQbmQUAAAAACyOdZhhEsUfUAO3TmUGqMMClngr"
+          onloadCallback={this.onLoadRecaptcha}
+          verifyCallback={this.onRecaptchaTokenRetrieved}
+          expiredCallback={this.onRecaptchaExpired}
+        />
+        {error && <p className="login_form_error">{error}</p>}
         <Button
           loading={submitting}
           disabled={!valid}
           color="dark"
           type="submit"
         >
-          Submit
+          Valider
         </Button>
       </form>
     );
@@ -253,15 +300,16 @@ class RegisterPage extends React.Component {
 
     return (
       <section className="RegisterPage">
-        <Helmet title="Register" />
+        <Helmet title="Inscription" />
         <LoginPagesSwitcher />
-        <SmallContainer title="Register">
+        <SmallContainer title="Inscription">
           {!user.username && this.renderForm()}
           {user.username && (
             <p>
-              You are already registered and logged as <b>{user.username}</b>!
+              Vous êtes déjà inscrit(e) et connecté(e) en tant que{' '}
+              <b>{user.username}</b> !
               <Button color="dark" onClick={this.logoutHandler}>
-                Log out
+                Déconnexion
               </Button>
             </p>
           )}

@@ -5,6 +5,7 @@
 }
 
 .ScreenshotsGrid_item {
+  width: 320px;
   box-shadow: 1px 1px 3px #777;
   margin-bottom: 20px;
 }
@@ -24,32 +25,41 @@
 }
 .ScreenshotsGrid_item_legend_name {
   font-size: 16px;
-  font-family: Norwester;
+  font-weight: bold;
 }
 
-.ScreenshotsGrid_item_legend_approve {
+.ScreenshotsGrid_item_legend_alternativeName {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.ScreenshotsGrid_item_legend_moderate {
   text-align: center;
   margin: 12px 0 8px;
 }
-.ScreenshotsGrid_item_legend_approve_button {
+.ScreenshotsGrid_item_legend_moderate_verify {
+  margin: 10px 0;
+  text-decoration: underline;
+}
+.ScreenshotsGrid_item_legend_moderate_button {
   font-size: 16px;
   font-weight: bold;
-  margin: 0 20px;
+  margin: 0 10px;
   display: inline-flex;
   align-items: center;
 }
-.ScreenshotsGrid_item_legend_approve_button:hover {
+.ScreenshotsGrid_item_legend_moderate_button:hover {
   text-decoration: underline;
 }
-.ScreenshotsGrid_item_legend_approve_button svg {
+.ScreenshotsGrid_item_legend_moderate_button svg {
   width: 18px;
   padding-right: 5px;
 }
-.ScreenshotsGrid_item_legend_approve_button.-approve, .ScreenshotsGrid_item_legend_approve_button.-approve svg {
+.ScreenshotsGrid_item_legend_moderate_button.-approve, .ScreenshotsGrid_item_legend_moderate_button.-approve svg {
   color: #03ae46;
   fill:  #03ae46;
 } 
-.ScreenshotsGrid_item_legend_approve_button.-reject, .ScreenshotsGrid_item_legend_approve_button.-reject svg {
+.ScreenshotsGrid_item_legend_moderate_button.-reject, .ScreenshotsGrid_item_legend_moderate_button.-reject svg {
   color: #fd464c;
   fill:  #fd464c;
 }
