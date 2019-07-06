@@ -3,6 +3,7 @@ const screenshotManager = require('./screenshotManager');
 
 module.exports = {
   getScreenshots,
+  getModerators,
   moderateScreenshot,
 };
 
@@ -39,6 +40,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
     approvalStatus: screenshot.approvalStatus,
   }));
 }
+
 async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
   const [moderator, screenshot] = await Promise.all([
     db.User.findById(user.id),
@@ -67,4 +69,12 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
     newApprovalStatus === -1 &&
       screenshotManager.removeSolvedPointsForScreenshot({ screenshotId }),
   ]);
+}
+
+async function getModerators() {
+  return db.User.findAll({
+    where: {
+      canModerateScreenshots: 1,
+    },
+  });
 }

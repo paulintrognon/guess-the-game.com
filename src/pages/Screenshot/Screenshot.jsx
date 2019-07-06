@@ -149,7 +149,7 @@ class ScreenshotPage extends React.Component {
           >
             {screenshot.prevScreenshotId ? (
               <Link
-                to={`/screen/${screenshot.prevScreenshotId}`}
+                to={`/screenshot/${screenshot.prevScreenshotId}`}
                 className="ScreenshotPage_prevNext_link -prev"
               >
                 ‹
@@ -162,7 +162,7 @@ class ScreenshotPage extends React.Component {
             #{screenshot.id}
             {screenshot.nextScreenshotId ? (
               <Link
-                to={`/screen/${screenshot.nextScreenshotId}`}
+                to={`/screenshot/${screenshot.nextScreenshotId}`}
                 className="ScreenshotPage_prevNext_link -next"
               >
                 ›
@@ -268,7 +268,7 @@ class ScreenshotPage extends React.Component {
             !screenshot.isOwn &&
             screenshot.approvalStatus === 1 ? (
               <div
-                className={`ScreenshotPage_form_input 
+                className={`ScreenshotPage_form_input
             ${isGuessing ? '-guessing' : ''}
             ${isProposalRight ? '-success' : ''}
             ${isProposalWrong ? '-error' : ''}

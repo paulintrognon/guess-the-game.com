@@ -10,13 +10,23 @@ const client = mailgun.client({
 });
 
 const newPasswordEmail = require('../emails/newPassword');
+const moderationNewScreenshot = require('../emails/moderation/newScreenshot');
 
 module.exports = {
   sendRequestNewPasswordEmail,
+  sendModerationNewScreenshotEmail,
 };
 
 async function sendRequestNewPasswordEmail({ email, username, link }) {
   const data = newPasswordEmail({ username, link });
+  return sendEmail({
+    to: email,
+    ...data,
+  });
+}
+
+async function sendModerationNewScreenshotEmail({ email, emailData }) {
+  const data = moderationNewScreenshot(emailData);
   return sendEmail({
     to: email,
     ...data,

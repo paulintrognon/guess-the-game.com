@@ -39,7 +39,7 @@ class Header extends React.Component {
               <button
                 type="button"
                 className={`Header_nav_link ${
-                  isPathActive('/screen') ? '-active' : ''
+                  isPathActive('/screenshot') ? '-active' : ''
                 }`}
                 onClick={this.playHandler}
               >
