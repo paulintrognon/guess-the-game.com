@@ -1,4 +1,10 @@
-## v8.0.1
+### v8.0.2
+
+- Display loading message when loading moderation screenshots
+- Not loading all moderation screenshots at once
+- Not loading modetaions screenshots twice when useless
+
+### v8.0.1
 
 - Fix screenshot edit
 
