@@ -19,10 +19,32 @@ function mapStoreToProps(store) {
 class ModerationPage extends React.Component {
   constructor(props) {
     super(props);
-    this.fetchNonModeratedScreenshots();
-    this.fetchModeratedByYouScreenshots();
-    this.fetchApprovedScreenshots();
-    this.fetchRejectedScreenshots();
+    this.pages = [
+      {
+        label: 'En attente de validation',
+        to: '/moi/moderation/en-attente',
+        onClick: this.fetchNonModeratedScreenshots,
+      },
+      {
+        label: 'Modérée par vous',
+        to: '/moi/moderation/par-moi',
+        onClick: this.fetchModeratedByYouScreenshots,
+      },
+      {
+        label: 'Tous les approuvés',
+        to: '/moi/moderation/approuve',
+        onClick: this.fetchApprovedScreenshots,
+      },
+      {
+        label: 'Tous les rejetés',
+        to: '/moi/moderation/rejete',
+        onClick: this.fetchRejectedScreenshots,
+      },
+    ];
+    const page = this.pages.find(page => {
+      return page.to === props.location.pathname;
+    });
+    page.onClick();
   }
 
   fetchNonModeratedScreenshots = () => {
@@ -58,28 +80,7 @@ class ModerationPage extends React.Component {
             </BarTitle>
             <div>
               <PagesSwitcher
-                links={[
-                  {
-                    label: 'En attente de validation',
-                    to: '/moi/moderation/en-attente',
-                    onClick: this.fetchNonModeratedScreenshots,
-                  },
-                  {
-                    label: 'Modérée par vous',
-                    to: '/moi/moderation/par-moi',
-                    onClick: this.fetchModeratedByYouScreenshots,
-                  },
-                  {
-                    label: 'Tous les approuvés',
-                    to: '/moi/moderation/approuve',
-                    onClick: this.fetchApprovedScreenshots,
-                  },
-                  {
-                    label: 'Tous les rejetés',
-                    to: '/moi/moderation/rejete',
-                    onClick: this.fetchRejectedScreenshots,
-                  },
-                ]}
+                links={this.pages}
               />
               <Route
                 path="/moi/moderation/en-attente"
