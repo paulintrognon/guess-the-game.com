@@ -3,7 +3,7 @@
   "version": "7.0.7",
   "license": "MPL-2.0",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "babel-eslint": "^8.2.5",
     "bcrypt": "^3.0.0",
     "bluebird": "^3.5.1",
