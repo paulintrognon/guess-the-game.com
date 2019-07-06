@@ -1,3 +1,7 @@
+## v8.0.1
+
+- Fix screenshot edit
+
 # v8.0.0
 
 - Upgraded dependencies
