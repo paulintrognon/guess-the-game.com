@@ -31,7 +31,11 @@ class Homepage extends React.Component {
     const { scores, totalNbScreenshots } = this.state;
 
     if (this.state.isLoading) {
-      return <Loading />;
+      return (
+        <p style={{ textAlign: 'center' }}>
+          <Loading />
+        </p>
+      );
     }
 
     return (
@@ -39,9 +43,18 @@ class Homepage extends React.Component {
         <p className="RankingPage_ranking_total">
           Nombre total de screenshots: <b>{totalNbScreenshots}</b>
         </p>
+        <p className="-hideOnSmartphones">
+          La progression de chacun est définie en fonction du nombre de
+          screenshots trouvés mais aussi du nombre de screenshots ajoutés.
+          Ainsi, pour monter dans le classement, en plus de trouver des
+          screenshots, vous pouvez aussi en soumettre de nouveaux.
+        </p>
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
-          <div className="RankingPage_ranking_col -centered">
+          <div
+            className="RankingPage_ranking_col -centered"
+            title="Calcul = nb screenshots résolus / (nb total des screenshots sur le site - screenshots ajoutés par l'utilisateur)"
+          >
             <span className="-onlyOnSmartphones">Prog</span>
             <span className="-hideOnSmartphones">Progression</span>
           </div>
@@ -68,11 +81,7 @@ class Homepage extends React.Component {
             </div>
             <div
               className="RankingPage_ranking_col -centered"
-              title={`= ${
-                score.nbSolvedScreenshots
-              } résolus / (${totalNbScreenshots} total - ${
-                score.nbAddedScreenshots
-              } ajoutés)`}
+              title={`= ${score.nbSolvedScreenshots} résolus / (${totalNbScreenshots} total - ${score.nbAddedScreenshots} ajoutés)`}
             >
               {(score.completeness * 100).toFixed(2)}&nbsp;%
             </div>
@@ -96,7 +105,7 @@ class Homepage extends React.Component {
   render() {
     return (
       <section className="RankingPage">
-        <Helmet title="Ranking">
+        <Helmet title="Classement des joueurs">
           <meta
             name="description"
             content="Ranking of all players. View the best gamers who solved the most screenshots!"

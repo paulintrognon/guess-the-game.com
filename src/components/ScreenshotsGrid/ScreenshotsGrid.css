@@ -2,12 +2,24 @@
   display: flex;
   justify-content: space-between;
   flex-flow: wrap;
+  margin-top: 10px;
+}
+@media (max-width: 480px) {
+  .ScreenshotsGrid {
+    display: block;
+    text-align: center;
+  }
 }
 
 .ScreenshotsGrid_item {
   width: 320px;
   box-shadow: 1px 1px 3px #777;
   margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .ScreenshotsGrid_item {
+    display: inline-block;
+  }
 }
 
 .ScreenshotsGrid_item_image {
@@ -58,7 +70,7 @@
 .ScreenshotsGrid_item_legend_moderate_button.-approve, .ScreenshotsGrid_item_legend_moderate_button.-approve svg {
   color: #03ae46;
   fill:  #03ae46;
-} 
+}
 .ScreenshotsGrid_item_legend_moderate_button.-reject, .ScreenshotsGrid_item_legend_moderate_button.-reject svg {
   color: #fd464c;
   fill:  #fd464c;
