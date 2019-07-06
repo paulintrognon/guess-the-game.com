@@ -9,6 +9,7 @@ export default {
 
 function fetchNonModeratedScreenshots() {
   return async dispatch => {
+    dispatch({ type: 'MODERATION_LOADING' });
     const payload = await moderationService.fetchNonModerated();
     dispatch({
       type: 'MODERATION_WAITING_LOADED',
@@ -19,6 +20,7 @@ function fetchNonModeratedScreenshots() {
 
 function fetchApprovedScreenshots() {
   return async dispatch => {
+    dispatch({ type: 'MODERATION_LOADING' });
     const payload = await moderationService.fetchApproved();
     dispatch({
       type: 'MODERATION_APPROVED_LOADED',
@@ -29,6 +31,7 @@ function fetchApprovedScreenshots() {
 
 function fetchRejectedScreenshots() {
   return async dispatch => {
+    dispatch({ type: 'MODERATION_LOADING' });
     const payload = await moderationService.fetchRejected();
     dispatch({
       type: 'MODERATION_REJECTED_LOADED',
@@ -39,6 +42,7 @@ function fetchRejectedScreenshots() {
 
 function fetchModeratedByYouScreenshots() {
   return async dispatch => {
+    dispatch({ type: 'MODERATION_LOADING' });
     const nonModeratedScreenshots = await moderationService.fetchModeratedByYou();
     dispatch({
       type: 'MODERATION_BY-YOU_LOADED',
