@@ -47,7 +47,7 @@ async function edit({ id, user, data }) {
   }
   screenshot.update({
     gameCanonicalName: data.gameCanonicalName,
-    year: data.year,
+    year: data.year || null,
   });
   const names = getScreenshotNames(data);
   await db.ScreenshotName.destroy({ where: { ScreenshotId: id } });
