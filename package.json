@@ -35,7 +35,7 @@
     "route-cache": "^0.4.4",
     "sequelize": "^4.38.0",
     "stemmer": "^1.0.2",
-    "winston": "^3.0.0"
+    "winston": "^3.2.1"
   },
   "scripts": {
     "postinstall": "ln -sfn ../config node_modules/config",
