@@ -84,7 +84,7 @@ class ModerationPage extends React.Component {
               />
               {
                 isLoading ? (
-                  <p style={{textAlign: 'center'}}>Chargement...</p>
+                  <p>Chargement...</p>
                 ) : (
                   <div>
                     <Route
