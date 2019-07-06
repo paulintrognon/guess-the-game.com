@@ -10,6 +10,7 @@ import './Moderation.css';
 
 function mapStoreToProps(store) {
   return {
+    isLoading: store.moderation.isLoading,
     waitingScreenshots: store.moderation.waitingScreenshots,
     byYouScreenshots: store.moderation.byYouScreenshots,
     approvedScreenshots: store.moderation.approvedScreenshots,
@@ -19,30 +20,48 @@ function mapStoreToProps(store) {
 class ModerationPage extends React.Component {
   constructor(props) {
     super(props);
-    this.fetchNonModeratedScreenshots();
-    this.fetchModeratedByYouScreenshots();
-    this.fetchApprovedScreenshots();
-    this.fetchRejectedScreenshots();
+    this.pages = [
+      {
+        label: 'En attente de validation',
+        to: '/moi/moderation/en-attente',
+        action: moderationActions.fetchNonModeratedScreenshots(),
+      },
+      {
+        label: 'Modérée par vous',
+        to: '/moi/moderation/par-moi',
+        action: moderationActions.fetchModeratedByYouScreenshots(),
+      },
+      {
+        label: 'Tous les approuvés',
+        to: '/moi/moderation/approuve',
+        action: moderationActions.fetchApprovedScreenshots(),
+      },
+      {
+        label: 'Tous les rejetés',
+        to: '/moi/moderation/rejete',
+        action: moderationActions.fetchRejectedScreenshots(),
+      },
+    ];
+    const page = this.pages.find(page => {
+      return page.to === props.location.pathname;
+    });
+    this.props.dispatch(page.action);
   }
 
-  fetchNonModeratedScreenshots = () => {
-    this.props.dispatch(moderationActions.fetchNonModeratedScreenshots());
-  };
-
-  fetchModeratedByYouScreenshots = () => {
-    this.props.dispatch(moderationActions.fetchModeratedByYouScreenshots());
-  };
-
-  fetchApprovedScreenshots = () => {
-    this.props.dispatch(moderationActions.fetchApprovedScreenshots());
-  };
-
-  fetchRejectedScreenshots = () => {
-    this.props.dispatch(moderationActions.fetchRejectedScreenshots());
+  switchPage = (page) => () => {
+    if ((page.to === '/moi/moderation/en-attente' && this.props.waitingScreenshots.length > 0)
+      || (page.to === '/moi/moderation/par-moi' && this.props.byYouScreenshots.length > 0)
+      || (page.to === '/moi/moderation/approuve' && this.props.approvedScreenshots.length > 0)
+      || (page.to === '/moi/moderation/rejete' && this.props.rejectedScreenshots.length > 0)
+      ) {
+      return;
+    }
+    this.props.dispatch(page.action);
   };
 
   render() {
     const {
+      isLoading,
       waitingScreenshots,
       byYouScreenshots,
       approvedScreenshots,
@@ -58,69 +77,59 @@ class ModerationPage extends React.Component {
             </BarTitle>
             <div>
               <PagesSwitcher
-                links={[
-                  {
-                    label: 'En attente de validation',
-                    to: '/moi/moderation/en-attente',
-                    onClick: this.fetchNonModeratedScreenshots,
-                  },
-                  {
-                    label: 'Modérée par vous',
-                    to: '/moi/moderation/par-moi',
-                    onClick: this.fetchModeratedByYouScreenshots,
-                  },
-                  {
-                    label: 'Tous les approuvés',
-                    to: '/moi/moderation/approuve',
-                    onClick: this.fetchApprovedScreenshots,
-                  },
-                  {
-                    label: 'Tous les rejetés',
-                    to: '/moi/moderation/rejete',
-                    onClick: this.fetchRejectedScreenshots,
-                  },
-                ]}
+                links={this.pages.map(page => ({
+                  ...page,
+                  onClick: this.switchPage(page),
+                }))}
               />
-              <Route
-                path="/moi/moderation/en-attente"
-                render={() => (
-                  <ScreenshotsGrid
-                    canModerateScreenshots
-                    screenshots={waitingScreenshots}
-                    noScreenshotSentence="Tous les screens ont été modérés."
-                  />
-                )}
-              />
-              <Route
-                path="/moi/moderation/par-moi"
-                render={() => (
-                  <ScreenshotsGrid
-                    canModerateScreenshots
-                    screenshots={byYouScreenshots}
-                    noScreenshotSentence="Vous n'avez modéré aucun screen."
-                  />
-                )}
-              />
-              <Route
-                path="/moi/moderation/approuve"
-                render={() => (
-                  <ScreenshotsGrid
-                    canModerateScreenshots
-                    screenshots={approvedScreenshots}
-                    noScreenshotSentence="Aucun screen apprové pour le moment."
-                  />
-                )}
-              />
-              <Route
-                path="/moi/moderation/rejete"
-                render={() => (
-                  <ScreenshotsGrid
-                    canModerateScreenshots
-                    screenshots={rejectedScreenshots}
-                    noScreenshotSentence="Aucun screen rejeté pour le moment."
-                  />
-                )}
-              />
+              {
+                isLoading ? (
+                  <p style={{textAlign: 'center'}}>Chargement...</p>
+                ) : (
+                  <div>
+                    <Route
+                      path="/moi/moderation/en-attente"
+                      render={() => (
+                        <ScreenshotsGrid
+                          canModerateScreenshots
+                          screenshots={waitingScreenshots}
+                          noScreenshotSentence="Tous les screens ont été modérés."
+                        />
+                      )}
+                    />
+                    <Route
+                      path="/moi/moderation/par-moi"
+                      render={() => (
+                        <ScreenshotsGrid
+                          canModerateScreenshots
+                          screenshots={byYouScreenshots}
+                          noScreenshotSentence="Vous n'avez modéré aucun screen."
+                        />
+                      )}
+                    />
+                    <Route
+                      path="/moi/moderation/approuve"
+                      render={() => (
+                        <ScreenshotsGrid
+                          canModerateScreenshots
+                          screenshots={approvedScreenshots}
+                          noScreenshotSentence="Aucun screen apprové pour le moment."
+                        />
+                      )}
+                    />
+                    <Route
+                      path="/moi/moderation/rejete"
+                      render={() => (
+                        <ScreenshotsGrid
+                          canModerateScreenshots
+                          screenshots={rejectedScreenshots}
+                          noScreenshotSentence="Aucun screen rejeté pour le moment."
+                        />
+                      )}
+                    />
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
