@@ -5,6 +5,7 @@ const { frontUrl } = require('../../../config');
 
 module.exports = {
   notifyModeratorsOfNewScreenshot,
+  compileScreenshotNames,
 };
 
 async function notifyModeratorsOfNewScreenshot(screenshot) {
@@ -34,4 +35,27 @@ function getScreenshotSiteUrl(screenshot) {
 
 function getModerationUrl() {
   return `${frontUrl}/moi/moderation/en-attente`;
+}
+
+function compileScreenshotNames(screenshot) {
+  const namesToCheck = [screenshot.gameCanonicalName].concat(
+    screenshot.alternativeNames || []
+  );
+  const names = [];
+  namesToCheck.forEach(name => {
+    // Trim
+    const trimmedName = name.trim();
+    // If empty we skip
+    if (!trimmedName) {
+      return;
+    }
+    // Lowercase
+    const lowercasedTrimmedName = trimmedName.toLowerCase();
+    // If name is already present we skip
+    if (names.indexOf(lowercasedTrimmedName) !== -1) {
+      return;
+    }
+    names.push(lowercasedTrimmedName);
+  });
+  return names;
 }
