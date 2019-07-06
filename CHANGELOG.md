@@ -1,3 +1,9 @@
+# v8.0.0
+
+- Upgraded dependencies
+- Rearranged emails javascript files
+- Now sending an email to moderators when a new screenshot has been submitted
+
 ### v7.0.7
 
 - Translate ranking suffixes into french

@@ -409,7 +409,7 @@ class EditScreenshotPage extends React.Component {
             >
               {screenshotId
                 ? 'Enregistrer les modifications'
-                : 'Ajouter la screenshot'}
+                : 'Ajouter le screenshot'}
             </Button>
           </form>
         </SmallContainer>
