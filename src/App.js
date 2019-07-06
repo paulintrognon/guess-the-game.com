@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConnectedRouter } from 'connected-react-router';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { loadReCaptcha } from 'react-recaptcha-google';
@@ -51,7 +51,8 @@ export default class App extends React.Component {
             </Helmet>
             <Switch>
               <Route path="/" exact component={Homepage} />
-              <Route path="/screen/:id" exact component={ScreenshotPage} />
+              <Redirect from="/screen/:id" to="/screenshot/:id" />
+              <Route path="/screenshot/:id" exact component={ScreenshotPage} />
               <Route path="/classement" exact component={RankingPage} />
               <Route path="/connexion" exact component={LoginPage} />
               <Route path="/inscription" exact component={RegisterPage} />
@@ -76,9 +77,7 @@ export default class App extends React.Component {
                 component={EditScreenshotPage}
               />
               <Route path="/la-fin" exact component={TheEnd} />
-
               <Route path="/moi" component={UserPages} />
-
               <Route component={NotFound} />
             </Switch>
           </Layout>

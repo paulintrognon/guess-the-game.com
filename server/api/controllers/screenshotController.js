@@ -6,6 +6,7 @@ const userManager = require('../managers/userManager');
 const cloudinaryService = require('../services/cloudinaryService');
 const tokenService = require('../services/tokenService');
 const recaptchaService = require('../services/recaptchaService');
+const screenshotService = require('../services/screenshotService');
 const logger = require('../../logger');
 
 module.exports = {
@@ -196,22 +197,28 @@ async function addScreenshot(req) {
     });
   }
 
+  // Checking if image is still on local path
   const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
-
   if (!fs.existsSync(localImagePath)) {
     throw new Error('Sorry, your image has been deleted, please re-upload it');
   }
 
+  // Uploading image to cloudinary
   const imagePath = await cloudinaryService.uploadImage(localImagePath);
 
-  const screenshot = {
+  // Inserting the image in the database
+  const screenshot = await screenshotManager.create({
     imagePath,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
-    year: req.body.year,
+    year: req.body.year || null,
     userId: user.id,
-  };
-  return screenshotManager.create(screenshot);
+  });
+
+  // Send email to moderators (asynchronosly)
+  screenshotService.notifyModeratorsOfNewScreenshot(screenshot);
+
+  return screenshot;
 }
 
 function editScreenshot(req) {

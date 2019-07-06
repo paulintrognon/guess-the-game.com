@@ -12,7 +12,7 @@ export default {
 
 function goToScreenshot(screenshot) {
   return dispatch => {
-    dispatch(push(`/screen/${screenshot.id}`));
+    dispatch(push(`/screenshot/${screenshot.id}`));
   };
 }
 
@@ -22,7 +22,7 @@ function loadScreenshot(screenshotId, navigate = false) {
     const screenshot = await screenshotService.getFromId(screenshotId);
     dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
     if (navigate) {
-      dispatch(push(`/screen/${screenshot.id}`));
+      dispatch(push(`/screenshot/${screenshot.id}`));
     }
     const prevAndNext = await screenshotService.getPrevAndNext({
       screenshotId,
@@ -38,7 +38,7 @@ function getUnsolvedScreenshot(exclude) {
     if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
       dispatch(push('/la-fin'));
     } else {
-      dispatch(push(`/screen/${res.id}`));
+      dispatch(push(`/screenshot/${res.id}`));
       dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
       const prevAndNext = await screenshotService.getPrevAndNext({
         screenshotId: res.id,
