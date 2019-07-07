@@ -1,3 +1,8 @@
+### v8.1.2
+
+- Fix password change
+- Better 404 page
+
 ### v8.1.1
 
 - Fix sequelize v5 bugs
