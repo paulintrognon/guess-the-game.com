@@ -65,9 +65,7 @@ class ScreenshotItem extends React.Component {
             <div className="ScreenshotsGrid_item_legend_moderate">
               <p className="ScreenshotsGrid_item_legend_moderate_verify">
                 <a
-                  href={`http://www.jeuxvideo.com/recherche.php?m=9&q=${
-                    screenshot.gameCanonicalName
-                  }`}
+                  href={`http://www.jeuxvideo.com/recherche.php?m=9&q=${screenshot.gameCanonicalName}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

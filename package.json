@@ -1,9 +1,9 @@
 {
   "name": "guess-the-game.com",
-  "version": "8.0.2",
+  "version": "8.2.0",
   "license": "MPL-2.0",
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.19.0",
     "babel-eslint": "^8.2.5",
     "bcrypt": "^3.0.0",
     "bluebird": "^3.5.1",
@@ -33,7 +33,7 @@
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.3.0",
     "route-cache": "^0.4.4",
-    "sequelize": "^4.38.0",
+    "sequelize": "^5.3.0",
     "stemmer": "^1.0.2",
     "winston": "^3.2.1"
   },

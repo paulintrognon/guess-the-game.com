@@ -1,3 +1,23 @@
+## v8.2.0
+
+- Remove service workers (they will be back)
+
+### v8.1.2
+
+- Fix password change
+- Better 404 page
+
+### v8.1.1
+
+- Fix sequelize v5 bugs
+
+## v8.1.0
+
+- Aesthetics
+- Translate page titles into french
+- Remove duplicates from alternatives names
+- Security dependencies updates
+
 ### v8.0.2
 
 - Display loading message when loading moderation screenshots
@@ -8,7 +28,7 @@
 
 - Fix screenshot edit
 
-# v8.0.0
+# v8.0.0 - Emails to moderators
 
 - Upgraded dependencies
 - Rearranged emails javascript files

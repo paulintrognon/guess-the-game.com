@@ -32,7 +32,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
     id: screenshot.id,
     gameCanonicalName: screenshot.gameCanonicalName,
     alternativeNames: screenshot.ScreenshotNames.map(name => name.name).filter(
-      name => name !== screenshot.gameCanonicalName
+      name => name !== screenshot.gameCanonicalName.toLowerCase()
     ),
     year: screenshot.year,
     imagePath: screenshot.imagePath,
@@ -43,8 +43,8 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
 
 async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
   const [moderator, screenshot] = await Promise.all([
-    db.User.findById(user.id),
-    db.Screenshot.findById(screenshotId),
+    db.User.findByPk(user.id),
+    db.Screenshot.findByPk(screenshotId),
   ]);
   if (!moderator) {
     throw new Error('Moderator not found');
@@ -58,7 +58,7 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
   const shouldIncrement = newApprovalStatus === 1;
   const shouldDecrement =
     newApprovalStatus === -1 && screenshot.approvalStatus === 1;
-  const poster = await db.User.findById(screenshot.UserId);
+  const poster = await db.User.findByPk(screenshot.UserId);
   await Promise.all([
     screenshot.update({
       approvalStatus: newApprovalStatus,

@@ -1,5 +1,6 @@
 const bluebird = require('bluebird');
 const phonetiksService = require('../services/phonetiksService');
+const screenshotService = require('../services/screenshotService');
 const db = require('../../db/db');
 
 module.exports = {
@@ -18,12 +19,12 @@ module.exports = {
 };
 
 async function create(screenshotToCreate) {
-  const user = await db.User.findById(screenshotToCreate.userId);
+  const user = await db.User.findByPk(screenshotToCreate.userId);
   if (!user) {
     throw new Error('User not found');
   }
   const screenshot = await db.Screenshot.create({
-    gameCanonicalName: screenshotToCreate.gameCanonicalName,
+    gameCanonicalName: screenshotToCreate.gameCanonicalName.trim(),
     imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
     approvalStatus: user.canModerateScreenshots ? 1 : 0,
@@ -38,7 +39,7 @@ async function create(screenshotToCreate) {
 }
 
 async function edit({ id, user, data }) {
-  const screenshot = await db.Screenshot.findById(id);
+  const screenshot = await db.Screenshot.findByPk(id);
   if (!screenshot) {
     throw new Error('screenshot not found');
   }
@@ -77,7 +78,7 @@ async function getFromId(screenshotId, userId) {
     });
   }
   const [res, stats] = await Promise.all([
-    db.Screenshot.findById(screenshotId, { include }),
+    db.Screenshot.findByPk(screenshotId, { include }),
     getScreenshotStats(screenshotId),
   ]);
   if (!res) {
@@ -206,12 +207,12 @@ async function getPrevAndNext({ screenshotId }) {
   const [prev, next] = await Promise.all([
     db.Screenshot.findOne({
       attributes: ['id'],
-      where: { approvalStatus: 1, id: { [db.sequelize.Op.lt]: screenshotId } },
+      where: { approvalStatus: 1, id: { [db.Sequelize.Op.lt]: screenshotId } },
       order: [['createdAt', 'DESC']],
     }),
     db.Screenshot.findOne({
       attributes: ['id'],
-      where: { approvalStatus: 1, id: { [db.sequelize.Op.gt]: screenshotId } },
+      where: { approvalStatus: 1, id: { [db.Sequelize.Op.gt]: screenshotId } },
       order: [['createdAt', 'ASC']],
     }),
   ]);
@@ -234,7 +235,7 @@ async function deleteUserScreenshot({ userId, screenshotId }) {
   // Si ça s'est bien passé
   await Promise.all([
     // on décrémente le compte de screenshots ajoutés par le user
-    db.User.findById(userId).then(
+    db.User.findByPk(userId).then(
       user => user && user.decrement('addedScreenshots')
     ),
     // et on enlève les points du screenshot aux joueurs qui l'ont trouvé
@@ -288,8 +289,8 @@ async function testProposal(screenshotId, proposal) {
 
 async function markScreenshotAsResolved({ screenshotId, userId }) {
   const [user, screenshot, alreadySolved] = await Promise.all([
-    db.User.findById(userId),
-    db.Screenshot.findById(screenshotId),
+    db.User.findByPk(userId),
+    db.Screenshot.findByPk(screenshotId),
     db.SolvedScreenshot.findOne({
       where: {
         ScreenshotId: screenshotId,
@@ -318,8 +319,8 @@ async function markScreenshotAsResolved({ screenshotId, userId }) {
 async function rate({ screenshotId, userId, rating }) {
   // On vérifie que l'utilisateur a bien le droit de noter le screenshot
   const [screenshot, user] = await Promise.all([
-    db.Screenshot.findById(screenshotId),
-    db.User.findById(userId),
+    db.Screenshot.findByPk(screenshotId),
+    db.User.findByPk(userId),
   ]);
   if (!screenshot) {
     throw new Error('Screenshot does not exist');
@@ -362,20 +363,15 @@ async function rate({ screenshotId, userId, rating }) {
 }
 
 function getScreenshotNames(screenshot) {
-  const names = [screenshot.gameCanonicalName];
-  screenshot.alternativeNames.forEach(name => {
-    if (name.trim()) {
-      names.push(name);
-    }
+  // We compile all the screenshot names
+  const names = screenshotService.compileScreenshotNames(screenshot);
+  // Then we compute their phonetics
+  return names.map(name => {
+    const phonetiks = phonetiksService.toPhonetik(name);
+    return {
+      name,
+      dm1: phonetiks[0],
+      dm2: phonetiks[1],
+    };
   });
-  return names.map(addPhonetiks);
-}
-
-function addPhonetiks(name) {
-  const phonetiks = phonetiksService.toPhonetik(name);
-  return {
-    name,
-    dm1: phonetiks[0],
-    dm2: phonetiks[1],
-  };
 }
