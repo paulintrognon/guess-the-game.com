@@ -11,6 +11,7 @@
     "cloudinary": "^1.11.0",
     "connected-react-router": "^4.3.0",
     "cors": "^2.8.4",
+    "cron": "^1.7.1",
     "double-metaphone": "^1.0.2",
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",

@@ -66,7 +66,7 @@ const AccountPage = ({
           <hr />
           <div className="AccountPage_data_line">
             <p className="AccountPage_data_line_left">
-              Quand voulez-vous recevoir un email à propos des nouveaux
+              Quand souhaitez-vous recevoir un email à propos des nouveaux
               screenshots ?
             </p>
             <p className="AccountPage_data_line_right">
@@ -88,7 +88,7 @@ const AccountPage = ({
                     },
                     { label: 'Une fois par jour', value: 'daily' },
                     { label: 'Une fois par semaine', value: 'weekly' },
-                    { label: "Jamais, pas d'email SVP", value: 'never' },
+                    { label: 'Jamais', value: 'never' },
                   ].map(option => (
                     <option key={option.value} value={option.value}>
                       {option.label}
