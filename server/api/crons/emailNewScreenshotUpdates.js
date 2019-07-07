@@ -19,11 +19,12 @@ async function emailNewScreenshotsUpdate(frequency) {
   // Get users
   const users = await db.User.findAll({
     where: {
+      email: { [db.Sequelize.Op.ne]: null },
       emailUpdates: frequency,
       emailUpdateLastScreenshotId: {
         [db.Sequelize.Op.or]: [
           null,
-          { [db.Sequelize.Op.not]: lastScreenshotId },
+          { [db.Sequelize.Op.ne]: lastScreenshotId },
         ],
       },
     },
