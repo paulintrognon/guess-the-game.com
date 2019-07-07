@@ -6,6 +6,8 @@ const { frontUrl } = require('../../../config');
 module.exports = {
   notifyModeratorsOfNewScreenshot,
   compileScreenshotNames,
+  getScreenshotImageUrl,
+  getScreenshotSiteUrl,
 };
 
 async function notifyModeratorsOfNewScreenshot(screenshot) {
@@ -14,7 +16,7 @@ async function notifyModeratorsOfNewScreenshot(screenshot) {
     return;
   }
   const moderators = await moderationManager.getModerators();
-  const imageUrl = cloudinaryService.pathToUrl(screenshot.imagePath);
+  const imageUrl = getScreenshotImageUrl(screenshot);
   const screenshotSiteUrl = getScreenshotSiteUrl(screenshot);
   const moderationUrl = getModerationUrl();
   moderators.forEach(moderator => {
@@ -27,6 +29,10 @@ async function notifyModeratorsOfNewScreenshot(screenshot) {
       },
     });
   });
+}
+
+function getScreenshotImageUrl(screenshot) {
+  return cloudinaryService.pathToUrl(screenshot.imagePath);
 }
 
 function getScreenshotSiteUrl(screenshot) {

@@ -1,28 +1,12 @@
 const express = require('express');
-const routeCache = require('route-cache');
 const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-const SCORE_CACHE_DURATION = 30; // 30 seconds
-router.get(
-  '/scores',
-  routeCache.cacheSeconds(SCORE_CACHE_DURATION),
-  (req, res, next) => next(userController.getScores(req))
-);
-
 router.post('/get', (req, res, next) => next(userController.getUser(req)));
 
-router.post('/solved-screenshots', (req, res, next) =>
-  next(userController.getSolvedScreenshots(req))
-);
-
-router.post('/added-screenshots', (req, res, next) =>
-  next(userController.getAddedScreenshots(req))
-);
-
-router.post('/screenshot-rating', (req, res, next) =>
-  next(userController.getScreenshotRating(req))
+router.post('/update', (req, res, next) =>
+  next(userController.updateUser(req))
 );
 
 module.exports = router;

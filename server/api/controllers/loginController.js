@@ -100,7 +100,7 @@ async function requestNewPassword(req) {
     });
   }
 
-  const token = await tokenService.createNewPasswordRequestToken(user);
+  const token = await tokenService.createUserIdToken(user);
   const link = `${config.frontUrl}/nouveau-mot-de-passe/${token}`;
 
   return emailService.sendRequestNewPasswordEmail({

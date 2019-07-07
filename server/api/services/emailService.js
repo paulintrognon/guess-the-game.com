@@ -11,26 +11,27 @@ const client = mailgun.client({
 
 const newPasswordEmail = require('../emails/newPassword');
 const moderationNewScreenshot = require('../emails/moderation/newScreenshot');
+const marketingNewScreenshot = require('../emails/marketing/newScreenshots');
 
 module.exports = {
   sendRequestNewPasswordEmail,
   sendModerationNewScreenshotEmail,
+  sendMarketingUpdateEmail,
 };
 
 async function sendRequestNewPasswordEmail({ email, username, link }) {
   const data = newPasswordEmail({ username, link });
-  return sendEmail({
-    to: email,
-    ...data,
-  });
+  return sendEmail({ to: email, ...data });
 }
 
 async function sendModerationNewScreenshotEmail({ email, emailData }) {
   const data = moderationNewScreenshot(emailData);
-  return sendEmail({
-    to: email,
-    ...data,
-  });
+  return sendEmail({ to: email, ...data });
+}
+
+async function sendMarketingUpdateEmail({ email, emailData }) {
+  const data = marketingNewScreenshot(emailData);
+  return sendEmail({ to: email, ...data });
 }
 
 async function sendEmail({ to, subject, text, html }) {

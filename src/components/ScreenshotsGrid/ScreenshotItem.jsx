@@ -1,6 +1,7 @@
 import React from 'react';
 import queryString from 'qs';
 import { Link } from 'react-router-dom';
+import Noty from 'noty';
 import moderationService from '../../services/moderationService';
 import helperService from '../../services/helperService';
 
@@ -15,6 +16,13 @@ class ScreenshotItem extends React.Component {
   handleModeration = (screenshotId, newApprovalStatus) => async () => {
     await moderationService.moderate({ screenshotId, newApprovalStatus });
     this.setState({ approvalStatus: newApprovalStatus });
+    new Noty({
+      text:
+        newApprovalStatus === 1
+          ? 'Le screenshot a bien été approuvé.'
+          : 'Le screenshot a bien été rejeté.',
+      type: 'success',
+    }).show();
   };
 
   render() {

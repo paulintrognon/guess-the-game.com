@@ -75,6 +75,16 @@ export default function reducer(state = initialState, action) {
     };
   }
 
+  if (type === 'USER_UPDATE') {
+    return {
+      ...state,
+      userData: {
+        ...state.userData,
+        ...payload,
+      },
+    };
+  }
+
   if (type === 'SCREENSHOT_LOAD' && !payload.error) {
     // Si la screenshot retournée est déjà dans notre liste, on recommence la liste
     if (state.lastViewedRandomScreenshots.indexOf(payload.id) !== -1) {

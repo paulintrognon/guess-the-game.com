@@ -5,7 +5,7 @@ const logger = require('../../logger');
 
 module.exports = {
   createUserToken,
-  createNewPasswordRequestToken,
+  createUserIdToken,
   decode,
   authenticateMiddleware,
 };
@@ -21,7 +21,7 @@ function createUserToken(user) {
   );
 }
 
-function createNewPasswordRequestToken(user) {
+function createUserIdToken(user) {
   return jwt.sign({ id: user.id }, secret);
 }
 
