@@ -1,3 +1,7 @@
+### v9.0.2
+
+- Add loader when loading solved & added screenshots
+
 ### v9.0.1
 
 - Add default value "weekly" for new screenshots updates
