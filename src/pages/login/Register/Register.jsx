@@ -244,7 +244,6 @@ class RegisterPage extends React.Component {
           id="email"
           type="email"
           label="Email"
-          labelExtraText="(c'est juste pour la récup du mot de passe en cas d'oubli)"
           placeholder="Ex: tartiflette73@email.com"
           value={email.value}
           onChange={this.handleEmailChange}
