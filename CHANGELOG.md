@@ -1,3 +1,7 @@
+### v8.1.1
+
+- Fix sequelize v5 bugs
+
 ## v8.1.0
 
 - Aesthetics
