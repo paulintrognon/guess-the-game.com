@@ -2,8 +2,8 @@ const initialState = {
   jwt: localStorage.getItem('jwt'),
   username: localStorage.getItem('username'),
   userData: null,
-  solvedScreenshots: [],
-  addedScreenshots: [],
+  solvedScreenshots: null,
+  addedScreenshots: null,
   canModerateScreenshots: localStorage.getItem('canModerateScreenshots'),
   lastViewedRandomScreenshots: [],
 };
