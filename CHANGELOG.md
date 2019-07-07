@@ -1,3 +1,8 @@
+### v9.0.1
+
+- Add default value "weekly" for new screenshots updates
+- Remove email mention on register page
+
 # v9.0.0 - Crons!
 
 - Add crons
