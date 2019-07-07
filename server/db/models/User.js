@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       emailUpdates: {
-        type: DataTypes.ENUM('asap', 'daily', 'weekly'),
+        type: DataTypes.ENUM('asap', 'daily', 'weekly', 'never'),
         defaultValue: null,
         allowNull: true,
       },
