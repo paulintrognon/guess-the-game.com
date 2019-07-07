@@ -1,3 +1,10 @@
+## v8.1.0
+
+- Aesthetics
+- Translate page titles into french
+- Remove duplicates from alternatives names
+- Security dependencies updates
+
 ### v8.0.2
 
 - Display loading message when loading moderation screenshots
@@ -8,7 +15,7 @@
 
 - Fix screenshot edit
 
-# v8.0.0
+# v8.0.0 - Emails to moderators
 
 - Upgraded dependencies
 - Rearranged emails javascript files
