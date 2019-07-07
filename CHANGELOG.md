@@ -1,3 +1,10 @@
+# v9.0.0 - Crons!
+
+- Add crons
+- Add New Screenshot Email Updates
+- Add Noty (notifications in frontend)
+- Bug fixes
+
 ## v8.2.0
 
 - Remove service workers (they will be back)
