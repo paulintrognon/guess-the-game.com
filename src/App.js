@@ -9,6 +9,10 @@ import history from './history';
 
 import './App.css';
 
+import '../node_modules/noty/lib/noty.css';
+import '../node_modules/noty/lib/themes/sunset.css';
+import Noty from 'noty';
+
 import Layout from './components/Layout/Layout';
 
 // Basic components
@@ -30,6 +34,12 @@ import UserPages from './pages/User/User';
 
 // Misc
 import EmailUpdatesUnsubscribe from './pages/misc/EmailUpdatesUnsubscribe/EmailUpdatesUnsubscribe';
+
+Noty.overrideDefaults({
+  theme: 'sunset',
+  timeout: 3000,
+  progressBar: false,
+});
 
 export default class App extends React.Component {
   componentDidMount() {

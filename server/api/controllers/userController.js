@@ -15,6 +15,7 @@ async function getUser(req) {
     email: user.email,
     nbSolvedScreenshots: user.solvedScreenshots,
     nbAddedScreenshots: user.addedScreenshots,
+    emailUpdates: user.emailUpdates,
   };
 }
 

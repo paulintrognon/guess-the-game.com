@@ -1,9 +1,11 @@
+import Noty from 'noty';
 import userService from '../services/userService';
 
 export default {
   loadUserData,
   loadUserSolvedScreenshots,
   loadUserAddedScreenshots,
+  updateUserAction,
 };
 
 function loadUserData() {
@@ -36,5 +38,26 @@ function loadUserAddedScreenshots() {
       type: 'USER_ADDED-SCREENSHOTS_LOADED',
       payload: addedScreenshots,
     });
+  };
+}
+
+function updateUserAction(values) {
+  return async dispatch => {
+    const res = await userService.updateUser(values);
+    if (res.error) {
+      new Noty({
+        text: `Erreur lors de la mise à jour : ${res.message}`,
+        type: 'error',
+      }).show();
+    } else {
+      dispatch({
+        type: 'USER_UPDATE',
+        payload: values,
+      });
+      new Noty({
+        text: 'Modifié avec succès',
+        type: 'success',
+      }).show();
+    }
   };
 }

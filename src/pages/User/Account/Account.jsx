@@ -7,6 +7,7 @@ import BarTitle from '../../../components/BarTitle/BarTitle';
 import Loading from '../../../components/Loading/Loading';
 import Button from '../../../components/Form/Button/Button';
 import loginActions from '../../../actions/loginActions';
+import userActions from '../../../actions/userActions';
 
 function mapStoreToProps(store) {
   return store.user.userData || {};
@@ -16,6 +17,7 @@ const AccountPage = ({
   email,
   nbSolvedScreenshots,
   nbAddedScreenshots,
+  emailUpdates,
   dispatch,
 }) => (
   <section className="section">
@@ -56,6 +58,43 @@ const AccountPage = ({
             <p className="AccountPage_data_line_right">
               {nbAddedScreenshots !== undefined ? (
                 nbAddedScreenshots
+              ) : (
+                <Loading className="AccountPage_data_line_loading" />
+              )}
+            </p>
+          </div>
+          <hr />
+          <div className="AccountPage_data_line">
+            <p className="AccountPage_data_line_left">
+              Quand voulez-vous recevoir un email à propos des nouveaux
+              screenshots ?
+            </p>
+            <p className="AccountPage_data_line_right">
+              {emailUpdates ? (
+                <select
+                  value={emailUpdates}
+                  onChange={e =>
+                    dispatch(
+                      userActions.updateUserAction({
+                        emailUpdates: e.target.value,
+                      })
+                    )
+                  }
+                >
+                  {[
+                    {
+                      label: "Dès qu'un nouveau shot est validé",
+                      value: 'asap',
+                    },
+                    { label: 'Une fois par jour', value: 'daily' },
+                    { label: 'Une fois par semaine', value: 'weekly' },
+                    { label: "Jamais, pas d'email SVP", value: 'never' },
+                  ].map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               ) : (
                 <Loading className="AccountPage_data_line_loading" />
               )}
