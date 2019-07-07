@@ -314,21 +314,20 @@ class EditScreenshotPage extends React.Component {
                   ) : null}
                 </div>
               </div>
-              {this.state.uploadedImageUrl &&
-                this.state.file && (
-                  <p className="EditScreenshotPage_form_screenshot_name_container">
-                    <span className="EditScreenshotPage_form_screenshot_name">
-                      {this.state.file.name}
-                      <button
-                        className="EditScreenshotPage_form_screenshot_name_reset"
-                        type="button"
-                        onClick={this.resetFileHandler}
-                      >
-                        ✖
-                      </button>
-                    </span>
-                  </p>
-                )}
+              {this.state.uploadedImageUrl && this.state.file && (
+                <p className="EditScreenshotPage_form_screenshot_name_container">
+                  <span className="EditScreenshotPage_form_screenshot_name">
+                    {this.state.file.name}
+                    <button
+                      className="EditScreenshotPage_form_screenshot_name_reset"
+                      type="button"
+                      onClick={this.resetFileHandler}
+                    >
+                      ✖
+                    </button>
+                  </span>
+                </p>
+              )}
             </div>
             {this.state.fileError && (
               <p className="EditScreenshotPage_form_error">
@@ -350,7 +349,8 @@ class EditScreenshotPage extends React.Component {
               <p>Noms alternatifs</p>
               <p className="EditScreenshotPage_form_alternativeNames_extra">
                 Les joueurs pourront valider la screen avec soit le nom complet
-                exact, soit une des variantes proposée ici.<br />
+                exact, soit une des variantes proposée ici.
+                <br />
                 Il n&apos;est pas nécéssaire de mettre les variantes majuscules
                 / non majuscules (le jeu gère déjà ces variantes).
               </p>

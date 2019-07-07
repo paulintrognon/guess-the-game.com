@@ -86,7 +86,7 @@ class ForgotPasswordPage extends React.Component {
     const { submitted } = this.state;
     return (
       <section className="ForgotPasswordPage">
-        <Helmet title="Forgot password" />
+        <Helmet title="Mot de passe oublié" />
         <LoginPagesSwitcher />
         <SmallContainer title="Alors, on a oublié son mot de passe&nbsp;?">
           {submitted ? this.renderSubmitted() : this.renderForm()}

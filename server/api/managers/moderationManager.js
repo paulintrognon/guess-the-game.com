@@ -32,7 +32,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
     id: screenshot.id,
     gameCanonicalName: screenshot.gameCanonicalName,
     alternativeNames: screenshot.ScreenshotNames.map(name => name.name).filter(
-      name => name !== screenshot.gameCanonicalName
+      name => name !== screenshot.gameCanonicalName.toLowerCase()
     ),
     year: screenshot.year,
     imagePath: screenshot.imagePath,

@@ -19,7 +19,7 @@ const AccountPage = ({
   dispatch,
 }) => (
   <section className="section">
-    <Helmet title="My account" />
+    <Helmet title="Mon compte" />
     <div className="AccountPage">
       <BarTitle onlyOnSmartphones>
         <h2>Mon compte</h2>

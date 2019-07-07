@@ -56,9 +56,7 @@ class Homepage extends React.Component {
                 <div
                   className="Homepage_lastAddedScreenshot_shot"
                   style={{
-                    backgroundImage: `url(${
-                      this.state.lastScreenshot.imageUrl
-                    })`,
+                    backgroundImage: `url(${this.state.lastScreenshot.imageUrl})`,
                   }}
                 />
               </Link>

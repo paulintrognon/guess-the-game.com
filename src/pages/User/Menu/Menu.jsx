@@ -28,7 +28,7 @@ class Menu extends React.Component {
           className="Menu_closeButton Menu_item"
           onClick={() => dispatch(layoutActions.toggleMenuAction())}
         >
-          Close
+          Fermer
         </button>
         <MenuItem to="/moi/mon-compte" dispatch={dispatch}>
           <svg

@@ -1,5 +1,6 @@
 const bluebird = require('bluebird');
 const phonetiksService = require('../services/phonetiksService');
+const screenshotService = require('../services/screenshotService');
 const db = require('../../db/db');
 
 module.exports = {
@@ -23,7 +24,7 @@ async function create(screenshotToCreate) {
     throw new Error('User not found');
   }
   const screenshot = await db.Screenshot.create({
-    gameCanonicalName: screenshotToCreate.gameCanonicalName,
+    gameCanonicalName: screenshotToCreate.gameCanonicalName.trim(),
     imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
     approvalStatus: user.canModerateScreenshots ? 1 : 0,
@@ -362,20 +363,15 @@ async function rate({ screenshotId, userId, rating }) {
 }
 
 function getScreenshotNames(screenshot) {
-  const names = [screenshot.gameCanonicalName];
-  screenshot.alternativeNames.forEach(name => {
-    if (name.trim()) {
-      names.push(name);
-    }
+  // We compile all the screenshot names
+  const names = screenshotService.compileScreenshotNames(screenshot);
+  // Then we compute their phonetics
+  return names.map(name => {
+    const phonetiks = phonetiksService.toPhonetik(name);
+    return {
+      name,
+      dm1: phonetiks[0],
+      dm2: phonetiks[1],
+    };
   });
-  return names.map(addPhonetiks);
-}
-
-function addPhonetiks(name) {
-  const phonetiks = phonetiksService.toPhonetik(name);
-  return {
-    name,
-    dm1: phonetiks[0],
-    dm2: phonetiks[1],
-  };
 }
