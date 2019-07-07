@@ -1,3 +1,7 @@
+## v8.2.0
+
+- Remove service workers (they will be back)
+
 ### v8.1.1
 
 - Fix sequelize v5 bugs
