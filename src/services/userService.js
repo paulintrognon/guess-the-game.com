@@ -29,6 +29,6 @@ async function fetchScreenshotRating({ screenshotId }) {
   return api.post('/user/screenshot-rating', { screenshotId });
 }
 
-async function updateUser({ values }) {
+async function updateUser(values) {
   return api.post('/user/update', { values });
 }

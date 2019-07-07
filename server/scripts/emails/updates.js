@@ -56,7 +56,7 @@ const frequency = args[0];
           siteUrl: screenshotService.getScreenshotSiteUrl(screenshot),
           imageUrl: screenshotService.getScreenshotImageUrl(screenshot),
         })),
-        unsubscribeLink: `${frontUrl}/emails/unsubscribe?token=${unsubToken}`,
+        unsubscribeLink: `${frontUrl}/email-updates/unsubscribe?token=${unsubToken}`,
         userSpaceLink: `${frontUrl}/moi/mon-compte`,
       },
     });

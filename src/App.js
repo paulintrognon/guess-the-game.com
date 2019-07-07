@@ -28,6 +28,9 @@ import NewPasswordPage from './pages/login/NewPassword/NewPassword';
 // User components
 import UserPages from './pages/User/User';
 
+// Misc
+import EmailUpdatesUnsubscribe from './pages/misc/EmailUpdatesUnsubscribe/EmailUpdatesUnsubscribe';
+
 export default class App extends React.Component {
   componentDidMount() {
     loadReCaptcha();
@@ -72,8 +75,12 @@ export default class App extends React.Component {
                 exact
                 component={EditScreenshotPage}
               />
-              <Route path="/la-fin" exact component={TheEnd} />
               <Route path="/moi" component={UserPages} />
+              <Route path="/la-fin" exact component={TheEnd} />
+              <Route
+                path="/email-updates/unsubscribe"
+                component={EmailUpdatesUnsubscribe}
+              />
               <Route component={NotFound} />
             </Switch>
           </Layout>
