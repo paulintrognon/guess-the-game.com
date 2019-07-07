@@ -1,5 +1,5 @@
 const db = require('./db');
 
-db.Sequelize.sync().then(() => {
-  db.Sequelize.close();
+db.sequelize.sync().then(() => {
+  db.sequelize.close();
 });

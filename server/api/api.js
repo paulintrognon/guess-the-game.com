@@ -24,6 +24,7 @@ const logger = require('../logger');
 const loadRoutes = require('./routes/_routes');
 const response = require('./response');
 const tokenService = require('./services/tokenService');
+const crons = require('./crons/crons');
 
 /**
  * Create the app
@@ -59,3 +60,8 @@ server.listen(port, () => {
   const address = server.address();
   logger.info(`API up and running on ${address.address}:${address.port}`);
 });
+
+/**
+ * Starting the crons
+ */
+crons.startCrons();
