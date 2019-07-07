@@ -25,7 +25,7 @@ class ForgotPasswordPage extends React.Component {
     const password = event.target.value;
     let error = null;
     if (!password) {
-      error = 'Empty password.';
+      error = 'Mot de passe vide.';
     }
     this.setState({ password, error });
   };
@@ -35,9 +35,9 @@ class ForgotPasswordPage extends React.Component {
     const { password } = this.state;
     const passwordConfirmation = event.target.value;
     if (!passwordConfirmation) {
-      error = 'Empty password confirmation.';
+      error = 'Vous devez remplir la confirmation du mot de passe.';
     } else if (passwordConfirmation !== password) {
-      error = 'The passwords need to match.';
+      error = 'Les deux mots de passe doivent correspondre.';
     }
     this.setState({ passwordConfirmation, error });
   };
@@ -58,7 +58,7 @@ class ForgotPasswordPage extends React.Component {
           const newState = { submitting: false };
           if (res.code === 'OUTDATED_TOKEN') {
             newState.error =
-              'Déso, le lien de regénération de votre mot de passe a éxpiré. Vous devez tout recommencer.';
+              "On dirait que le lien de regénération de votre mot de passe a éxpiré. Désolé mais vous devez tout recommencer :'(";
           } else {
             newState.error = res.message;
           }
