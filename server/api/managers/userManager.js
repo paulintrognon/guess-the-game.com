@@ -28,7 +28,7 @@ function get(usernameOrEmail) {
 }
 
 function update(userId, updates) {
-  return db.User.findById(userId).then(user => {
+  return db.User.findByPk(userId).then(user => {
     if (!user) {
       throw new Error('User to update not found');
     }
@@ -107,10 +107,12 @@ async function getSolvedScreenshots(userId) {
       attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
     },
   });
-  return results.map(res => res.get({ plain: true })).map(res => ({
-    ...res.Screenshot,
-    solvedAt: res.createdAt,
-  }));
+  return results
+    .map(res => res.get({ plain: true }))
+    .map(res => ({
+      ...res.Screenshot,
+      solvedAt: res.createdAt,
+    }));
 }
 
 async function getAddedScreenshots(userId) {
@@ -134,7 +136,10 @@ async function getAddedScreenshots(userId) {
   }));
 }
 
-async function getScreenshotRating({ userId, screenshotId }) {
+async function getScreenshotRating({ screenshotId, userId }) {
+  if (!userId || !screenshotId) {
+    return null;
+  }
   const rating = await db.ScreenshotRating.findOne({
     attributes: ['rating'],
     where: { UserId: userId, ScreenshotId: screenshotId },
