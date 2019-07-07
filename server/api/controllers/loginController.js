@@ -114,7 +114,7 @@ async function changePassword(req) {
   const { token, password } = req.body;
   const decodedToken = tokenService.decode(token);
 
-  if (Date.now() > decodedToken.iat * 1000) {
+  if (Date.now() > (decodedToken.iat + 3600 * 48) * 1000) {
     return bluebird.reject({
       code: 'OUTDATED_TOKEN',
       message: 'Your token has expired.',
