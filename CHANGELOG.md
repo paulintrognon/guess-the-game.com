@@ -1,3 +1,7 @@
+## v8.2.0
+
+- Remove service workers (they will be back)
+
 ### v8.1.2
 
 - Fix password change
