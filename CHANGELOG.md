@@ -1,3 +1,7 @@
+## v9.1.0
+
+- Add ASAP option for email updates
+
 ### v9.0.3
 
 - Fix email unsub token bug
