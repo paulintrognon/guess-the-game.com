@@ -58,7 +58,7 @@ async function sendEmailUpdateToUser(user) {
       UserId: { [db.Sequelize.Op.not]: user.id },
       approvalStatus: 1,
     },
-    limit: 30,
+    limit: 51,
   });
   if (screenshots.length === 0) {
     return;
