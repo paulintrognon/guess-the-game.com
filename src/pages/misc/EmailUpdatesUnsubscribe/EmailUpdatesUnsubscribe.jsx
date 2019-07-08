@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'qs';
 import Loading from '../../../components/Loading/Loading';
 import userService from '../../../services/userService';
 
@@ -9,9 +10,12 @@ export default class EmailUpdatesUnsubscribePage extends React.Component {
       isLoading: true,
       isError: false,
     };
+    const params = queryString.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
     userService
-      .updateUser({
-        emailUpdates: 'never',
+      .unsubscribeFromEmailUpdates({
+        emailToken: params.token,
       })
       .then(res => {
         if (res.error) {

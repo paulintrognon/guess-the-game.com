@@ -7,6 +7,7 @@ module.exports = {
   createUserToken,
   createUserIdToken,
   decode,
+  isOutdated,
   authenticateMiddleware,
 };
 
@@ -32,6 +33,10 @@ function decode(token) {
     logger.error(e.message);
     return null;
   }
+}
+
+function isOutdated(decodedToken) {
+  return Date.now() > (decodedToken.iat + 3600 * 48) * 1000;
 }
 
 function authenticateMiddleware(req, res, next) {

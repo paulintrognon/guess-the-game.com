@@ -9,4 +9,8 @@ router.post('/update', (req, res, next) =>
   next(userController.updateUser(req))
 );
 
+router.post('/unsubscribe-from-email-updates', (req, res, next) =>
+  next(userController.unsubscribeFromEmailUpdates(req))
+);
+
 module.exports = router;
