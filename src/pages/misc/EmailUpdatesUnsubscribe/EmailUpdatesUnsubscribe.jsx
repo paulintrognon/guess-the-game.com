@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'qs';
+import { Link } from 'react-router-dom';
 import Loading from '../../../components/Loading/Loading';
 import userService from '../../../services/userService';
 
@@ -55,12 +56,16 @@ export default class EmailUpdatesUnsubscribePage extends React.Component {
     return (
       <div>
         <div style={{ margin: '50px 0' }}>
-          <p>
+          <p style={{ margin: '10px 0' }}>
             <strong>C&apos;est tout bon !</strong>
           </p>
-          <p>
+          <p style={{ margin: '5px 0' }}>
             Vous ne recevrez plus d&apos;emails concernant les nouveaux
             screenshots.
+          </p>
+          <p style={{ margin: '5px 0' }}>
+            Si vous changez d&apos;avis, vous pouvez toujours les réactiver dans{' '}
+            <Link to="/moi/mon-compte">votre espace perso</Link>.
           </p>
         </div>
         <p>
