@@ -82,11 +82,7 @@ const AccountPage = ({
                   }
                 >
                   {[
-                    // Pas encore dev
-                    // {
-                    //   label: "Dès qu'un nouveau shot est validé",
-                    //   value: 'asap',
-                    // },
+                    { label: 'Le plus vite possible', value: 'asap' },
                     { label: 'Une fois par jour', value: 'daily' },
                     { label: 'Une fois par semaine', value: 'weekly' },
                     { label: 'Jamais', value: 'never' },
