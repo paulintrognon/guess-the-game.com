@@ -1,9 +1,12 @@
 const _ = require('lodash');
+const bluebird = require('bluebird');
 const userManager = require('../managers/userManager');
+const tokenService = require('../services/tokenService');
 
 module.exports = {
   getUser,
   updateUser,
+  unsubscribeFromEmailUpdates,
 };
 
 async function getUser(req) {
@@ -39,6 +42,24 @@ async function updateUser(req) {
   }
 
   await userManager.update(id, values);
+  return {
+    ok: true,
+  };
+}
+
+async function unsubscribeFromEmailUpdates(req) {
+  const { emailToken } = req.body;
+  if (!emailToken) {
+    throw new Error('emailToken is missing');
+  }
+  const decodedToken = tokenService.decode(emailToken);
+  if (tokenService.isOutdated(decodedToken)) {
+    return bluebird.reject({
+      code: 'OUTDATED_TOKEN',
+      message: 'Your token has expired.',
+    });
+  }
+  await userManager.update(decodedToken.id, { emailUpdates: 'never' });
   return {
     ok: true,
   };

@@ -7,6 +7,7 @@ export default {
   fetchAddedScreenshots,
   fetchScreenshotRating,
   updateUser,
+  unsubscribeFromEmailUpdates,
 };
 
 async function fetchScores() {
@@ -31,4 +32,8 @@ async function fetchScreenshotRating({ screenshotId }) {
 
 async function updateUser(values) {
   return api.post('/user/update', { values });
+}
+
+async function unsubscribeFromEmailUpdates({ emailToken }) {
+  return api.post('/user/unsubscribe-from-email-updates', { emailToken });
 }
