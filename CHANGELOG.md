@@ -1,3 +1,7 @@
+### v9.0.3
+
+- Fix email unsub token bug
+
 ### v9.0.2
 
 - Add loader when loading solved & added screenshots
