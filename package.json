@@ -3,6 +3,9 @@
   "version": "9.1.1",
   "license": "MPL-2.0",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.19.0",
     "babel-eslint": "^8.2.5",
     "bcrypt": "^3.0.0",

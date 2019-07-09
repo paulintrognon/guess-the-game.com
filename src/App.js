@@ -4,14 +4,15 @@ import { Switch, Route, Redirect } from 'react-router';
 import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { loadReCaptcha } from 'react-recaptcha-google';
+import Noty from 'noty';
 import store from './store';
 import history from './history';
+import './icons';
 
 import './App.css';
 
 import '../node_modules/noty/lib/noty.css';
 import '../node_modules/noty/lib/themes/sunset.css';
-import Noty from 'noty';
 
 import Layout from './components/Layout/Layout';
 

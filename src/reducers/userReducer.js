@@ -7,6 +7,7 @@ const initialState = {
   canModerateScreenshots:
     localStorage.getItem('canModerateScreenshots') === '1',
   lastViewedRandomScreenshots: [],
+  isUpdating: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -76,13 +77,25 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_UPDATE') {
+  if (type === 'USER_UPDATING') {
     return {
       ...state,
+      isUpdating: true,
+    };
+  }
+
+  if (type === 'USER_UPDATED') {
+    if (payload.username) {
+      localStorage.setItem('username', payload.username);
+    }
+    return {
+      ...state,
+      username: payload.username || state.username,
       userData: {
         ...state.userData,
         ...payload,
       },
+      isUpdating: false,
     };
   }
 
