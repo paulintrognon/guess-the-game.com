@@ -32,19 +32,19 @@ function get(usernameOrEmail) {
   });
 }
 
-function update(userId, updates) {
-  return db.User.findByPk(userId).then(user => {
-    if (!user) {
-      throw new Error('User to update not found');
-    }
-    return user.update(updates);
-  });
+async function update(userId, updates) {
+  const user = await db.User.findByPk(userId);
+  if (!user) {
+    throw new Error('User to update not found');
+  }
+  return user.update(updates);
 }
 
-function isUsernameFree(username) {
-  return db.User.findOne({
-    where: { username: { like: username } },
-  }).then(user => user === null);
+async function isUsernameFree(username) {
+  const user = await db.User.findOne({
+    where: { username: { [db.Sequelize.Op.like]: username } },
+  });
+  return user === null;
 }
 
 async function getScores({ totalNbScreenshots }) {

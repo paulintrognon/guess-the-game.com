@@ -24,6 +24,7 @@ class SimpleEdit extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     this.setState({
+      value: null,
       areWeEditing: false,
     });
     this.props.callback(this.state.value);

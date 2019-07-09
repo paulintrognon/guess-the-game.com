@@ -12,11 +12,19 @@ import loginActions from '../../../actions/loginActions';
 import userActions from '../../../actions/userActions';
 
 function mapStoreToProps(store) {
-  return store.user.userData || {};
+  const userData = store.user.userData || {};
+  return {
+    ...userData,
+    isUpdating: store.user.isUpdating,
+  };
 }
 class AccountPage extends React.Component {
   handleUsernameChange = async username => {
     this.props.dispatch(userActions.updateUserAction({ username }));
+  };
+
+  handleEmailChange = async email => {
+    this.props.dispatch(userActions.updateUserAction({ email }));
   };
 
   render() {
@@ -50,9 +58,13 @@ class AccountPage extends React.Component {
               </div>
               <div className="AccountPage_data_line">
                 <p className="AccountPage_data_line_left">Email</p>
-                <p className="AccountPage_data_line_right">
-                  {email} <i className="fas fa-pencil-alt" />
-                </p>
+                <div className="AccountPage_data_line_right">
+                  <SimpleEdit
+                    value={email}
+                    isLoading={isUpdating}
+                    callback={this.handleEmailChange}
+                  />
+                </div>
               </div>
               <div className="AccountPage_data_line">
                 <p className="AccountPage_data_line_left">Mot de passe</p>

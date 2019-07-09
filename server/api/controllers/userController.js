@@ -39,9 +39,19 @@ async function updateUser(req) {
 
   if (req.body.values.username) {
     if (req.body.values.username.length < 3) {
-      throw new Error('username too short!');
+      throw new Error('Pseudo trop court !');
+    }
+    const isUsernameFree = await userManager.isUsernameFree(
+      req.body.values.username
+    );
+    if (!isUsernameFree) {
+      throw new Error('Pseudo déjà pris !');
     }
     values.username = req.body.values.username;
+  }
+
+  if (req.body.values.email) {
+    values.email = req.body.values.email;
   }
 
   if (_.isEmpty(values)) {
