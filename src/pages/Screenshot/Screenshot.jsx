@@ -205,7 +205,7 @@ class ScreenshotPage extends React.Component {
                   <b>{screenshot.stats.firstSolvedBy}</b>
                 </span>
               ) : (
-                'Soyez le premier ou la première à trouver !'
+                "Personne n'a trouvé!"
               )}
             </p>
           </div>
