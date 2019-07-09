@@ -1,0 +1,15 @@
+.Footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-top: 1px solid #efefef;
+  color: #666;
+}
+
+.Footer_content {
+  max-width: 640px;
+  margin: auto;
+}

@@ -43,15 +43,17 @@ function loadUserAddedScreenshots() {
 
 function updateUserAction(values) {
   return async dispatch => {
+    dispatch({ type: 'USER_UPDATING' });
     const res = await userService.updateUser(values);
     if (res.error) {
       new Noty({
         text: `Erreur lors de la mise à jour : ${res.message}`,
         type: 'error',
       }).show();
+      dispatch({ type: 'USER_UPDATED', payload: {} });
     } else {
       dispatch({
-        type: 'USER_UPDATE',
+        type: 'USER_UPDATED',
         payload: values,
       });
       new Noty({

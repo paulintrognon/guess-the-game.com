@@ -4,6 +4,7 @@ const db = require('../../db/db');
 module.exports = {
   create,
   get,
+  getById,
   update,
   isUsernameFree,
   getScores,
@@ -14,6 +15,10 @@ module.exports = {
 
 function create(userToCreate) {
   return db.User.create(userToCreate);
+}
+
+function getById(userId) {
+  return db.User.findByPk(userId);
 }
 
 function get(usernameOrEmail) {
@@ -27,19 +32,19 @@ function get(usernameOrEmail) {
   });
 }
 
-function update(userId, updates) {
-  return db.User.findByPk(userId).then(user => {
-    if (!user) {
-      throw new Error('User to update not found');
-    }
-    return user.update(updates);
-  });
+async function update(userId, updates) {
+  const user = await db.User.findByPk(userId);
+  if (!user) {
+    throw new Error('User to update not found');
+  }
+  return user.update(updates);
 }
 
-function isUsernameFree(username) {
-  return db.User.findOne({
-    where: { username: { like: username } },
-  }).then(user => user === null);
+async function isUsernameFree(username) {
+  const user = await db.User.findOne({
+    where: { username: { [db.Sequelize.Op.like]: username } },
+  });
+  return user === null;
 }
 
 async function getScores({ totalNbScreenshots }) {

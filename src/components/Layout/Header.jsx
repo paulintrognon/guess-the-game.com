@@ -9,7 +9,7 @@ import './Header.css';
 
 function mapStoreToProps(store) {
   return {
-    user: store.user,
+    username: store.user && store.user.username,
   };
 }
 class Header extends React.Component {
@@ -26,7 +26,7 @@ class Header extends React.Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { username } = this.props;
 
     return (
       <header className="Header">
@@ -53,25 +53,21 @@ class Header extends React.Component {
               >
                 Classement
               </Link>
-              {user.username && (
+              {username && (
                 <Link
                   to="/ajouter-un-screenshot"
                   className={`Header_nav_link ${
                     isPathActive('/ajouter-un-screenshot') ? '-active' : ''
                   }`}
                 >
-                  Ajouter&nbsp;<span className="-hideOnSmartphones">
-                    un screenshot
-                  </span>
+                  Ajouter&nbsp;
+                  <span className="-hideOnSmartphones">un screenshot</span>
                 </Link>
               )}
             </nav>
             <div className="Header_nav_right">
-              {user.username
-                ? renderAccountMenuButton(
-                    user.username,
-                    this.accountButtonHandler
-                  )
+              {username
+                ? renderAccountMenuButton(username, this.accountButtonHandler)
                 : renderLoginButtons()}
             </div>
           </div>
