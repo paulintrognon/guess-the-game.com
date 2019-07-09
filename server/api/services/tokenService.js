@@ -15,7 +15,6 @@ function createUserToken(user) {
   return jwt.sign(
     {
       id: user.id,
-      username: user.username,
       canModerateScreenshots: user.canModerateScreenshots,
     },
     secret

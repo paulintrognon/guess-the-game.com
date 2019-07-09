@@ -4,6 +4,7 @@ const db = require('../../db/db');
 module.exports = {
   create,
   get,
+  getById,
   update,
   isUsernameFree,
   getScores,
@@ -14,6 +15,10 @@ module.exports = {
 
 function create(userToCreate) {
   return db.User.create(userToCreate);
+}
+
+function getById(userId) {
+  return db.User.findByPk(userId);
 }
 
 function get(usernameOrEmail) {

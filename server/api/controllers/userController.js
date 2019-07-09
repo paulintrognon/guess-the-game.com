@@ -10,8 +10,8 @@ module.exports = {
 };
 
 async function getUser(req) {
-  const { username } = req.user;
-  const user = await userManager.get(username);
+  const { id } = req.user;
+  const user = await userManager.getById(id);
   return {
     id: user.id,
     username: user.username,
@@ -35,6 +35,13 @@ async function updateUser(req) {
     } else {
       values.emailUpdates = req.body.values.emailUpdates;
     }
+  }
+
+  if (req.body.values.username) {
+    if (req.body.values.username.length < 3) {
+      throw new Error('username too short!');
+    }
+    values.username = req.body.values.username;
   }
 
   if (_.isEmpty(values)) {
