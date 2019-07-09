@@ -69,10 +69,7 @@ class AccountPage extends React.Component {
               <div className="AccountPage_data_line">
                 <p className="AccountPage_data_line_left">Mot de passe</p>
                 <p className="AccountPage_data_line_right">
-                  <Link to="/mot-de-passe-oublie">
-                    Réinitialiser
-                    <FontAwesomeIcon icon="pencil-alt" />
-                  </Link>
+                  <Link to="/mot-de-passe-oublie">Réinitialiser</Link>
                 </p>
               </div>
               <hr />
