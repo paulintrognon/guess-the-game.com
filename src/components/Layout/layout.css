@@ -2,3 +2,7 @@ html {
   min-height: 100%;
   position: relative;
 }
+
+.Layout {
+  padding-bottom: 60px;
+}
