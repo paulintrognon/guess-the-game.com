@@ -5,6 +5,7 @@ import IconButton from '../IconButton/IconButton';
 class SimpleEdit extends React.Component {
   constructor(props) {
     super(props);
+    this.inputRef = React.createRef();
     this.state = {
       areWeEditing: false,
       value: this.props.value,
@@ -12,9 +13,15 @@ class SimpleEdit extends React.Component {
   }
 
   handleStartEditing = () => {
-    this.setState({
-      areWeEditing: true,
-    });
+    this.setState(
+      {
+        areWeEditing: true,
+        value: this.props.value,
+      },
+      () => {
+        this.inputRef.current.focus();
+      }
+    );
   };
 
   handleChange = event => {
@@ -36,12 +43,17 @@ class SimpleEdit extends React.Component {
   };
 
   render() {
-    const value = this.state.value || this.props.value;
+    const value = this.state.areWeEditing ? this.state.value : this.props.value;
     return (
       <div>
         {this.state.areWeEditing ? (
           <form onSubmit={this.handleSubmit}>
-            <input value={value} onChange={this.handleChange} />{' '}
+            <input
+              ref={this.inputRef}
+              value={value}
+              onInput={this.handleChange}
+              autoComplete="false"
+            />{' '}
             <IconButton type="submit" icon="check" />
           </form>
         ) : (
