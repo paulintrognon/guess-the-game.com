@@ -1,3 +1,8 @@
+## v9.2.0
+
+- Now able to edit username & email
+- Add footer
+
 ### v9.1.1
 
 - Fix bug where regular user could see a the "moderation" link
