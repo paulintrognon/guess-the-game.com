@@ -194,10 +194,8 @@ class ScreenshotPage extends React.Component {
           <div className="ScreenshotPage_header_right">
             {screenshot.stats.solvedCount ? (
               <p className="ScreenshotPage_header_solvedByCount">
-                Résolu par {screenshot.stats.solvedCount} personne{screenshot
-                  .stats.solvedCount >= 2
-                  ? 's'
-                  : null}
+                Résolu par {screenshot.stats.solvedCount} personne
+                {screenshot.stats.solvedCount >= 2 ? 's' : null}
               </p>
             ) : null}
             <p className="ScreenshotPage_header_firstSolvedBy">
