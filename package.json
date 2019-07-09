@@ -1,6 +1,6 @@
 {
   "name": "guess-the-game.com",
-  "version": "9.1.1",
+  "version": "9.2.0",
   "license": "MPL-2.0",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
