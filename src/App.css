@@ -68,9 +68,19 @@ body {
     display: none !important;
   }
 }
-
 @media (min-width: 480px) {
   .-onlyOnSmartphones {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .-hideOnTablets {
+    display: none !important;
+  }
+}
+@media (min-width: 640px) {
+  .-onlyOnTablets {
     display: none !important;
   }
 }

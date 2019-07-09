@@ -99,8 +99,11 @@ class AccountPage extends React.Component {
               <hr />
               <div className="AccountPage_data_line">
                 <p className="AccountPage_data_line_left">
-                  Quand souhaitez-vous recevoir un email à propos des nouveaux
-                  screenshots ?
+                  <span className="-onlyOnTablets">Emails</span>
+                  <span className="-hideOnTablets">
+                    Quand souhaitez-vous recevoir un email à propos des nouveaux
+                    screenshots ?
+                  </span>
                 </p>
                 <p className="AccountPage_data_line_right">
                   {emailUpdates ? (
