@@ -4,7 +4,8 @@ const initialState = {
   userData: null,
   solvedScreenshots: null,
   addedScreenshots: null,
-  canModerateScreenshots: localStorage.getItem('canModerateScreenshots'),
+  canModerateScreenshots:
+    localStorage.getItem('canModerateScreenshots') === '1',
   lastViewedRandomScreenshots: [],
 };
 
