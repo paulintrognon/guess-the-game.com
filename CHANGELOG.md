@@ -1,3 +1,7 @@
+### v9.2.1
+
+- Fix mobile design (footer & email setting)
+
 ## v9.2.0
 
 - Now able to edit username & email
