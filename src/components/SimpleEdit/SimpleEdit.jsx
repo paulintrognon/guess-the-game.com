@@ -1,5 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loading from '../Loading/Loading';
 import IconButton from '../IconButton/IconButton';
 

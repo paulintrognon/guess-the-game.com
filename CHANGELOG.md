@@ -1,3 +1,7 @@
+### v9.2.2
+
+- Bigger icon button on smartphones
+
 ### v9.2.1
 
 - Fix mobile design (footer & email setting)

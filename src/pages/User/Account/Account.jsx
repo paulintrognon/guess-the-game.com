@@ -3,7 +3,6 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Account.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BarTitle from '../../../components/BarTitle/BarTitle';
 import Loading from '../../../components/Loading/Loading';
 import SimpleEdit from '../../../components/SimpleEdit/SimpleEdit';

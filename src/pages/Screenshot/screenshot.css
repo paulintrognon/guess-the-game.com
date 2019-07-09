@@ -137,7 +137,7 @@
 }
 @media (min-width: 768px) {
   .ScreenshotPage_screenshot_success_banner {
-    min-height: 60px; 
+    min-height: 60px;
   }
   .ScreenshotPage_screenshot_success_banner_text {
     display: block;
