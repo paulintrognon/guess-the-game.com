@@ -1,3 +1,7 @@
+### v9.1.1
+
+- Fix bug where regular user could see a the "moderation" link
+
 ## v9.1.0
 
 - Add ASAP option for email updates
