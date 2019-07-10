@@ -63,6 +63,7 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
     screenshot.update({
       approvalStatus: newApprovalStatus,
       moderatedBy: moderator.id,
+      moderatedAt: new Date(),
     }),
     shouldIncrement && poster.increment('addedScreenshots'),
     shouldDecrement && poster.decrement('addedScreenshots'),

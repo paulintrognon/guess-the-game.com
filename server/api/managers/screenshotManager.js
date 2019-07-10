@@ -23,11 +23,19 @@ async function create(screenshotToCreate) {
   if (!user) {
     throw new Error('User not found');
   }
+  const approvalData = {
+    approvalStatus: 0,
+  };
+  if (user.canModerateScreenshots) {
+    approvalData.approvalStatus = 1;
+    approvalData.moderatedBy = user.id;
+    approvalData.moderatedAt = new Date();
+  }
   const screenshot = await db.Screenshot.create({
     gameCanonicalName: screenshotToCreate.gameCanonicalName.trim(),
     imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
-    approvalStatus: user.canModerateScreenshots ? 1 : 0,
+    ...approvalData,
   });
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([

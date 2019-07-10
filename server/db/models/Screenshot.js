@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      moderatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
