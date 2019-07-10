@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import loginActions from '../../actions/loginActions';
 import screenshotActions from '../../actions/screenshotActions';
 import layoutActions from '../../actions/layoutActions';
@@ -25,6 +25,8 @@ class Header extends React.Component {
     this.props.dispatch(layoutActions.toggleMenuAction());
   };
 
+  isPathActive = path => this.props.location.pathname.indexOf(path) === 0;
+
   render() {
     const { username } = this.props;
 
@@ -39,7 +41,7 @@ class Header extends React.Component {
               <button
                 type="button"
                 className={`Header_nav_link ${
-                  isPathActive('/screenshot') ? '-active' : ''
+                  this.isPathActive('/screenshot') ? '-active' : ''
                 }`}
                 onClick={this.playHandler}
               >
@@ -48,7 +50,7 @@ class Header extends React.Component {
               <Link
                 to="/classement"
                 className={`Header_nav_link ${
-                  isPathActive('/classement') ? '-active' : ''
+                  this.isPathActive('/classement') ? '-active' : ''
                 }`}
               >
                 Classement
@@ -57,7 +59,7 @@ class Header extends React.Component {
                 <Link
                   to="/ajouter-un-screenshot"
                   className={`Header_nav_link ${
-                    isPathActive('/ajouter-un-screenshot') ? '-active' : ''
+                    this.isPathActive('/ajouter-un-screenshot') ? '-active' : ''
                   }`}
                 >
                   Ajouter&nbsp;
@@ -76,7 +78,7 @@ class Header extends React.Component {
     );
   }
 }
-export default connect(mapStoreToProps)(Header);
+export default withRouter(connect(mapStoreToProps)(Header));
 
 function renderLoginButtons() {
   return (
@@ -113,8 +115,4 @@ function renderUserIconSvg() {
       <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 17h-12v-2h12v2zm0-4h-12v-2h12v2zm0-4h-12v-2h12v2z" />
     </svg>
   );
-}
-
-function isPathActive(path) {
-  return window.location.pathname.indexOf(path) === 0;
 }

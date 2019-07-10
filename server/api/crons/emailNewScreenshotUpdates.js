@@ -4,15 +4,15 @@ const db = require('../../db/db');
 const { frontUrl } = require('../../../config/index');
 const emailService = require('../../api/services/emailService');
 const tokenService = require('../../api/services/tokenService');
-const screenshotManager = require('../../api/managers/screenshotManager');
+const moderationManager = require('../../api/managers/moderationManager');
 const screenshotService = require('../../api/services/screenshotService');
 
 module.exports = emailNewScreenshotsUpdate;
 
 async function emailNewScreenshotsUpdate(frequency) {
   // Last screenshot
-  const lastScreenshotId = await screenshotManager.getLastAdded();
-  if (!lastScreenshotId) {
+  const lastScreenshotModerated = await moderationManager.getLastModerated();
+  if (!lastScreenshotModerated) {
     return;
   }
 
@@ -21,10 +21,10 @@ async function emailNewScreenshotsUpdate(frequency) {
     where: {
       email: { [db.Sequelize.Op.ne]: null },
       emailUpdates: frequency,
-      emailUpdateLastScreenshotId: {
+      emailUpdateLastScreenshotDate: {
         [db.Sequelize.Op.or]: [
           null,
-          { [db.Sequelize.Op.ne]: lastScreenshotId },
+          { [db.Sequelize.Op.lt]: lastScreenshotModerated.moderatedAt },
         ],
       },
     },
@@ -43,7 +43,7 @@ async function emailNewScreenshotsUpdate(frequency) {
       await sendEmailUpdateToUser(user);
       // On met à jour le dernier screenshot d'update email
       await user.update({
-        emailUpdateLastScreenshotId: lastScreenshotId,
+        emailUpdateLastScreenshotDate: lastScreenshotModerated.moderatedAt,
       });
     },
     { concurrency: 10 }
@@ -54,11 +54,12 @@ async function sendEmailUpdateToUser(user) {
   // On récupère les screenshots que le user n'a pas encore vu
   const screenshots = await db.Screenshot.findAll({
     where: {
-      id: { [db.Sequelize.Op.gt]: user.emailUpdateLastScreenshotId },
+      moderatedAt: { [db.Sequelize.Op.gt]: user.emailUpdateLastScreenshotDate },
       UserId: { [db.Sequelize.Op.not]: user.id },
       approvalStatus: 1,
     },
     limit: 51, // needs to be divisible by 3
+    order: [['createdAt', 'ASC']],
   });
   if (screenshots.length === 0) {
     return;
