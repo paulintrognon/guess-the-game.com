@@ -1,3 +1,8 @@
+### v9.3.1
+
+- Fixes #55 (email subject when only one new shot)
+- Now email updates works with new approved screenshots that where uploaded a long time ago
+
 ## v9.3.0
 
 - New ranking system
