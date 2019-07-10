@@ -6,7 +6,7 @@ module.exports = {
   getById,
   update,
   isUsernameFree,
-  getPotentialNewRanking,
+  getNewRanking,
   getScores,
   getSolvedScreenshots,
   getAddedScreenshots,
@@ -14,7 +14,10 @@ module.exports = {
 };
 
 function create(userToCreate) {
-  return db.User.create(userToCreate);
+  return db.User.create({
+    ...userToCreate,
+    emailUpdates: userToCreate.emailUpdates || 'weekly',
+  });
 }
 
 function getById(userId) {
@@ -47,19 +50,25 @@ async function isUsernameFree(username) {
   return user === null;
 }
 
-async function getPotentialNewRanking(userId) {
+async function getNewRanking(userId) {
   const user = await db.User.findByPk(userId);
   const userCurrentScore = user.solvedScreenshots + user.addedScreenshots;
-  const userPotentialScore = userCurrentScore + 1;
 
   return db.sequelize.query(
     `
     SELECT
-      COUNT(IF(user_rankings.score >= ${userCurrentScore},1,NULL))+1 AS current_ranking,
-      COUNT(IF(user_rankings.score >= ${userPotentialScore},1,NULL))+1 AS potential_ranking,
-    FROM (SELECT solvedScreenshots + addedScreenshots AS score FROM Users WHERE Users.email IS NOT NULL) AS user_rankings
+      COUNT(IF(user_rankings.score >= ${userCurrentScore},1,NULL))+1 AS currentRanking,
+      COUNT(IF(user_rankings.score >= ${userCurrentScore}+1,1,NULL))+1 AS newRanking
+    FROM (
+      SELECT
+        solvedScreenshots + addedScreenshots AS score
+      FROM Users
+      WHERE
+        Users.email IS NOT NULL
+        AND Users.id != ${userId}
+      ) AS user_rankings
   `,
-    { type: db.sequelize.QueryTypes.SELECT }
+    { plain: true, type: db.sequelize.QueryTypes.SELECT }
   );
 }
 

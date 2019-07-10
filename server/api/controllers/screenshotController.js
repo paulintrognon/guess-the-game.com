@@ -137,7 +137,7 @@ async function tryProposal(req) {
     req.user = user;
   }
 
-  const newRankingData = await userManager.getPotentialNewRanking(req.user.id);
+  const newRankingData = await userManager.getNewRanking(req.user.id);
 
   await screenshotManager.markScreenshotAsResolved({
     screenshotId,

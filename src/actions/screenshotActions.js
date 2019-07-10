@@ -1,5 +1,7 @@
 import { push } from 'connected-react-router';
+import Noty from 'noty';
 import screenshotService from '../services/screenshotService';
+import store from '../store';
 
 export default {
   goToScreenshot,
@@ -49,18 +51,39 @@ function getUnsolvedScreenshot(exclude) {
 }
 
 function tryProposal(screenshotId, proposition) {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: 'SCREENSHOT_PROPOSAL_TRY' });
-    screenshotService.guess(screenshotId, proposition).then(res => {
-      if (res.jwt) {
-        dispatch({ type: 'USER_LOG_IN', payload: { jwt: res.jwt } });
+    const res = await screenshotService.guess(screenshotId, proposition);
+    if (res.jwt) {
+      dispatch({ type: 'USER_LOG_IN', payload: { jwt: res.jwt } });
+    }
+    if (!res.correct) {
+      dispatch({ type: 'SCREENSHOT_PROPOSAL_FAILURE' });
+      return;
+    }
+    dispatch({ type: 'SCREENSHOT_PROPOSAL_SUCCESS', payload: res });
+    if (!res.newRankingData) {
+      return;
+    }
+    const { currentRanking, newRanking } = res.newRankingData;
+    if (newRanking < currentRanking) {
+      new Noty({
+        text: `Bravo !! Vous passez à la ${newRanking}${
+          newRanking === 1 ? 'ère' : 'ème'
+        } place !`,
+        type: 'success',
+        timeout: 10000,
+      }).show();
+
+      if (store.getState().user.username) {
+        return;
       }
-      if (res.correct) {
-        dispatch({ type: 'SCREENSHOT_PROPOSAL_SUCCESS', payload: res });
-      } else {
-        dispatch({ type: 'SCREENSHOT_PROPOSAL_FAILURE' });
-      }
-    });
+      new Noty({
+        text: 'Inscrivez vous pour garder votre place dans le classement 😃',
+        type: 'info',
+        timeout: 10000,
+      }).show();
+    }
   };
 }
 
