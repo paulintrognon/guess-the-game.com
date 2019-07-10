@@ -47,6 +47,7 @@
   font-size: 20px;
   font-family: Norwester;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .ScreenshotPage_header_uploadedBy {
   white-space: nowrap;
