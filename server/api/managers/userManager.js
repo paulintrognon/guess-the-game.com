@@ -1,4 +1,3 @@
-const bluebird = require('bluebird');
 const db = require('../../db/db');
 
 module.exports = {
@@ -7,6 +6,7 @@ module.exports = {
   getById,
   update,
   isUsernameFree,
+  getPotentialNewRanking,
   getScores,
   getSolvedScreenshots,
   getAddedScreenshots,
@@ -47,53 +47,47 @@ async function isUsernameFree(username) {
   return user === null;
 }
 
-async function getScores({ totalNbScreenshots }) {
-  const usersScores = await db.User.findAll({
-    attributes: [
-      'id',
-      'username',
-      'solvedScreenshots',
-      'addedScreenshots',
-      [
-        db.Sequelize.literal(
-          `(solvedScreenshots + addedScreenshots) / ${totalNbScreenshots}`
-        ),
-        'completeness',
-      ],
-    ],
-    where: {
-      username: {
-        [db.Sequelize.Op.not]: null,
-      },
-    },
-    limit: 100,
-    order: [
-      [db.Sequelize.literal(`completeness`), 'DESC'],
-      ['solvedScreenshots', 'DESC'],
-      ['addedScreenshots', 'DESC'],
-    ],
-  }).map(user => user.get({ plain: true }));
+async function getPotentialNewRanking(userId) {
+  const user = await db.User.findByPk(userId);
+  const userCurrentScore = user.solvedScreenshots + user.addedScreenshots;
+  const userPotentialScore = userCurrentScore + 1;
 
-  return bluebird.mapSeries(usersScores, async userScore => {
-    const screenshot = await db.Screenshot.findOne({
-      attributes: [
-        [db.Sequelize.fn('AVG', db.Sequelize.col('rating')), 'averageRating'],
-      ],
-      where: { UserId: userScore.id },
-    });
-    const averageUploadScore =
-      screenshot !== null
-        ? screenshot.get({ plain: true }).averageRating
-        : null;
-    return {
-      id: userScore.id,
-      username: userScore.username,
-      nbSolvedScreenshots: userScore.solvedScreenshots,
-      nbAddedScreenshots: userScore.addedScreenshots,
-      completeness: userScore.completeness,
-      averageUploadScore: Number(averageUploadScore),
-    };
-  });
+  return db.sequelize.query(
+    `
+    SELECT
+      COUNT(IF(user_rankings.score >= ${userCurrentScore},1,NULL))+1 AS current_ranking,
+      COUNT(IF(user_rankings.score >= ${userPotentialScore},1,NULL))+1 AS potential_ranking,
+    FROM (SELECT solvedScreenshots + addedScreenshots AS score FROM Users WHERE Users.email IS NOT NULL) AS user_rankings
+  `,
+    { type: db.sequelize.QueryTypes.SELECT }
+  );
+}
+
+async function getScores({ totalNbScreenshots }) {
+  return db.sequelize.query(
+    `
+    SELECT
+      username,
+      solvedScreenshots AS nbSolvedScreenshots,
+      addedScreenshots AS nbAddedScreenshots,
+      (solvedScreenshots + addedScreenshots) / ${totalNbScreenshots} AS completeness,
+      AVG(Screenshots.rating) AS averageUploadScore,
+      SolvedScreenshots.createdAt AS lastScreenshotFoundAt
+    FROM
+      Users
+    LEFT JOIN
+      Screenshots ON Screenshots.UserId = Users.id
+    LEFT JOIN
+      SolvedScreenshots ON SolvedScreenshots.UserId = Users.id
+    WHERE username IS NOT NULL
+    GROUP BY username
+    ORDER BY
+      completeness DESC,
+      lastScreenshotFoundAt ASC,
+      Users.createdAt ASC
+    LIMIT 100`,
+    { type: db.sequelize.QueryTypes.SELECT }
+  );
 }
 
 async function getSolvedScreenshots(userId) {
