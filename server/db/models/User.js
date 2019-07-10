@@ -48,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: null,
         allowNull: true,
       },
-      emailUpdateLastScreenshotId: {
-        type: DataTypes.INTEGER,
+      emailUpdateLastScreenshotDate: {
+        type: DataTypes.DATE,
         defaultValue: null,
         allowNull: true,
       },
