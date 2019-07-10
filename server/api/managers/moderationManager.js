@@ -4,6 +4,7 @@ const screenshotManager = require('./screenshotManager');
 module.exports = {
   getScreenshots,
   getModerators,
+  getLastModerated,
   moderateScreenshot,
 };
 
@@ -63,6 +64,7 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
     screenshot.update({
       approvalStatus: newApprovalStatus,
       moderatedBy: moderator.id,
+      moderatedAt: new Date(),
     }),
     shouldIncrement && poster.increment('addedScreenshots'),
     shouldDecrement && poster.decrement('addedScreenshots'),
@@ -76,5 +78,12 @@ async function getModerators() {
     where: {
       canModerateScreenshots: 1,
     },
+  });
+}
+
+async function getLastModerated() {
+  return db.Screenshot.findOne({
+    where: { approvalStatus: 1 },
+    order: [['moderatedAt', 'DESC']],
   });
 }

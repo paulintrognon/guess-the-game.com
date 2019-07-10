@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       rating: {
         type: DataTypes.INTEGER,
+        defaultValue: null,
+        allowNull: true,
+      },
+      moderatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: null,
         allowNull: true,
       },
     },
