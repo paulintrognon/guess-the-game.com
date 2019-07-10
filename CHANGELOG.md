@@ -2,6 +2,8 @@
 
 - Fixes #55 (email subject when only one new shot)
 - Now email updates works with new approved screenshots that where uploaded a long time ago
+- When a moderator uploads a screenshot, moderatedBy and moderatedAt are filled
+- Fix header active indicator
 
 ## v9.3.0
 
