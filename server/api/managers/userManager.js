@@ -56,7 +56,7 @@ async function getScores({ totalNbScreenshots }) {
       'addedScreenshots',
       [
         db.Sequelize.literal(
-          `solvedScreenshots / (${totalNbScreenshots} - addedScreenshots)`
+          `(solvedScreenshots + addedScreenshots) / ${totalNbScreenshots}`
         ),
         'completeness',
       ],
@@ -68,12 +68,7 @@ async function getScores({ totalNbScreenshots }) {
     },
     limit: 100,
     order: [
-      [
-        db.Sequelize.literal(
-          `solvedScreenshots / (${totalNbScreenshots} - addedScreenshots)`
-        ),
-        'DESC',
-      ],
+      [db.Sequelize.literal(`completeness`), 'DESC'],
       ['solvedScreenshots', 'DESC'],
       ['addedScreenshots', 'DESC'],
     ],
