@@ -53,7 +53,7 @@ class Homepage extends React.Component {
           <div className="RankingPage_ranking_col -name" />
           <div
             className="RankingPage_ranking_col -centered"
-            title="Calcul = nb screenshots résolus / (nb total des screenshots sur le site - screenshots ajoutés par l'utilisateur)"
+            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total des screenshots sur le site)"
           >
             <span className="-onlyOnSmartphones">Prog</span>
             <span className="-hideOnSmartphones">Progression</span>
@@ -81,7 +81,7 @@ class Homepage extends React.Component {
             </div>
             <div
               className="RankingPage_ranking_col -centered"
-              title={`= ${score.nbSolvedScreenshots} résolus / (${totalNbScreenshots} total - ${score.nbAddedScreenshots} ajoutés)`}
+              title={`= (${score.nbSolvedScreenshots} résolus + ${score.nbAddedScreenshots} ajoutés) / ${totalNbScreenshots} total`}
             >
               {(score.completeness * 100).toFixed(2)}&nbsp;%
             </div>

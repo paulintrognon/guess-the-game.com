@@ -4,7 +4,7 @@ const userScreenshotController = require('../controllers/userScreenshotControlle
 
 const router = express.Router();
 
-const SCORE_CACHE_DURATION = 30; // 30 seconds
+const SCORE_CACHE_DURATION = 10; // 30 seconds
 router.get(
   '/scores',
   routeCache.cacheSeconds(SCORE_CACHE_DURATION),

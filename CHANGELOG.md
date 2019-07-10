@@ -1,3 +1,9 @@
+## v9.3.0
+
+- New ranking system
+- Alert when new rank
+- Fix registration bug
+
 ### v9.2.2
 
 - Bigger icon button on smartphones
