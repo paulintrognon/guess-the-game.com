@@ -75,7 +75,10 @@ class Homepage extends React.Component {
                   {rankToText(i)}
                 </span>
               </span>{' '}
-              <span className="RankingPage_ranking_username">
+              <span
+                className="RankingPage_ranking_username"
+                title={score.username}
+              >
                 {score.username}
               </span>
             </div>

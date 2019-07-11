@@ -50,6 +50,8 @@
 }
 .RankingPage_ranking_col.-name {
   width: 40%;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .RankingPage_ranking_col.-centered {
   width: 30%;
