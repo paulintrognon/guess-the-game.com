@@ -80,7 +80,11 @@ async function getScores({ totalNbScreenshots }) {
       solvedScreenshots AS nbSolvedScreenshots,
       addedScreenshots AS nbAddedScreenshots,
       (solvedScreenshots + addedScreenshots) / ${totalNbScreenshots} AS completeness,
-      AVG(Screenshots.rating) AS averageUploadScore,
+      AVG(
+        CASE
+          WHEN Screenshots.deletedAt IS NULL AND Screenshots.approvalStatus = 1
+          THEN Screenshots.rating ELSE NULL END
+        ) AS averageUploadScore,
       SolvedScreenshots.createdAt AS lastScreenshotFoundAt
     FROM
       Users
@@ -88,7 +92,9 @@ async function getScores({ totalNbScreenshots }) {
       Screenshots ON Screenshots.UserId = Users.id
     LEFT JOIN
       SolvedScreenshots ON SolvedScreenshots.UserId = Users.id
-    WHERE username IS NOT NULL
+    WHERE
+      username IS NOT NULL
+      AND Users.deletedAt IS NULL
     GROUP BY username
     ORDER BY
       completeness DESC,
