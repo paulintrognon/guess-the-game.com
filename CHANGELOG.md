@@ -1,3 +1,8 @@
+### v9.3.2
+
+- Fixes #58
+- Fixes #59
+
 ### v9.3.1
 
 - Fixes #55 (email subject when only one new shot)
