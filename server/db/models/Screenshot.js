@@ -9,13 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         allowNull: false,
       },
-      imagePath: {
-        type: DataTypes.STRING,
-        validate: {
-          notEmpty: true,
-        },
-        allowNull: false,
-      },
       year: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -45,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
     models.Screenshot.hasMany(models.ScreenshotName);
     models.Screenshot.hasMany(models.SolvedScreenshot);
     models.Screenshot.hasMany(models.ScreenshotRating);
-    models.Screenshot.belongsTo(models.User, { onDelete: 'CASCADE' });
+    models.Screenshot.belongsTo(models.ScreenshotImage);
+    models.Screenshot.belongsTo(models.User, { onDelete: 'SET NULL' });
     models.Screenshot.belongsTo(models.User, {
       as: 'ModeratorUser',
       foreignKey: 'moderatedBy',

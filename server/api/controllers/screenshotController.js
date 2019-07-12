@@ -42,7 +42,7 @@ async function getfromId(req) {
     isSolved: false,
     isOwn: req.user.id === res.user.id,
     id: res.id,
-    imageUrl: cloudinaryService.pathToUrl(res.imagePath),
+    imageUrl: res.imageUrl,
     createdAt: res.createdAt,
     approvalStatus: res.approvalStatus,
     rating: res.rating,
@@ -200,18 +200,12 @@ async function addScreenshot(req) {
     });
   }
 
-  // Checking if image is still on local path
-  const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
-  if (!fs.existsSync(localImagePath)) {
-    throw new Error('Sorry, your image has been deleted, please re-upload it');
-  }
-
-  // Uploading image to cloudinary
-  const imagePath = await cloudinaryService.uploadImage(localImagePath);
+  // Uploading to cloudinary
+  const cloudinaryImage = await uploadScreenshotImage(req.body.localImageName);
 
   // Inserting the image in the database
   const screenshot = await screenshotManager.create({
-    imagePath,
+    cloudinaryImage,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
     year: req.body.year || null,
@@ -224,7 +218,7 @@ async function addScreenshot(req) {
   return screenshot;
 }
 
-function editScreenshot(req) {
+async function editScreenshot(req) {
   const { user } = req;
   if (!user) {
     return bluebird.reject({
@@ -240,9 +234,12 @@ function editScreenshot(req) {
     }
   });
 
+  const cloudinaryImage = await uploadScreenshotImage(req.body.localImageName);
+
   return screenshotManager.edit({
     id: req.body.id,
     user: req.user,
+    cloudinaryImage,
     data: {
       gameCanonicalName: req.body.name,
       alternativeNames: req.body.alternativeNames,
@@ -265,6 +262,21 @@ async function rateScreenshot(req) {
     userId,
     rating: checkedRating,
   });
+}
+
+async function uploadScreenshotImage(localImageName) {
+  if (!localImageName) {
+    return null;
+  }
+
+  // Checking if image is still on local path
+  const localImagePath = getUploadedImageLocalPath(localImageName);
+  if (!fs.existsSync(localImagePath)) {
+    throw new Error('Sorry, your image has been deleted, please re-upload it');
+  }
+
+  // Uploading image to cloudinary
+  return cloudinaryService.uploadImage(localImagePath);
 }
 
 function getUploadedImageLocalPath(imageName) {

@@ -23,30 +23,32 @@ async function create(screenshotToCreate) {
   if (!user) {
     throw new Error('User not found');
   }
-  const approvalData = {
-    approvalStatus: 0,
-  };
-  if (user.canModerateScreenshots) {
-    approvalData.approvalStatus = 1;
-    approvalData.moderatedBy = user.id;
-    approvalData.moderatedAt = new Date();
-  }
+
   const screenshot = await db.Screenshot.create({
     gameCanonicalName: screenshotToCreate.gameCanonicalName.trim(),
-    imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
-    ...approvalData,
+    ...(user.canModerateScreenshots
+      ? {
+          approvalStatus: 1,
+          moderatedBy: user.id,
+          moderatedAt: new Date(),
+        }
+      : {
+          approvalStatus: 0,
+        }),
   });
+
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
+    screenshot.createScreenshotImage(screenshotToCreate.cloudinaryImage),
     user.canModerateScreenshots ? user.increment('addedScreenshots') : null,
   ]);
   return screenshot;
 }
 
-async function edit({ id, user, data }) {
+async function edit({ id, user, cloudinaryImage, data }) {
   const screenshot = await db.Screenshot.findByPk(id);
   if (!screenshot) {
     throw new Error('screenshot not found');
@@ -54,17 +56,22 @@ async function edit({ id, user, data }) {
   if (!user.canModerateScreenshots && user.id !== screenshot.UserId) {
     throw new Error('No rights to edit that screenshot');
   }
-  screenshot.update({
+  await screenshot.update({
     gameCanonicalName: data.gameCanonicalName,
     year: data.year || null,
+    ...(data.imagePath && { imagePath: data.imagePath }),
   });
+
   const names = getScreenshotNames(data);
-  await db.ScreenshotName.destroy({ where: { ScreenshotId: id } });
-  await addScreenshotNames(screenshot, names);
+  await Promise.all([
+    cloudinaryImage && screenshot.createScreenshotImage(cloudinaryImage),
+    addScreenshotNames(screenshot, names),
+  ]);
   return screenshot;
 }
 
 async function addScreenshotNames(screenshot, names) {
+  await db.ScreenshotName.destroy({ where: { ScreenshotId: screenshot.id } });
   const screenshotNames = await db.ScreenshotName.bulkCreate(names);
   return bluebird.map(screenshotNames, scrennshotName =>
     screenshot.addScreenshotName(scrennshotName)
@@ -76,6 +83,10 @@ async function getFromId(screenshotId, userId) {
     {
       attributes: ['id', 'username'],
       model: db.User,
+    },
+    {
+      attributes: ['path'],
+      model: db.ScreenshotImage,
     },
   ];
   if (userId) {
@@ -97,7 +108,7 @@ async function getFromId(screenshotId, userId) {
     id: res.id,
     name: res.gameCanonicalName,
     year: res.year,
-    imagePath: res.imagePath,
+    imageUrl: res.ScreenshotImage.url,
     createdAt: res.createdAt,
     approvalStatus: res.approvalStatus,
     user: res.User,
