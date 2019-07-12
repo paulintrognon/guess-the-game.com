@@ -87,10 +87,10 @@ async function getScores({ totalNbScreenshots }) {
           THEN Screenshots.rating ELSE NULL END
         ) AS averageUploadScore,
       (
-        SELECT MAX(SolvedScreenshots.createdAt)
+        SELECT MAX(SolvedScreenshots.id)
         FROM SolvedScreenshots
         WHERE SolvedScreenshots.UserId = Screenshots.UserId
-      ) AS lastScreenshotFoundAt
+      ) AS lastScreenshotFound
     FROM
       Users
     LEFT JOIN
@@ -103,8 +103,7 @@ async function getScores({ totalNbScreenshots }) {
     GROUP BY username
     ORDER BY
       score DESC,
-      lastScreenshotFoundAt ASC,
-      Users.createdAt ASC
+      lastScreenshotFound ASC
     LIMIT 100`,
     { type: db.sequelize.QueryTypes.SELECT }
   );
