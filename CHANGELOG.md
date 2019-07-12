@@ -1,3 +1,8 @@
+### v9.3.3
+
+- Better error logs
+- Unsubscribe from emails token no longer expires
+
 ### v9.3.2
 
 - Fixes #58
