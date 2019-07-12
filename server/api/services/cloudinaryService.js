@@ -35,7 +35,11 @@ function uploadImage(path) {
         if (error) {
           reject(error);
         } else {
-          resolve(getImagePath(response));
+          resolve({
+            path: getImagePath(response),
+            cloudId: response.public_id,
+            version: response.version,
+          });
         }
       }
     );

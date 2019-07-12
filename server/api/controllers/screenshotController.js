@@ -42,7 +42,7 @@ async function getfromId(req) {
     isSolved: false,
     isOwn: req.user.id === res.user.id,
     id: res.id,
-    imageUrl: cloudinaryService.pathToUrl(res.imagePath),
+    imageUrl: res.imageUrl,
     createdAt: res.createdAt,
     approvalStatus: res.approvalStatus,
     rating: res.rating,
@@ -200,12 +200,12 @@ async function addScreenshot(req) {
     });
   }
 
-  // Checking if image is still on local path
-  const imagePath = await uploadScreenshotImage(req.body.localImageName);
+  // Uploading to cloudinary
+  const cloudinaryImage = await uploadScreenshotImage(req.body.localImageName);
 
   // Inserting the image in the database
   const screenshot = await screenshotManager.create({
-    imagePath,
+    cloudinaryImage,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
     year: req.body.year || null,
@@ -234,16 +234,16 @@ async function editScreenshot(req) {
     }
   });
 
-  const imagePath = await uploadScreenshotImage(req.body.localImageName);
+  const cloudinaryImage = await uploadScreenshotImage(req.body.localImageName);
 
   return screenshotManager.edit({
     id: req.body.id,
     user: req.user,
+    cloudinaryImage,
     data: {
       gameCanonicalName: req.body.name,
       alternativeNames: req.body.alternativeNames,
       year: req.body.year,
-      imagePath,
     },
   });
 }
@@ -264,13 +264,9 @@ async function rateScreenshot(req) {
   });
 }
 
-function getUploadedImageLocalPath(imageName) {
-  return `${__dirname}/../../uploads/${imageName}`;
-}
-
 async function uploadScreenshotImage(localImageName) {
   if (!localImageName) {
-    return;
+    return null;
   }
 
   // Checking if image is still on local path
@@ -281,4 +277,8 @@ async function uploadScreenshotImage(localImageName) {
 
   // Uploading image to cloudinary
   return cloudinaryService.uploadImage(localImagePath);
+}
+
+function getUploadedImageLocalPath(imageName) {
+  return `${__dirname}/../../uploads/${imageName}`;
 }

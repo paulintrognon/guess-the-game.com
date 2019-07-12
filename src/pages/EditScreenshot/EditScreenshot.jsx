@@ -184,6 +184,7 @@ class EditScreenshotPage extends React.Component {
         })
         .then(res => {
           if (res.error) {
+            this.recaptchaElement.reset();
             this.setState({
               submitting: false,
               error: res.message,
