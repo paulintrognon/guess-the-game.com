@@ -44,26 +44,28 @@ class Homepage extends React.Component {
           Nombre total de screenshots: <b>{totalNbScreenshots}</b>
         </p>
         <p className="-hideOnSmartphones">
-          La progression de chacun est définie en fonction du nombre de
-          screenshots trouvés mais aussi du nombre de screenshots ajoutés.
-          Ainsi, pour monter dans le classement, en plus de trouver des
-          screenshots, vous pouvez aussi en soumettre de nouveaux.
+          Le score est la somme du nombre de screenshots trouvés et du nombre de
+          screenshots ajoutés. Ainsi, pour monter dans le classement, en plus de
+          trouver des screenshots, vous pouvez aussi en soumettre de nouveaux.
         </p>
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
           <div
             className="RankingPage_ranking_col -centered"
-            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total des screenshots sur le site)"
+            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés)"
+          >
+            Score
+          </div>
+          <div className="RankingPage_ranking_col -centered">Rés. / Ajo.</div>
+          <div
+            className="RankingPage_ranking_col -centered -hideOnSmartphones"
+            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total"
           >
             <span className="-onlyOnSmartphones">Prog</span>
             <span className="-hideOnSmartphones">Progression</span>
           </div>
-          <div className="RankingPage_ranking_col -centered">Résolus</div>
-          <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-            Ajoutés
-          </div>
-          <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-            Score des ajouts
+          <div className="RankingPage_ranking_col -centered -hideOnSmartphones -hideOnTablets">
+            Note des ajouts
           </div>
         </div>
         {scores.map((score, i) => (
@@ -84,18 +86,34 @@ class Homepage extends React.Component {
             </div>
             <div
               className="RankingPage_ranking_col -centered"
-              title={`= (${score.nbSolvedScreenshots} résolus + ${score.nbAddedScreenshots} ajoutés) / ${totalNbScreenshots} total`}
+              title={`${score.score} = ${score.nbSolvedScreenshots} + ${score.nbAddedScreenshots}`}
             >
-              {(score.completeness * 100).toFixed(2)}&nbsp;%
+              {score.score}
             </div>
             <div className="RankingPage_ranking_col -centered">
-              {score.nbSolvedScreenshots}
+              {score.nbSolvedScreenshots} / {score.nbAddedScreenshots}
             </div>
-            <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-              {score.nbAddedScreenshots}
+            <div
+              className="RankingPage_ranking_col -centered -hideOnSmartphones"
+              title={`${(score.completeness * 100).toFixed(2)} = ${
+                score.score
+              } / ${totalNbScreenshots} x 100`}
+            >
+              {(score.completeness * 100).toFixed(2)} %
             </div>
-            <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-              {score.averageUploadScore
+            <div
+              className="RankingPage_ranking_col -centered -hideOnSmartphones -hideOnTablets"
+              title={
+                score.nbRatedScreenshots >= 3
+                  ? `${score.averageUploadScore.toFixed(
+                      2
+                    )} est la note moyenne de ${
+                      score.nbRatedScreenshots
+                    } screenshots notés.`
+                  : 'Il faut avoir au moins 3 screenshots notés pour apparaître dans les scores.'
+              }
+            >
+              {score.nbRatedScreenshots >= 3
                 ? score.averageUploadScore.toFixed(2)
                 : 0}
             </div>
