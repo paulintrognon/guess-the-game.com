@@ -44,9 +44,9 @@ class Homepage extends React.Component {
           Nombre total de screenshots: <b>{totalNbScreenshots}</b>
         </p>
         <p className="-hideOnSmartphones">
-          Le score est la somme du nombre de screenshots trouvés et ajoutés.
-          Ainsi, pour monter dans le classement, en plus de trouver des
-          screenshots, vous pouvez aussi en soumettre de nouveaux.
+          Le score est la somme du nombre de screenshots trouvés et du nombre de
+          screenshots ajoutés. Ainsi, pour monter dans le classement, en plus de
+          trouver des screenshots, vous pouvez aussi en soumettre de nouveaux.
         </p>
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
