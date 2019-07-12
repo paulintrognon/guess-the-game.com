@@ -86,7 +86,11 @@ async function getScores({ totalNbScreenshots }) {
           WHEN Screenshots.deletedAt IS NULL AND Screenshots.approvalStatus = 1
           THEN Screenshots.rating ELSE NULL END
         ) AS averageUploadScore,
-      SolvedScreenshots.createdAt AS lastScreenshotFoundAt
+      (
+        SELECT MAX(SolvedScreenshots.createdAt)
+        FROM SolvedScreenshots
+        WHERE SolvedScreenshots.UserId = Screenshots.UserId
+      ) AS lastScreenshotFoundAt
     FROM
       Users
     LEFT JOIN
