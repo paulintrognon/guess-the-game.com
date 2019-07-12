@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const bluebird = require('bluebird');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
 

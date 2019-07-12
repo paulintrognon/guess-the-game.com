@@ -44,8 +44,7 @@ class Homepage extends React.Component {
           Nombre total de screenshots: <b>{totalNbScreenshots}</b>
         </p>
         <p className="-hideOnSmartphones">
-          La progression de chacun est définie en fonction du nombre de
-          screenshots trouvés mais aussi du nombre de screenshots ajoutés.
+          Le score est la somme du nombre de screenshots trouvés et ajoutés.
           Ainsi, pour monter dans le classement, en plus de trouver des
           screenshots, vous pouvez aussi en soumettre de nouveaux.
         </p>
@@ -53,17 +52,22 @@ class Homepage extends React.Component {
           <div className="RankingPage_ranking_col -name" />
           <div
             className="RankingPage_ranking_col -centered"
-            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total des screenshots sur le site)"
+            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés)"
+          >
+            <span className="-hideOnSmartphones">Score</span>
+          </div>
+          <div className="RankingPage_ranking_col -centered">
+            Résolus / Ajoutés
+          </div>
+          <div
+            className="RankingPage_ranking_col -centered"
+            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total"
           >
             <span className="-onlyOnSmartphones">Prog</span>
             <span className="-hideOnSmartphones">Progression</span>
           </div>
-          <div className="RankingPage_ranking_col -centered">Résolus</div>
           <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-            Ajoutés
-          </div>
-          <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-            Score des ajouts
+            Note des ajouts
           </div>
         </div>
         {scores.map((score, i) => (
@@ -84,15 +88,20 @@ class Homepage extends React.Component {
             </div>
             <div
               className="RankingPage_ranking_col -centered"
-              title={`= (${score.nbSolvedScreenshots} résolus + ${score.nbAddedScreenshots} ajoutés) / ${totalNbScreenshots} total`}
+              title={`${score.score} = ${score.nbSolvedScreenshots} + ${score.nbAddedScreenshots}`}
             >
-              {(score.completeness * 100).toFixed(2)}&nbsp;%
+              {score.score}
             </div>
             <div className="RankingPage_ranking_col -centered">
-              {score.nbSolvedScreenshots}
+              {score.nbSolvedScreenshots} / {score.nbAddedScreenshots}
             </div>
-            <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-              {score.nbAddedScreenshots}
+            <div
+              className="RankingPage_ranking_col -centered"
+              title={`${(score.completeness * 100).toFixed(2)} = ${
+                score.score
+              } / ${totalNbScreenshots} x 100`}
+            >
+              {(score.completeness * 100).toFixed(2)} %
             </div>
             <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
               {score.averageUploadScore

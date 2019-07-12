@@ -79,6 +79,7 @@ async function getScores({ totalNbScreenshots }) {
       username,
       solvedScreenshots AS nbSolvedScreenshots,
       addedScreenshots AS nbAddedScreenshots,
+      (solvedScreenshots + addedScreenshots) AS score,
       (solvedScreenshots + addedScreenshots) / ${totalNbScreenshots} AS completeness,
       AVG(
         CASE
@@ -97,7 +98,7 @@ async function getScores({ totalNbScreenshots }) {
       AND Users.deletedAt IS NULL
     GROUP BY username
     ORDER BY
-      completeness DESC,
+      score DESC,
       lastScreenshotFoundAt ASC,
       Users.createdAt ASC
     LIMIT 100`,
