@@ -95,8 +95,6 @@ async function getScores({ totalNbScreenshots }) {
       Users
     LEFT JOIN
       Screenshots ON Screenshots.UserId = Users.id
-    LEFT JOIN
-      SolvedScreenshots ON SolvedScreenshots.UserId = Users.id
     WHERE
       username IS NOT NULL
       AND Users.deletedAt IS NULL
