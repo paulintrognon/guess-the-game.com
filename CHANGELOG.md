@@ -1,3 +1,8 @@
+### v9.3.4
+
+- New ranking board
+- Fix ranking when score is the same
+
 ### v9.3.3
 
 - Better error logs
