@@ -212,7 +212,7 @@ async function addScreenshot(req) {
     userId: user.id,
   });
 
-  // Send email to moderators (asynchronosly)
+  // Send email to moderators (asynchronosly = no await)
   screenshotService.notifyModeratorsOfNewScreenshot(screenshot);
 
   return screenshot;
