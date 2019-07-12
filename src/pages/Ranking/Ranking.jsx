@@ -56,7 +56,10 @@ class Homepage extends React.Component {
           >
             Score
           </div>
-          <div className="RankingPage_ranking_col -centered">Rés. / Ajo.</div>
+          <div className="RankingPage_ranking_col -centered">
+            <span className="-onlyOnTablets">Rés. / Ajo.</span>
+            <span className="-hideOnTablets">Résolus / Ajoutés</span>
+          </div>
           <div
             className="RankingPage_ranking_col -centered -hideOnSmartphones"
             title={`La progression est le pourcentage de screenshots que vous avez trouvé parmis l'ensemble des screenshots trouvables.\nCalcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total de screenshots`}
