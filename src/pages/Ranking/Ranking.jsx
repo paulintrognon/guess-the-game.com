@@ -103,8 +103,17 @@ class Homepage extends React.Component {
             >
               {(score.completeness * 100).toFixed(2)} %
             </div>
-            <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
-              {score.averageUploadScore
+            <div
+              className="RankingPage_ranking_col -centered -hideOnSmartphones"
+              title={
+                score.nbRatedScreenshots >= 3
+                  ? `${score.averageUploadScore.toFixed(2)}
+                    est la note moyenne de ${score.nbRatedScreenshots}
+                    screenshots notés.`
+                  : 'Il faut avoir au moins 3 screenshots notés pour apparaître dans les scores.'
+              }
+            >
+              {score.nbRatedScreenshots >= 3
                 ? score.averageUploadScore.toFixed(2)
                 : 0}
             </div>
