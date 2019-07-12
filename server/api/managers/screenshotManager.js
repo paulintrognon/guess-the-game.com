@@ -23,19 +23,19 @@ async function create(screenshotToCreate) {
   if (!user) {
     throw new Error('User not found');
   }
-  const approvalData = {
-    approvalStatus: 0,
-  };
-  if (user.canModerateScreenshots) {
-    approvalData.approvalStatus = 1;
-    approvalData.moderatedBy = user.id;
-    approvalData.moderatedAt = new Date();
-  }
   const screenshot = await db.Screenshot.create({
     gameCanonicalName: screenshotToCreate.gameCanonicalName.trim(),
     imagePath: screenshotToCreate.imagePath,
     year: screenshotToCreate.year,
-    ...approvalData,
+    ...(user.canModerateScreenshots
+      ? {
+          approvalStatus: 1,
+          moderatedBy: user.id,
+          moderatedAt: new Date(),
+        }
+      : {
+          approvalStatus: 0,
+        }),
   });
   const names = getScreenshotNames(screenshotToCreate);
   await Promise.all([
@@ -57,6 +57,7 @@ async function edit({ id, user, data }) {
   screenshot.update({
     gameCanonicalName: data.gameCanonicalName,
     year: data.year || null,
+    ...(data.imagePath && { imagePath: data.imagePath }),
   });
   const names = getScreenshotNames(data);
   await db.ScreenshotName.destroy({ where: { ScreenshotId: id } });

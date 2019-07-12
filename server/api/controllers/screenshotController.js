@@ -201,13 +201,7 @@ async function addScreenshot(req) {
   }
 
   // Checking if image is still on local path
-  const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
-  if (!fs.existsSync(localImagePath)) {
-    throw new Error('Sorry, your image has been deleted, please re-upload it');
-  }
-
-  // Uploading image to cloudinary
-  const imagePath = await cloudinaryService.uploadImage(localImagePath);
+  const imagePath = await uploadScreenshotImage(req.body.localImageName);
 
   // Inserting the image in the database
   const screenshot = await screenshotManager.create({
@@ -224,7 +218,7 @@ async function addScreenshot(req) {
   return screenshot;
 }
 
-function editScreenshot(req) {
+async function editScreenshot(req) {
   const { user } = req;
   if (!user) {
     return bluebird.reject({
@@ -240,6 +234,8 @@ function editScreenshot(req) {
     }
   });
 
+  const imagePath = await uploadScreenshotImage(req.body.localImageName);
+
   return screenshotManager.edit({
     id: req.body.id,
     user: req.user,
@@ -247,6 +243,7 @@ function editScreenshot(req) {
       gameCanonicalName: req.body.name,
       alternativeNames: req.body.alternativeNames,
       year: req.body.year,
+      imagePath,
     },
   });
 }
@@ -269,4 +266,19 @@ async function rateScreenshot(req) {
 
 function getUploadedImageLocalPath(imageName) {
   return `${__dirname}/../../uploads/${imageName}`;
+}
+
+async function uploadScreenshotImage(localImageName) {
+  if (!localImageName) {
+    return;
+  }
+
+  // Checking if image is still on local path
+  const localImagePath = getUploadedImageLocalPath(localImageName);
+  if (!fs.existsSync(localImagePath)) {
+    throw new Error('Sorry, your image has been deleted, please re-upload it');
+  }
+
+  // Uploading image to cloudinary
+  return cloudinaryService.uploadImage(localImagePath);
 }

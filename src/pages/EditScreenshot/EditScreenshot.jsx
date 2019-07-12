@@ -199,6 +199,7 @@ class EditScreenshotPage extends React.Component {
           name: this.state.name,
           alternativeNames: this.state.alternativeNames,
           year: this.state.year,
+          localImageName: this.state.uploadedImageName,
         })
         .then(res => {
           this.setState({ submitting: false });
@@ -236,9 +237,9 @@ class EditScreenshotPage extends React.Component {
           <form onSubmit={this.submitHandler(screenshotId)}>
             <div
               className="field"
-              onDrop={screenshotId ? null : this.dropFileHandler}
-              onDragOver={screenshotId ? null : this.dragOverHandler}
-              onDragLeave={screenshotId ? null : this.dragLeaveHandler}
+              onDrop={this.dropFileHandler}
+              onDragOver={this.dragOverHandler}
+              onDragLeave={this.dragLeaveHandler}
             >
               <div className="EditScreenshotPage_form_screenshot_label">
                 <b>Règles à lire avant de poster</b>
