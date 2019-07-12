@@ -54,19 +54,17 @@ class Homepage extends React.Component {
             className="RankingPage_ranking_col -centered"
             title="Calcul = (nb screenshots résolus + nb screenshots ajoutés)"
           >
-            <span className="-hideOnSmartphones">Score</span>
+            Score
           </div>
-          <div className="RankingPage_ranking_col -centered">
-            Résolus / Ajoutés
-          </div>
+          <div className="RankingPage_ranking_col -centered">Rés. / Ajo.</div>
           <div
-            className="RankingPage_ranking_col -centered"
+            className="RankingPage_ranking_col -centered -hideOnSmartphones"
             title="Calcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total"
           >
             <span className="-onlyOnSmartphones">Prog</span>
             <span className="-hideOnSmartphones">Progression</span>
           </div>
-          <div className="RankingPage_ranking_col -centered -hideOnSmartphones">
+          <div className="RankingPage_ranking_col -centered -hideOnSmartphones -hideOnTablets">
             Note des ajouts
           </div>
         </div>
@@ -96,7 +94,7 @@ class Homepage extends React.Component {
               {score.nbSolvedScreenshots} / {score.nbAddedScreenshots}
             </div>
             <div
-              className="RankingPage_ranking_col -centered"
+              className="RankingPage_ranking_col -centered -hideOnSmartphones"
               title={`${(score.completeness * 100).toFixed(2)} = ${
                 score.score
               } / ${totalNbScreenshots} x 100`}
@@ -104,12 +102,14 @@ class Homepage extends React.Component {
               {(score.completeness * 100).toFixed(2)} %
             </div>
             <div
-              className="RankingPage_ranking_col -centered -hideOnSmartphones"
+              className="RankingPage_ranking_col -centered -hideOnSmartphones -hideOnTablets"
               title={
                 score.nbRatedScreenshots >= 3
-                  ? `${score.averageUploadScore.toFixed(2)}
-                    est la note moyenne de ${score.nbRatedScreenshots}
-                    screenshots notés.`
+                  ? `${score.averageUploadScore.toFixed(
+                      2
+                    )} est la note moyenne de ${
+                      score.nbRatedScreenshots
+                    } screenshots notés.`
                   : 'Il faut avoir au moins 3 screenshots notés pour apparaître dans les scores.'
               }
             >
