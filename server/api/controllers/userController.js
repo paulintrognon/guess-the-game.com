@@ -70,12 +70,6 @@ async function unsubscribeFromEmailUpdates(req) {
     throw new Error('emailToken is missing');
   }
   const decodedToken = tokenService.decode(emailToken);
-  if (tokenService.isOutdated(decodedToken)) {
-    return bluebird.reject({
-      code: 'OUTDATED_TOKEN',
-      message: 'Your token has expired.',
-    });
-  }
   await userManager.update(decodedToken.id, { emailUpdates: 'never' });
   return {
     ok: true,
