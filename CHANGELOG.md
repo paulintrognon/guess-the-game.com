@@ -1,3 +1,9 @@
+# v10.0.0 - ScreenshotImage !
+
+- ScreenshotImages table added to better store Cloudinary data
+- Moderators can now edit screenshots
+- Users can now choose their email update frequencies on registration
+
 ### v9.3.4
 
 - New ranking board
