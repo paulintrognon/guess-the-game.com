@@ -76,6 +76,7 @@ async function register(req) {
       const user = {
         email: req.body.email,
         username: req.body.username,
+        emailUpdates: req.body.emailUpdates,
         password: hashedPassword,
       };
 

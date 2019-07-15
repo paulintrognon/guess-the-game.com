@@ -56,10 +56,13 @@ class Homepage extends React.Component {
           >
             Score
           </div>
-          <div className="RankingPage_ranking_col -centered">Rés. / Ajo.</div>
+          <div className="RankingPage_ranking_col -centered">
+            <span className="-onlyOnTablets">Rés. / Ajo.</span>
+            <span className="-hideOnTablets">Résolus / Ajoutés</span>
+          </div>
           <div
             className="RankingPage_ranking_col -centered -hideOnSmartphones"
-            title="Calcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total"
+            title={`La progression est le pourcentage de screenshots que vous avez trouvé parmis l'ensemble des screenshots trouvables.\nCalcul = (nb screenshots résolus + nb screenshots ajoutés) / nb total de screenshots`}
           >
             <span className="-onlyOnSmartphones">Prog</span>
             <span className="-hideOnSmartphones">Progression</span>
@@ -95,9 +98,7 @@ class Homepage extends React.Component {
             </div>
             <div
               className="RankingPage_ranking_col -centered -hideOnSmartphones"
-              title={`${(score.completeness * 100).toFixed(2)} = ${
-                score.score
-              } / ${totalNbScreenshots} x 100`}
+              title={`= ${score.score} / ${totalNbScreenshots}\nLa progression est le pourcentage de screenshots que vous avez trouvé parmis l'ensemble des screenshots trouvables.`}
             >
               {(score.completeness * 100).toFixed(2)} %
             </div>
@@ -115,7 +116,7 @@ class Homepage extends React.Component {
             >
               {score.nbRatedScreenshots >= 3
                 ? score.averageUploadScore.toFixed(2)
-                : 0}
+                : '-'}
             </div>
           </div>
         ))}

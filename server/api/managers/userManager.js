@@ -16,7 +16,7 @@ module.exports = {
 function create(userToCreate) {
   return db.User.create({
     ...userToCreate,
-    emailUpdates: userToCreate.emailUpdates || 'weekly',
+    emailUpdates: userToCreate.emailUpdates || 'never',
   });
 }
 
