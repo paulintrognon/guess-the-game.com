@@ -39,9 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   ScreenshotImage.associate = models => {
-    models.ScreenshotImage.hasOne(models.Screenshot, {
-      onDelete: 'SET NULL',
-    });
+    models.ScreenshotImage.belongsTo(models.Screenshot);
   };
 
   return ScreenshotImage;

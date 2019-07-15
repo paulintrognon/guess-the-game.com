@@ -3,6 +3,7 @@ CREATE TABLE
   `guessthegame`.`ScreenshotImages`
   (
     `id` INT NOT NULL AUTO_INCREMENT ,
+    `ScreenshotId` INT NULL DEFAULT NULL,
     `cloudId` VARCHAR(80) NOT NULL ,
     `version` VARCHAR(20) NOT NULL ,
     `path` VARCHAR(100) NOT NULL ,
@@ -11,8 +12,9 @@ CREATE TABLE
   ENGINE = InnoDB;
 
 /* Remplissage de la table ScreenshotImages */
-INSERT INTO `ScreenshotImages` (`cloudId`, `version`, `path`)
+INSERT INTO `ScreenshotImages` (`ScreenshotId`, `cloudId`, `version`, `path`)
   SELECT
+    `Screenshots`.`id` as `ScreenshotId`,
     SUBSTR(`Screenshots`.`imagePath`,13,40) as `cloudId`,
     SUBSTR(`Screenshots`.`imagePath`,2,10) as `version`,
     `Screenshots`.`imagePath` as `path`
@@ -22,6 +24,9 @@ INSERT INTO `ScreenshotImages` (`cloudId`, `version`, `path`)
     `Screenshots`.`imagePath` LIKE "%/prod/%";
 
 /* Ajout du lien entre Screenshots et ScreenshotImages */
+ALTER TABLE `ScreenshotImages`
+  ADD FOREIGN KEY (`ScreenshotId`) REFERENCES `Screenshots`(`id`)
+  ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE `Screenshots`
   ADD `ScreenshotImageId` INT NULL DEFAULT NULL AFTER `gameCanonicalName`;
 ALTER TABLE `Screenshots`

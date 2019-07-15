@@ -42,7 +42,10 @@ async function create(screenshotToCreate) {
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
-    screenshot.createScreenshotImage(screenshotToCreate.cloudinaryImage),
+    screenshot.createScreenshotImage({
+      ...screenshotToCreate.cloudinaryImage,
+      ScreenshotId: screenshot.id,
+    }),
     user.canModerateScreenshots ? user.increment('addedScreenshots') : null,
   ]);
   return screenshot;
@@ -56,17 +59,25 @@ async function edit({ id, user, cloudinaryImage, data }) {
   if (!user.canModerateScreenshots && user.id !== screenshot.UserId) {
     throw new Error('No rights to edit that screenshot');
   }
+
+  // Ajout de la nouvelle image (si besoin)
+  const newScreenshotImage = await (cloudinaryImage &&
+    screenshot.createScreenshotImage({
+      ...cloudinaryImage,
+      ScreenshotId: screenshot.id,
+    }));
+
+  // Mise à jour des données de la screenshots
   await screenshot.update({
     gameCanonicalName: data.gameCanonicalName,
     year: data.year || null,
-    ...(data.imagePath && { imagePath: data.imagePath }),
+    ...(cloudinaryImage && { ScreenshotImageId: newScreenshotImage.id }),
   });
 
+  // Mise à jour des noms
   const names = getScreenshotNames(data);
-  await Promise.all([
-    cloudinaryImage && screenshot.createScreenshotImage(cloudinaryImage),
-    addScreenshotNames(screenshot, names),
-  ]);
+  await addScreenshotNames(screenshot, names);
+
   return screenshot;
 }
 
