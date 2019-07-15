@@ -10,32 +10,28 @@ module.exports = {
 };
 
 async function getNonModeratedScreenshots() {
-  const screenshots = await moderationManager.getScreenshots({
+  return moderationManager.getScreenshots({
     approvalStatus: 0,
   });
-  return screenshots.map(addImageUrlFromPath);
 }
 
 async function getApprovedScreenshots() {
-  const screenshots = await moderationManager.getScreenshots({
+  return moderationManager.getScreenshots({
     approvalStatus: 1,
   });
-  return screenshots.map(addImageUrlFromPath);
 }
 
 async function getRejectedScreenshots() {
-  const screenshots = await moderationManager.getScreenshots({
+  return moderationManager.getScreenshots({
     approvalStatus: -1,
   });
-  return screenshots.map(addImageUrlFromPath);
 }
 
 async function getModeratedByYouScreenshots(req) {
   const { user } = req;
-  const screenshots = await moderationManager.getScreenshots({
+  return moderationManager.getScreenshots({
     userId: user.id,
   });
-  return screenshots.map(addImageUrlFromPath);
 }
 
 async function moderateScreenshot(req) {
@@ -46,11 +42,4 @@ async function moderateScreenshot(req) {
     user,
     newApprovalStatus,
   });
-}
-
-function addImageUrlFromPath(screenshot) {
-  return {
-    ...screenshot,
-    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
-  };
 }

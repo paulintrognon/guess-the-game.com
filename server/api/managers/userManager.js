@@ -16,7 +16,7 @@ module.exports = {
 function create(userToCreate) {
   return db.User.create({
     ...userToCreate,
-    emailUpdates: userToCreate.emailUpdates || 'weekly',
+    emailUpdates: userToCreate.emailUpdates || 'never',
   });
 }
 
@@ -116,24 +116,38 @@ async function getSolvedScreenshots(userId) {
     order: [['createdAt', 'DESC']],
     include: {
       model: db.Screenshot,
-      attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
+      attributes: ['id', 'gameCanonicalName', 'year', 'createdAt'],
+      include: {
+        model: db.ScreenshotImage,
+        attributes: ['path'],
+      },
     },
   });
-  return results
-    .map(res => res.get({ plain: true }))
-    .map(res => ({
-      ...res.Screenshot,
-      solvedAt: res.createdAt,
-    }));
+  return results.map(res => ({
+    id: res.Screenshot.id,
+    gameCanonicalName: res.Screenshot.gameCanonicalName,
+    year: res.Screenshot.year,
+    imageUrl: res.Screenshot.ScreenshotImage.url,
+    solvedAt: res.Screenshot.createdAt,
+  }));
 }
 
 async function getAddedScreenshots(userId) {
   const results = await db.Screenshot.findAll({
-    attributes: ['id', 'gameCanonicalName', 'year', 'imagePath', 'createdAt'],
-    include: { model: db.ScreenshotName },
+    attributes: [
+      'id',
+      'gameCanonicalName',
+      'year',
+      'createdAt',
+      'ScreenshotImageId',
+    ],
     where: { UserId: userId },
     limit: 100,
     order: [['createdAt', 'DESC']],
+    include: [
+      { model: db.ScreenshotName, attributes: ['name'] },
+      { model: db.ScreenshotImage, attributes: ['path'] },
+    ],
   });
   return results.map(screenshot => ({
     id: screenshot.id,
@@ -142,7 +156,7 @@ async function getAddedScreenshots(userId) {
       name => name !== screenshot.gameCanonicalName
     ),
     year: screenshot.year,
-    imagePath: screenshot.imagePath,
+    imageUrl: screenshot.ScreenshotImage.url,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
   }));

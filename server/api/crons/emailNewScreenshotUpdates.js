@@ -73,7 +73,7 @@ async function sendEmailUpdateToUser(user) {
       screenshots: screenshots.map(screenshot => ({
         id: screenshot.id,
         siteUrl: screenshotService.getScreenshotSiteUrl(screenshot),
-        imageUrl: screenshotService.getScreenshotImageUrl(screenshot),
+        imageUrl: screenshot.imageUrl,
       })),
       unsubscribeLink: `${frontUrl}/email-updates/unsubscribe?token=${unsubToken}`,
       userSpaceLink: `${frontUrl}/moi/mon-compte`,

@@ -21,14 +21,17 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
       'id',
       'gameCanonicalName',
       'year',
-      'imagePath',
       'createdAt',
       'approvalStatus',
+      'ScreenshotImageId',
     ],
     where,
     limit: 500,
     order: [['createdAt', 'DESC']],
-    include: { model: db.ScreenshotName, attributes: ['name'] },
+    include: [
+      { model: db.ScreenshotName, attributes: ['name'] },
+      { model: db.ScreenshotImage, attributes: ['path'] },
+    ],
   }).map(screenshot => ({
     id: screenshot.id,
     gameCanonicalName: screenshot.gameCanonicalName,
@@ -36,7 +39,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
       name => name !== screenshot.gameCanonicalName.toLowerCase()
     ),
     year: screenshot.year,
-    imagePath: screenshot.imagePath,
+    imageUrl: screenshot.ScreenshotImage.url,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
   }));

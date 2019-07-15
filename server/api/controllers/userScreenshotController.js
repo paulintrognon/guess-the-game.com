@@ -20,20 +20,12 @@ async function getScores() {
 
 async function getSolvedScreenshots(req) {
   const { id } = req.user;
-  const screenshots = await userManager.getSolvedScreenshots(id);
-  return screenshots.map(screenshot => ({
-    ...screenshot,
-    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
-  }));
+  return userManager.getSolvedScreenshots(id);
 }
 
 async function getAddedScreenshots(req) {
   const { id } = req.user;
-  const screenshots = await userManager.getAddedScreenshots(id);
-  return screenshots.map(screenshot => ({
-    ...screenshot,
-    imageUrl: cloudinaryService.pathToUrl(screenshot.imagePath),
-  }));
+  return userManager.getAddedScreenshots(id);
 }
 
 async function getScreenshotRating(req) {

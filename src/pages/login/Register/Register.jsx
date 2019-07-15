@@ -42,6 +42,7 @@ class RegisterPage extends React.Component {
         ok: false,
         error: false,
       },
+      emailUpdates: 'never',
       recaptchaToken: null,
     };
   }
@@ -173,6 +174,12 @@ class RegisterPage extends React.Component {
     });
   };
 
+  handleEmailUpdateFrequencyChange = event => {
+    this.setState({
+      emailUpdates: event.target.value,
+    });
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     this.setState({
@@ -184,6 +191,7 @@ class RegisterPage extends React.Component {
         username: this.state.username.value.trim(),
         password: this.state.password.value,
         email: this.state.email.value.trim(),
+        emailUpdates: this.state.emailUpdates,
         recaptchaToken: this.state.recaptchaToken,
         jwt: this.props.user.jwt,
       })
@@ -217,6 +225,7 @@ class RegisterPage extends React.Component {
       password,
       passwordConfirm,
       email,
+      emailUpdates,
       recaptchaToken,
       submitting,
       error,
@@ -270,6 +279,30 @@ class RegisterPage extends React.Component {
           ok={passwordConfirm.ok}
           error={passwordConfirm.error}
         />
+        <div style={{ marginBottom: '2em' }}>
+          <p className="FormInput_label">
+            Souhaitez vous être averti par email lorsque de nouveaux screenshots
+            sont ajoutés au site ?
+          </p>
+          <select
+            value={emailUpdates}
+            onChange={this.handleEmailUpdateFrequencyChange}
+          >
+            {[
+              { label: "Non, pas d'email SVP", value: 'never' },
+              {
+                label: "Oui, dès qu'un nouveau screenshot est posté",
+                value: 'asap',
+              },
+              { label: 'Oui, une fois par jour', value: 'daily' },
+              { label: 'Oui, une fois par semaine', value: 'weekly' },
+            ].map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         <ReCaptcha
           ref={el => {
             this.recaptchaElement = el;
