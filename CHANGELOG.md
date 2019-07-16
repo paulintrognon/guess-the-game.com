@@ -1,3 +1,7 @@
+### v10.0.2
+
+- Add check on google image link
+
 ### v10.0.1
 
 - Fix images link in emails (moderation + marketing)
