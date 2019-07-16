@@ -51,6 +51,8 @@
 }
 .ScreenshotsGrid_item_legend_moderate_verify {
   margin: 10px 0;
+}
+.ScreenshotsGrid_item_legend_moderate_verify a {
   text-decoration: underline;
 }
 .ScreenshotsGrid_item_legend_moderate_button {

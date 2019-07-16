@@ -78,6 +78,14 @@ class ScreenshotItem extends React.Component {
                   rel="noopener noreferrer"
                 >
                   Vérifier sur jv.com
+                </a>{' '}
+                -{' '}
+                <a
+                  href={`https://www.google.com/searchbyimage?image_url=${screenshot.imageUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Vérifier sur google
                 </a>
               </p>
               <ApprovalBox
