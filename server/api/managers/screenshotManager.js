@@ -48,7 +48,8 @@ async function create(screenshotToCreate) {
     }),
     user.canModerateScreenshots ? user.increment('addedScreenshots') : null,
   ]);
-  return screenshot;
+
+  return getFromId(screenshot.id);
 }
 
 async function edit({ id, user, cloudinaryImage, data }) {

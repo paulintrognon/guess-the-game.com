@@ -58,6 +58,10 @@ async function sendEmailUpdateToUser(user) {
       UserId: { [db.Sequelize.Op.not]: user.id },
       approvalStatus: 1,
     },
+    include: {
+      model: db.ScreenshotImage,
+      attributes: ['path'],
+    },
     limit: 51, // needs to be divisible by 3
     order: [['createdAt', 'ASC']],
   });
@@ -73,7 +77,7 @@ async function sendEmailUpdateToUser(user) {
       screenshots: screenshots.map(screenshot => ({
         id: screenshot.id,
         siteUrl: screenshotService.getScreenshotSiteUrl(screenshot),
-        imageUrl: screenshot.imageUrl,
+        imageUrl: screenshot.ScreenshotImage.url,
       })),
       unsubscribeLink: `${frontUrl}/email-updates/unsubscribe?token=${unsubToken}`,
       userSpaceLink: `${frontUrl}/moi/mon-compte`,

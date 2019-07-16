@@ -1,5 +1,4 @@
 const emailService = require('./emailService');
-const cloudinaryService = require('./cloudinaryService');
 const moderationManager = require('../managers/moderationManager');
 const { frontUrl } = require('../../../config');
 
