@@ -1,6 +1,6 @@
 /* Création de la table ScreenshotImages */
 CREATE TABLE
-  `guessthegame`.`ScreenshotImages`
+  `ScreenshotImages`
   (
     `id` INT NOT NULL AUTO_INCREMENT ,
     `ScreenshotId` INT NULL DEFAULT NULL,
