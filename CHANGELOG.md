@@ -1,3 +1,8 @@
+### v10.0.1
+
+- Fix images link in emails (moderation + marketing)
+- Email updates: don't send screenshots that the user has already solved
+
 # v10.0.0 - ScreenshotImage !
 
 - ScreenshotImages table added to better store Cloudinary data
