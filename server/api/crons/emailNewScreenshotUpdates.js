@@ -4,6 +4,7 @@ const db = require('../../db/db');
 const { frontUrl } = require('../../../config/index');
 const emailService = require('../../api/services/emailService');
 const tokenService = require('../../api/services/tokenService');
+const cloudinaryService = require('../../api/services/cloudinaryService');
 const moderationManager = require('../../api/managers/moderationManager');
 const screenshotService = require('../../api/services/screenshotService');
 
@@ -52,19 +53,35 @@ async function emailNewScreenshotsUpdate(frequency) {
 
 async function sendEmailUpdateToUser(user) {
   // On récupère les screenshots que le user n'a pas encore vu
-  const screenshots = await db.Screenshot.findAll({
-    where: {
-      moderatedAt: { [db.Sequelize.Op.gt]: user.emailUpdateLastScreenshotDate },
-      UserId: { [db.Sequelize.Op.not]: user.id },
-      approvalStatus: 1,
-    },
-    include: {
-      model: db.ScreenshotImage,
-      attributes: ['path'],
-    },
-    limit: 51, // needs to be divisible by 3
-    order: [['createdAt', 'ASC']],
-  });
+  const screenshots = await db.sequelize.query(
+    `
+    SELECT
+      Screenshot.id,
+      ScreenshotImages.path
+    FROM
+      Screenshots AS Screenshot
+    LEFT JOIN
+      ScreenshotImages ON Screenshot.ScreenshotImageId = ScreenshotImages.id
+    WHERE (
+      Screenshot.deletedAt IS NULL
+      AND Screenshot.approvalStatus = 1
+      AND (Screenshot.UserId != ${user.id})
+      AND Screenshot.moderatedAt > ?
+      AND NOT EXISTS (
+        SELECT id FROM SolvedScreenshots
+        WHERE
+          SolvedScreenshots.ScreenshotId = Screenshot.id
+          AND SolvedScreenshots.UserId = ${user.id}
+      )
+    )
+    LIMIT 51
+  `,
+    {
+      replacements: [user.emailUpdateLastScreenshotDate],
+      type: db.sequelize.QueryTypes.SELECT,
+    }
+  );
+
   if (screenshots.length === 0) {
     return;
   }
@@ -77,7 +94,7 @@ async function sendEmailUpdateToUser(user) {
       screenshots: screenshots.map(screenshot => ({
         id: screenshot.id,
         siteUrl: screenshotService.getScreenshotSiteUrl(screenshot),
-        imageUrl: screenshot.ScreenshotImage.url,
+        imageUrl: cloudinaryService.pathToUrl(screenshot.path),
       })),
       unsubscribeLink: `${frontUrl}/email-updates/unsubscribe?token=${unsubToken}`,
       userSpaceLink: `${frontUrl}/moi/mon-compte`,
