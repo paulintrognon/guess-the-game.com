@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
         url() {
           return cloudinaryService.pathToUrl(this.path);
         },
+        thumbUrl() {
+          return cloudinaryService.pathToUrl(this.path, { thumb: true });
+        },
       },
     }
   );

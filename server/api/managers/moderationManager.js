@@ -39,7 +39,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
       name => name !== screenshot.gameCanonicalName.toLowerCase()
     ),
     year: screenshot.year,
-    imageUrl: screenshot.ScreenshotImage.url,
+    imageUrl: screenshot.ScreenshotImage.thumbUrl,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
   }));

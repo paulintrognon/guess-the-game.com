@@ -50,6 +50,10 @@ function getImagePath(response) {
   return `v${response.version}/${response.public_id}.${format}`;
 }
 
-function pathToUrl(path) {
-  return `${config.cloudinary.imagesUrlPrefix}${path}`;
+function pathToUrl(path, options) {
+  const params = ['fl_progressive'];
+  if (options && options.thumb) {
+    params.push('w_320');
+  }
+  return `${config.cloudinary.imagesUrlPrefix}/${params.join(',')}/${path}`;
 }
