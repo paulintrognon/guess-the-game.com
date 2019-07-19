@@ -81,7 +81,14 @@ async function getScores({ totalNbScreenshots }) {
       addedScreenshots AS nbAddedScreenshots,
       (solvedScreenshots + addedScreenshots) AS score,
       (solvedScreenshots + addedScreenshots) / ${totalNbScreenshots} AS completeness,
-      COUNT (Screenshots.rating) as nbRatedScreenshots,
+      COUNT (
+        IF(
+          Screenshots.deletedAt IS NULL
+          AND Screenshots.approvalStatus = 1
+          AND Screenshots.rating IS NOT NULL
+          ,1,NULL
+        )
+      ) as nbRatedScreenshots,
       AVG(
         CASE
           WHEN Screenshots.deletedAt IS NULL AND Screenshots.approvalStatus = 1
