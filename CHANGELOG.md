@@ -1,3 +1,9 @@
+## v10.1.0
+
+- Fetch smaller images in user space and moderation space
+- Better registration popups
+- Fix ranking bugs
+
 ### v10.0.2
 
 - Add check on google image link
