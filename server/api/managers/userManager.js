@@ -81,7 +81,14 @@ async function getScores({ totalNbScreenshots }) {
       addedScreenshots AS nbAddedScreenshots,
       (solvedScreenshots + addedScreenshots) AS score,
       (solvedScreenshots + addedScreenshots) / ${totalNbScreenshots} AS completeness,
-      COUNT (Screenshots.rating) as nbRatedScreenshots,
+      COUNT (
+        IF(
+          Screenshots.deletedAt IS NULL
+          AND Screenshots.approvalStatus = 1
+          AND Screenshots.rating IS NOT NULL
+          ,1,NULL
+        )
+      ) as nbRatedScreenshots,
       AVG(
         CASE
           WHEN Screenshots.deletedAt IS NULL AND Screenshots.approvalStatus = 1
@@ -127,7 +134,7 @@ async function getSolvedScreenshots(userId) {
     id: res.Screenshot.id,
     gameCanonicalName: res.Screenshot.gameCanonicalName,
     year: res.Screenshot.year,
-    imageUrl: res.Screenshot.ScreenshotImage.url,
+    imageUrl: res.Screenshot.ScreenshotImage.thumbUrl,
     solvedAt: res.Screenshot.createdAt,
   }));
 }
@@ -156,7 +163,7 @@ async function getAddedScreenshots(userId) {
       name => name !== screenshot.gameCanonicalName
     ),
     year: screenshot.year,
-    imageUrl: screenshot.ScreenshotImage.url,
+    imageUrl: screenshot.ScreenshotImage.thumbUrl,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
   }));
