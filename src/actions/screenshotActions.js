@@ -50,10 +50,10 @@ function getUnsolvedScreenshot(exclude) {
   };
 }
 
-function tryProposal(screenshotId, proposition) {
+function tryProposal(screenshot, proposition) {
   return async dispatch => {
     dispatch({ type: 'SCREENSHOT_PROPOSAL_TRY' });
-    const res = await screenshotService.guess(screenshotId, proposition);
+    const res = await screenshotService.guess(screenshot.id, proposition);
     if (res.jwt) {
       dispatch({ type: 'USER_LOG_IN', payload: { jwt: res.jwt } });
     }
@@ -66,24 +66,57 @@ function tryProposal(screenshotId, proposition) {
       return;
     }
     const { currentRanking, newRanking } = res.newRankingData;
-    if (newRanking < currentRanking) {
-      new Noty({
-        text: `Bravo !! Vous passez à la ${newRanking}${
-          newRanking === 1 ? 'ère' : 'ème'
-        } place !`,
-        type: 'success',
-        timeout: 10000,
-      }).show();
+    const isFirstOneToSolve = !screenshot.stats.firstSolvedBy;
+    const hasNewRanking = newRanking < currentRanking;
 
-      if (store.getState().user.username) {
-        return;
-      }
-      new Noty({
-        text: 'Inscrivez vous pour garder votre place dans le classement 😃',
-        type: 'info',
-        timeout: 10000,
-      }).show();
+    // If the user is the first one to solve the screenshot
+    if (isFirstOneToSolve) {
+      notify({
+        text: '️Bravo, vous êtes le premier a avoir trouvé ce screenshot ! 💪',
+      });
     }
+
+    // If the user got a new ranking
+    if (hasNewRanking) {
+      if (newRanking === 1) {
+        notify({
+          text: `C'est ouf !!! Vous passez à la première place ! 👑`,
+        });
+      } else {
+        notify({
+          text: `Bravo ! Vous passez à la ${newRanking}ème place ! 🏆`,
+        });
+      }
+    }
+
+    // If the user is registered, we stop here
+    if (store.getState().user.username) {
+      return;
+    }
+    // If the user has no achievements, we stop here
+    if (!isFirstOneToSolve && !hasNewRanking) {
+      return;
+    }
+    // If the user is not registered but has achieved something, we kindly suggest him to register
+    let text;
+    if (hasNewRanking && !isFirstOneToSolve) {
+      text =
+        '️Inscrivez vous pour enregistrer votre place dans le classement !';
+    } else if (!hasNewRanking && isFirstOneToSolve) {
+      text =
+        'Inscrivez vous pourt vous la péter en montrant qui est le premier qui a trouvé !';
+    } else {
+      text =
+        '️Inscrivez vous pour enregistrer votre place dans le classement et montrer au monde qui est le premier qui a trouvé !';
+    }
+    notify({
+      text,
+      type: 'info',
+      timeout: 20000,
+      onClick: () => {
+        dispatch(push('/inscription'));
+      },
+    });
   };
 }
 
@@ -99,4 +132,15 @@ function removeOwnScreenshot(screenshotId) {
       }
     });
   };
+}
+
+function notify(options) {
+  new Noty({
+    text: options.text,
+    type: options.type || 'success',
+    timeout: options.timeout || 10000,
+    callbacks: {
+      onClick: options.onClick,
+    },
+  }).show();
 }

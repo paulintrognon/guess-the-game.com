@@ -66,10 +66,7 @@ class ScreenshotPage extends React.Component {
       return;
     }
     this.props.dispatch(
-      screenshotActions.tryProposal(
-        this.props.screenshot.id,
-        this.state.proposal
-      )
+      screenshotActions.tryProposal(this.props.screenshot, this.state.proposal)
     );
   };
 
