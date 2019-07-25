@@ -201,11 +201,11 @@ async function addScreenshot(req) {
   }
 
   // Uploading to cloudinary
-  const cloudinaryImage = await uploadScreenshotImage(req.body.localImageName);
+  const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
 
   // Inserting the image in the database
   const screenshot = await screenshotManager.create({
-    cloudinaryImage,
+    localImagePath,
     gameCanonicalName: req.body.name,
     alternativeNames: req.body.alternativeNames,
     year: req.body.year || null,
@@ -224,22 +224,20 @@ async function editScreenshot(req) {
     return bluebird.reject({
       status: 401,
       code: 'MUST_BE_IDENTIFIED',
-      message: 'User must be identified to add a new screenshot.',
+      message: 'User must be identified to edit a screenshot.',
     });
   }
 
-  ['name', 'id'].forEach(field => {
-    if (!req.body.name) {
-      throw new Error(`User ${field} cannot be null`);
-    }
-  });
+  if (!req.body.name) {
+    throw new Error(`Screenshot needs to have a name`);
+  }
 
-  const cloudinaryImage = await uploadScreenshotImage(req.body.localImageName);
+  const localImagePath = getUploadedImageLocalPath(req.body.localImageName);
 
   return screenshotManager.edit({
     id: req.body.id,
     user: req.user,
-    cloudinaryImage,
+    localImagePath,
     data: {
       gameCanonicalName: req.body.name,
       alternativeNames: req.body.alternativeNames,
@@ -264,21 +262,9 @@ async function rateScreenshot(req) {
   });
 }
 
-async function uploadScreenshotImage(localImageName) {
-  if (!localImageName) {
+function getUploadedImageLocalPath(imageName) {
+  if (!imageName) {
     return null;
   }
-
-  // Checking if image is still on local path
-  const localImagePath = getUploadedImageLocalPath(localImageName);
-  if (!fs.existsSync(localImagePath)) {
-    throw new Error('Sorry, your image has been deleted, please re-upload it');
-  }
-
-  // Uploading image to cloudinary
-  return cloudinaryService.uploadImage(localImagePath);
-}
-
-function getUploadedImageLocalPath(imageName) {
   return `${__dirname}/../../uploads/${imageName}`;
 }
