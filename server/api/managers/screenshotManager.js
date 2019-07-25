@@ -260,11 +260,16 @@ async function deleteUserScreenshot({ userId, screenshotId }) {
   if (!screenshot) {
     return;
   }
+  const wasScreenshotActive = screenshot.approvalStatus === 1;
   // On supprime le screenshot
   await screenshot.destroy();
-  // Si ça s'est bien passé
+  // Si le screenshot n'était pas en jeu, on s'arrête là
+  if (!wasScreenshotActive) {
+    return;
+  }
+  // Si le screenshot était en jeu, on met à jour les scores
   await Promise.all([
-    // on décrémente le compte de screenshots ajoutés par le user
+    // On décrémente le compte de screenshots ajoutés par le user
     db.User.findByPk(userId).then(
       user => user && user.decrement('addedScreenshots')
     ),
