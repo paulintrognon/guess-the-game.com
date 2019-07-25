@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { ReCaptcha } from 'react-recaptcha-google';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
@@ -335,7 +336,16 @@ class RegisterPage extends React.Component {
         <Helmet title="Inscription" />
         <LoginPagesSwitcher />
         <SmallContainer title="Inscription">
-          {!user.username && this.renderForm()}
+          {!user.username && [
+            <p style={{ fontStyle: 'italic' }}>
+              (Si vous avez déjà un compte,{' '}
+              <Link style={{ textDecoration: 'underline' }} to="/connexion">
+                cliquez ici pour vous connecter
+              </Link>
+              )
+            </p>,
+            this.renderForm(),
+          ]}
           {user.username && (
             <p>
               Vous êtes déjà inscrit(e) et connecté(e) en tant que{' '}

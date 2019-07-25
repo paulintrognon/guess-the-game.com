@@ -81,7 +81,7 @@ export default withRouter(connect(mapStoreToProps)(Header));
 function renderLoginButtons() {
   return (
     <Link key="navLoginLink" to="/inscription" className="Header_login_link">
-      Inscription / Connexion
+      Mon compte
     </Link>
   );
 }
