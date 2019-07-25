@@ -31,9 +31,9 @@ function loadUserSolvedScreenshots() {
   };
 }
 
-function loadUserAddedScreenshots() {
+function loadUserAddedScreenshots(filters) {
   return async dispatch => {
-    const addedScreenshots = await userService.fetchAddedScreenshots();
+    const addedScreenshots = await userService.fetchAddedScreenshots(filters);
     dispatch({
       type: 'USER_ADDED-SCREENSHOTS_LOADED',
       payload: addedScreenshots,

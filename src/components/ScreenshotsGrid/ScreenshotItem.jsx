@@ -44,7 +44,13 @@ class ScreenshotItem extends React.Component {
               backgroundImage: `url(${screenshot.imageUrl})`,
             }}
             className="ScreenshotsGrid_item_image"
-          />
+          >
+            {canEditScreenshots && (
+              <ScreenshotApprovalStatus
+                approvalStatus={screenshot.approvalStatus}
+              />
+            )}
+          </div>
         </Link>
         <div className="ScreenshotsGrid_item_legend">
           {canEditScreenshots ? (
@@ -172,4 +178,29 @@ function generateEditLink(screenshot) {
     year: screenshot.year || '',
     url: screenshot.imageUrl,
   })}`;
+}
+
+function ScreenshotApprovalStatus({ approvalStatus }) {
+  if (approvalStatus === 1) {
+    return (
+      <p className="ScreenshotsGrid_item_image_approvalStatus -approved">
+        Approuvé
+      </p>
+    );
+  }
+  if (approvalStatus === 0) {
+    return (
+      <p className="ScreenshotsGrid_item_image_approvalStatus -waiting">
+        En attente...
+      </p>
+    );
+  }
+  if (approvalStatus === -1) {
+    return (
+      <p className="ScreenshotsGrid_item_image_approvalStatus -refused">
+        Refusé
+      </p>
+    );
+  }
+  return null;
 }

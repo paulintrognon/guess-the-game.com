@@ -26,12 +26,7 @@ function createUserIdToken(user) {
 }
 
 function decode(token) {
-  try {
-    return jwt.verify(token, secret);
-  } catch (e) {
-    logger.error(e.message);
-    return null;
-  }
+  return jwt.verify(token, secret);
 }
 
 function isOutdated(decodedToken) {

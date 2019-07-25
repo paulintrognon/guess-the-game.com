@@ -55,17 +55,15 @@ class Header extends React.Component {
               >
                 Classement
               </Link>
-              {username && (
-                <Link
-                  to="/ajouter-un-screenshot"
-                  className={`Header_nav_link ${
-                    this.isPathActive('/ajouter-un-screenshot') ? '-active' : ''
-                  }`}
-                >
-                  Ajouter&nbsp;
-                  <span className="-hideOnSmartphones">un screenshot</span>
-                </Link>
-              )}
+              <Link
+                to="/ajouter-un-screenshot"
+                className={`Header_nav_link ${
+                  this.isPathActive('/ajouter-un-screenshot') ? '-active' : ''
+                }`}
+              >
+                Ajouter&nbsp;
+                <span className="-hideOnSmartphones">un screenshot</span>
+              </Link>
             </nav>
             <div className="Header_nav_right">
               {username
@@ -82,8 +80,8 @@ export default withRouter(connect(mapStoreToProps)(Header));
 
 function renderLoginButtons() {
   return (
-    <Link key="navLoginLink" to="/connexion" className="Header_login_link">
-      Login
+    <Link key="navLoginLink" to="/inscription" className="Header_login_link">
+      Mon compte
     </Link>
   );
 }

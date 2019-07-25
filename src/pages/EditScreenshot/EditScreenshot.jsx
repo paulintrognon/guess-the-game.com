@@ -6,12 +6,18 @@ import { apiUrl } from 'config';
 import { ReCaptcha } from 'react-recaptcha-google';
 import screenshotService from '../../services/screenshotService';
 import screenshotActions from '../../actions/screenshotActions';
+import loginActions from '../../actions/loginActions';
 import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Form/Button/Button';
 import SmallContainer from '../../components/SmallContainer/SmallContainer';
 import Loading from '../../components/Loading/Loading';
 import './EditScreenshot.css';
 
+function mapStoreToProps(store) {
+  return {
+    user: store.user,
+  };
+}
 class EditScreenshotPage extends React.Component {
   constructor(props) {
     super(props);
@@ -222,7 +228,15 @@ class EditScreenshotPage extends React.Component {
     }
   };
 
+  renderNeedToConnect = () => <p>nned to connect</p>;
+
   render() {
+    const { user } = this.props;
+    if (!user.username) {
+      this.props.dispatch(loginActions.needToRegister());
+      return null;
+    }
+
     const screenshotId = this.props.match.params.id;
     const valid =
       (screenshotId || this.state.uploadedImageName) &&
@@ -419,7 +433,7 @@ class EditScreenshotPage extends React.Component {
     );
   }
 }
-export default connect()(EditScreenshotPage);
+export default connect(mapStoreToProps)(EditScreenshotPage);
 
 function getAlternativeNameExample(index) {
   const alternativeNames = ['Ex: GTA V', 'Ex: Grand Theft Auto 5', 'Ex: GTA 5'];
