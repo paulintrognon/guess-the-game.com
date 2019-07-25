@@ -28,7 +28,26 @@ const UserPages = ({ user, match, dispatch }) => {
           path={`${match.url}/resolus`}
           component={SolvedScreenshotsPage}
         />
-        <Route path={`${match.url}/ajoutes`} component={AddedScreenshotsPage} />
+        <Route
+          path={`${match.url}/ajoutes`}
+          component={AddedScreenshotsPage}
+          exact
+        />
+        <Route
+          path={`${match.url}/ajoutes/valides`}
+          component={AddedScreenshotsPage}
+          exact
+        />
+        <Route
+          path={`${match.url}/ajoutes/refuses`}
+          component={AddedScreenshotsPage}
+          exact
+        />
+        <Route
+          path={`${match.url}/ajoutes/en-attente`}
+          component={AddedScreenshotsPage}
+          exact
+        />
       </div>
     </div>
   );

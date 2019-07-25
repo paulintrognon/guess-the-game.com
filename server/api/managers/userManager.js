@@ -139,7 +139,7 @@ async function getSolvedScreenshots(userId) {
   }));
 }
 
-async function getAddedScreenshots(userId) {
+async function getAddedScreenshots(userId, extraFilters) {
   const results = await db.Screenshot.findAll({
     attributes: [
       'id',
@@ -148,7 +148,10 @@ async function getAddedScreenshots(userId) {
       'createdAt',
       'ScreenshotImageId',
     ],
-    where: { UserId: userId },
+    where: {
+      UserId: userId,
+      ...(extraFilters || {}),
+    },
     limit: 100,
     order: [['createdAt', 'DESC']],
     include: [

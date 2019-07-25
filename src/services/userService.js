@@ -22,8 +22,8 @@ async function fetchSolvedScreenshots() {
   return api.post('/user/solved-screenshots');
 }
 
-async function fetchAddedScreenshots() {
-  return api.post('/user/added-screenshots');
+async function fetchAddedScreenshots(filters) {
+  return api.post('/user/added-screenshots', filters);
 }
 
 async function fetchScreenshotRating({ screenshotId }) {
