@@ -1,6 +1,8 @@
 const bluebird = require('bluebird');
+const fs = require('fs');
 const phonetiksService = require('../services/phonetiksService');
 const screenshotService = require('../services/screenshotService');
+const cloudinaryService = require('../services/cloudinaryService');
 const db = require('../../db/db');
 
 module.exports = {
@@ -42,37 +44,48 @@ async function create(screenshotToCreate) {
   await Promise.all([
     user.addScreenshot(screenshot),
     addScreenshotNames(screenshot, names),
-    screenshot.createScreenshotImage({
-      ...screenshotToCreate.cloudinaryImage,
-      ScreenshotId: screenshot.id,
-    }),
+    uploadScreenshotImage(screenshotToCreate.localImagePath, screenshot),
     user.canModerateScreenshots ? user.increment('addedScreenshots') : null,
   ]);
 
   return getFromId(screenshot.id);
 }
 
-async function edit({ id, user, cloudinaryImage, data }) {
+async function edit({ id, user, localImagePath, data }) {
   const screenshot = await db.Screenshot.findByPk(id);
   if (!screenshot) {
     throw new Error('screenshot not found');
   }
-  if (!user.canModerateScreenshots && user.id !== screenshot.UserId) {
-    throw new Error('No rights to edit that screenshot');
+  let newApprovalStatus = screenshot.approvalStatus;
+  if (!user.canModerateScreenshots) {
+    // Si l'utilisateur n'est pas modérateur ni propriétaire de son screenshot
+    if (user.id !== screenshot.UserId) {
+      throw new Error('No rights to edit that screenshot');
+    }
+    // Si l'utilisateur tente de modifier une image...
+    if (localImagePath) {
+      // ... et qu'elle est déjà approvée, erreur
+      if (screenshot.approvalStatus === 1) {
+        throw new Error(
+          "Impossible de modifier l'image d'un screenshot déjà validé."
+        );
+      } else {
+        // Sinon, on la passe à nouveau en attente
+        newApprovalStatus = 0;
+      }
+    }
   }
 
   // Ajout de la nouvelle image (si besoin)
-  const newScreenshotImage = await (cloudinaryImage &&
-    screenshot.createScreenshotImage({
-      ...cloudinaryImage,
-      ScreenshotId: screenshot.id,
-    }));
+  const newScreenshotImage = await (localImagePath &&
+    uploadScreenshotImage(localImagePath, screenshot));
 
   // Mise à jour des données de la screenshots
   await screenshot.update({
     gameCanonicalName: data.gameCanonicalName,
+    approvalStatus: newApprovalStatus,
     year: data.year || null,
-    ...(cloudinaryImage && { ScreenshotImageId: newScreenshotImage.id }),
+    ...(localImagePath && { ScreenshotImageId: newScreenshotImage.id }),
   });
 
   // Mise à jour des noms
@@ -260,11 +273,16 @@ async function deleteUserScreenshot({ userId, screenshotId }) {
   if (!screenshot) {
     return;
   }
+  const wasScreenshotActive = screenshot.approvalStatus === 1;
   // On supprime le screenshot
   await screenshot.destroy();
-  // Si ça s'est bien passé
+  // Si le screenshot n'était pas en jeu, on s'arrête là
+  if (!wasScreenshotActive) {
+    return;
+  }
+  // Si le screenshot était en jeu, on met à jour les scores
   await Promise.all([
-    // on décrémente le compte de screenshots ajoutés par le user
+    // On décrémente le compte de screenshots ajoutés par le user
     db.User.findByPk(userId).then(
       user => user && user.decrement('addedScreenshots')
     ),
@@ -403,5 +421,20 @@ function getScreenshotNames(screenshot) {
       dm1: phonetiks[0],
       dm2: phonetiks[1],
     };
+  });
+}
+
+async function uploadScreenshotImage(localImagePath, screenshot) {
+  if (!fs.existsSync(localImagePath)) {
+    throw new Error('Sorry, your image has been deleted, please re-upload it');
+  }
+
+  // Uploading image to cloudinary
+  const cloudinaryImage = await cloudinaryService.uploadImage(localImagePath);
+
+  // Registering the image to the database
+  return screenshot.createScreenshotImage({
+    ...cloudinaryImage,
+    ScreenshotId: screenshot.id,
   });
 }

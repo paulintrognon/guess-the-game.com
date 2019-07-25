@@ -83,7 +83,7 @@ async function register(req) {
       logger.info('Registering new user', { username: req.body.username });
 
       // Si l'utilisateur a déjà un compte mais pas encore d'email, on met à jour
-      if (req.body.jwt && !req.user.email) {
+      if (req.body.jwt) {
         return userManager.update(req.user.id, user);
       }
       // Sinon, on crée le nouvel utilisateur

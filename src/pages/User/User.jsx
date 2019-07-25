@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router';
+import { Route } from 'react-router';
 import './User.css';
+import loginActions from '../../actions/loginActions';
 import Menu from './Menu/Menu';
 import AccountPage from './Account/Account';
 import ModerationPage from './Moderation/Moderation';
@@ -13,9 +14,9 @@ function mapStoreToProps(store) {
     user: store.user,
   };
 }
-const UserPages = ({ user, match }) => {
-  if (!user || !user.jwt) {
-    return <Redirect to="/connexion" />;
+const UserPages = ({ user, match, dispatch }) => {
+  if (!user || !user.username) {
+    dispatch(loginActions.needToRegister());
   }
   return (
     <div className="UserPages">
@@ -27,7 +28,26 @@ const UserPages = ({ user, match }) => {
           path={`${match.url}/resolus`}
           component={SolvedScreenshotsPage}
         />
-        <Route path={`${match.url}/ajoutes`} component={AddedScreenshotsPage} />
+        <Route
+          path={`${match.url}/ajoutes`}
+          component={AddedScreenshotsPage}
+          exact
+        />
+        <Route
+          path={`${match.url}/ajoutes/valides`}
+          component={AddedScreenshotsPage}
+          exact
+        />
+        <Route
+          path={`${match.url}/ajoutes/refuses`}
+          component={AddedScreenshotsPage}
+          exact
+        />
+        <Route
+          path={`${match.url}/ajoutes/en-attente`}
+          component={AddedScreenshotsPage}
+          exact
+        />
       </div>
     </div>
   );

@@ -59,18 +59,21 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
   if (newApprovalStatus === screenshot.approvalStatus) {
     return;
   }
+
   const shouldIncrement = newApprovalStatus === 1;
   const shouldDecrement =
-    newApprovalStatus === -1 && screenshot.approvalStatus === 1;
-  const poster = await db.User.findByPk(screenshot.UserId);
+    (newApprovalStatus === -1 || newApprovalStatus === 0) &&
+    screenshot.approvalStatus === 1;
+
+  const uploaderUser = await db.User.findByPk(screenshot.UserId);
   await Promise.all([
     screenshot.update({
       approvalStatus: newApprovalStatus,
       moderatedBy: moderator.id,
       moderatedAt: new Date(),
     }),
-    shouldIncrement && poster.increment('addedScreenshots'),
-    shouldDecrement && poster.decrement('addedScreenshots'),
+    shouldIncrement && uploaderUser.increment('addedScreenshots'),
+    shouldDecrement && uploaderUser.decrement('addedScreenshots'),
     newApprovalStatus === -1 &&
       screenshotManager.removeSolvedPointsForScreenshot({ screenshotId }),
   ]);

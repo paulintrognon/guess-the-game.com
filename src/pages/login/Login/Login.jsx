@@ -119,7 +119,17 @@ class LoginPage extends React.Component {
         <Helmet title="Connexion" />
         <LoginPageSwitcher />
         <SmallContainer title="Connexion">
-          {!user.username && this.renderForm()}
+          {!user.username && [
+            <p style={{ fontStyle: 'italic' }}>
+              (Si vous n&apos;avez pas encore de compte,{' '}
+              <Link style={{ textDecoration: 'underline' }} to="/inscription">
+                cliquez ici pour vous en créer un.
+              </Link>
+              )
+            </p>,
+            this.renderForm(),
+          ]}
+
           {user.username && (
             <p>
               Vous êtes connecté(e) en tant que <b>{user.username}</b> !

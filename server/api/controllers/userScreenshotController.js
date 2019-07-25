@@ -1,6 +1,5 @@
 const userManager = require('../managers/userManager');
 const screenshotManager = require('../managers/screenshotManager');
-const cloudinaryService = require('../services/cloudinaryService');
 
 module.exports = {
   getScores,
@@ -25,7 +24,16 @@ async function getSolvedScreenshots(req) {
 
 async function getAddedScreenshots(req) {
   const { id } = req.user;
-  return userManager.getAddedScreenshots(id);
+  const { approvalStatus } = req.body;
+  const filters = {};
+  if (approvalStatus === 'approved') {
+    filters.approvalStatus = 1;
+  } else if (approvalStatus === 'refused') {
+    filters.approvalStatus = -1;
+  } else if (approvalStatus === 'waiting') {
+    filters.approvalStatus = 0;
+  }
+  return userManager.getAddedScreenshots(id, filters);
 }
 
 async function getScreenshotRating(req) {

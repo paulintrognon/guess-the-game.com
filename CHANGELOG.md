@@ -1,3 +1,10 @@
+## v10.2.0
+
+- Add filters in user added screenshots (all, accepted, refused, waiting)
+- Non logged in users can now see the "add screenshots" link
+- Focus on regitration rather than log in
+- Prevent users to update images on accepted screenshots
+
 ## v10.1.0
 
 - Fetch smaller images in user space and moderation space

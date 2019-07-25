@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 import BarTitle from '../../../components/BarTitle/BarTitle';
 import Loading from '../../../components/Loading/Loading';
+import PagesSwitcher from '../../../components/PagesSwitcher/PagesSwitcher';
 import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
 import userActions from '../../../actions/userActions';
 import './AddedScreenshots.css';
@@ -16,7 +17,17 @@ function mapStoreToProps(store) {
 class AddedScreenshotsPage extends React.Component {
   constructor(props) {
     super(props);
-    this.props.dispatch(userActions.loadUserAddedScreenshots());
+    let approvalStatus;
+    if (props.location.pathname.indexOf('/valides') > -1) {
+      approvalStatus = 'approved';
+    } else if (props.location.pathname.indexOf('/en-attente') > -1) {
+      approvalStatus = 'waiting';
+    } else if (props.location.pathname.indexOf('/refuses') > -1) {
+      approvalStatus = 'refused';
+    }
+    this.props.dispatch(
+      userActions.loadUserAddedScreenshots({ approvalStatus })
+    );
   }
 
   render() {
@@ -28,6 +39,19 @@ class AddedScreenshotsPage extends React.Component {
           <BarTitle onlyOnSmartphones>
             <h2>Screenshots Ajoutes</h2>
           </BarTitle>
+
+          <PagesSwitcher
+            links={[
+              { label: 'Toutes', to: '/moi/ajoutes' },
+              { label: 'Accpetées', to: '/moi/ajoutes/valides' },
+              {
+                label: 'En Attente',
+                to: '/moi/ajoutes/en-attente',
+              },
+              { label: 'Refusés', to: '/moi/ajoutes/refuses' },
+            ]}
+          />
+
           {addedScreenshots === null ? (
             <p style={{ textAlign: 'center' }}>
               <Loading />
