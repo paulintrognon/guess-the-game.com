@@ -16,6 +16,14 @@
   margin: 5px 0 15px;
 }
 
+.SmallContainer_subtitle {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: -10px;
+  font-style: italic;
+}
+
 @media (min-width: 480px) {
   .SmallContainer {
     padding: 15px 55px;
@@ -23,5 +31,10 @@
 
   .SmallContainer_title {
     margin: 15px 0 40px;
+  }
+
+  .SmallContainer_subtitle {
+    margin-bottom: 40px;
+    margin-top: -35px;
   }
 }
