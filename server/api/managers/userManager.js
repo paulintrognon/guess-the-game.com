@@ -144,6 +144,7 @@ async function getAddedScreenshots(userId, extraFilters) {
     attributes: [
       'id',
       'gameCanonicalName',
+      'approvalStatus',
       'year',
       'createdAt',
       'ScreenshotImageId',
