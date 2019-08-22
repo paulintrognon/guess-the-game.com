@@ -1,4 +1,4 @@
-### v10.2.0
+### v10.2.1
 
 - Fix typos
 - Registration popup stays for 12sec instead of 20
