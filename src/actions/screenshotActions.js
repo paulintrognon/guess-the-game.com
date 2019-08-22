@@ -104,7 +104,7 @@ function tryProposal(screenshot, proposition) {
         '️Inscrivez vous pour enregistrer votre place dans le classement !';
     } else if (!hasNewRanking && isFirstOneToSolve) {
       text =
-        'Inscrivez vous pourt vous la péter en montrant qui est le premier qui a trouvé !';
+        'Inscrivez vous pour vous la péter en montrant qui est le premier qui a trouvé !';
     } else {
       text =
         '️Inscrivez vous pour enregistrer votre place dans le classement et montrer au monde qui est le premier qui a trouvé !';
@@ -112,7 +112,7 @@ function tryProposal(screenshot, proposition) {
     notify({
       text,
       type: 'info',
-      timeout: 20000,
+      timeout: 12000,
       onClick: () => {
         dispatch(push('/inscription'));
       },
