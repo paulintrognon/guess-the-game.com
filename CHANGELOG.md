@@ -1,3 +1,8 @@
+### v10.2.0
+
+- Fix typos
+- Registration popup stays for 12sec instead of 20
+
 ## v10.2.0
 
 - Add filters in user added screenshots (all, accepted, refused, waiting)
