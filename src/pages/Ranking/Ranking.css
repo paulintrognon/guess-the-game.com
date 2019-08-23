@@ -1,7 +1,14 @@
 .RankingPage {
   max-width: 1024px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 20px;
+}
+
+.RankingPage_ranking_title {
+  font-size: 18px;
+  text-align: center;
+  margin: 10px 0 10px;
+  font-family: Norwester;
 }
 
 .RankingPage_ranking_total {
