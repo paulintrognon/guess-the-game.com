@@ -1,3 +1,10 @@
+## v10.3.0
+
+- Add robots.txt & sitemap
+- Add discord and github in footer
+- Fix typos
+- Add text and titles for SEO
+
 ### v10.2.1
 
 - Fix typos

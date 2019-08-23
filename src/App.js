@@ -53,7 +53,7 @@ export default class App extends React.Component {
         <ConnectedRouter history={history}>
           <Layout>
             <Helmet
-              defaultTitle="Guess The Game - Trouvez des jeux-vidéos à partir de screenshots"
+              defaultTitle="Guess The Game - Trouvez des jeux-vidéo à partir de screenshots"
               titleTemplate="%s - Guess The Game!"
             >
               <link rel="canonical" href="https://guess-the-game.com/" />
