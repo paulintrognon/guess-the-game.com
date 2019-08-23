@@ -96,6 +96,11 @@
   font-size: 15px;
   transition: background-color 200ms;
 }
+@media (max-width: 480px) {
+  .Header_login_link {
+    padding: 5px 10px;
+  }
+}
 .Header_login_link:hover {
   background-color: #47525E;
 }
@@ -111,7 +116,7 @@
     display: flex;
     align-items: center;
   }
-  
+
   .Header_nav {
     margin-top: 0px;
   }

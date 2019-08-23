@@ -40,6 +40,7 @@ class Homepage extends React.Component {
 
     return (
       <div className="RankingPage_ranking">
+        <h2 className="RankingPage_ranking_title">Classement Guess The Game</h2>
         <p className="RankingPage_ranking_total">
           Nombre total de screenshots: <b>{totalNbScreenshots}</b>
         </p>
