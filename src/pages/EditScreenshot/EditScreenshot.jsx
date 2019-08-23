@@ -345,6 +345,10 @@ class EditScreenshotPage extends React.Component {
                 </p>
               )}
             </div>
+            <p>
+              ⚠️ Assurez vous que votre image{' '}
+              <strong>ne provienne pas de Google Image&nbsp;!</strong>
+            </p>
             {this.state.fileError && (
               <p className="EditScreenshotPage_form_error">
                 {this.state.fileError}
