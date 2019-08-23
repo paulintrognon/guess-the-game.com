@@ -34,7 +34,7 @@ class AddedScreenshotsPage extends React.Component {
     const { addedScreenshots } = this.props;
     return (
       <section className="section">
-        <Helmet title="Screenshots Ajoutés" />
+        <Helmet title="Screenshots Approuvés" />
         <div className="AddedScreenshotsPage">
           <BarTitle onlyOnSmartphones>
             <h2>Screenshots Ajoutes</h2>
@@ -42,8 +42,8 @@ class AddedScreenshotsPage extends React.Component {
 
           <PagesSwitcher
             links={[
-              { label: 'Toutes', to: '/moi/ajoutes' },
-              { label: 'Accpetées', to: '/moi/ajoutes/valides' },
+              { label: 'Tous', to: '/moi/ajoutes' },
+              { label: 'Approuvés', to: '/moi/ajoutes/valides' },
               {
                 label: 'En Attente',
                 to: '/moi/ajoutes/en-attente',

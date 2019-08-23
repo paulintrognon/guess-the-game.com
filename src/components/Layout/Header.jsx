@@ -33,9 +33,9 @@ class Header extends React.Component {
     return (
       <header className="Header">
         <div className="Header_container">
-          <div className="Header_logo">
+          <h1 className="Header_logo">
             <Link to="/">Guess The Game!</Link>
-          </div>
+          </h1>
           <div className="Header_nav">
             <nav className="Header_nav_left">
               <button
@@ -81,7 +81,8 @@ export default withRouter(connect(mapStoreToProps)(Header));
 function renderLoginButtons() {
   return (
     <Link key="navLoginLink" to="/inscription" className="Header_login_link">
-      Mon compte
+      <span className="-hideOnTablets">Mon compte</span>
+      <span className="-onlyOnTablets">Compte</span>
     </Link>
   );
 }
