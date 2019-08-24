@@ -6,7 +6,6 @@ module.exports = {
   getScores,
   getSolvedScreenshots,
   getAddedScreenshots,
-  getScreenshotRating,
 };
 
 async function getScores() {
@@ -39,10 +38,4 @@ async function getAddedScreenshots(req) {
   return userManager.getAddedScreenshots(id, {
     ...(approvalStatus && { approvalStatus }),
   });
-}
-
-async function getScreenshotRating(req) {
-  const userId = req.user.id;
-  const { screenshotId } = req.body;
-  return userManager.getScreenshotRating({ screenshotId, userId });
 }
