@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const userManager = require('../managers/userManager');
 const screenshotManager = require('../managers/screenshotManager');
 
@@ -5,7 +6,6 @@ module.exports = {
   getScores,
   getSolvedScreenshots,
   getAddedScreenshots,
-  getScreenshotRating,
 };
 
 async function getScores() {
@@ -25,19 +25,17 @@ async function getSolvedScreenshots(req) {
 async function getAddedScreenshots(req) {
   const { id } = req.user;
   const { approvalStatus } = req.body;
-  const filters = {};
-  if (approvalStatus === 'approved') {
-    filters.approvalStatus = 1;
-  } else if (approvalStatus === 'refused') {
-    filters.approvalStatus = -1;
-  } else if (approvalStatus === 'waiting') {
-    filters.approvalStatus = 0;
+  if (
+    approvalStatus &&
+    !['approved', 'refused', 'waiting'].includes(approvalStatus)
+  ) {
+    return bluebird.reject({
+      code: 'INVALID_BODY',
+      message: 'approvalStatus doit être égal à approved, refused ou waiting.',
+    });
   }
-  return userManager.getAddedScreenshots(id, filters);
-}
 
-async function getScreenshotRating(req) {
-  const userId = req.user.id;
-  const { screenshotId } = req.body;
-  return userManager.getScreenshotRating({ screenshotId, userId });
+  return userManager.getAddedScreenshots(id, {
+    ...(approvalStatus && { approvalStatus }),
+  });
 }

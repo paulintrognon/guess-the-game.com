@@ -84,14 +84,14 @@ async function getScores({ totalNbScreenshots }) {
       COUNT (
         IF(
           Screenshots.deletedAt IS NULL
-          AND Screenshots.approvalStatus = 1
+          AND Screenshots.approvalStatus = 'approved'
           AND Screenshots.rating IS NOT NULL
           ,1,NULL
         )
       ) as nbRatedScreenshots,
       AVG(
         CASE
-          WHEN Screenshots.deletedAt IS NULL AND Screenshots.approvalStatus = 1
+          WHEN Screenshots.deletedAt IS NULL AND Screenshots.approvalStatus = 'approved'
           THEN Screenshots.rating ELSE NULL END
         ) AS averageUploadScore,
       (
@@ -145,6 +145,7 @@ async function getAddedScreenshots(userId, extraFilters) {
       'id',
       'gameCanonicalName',
       'approvalStatus',
+      'refusalReason',
       'year',
       'createdAt',
       'ScreenshotImageId',
@@ -170,6 +171,7 @@ async function getAddedScreenshots(userId, extraFilters) {
     imageUrl: screenshot.ScreenshotImage.thumbUrl,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
+    refusalReason: screenshot.refusalReason,
   }));
 }
 

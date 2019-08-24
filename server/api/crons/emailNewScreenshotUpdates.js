@@ -64,7 +64,7 @@ async function sendEmailUpdateToUser(user) {
       ScreenshotImages ON Screenshot.ScreenshotImageId = ScreenshotImages.id
     WHERE (
       Screenshot.deletedAt IS NULL
-      AND Screenshot.approvalStatus = 1
+      AND Screenshot.approvalStatus = 'approved'
       AND (Screenshot.UserId != ${user.id})
       AND Screenshot.moderatedAt > ?
       AND NOT EXISTS (

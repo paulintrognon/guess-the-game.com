@@ -5,7 +5,6 @@ export default {
   fetchUser,
   fetchSolvedScreenshots,
   fetchAddedScreenshots,
-  fetchScreenshotRating,
   updateUser,
   unsubscribeFromEmailUpdates,
 };
@@ -24,10 +23,6 @@ async function fetchSolvedScreenshots() {
 
 async function fetchAddedScreenshots(filters) {
   return api.post('/user/added-screenshots', filters);
-}
-
-async function fetchScreenshotRating({ screenshotId }) {
-  return api.post('/user/screenshot-rating', { screenshotId });
 }
 
 async function updateUser(values) {

@@ -7,7 +7,7 @@ UPDATE
         FROM
             Screenshots
         WHERE
-            Screenshots.approvalStatus = 1
+            Screenshots.approvalStatus = 'approved'
         GROUP BY
             Screenshots.UserId
     ) AS s ON
