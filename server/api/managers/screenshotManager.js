@@ -213,7 +213,7 @@ async function getUnsolved({ userId, exclude }) {
       Users ON Screenshot.UserId = Users.id
     WHERE (
       Screenshot.deletedAt IS NULL AND
-      Screenshot.approvalStatus = 'accepted'
+      Screenshot.approvalStatus = 'approved'
       ${
         userId
           ? `

@@ -5,7 +5,6 @@ const screenshotManager = require('../managers/screenshotManager');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
 const recaptchaService = require('../services/recaptchaService');
-const screenshotService = require('../services/screenshotService');
 const moderationService = require('../services/moderationService');
 const logger = require('../../logger');
 
