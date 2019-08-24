@@ -145,6 +145,7 @@ async function getAddedScreenshots(userId, extraFilters) {
       'id',
       'gameCanonicalName',
       'approvalStatus',
+      'refusalReason',
       'year',
       'createdAt',
       'ScreenshotImageId',
@@ -170,6 +171,7 @@ async function getAddedScreenshots(userId, extraFilters) {
     imageUrl: screenshot.ScreenshotImage.thumbUrl,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
+    refusalReason: screenshot.refusalReason,
   }));
 }
 

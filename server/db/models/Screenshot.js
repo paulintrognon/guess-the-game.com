@@ -18,6 +18,21 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'waiting',
         allowNull: false,
       },
+      refusalReason: {
+        type: DataTypes.ENUM(
+          'alreadySubmitted',
+          'badQuality',
+          'existsInGoogleImage',
+          'gameNotFamousEnough',
+          'notAGame',
+          'tooMuchOfThisGame',
+          'spam',
+          'other'
+        ),
+        allowNull: true,
+        defaultValue: null,
+      },
+
       rating: {
         type: DataTypes.INTEGER,
         defaultValue: null,

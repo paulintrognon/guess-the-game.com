@@ -64,36 +64,3 @@
   font-size: 14px;
   font-weight: bold;
 }
-
-.ScreenshotsGrid_item_legend_moderate {
-  text-align: center;
-  margin: 12px 0 8px;
-}
-.ScreenshotsGrid_item_legend_moderate_verify {
-  margin: 10px 0;
-}
-.ScreenshotsGrid_item_legend_moderate_verify a {
-  text-decoration: underline;
-}
-.ScreenshotsGrid_item_legend_moderate_button {
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0 10px;
-  display: inline-flex;
-  align-items: center;
-}
-.ScreenshotsGrid_item_legend_moderate_button:hover {
-  text-decoration: underline;
-}
-.ScreenshotsGrid_item_legend_moderate_button svg {
-  width: 18px;
-  padding-right: 5px;
-}
-.ScreenshotsGrid_item_legend_moderate_button.-approve, .ScreenshotsGrid_item_legend_moderate_button.-approve svg {
-  color: #03ae46;
-  fill:  #03ae46;
-}
-.ScreenshotsGrid_item_legend_moderate_button.-reject, .ScreenshotsGrid_item_legend_moderate_button.-reject svg {
-  color: #fd464c;
-  fill:  #fd464c;
-}

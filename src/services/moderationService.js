@@ -29,9 +29,10 @@ function fetchModeratedByYou() {
   return api.post('/moderation/moderated-by-you');
 }
 
-function moderate({ screenshotId, newApprovalStatus }) {
+function moderate({ screenshotId, newApprovalStatus, refusalReason }) {
   return api.post('/moderation/moderate', {
     screenshotId,
     newApprovalStatus,
+    refusalReason,
   });
 }

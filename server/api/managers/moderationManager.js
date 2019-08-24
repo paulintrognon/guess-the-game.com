@@ -23,6 +23,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
       'year',
       'createdAt',
       'approvalStatus',
+      'refusalReason',
       'ScreenshotImageId',
     ],
     where,
@@ -42,10 +43,16 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
     imageUrl: screenshot.ScreenshotImage.thumbUrl,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
+    refusalReason: screenshot.refusalReason,
   }));
 }
 
-async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
+async function moderateScreenshot({
+  screenshotId,
+  user,
+  newApprovalStatus,
+  refusalReason,
+}) {
   const [moderator, screenshot] = await Promise.all([
     db.User.findByPk(user.id),
     db.Screenshot.findByPk(screenshotId),
@@ -68,6 +75,7 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
   const uploaderUser = await db.User.findByPk(screenshot.UserId);
   await Promise.all([
     screenshot.update({
+      refusalReason,
       approvalStatus: newApprovalStatus,
       moderatedBy: moderator.id,
       moderatedAt: new Date(),

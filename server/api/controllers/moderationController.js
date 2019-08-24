@@ -1,3 +1,4 @@
+const bluebird = require('bluebird');
 const moderationManager = require('../managers/moderationManager');
 
 module.exports = {
@@ -35,10 +36,32 @@ async function getModeratedByYouScreenshots(req) {
 
 async function moderateScreenshot(req) {
   const { user } = req;
-  const { screenshotId, newApprovalStatus } = req.body;
+  const { screenshotId, newApprovalStatus, refusalReason } = req.body;
+
+  if (
+    !Number.isInteger(screenshotId) ||
+    !['waiting', 'approved', 'refused'].includes(newApprovalStatus) ||
+    (!refusalReason ||
+      [
+        'alreadySubmitted',
+        'badQuality',
+        'existsInGoogleImage',
+        'gameNotFamousEnough',
+        'notAGame',
+        'tooMuchOfThisGame',
+        'spam',
+        'other',
+      ].includes(newApprovalStatus))
+  ) {
+    return bluebird.reject({
+      code: 'INVALID_BODY',
+    });
+  }
+
   return moderationManager.moderateScreenshot({
     screenshotId,
     user,
     newApprovalStatus,
+    refusalReason,
   });
 }

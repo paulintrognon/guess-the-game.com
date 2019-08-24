@@ -3,10 +3,10 @@ const path = require('path');
 const fs = require('fs');
 const screenshotManager = require('../managers/screenshotManager');
 const userManager = require('../managers/userManager');
-const cloudinaryService = require('../services/cloudinaryService');
 const tokenService = require('../services/tokenService');
 const recaptchaService = require('../services/recaptchaService');
 const screenshotService = require('../services/screenshotService');
+const moderationService = require('../services/moderationService');
 const logger = require('../../logger');
 
 module.exports = {
@@ -213,7 +213,7 @@ async function addScreenshot(req) {
   });
 
   // Send email to moderators (asynchronosly = no await)
-  screenshotService.notifyModeratorsOfNewScreenshot(screenshot);
+  moderationService.notifyModeratorsOfNewScreenshot(screenshot);
 
   return screenshot;
 }
