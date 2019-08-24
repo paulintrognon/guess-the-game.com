@@ -34,7 +34,7 @@ class Header extends React.Component {
       <header className="Header">
         <div className="Header_container">
           <h1 className="Header_logo">
-            <Link to="/">Guess The Game!</Link>
+            <Link to="/">Guess The Game&nbsp;!</Link>
           </h1>
           <div className="Header_nav">
             <nav className="Header_nav_left">

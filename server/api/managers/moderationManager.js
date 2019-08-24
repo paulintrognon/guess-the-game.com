@@ -23,6 +23,7 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
       'year',
       'createdAt',
       'approvalStatus',
+      'refusalReason',
       'ScreenshotImageId',
     ],
     where,
@@ -42,10 +43,16 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
     imageUrl: screenshot.ScreenshotImage.thumbUrl,
     createdAt: screenshot.createdAt,
     approvalStatus: screenshot.approvalStatus,
+    refusalReason: screenshot.refusalReason,
   }));
 }
 
-async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
+async function moderateScreenshot({
+  screenshotId,
+  user,
+  newApprovalStatus,
+  refusalReason,
+}) {
   const [moderator, screenshot] = await Promise.all([
     db.User.findByPk(user.id),
     db.Screenshot.findByPk(screenshotId),
@@ -60,21 +67,22 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
     return;
   }
 
-  const shouldIncrement = newApprovalStatus === 1;
+  const shouldIncrement = newApprovalStatus === 'approved';
   const shouldDecrement =
-    (newApprovalStatus === -1 || newApprovalStatus === 0) &&
-    screenshot.approvalStatus === 1;
+    (newApprovalStatus === 'refused' || newApprovalStatus === 'waiting') &&
+    screenshot.approvalStatus === 'approved';
 
   const uploaderUser = await db.User.findByPk(screenshot.UserId);
   await Promise.all([
     screenshot.update({
+      refusalReason,
       approvalStatus: newApprovalStatus,
       moderatedBy: moderator.id,
       moderatedAt: new Date(),
     }),
     shouldIncrement && uploaderUser.increment('addedScreenshots'),
     shouldDecrement && uploaderUser.decrement('addedScreenshots'),
-    newApprovalStatus === -1 &&
+    newApprovalStatus === 'refused' &&
       screenshotManager.removeSolvedPointsForScreenshot({ screenshotId }),
   ]);
 }
@@ -89,7 +97,7 @@ async function getModerators() {
 
 async function getLastModerated() {
   return db.Screenshot.findOne({
-    where: { approvalStatus: 1 },
+    where: { approvalStatus: 'approved' },
     order: [['moderatedAt', 'DESC']],
   });
 }

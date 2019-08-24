@@ -1,0 +1,43 @@
+.ModerationBox {
+  text-align: center;
+  margin: 12px 0 8px;
+}
+
+.ModerationBox_verify {
+  margin: 10px 0;
+}
+.ModerationBox_verify a {
+  text-decoration: underline;
+}
+
+.ModerationBox_actionLink {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 10px;
+  display: inline-flex;
+  align-items: center;
+}
+.ModerationBox_actionLink:hover {
+  text-decoration: underline;
+}
+.ModerationBox_actionLink svg {
+  width: 18px;
+  padding-right: 5px;
+}
+.ModerationBox_actionLink.-approve, .ModerationBox_actionLink.-approve svg {
+  color: #03ae46;
+  fill:  #03ae46;
+}
+.ModerationBox_actionLink.-reject, .ModerationBox_actionLink.-reject svg {
+  color: #fd464c;
+  fill:  #fd464c;
+}
+
+.ModerationBox_refusalReasons {
+  margin: 20px 0;
+}
+.ModerationBox_refusalReasons_btn {
+  border: solid 1px #CDD2D5;
+  padding: 5px 10px;
+  margin-top: 5px;
+}

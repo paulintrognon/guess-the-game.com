@@ -49,6 +49,7 @@ class Homepage extends React.Component {
           screenshots ajoutés. Ainsi, pour monter dans le classement, en plus de
           trouver des screenshots, vous pouvez aussi en soumettre de nouveaux.
         </p>
+        <p>Le classement est mis à jour toutes les 10 secondes.</p>
         <div className="RankingPage_ranking_row">
           <div className="RankingPage_ranking_col -name" />
           <div

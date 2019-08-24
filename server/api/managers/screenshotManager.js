@@ -31,12 +31,12 @@ async function create(screenshotToCreate) {
     year: screenshotToCreate.year,
     ...(user.canModerateScreenshots
       ? {
-          approvalStatus: 1,
+          approvalStatus: 'approved',
           moderatedBy: user.id,
           moderatedAt: new Date(),
         }
       : {
-          approvalStatus: 0,
+          approvalStatus: 'waiting',
         }),
   });
 
@@ -65,13 +65,13 @@ async function edit({ id, user, localImagePath, data }) {
     // Si l'utilisateur tente de modifier une image...
     if (localImagePath) {
       // ... et qu'elle est déjà approvée, erreur
-      if (screenshot.approvalStatus === 1) {
+      if (screenshot.approvalStatus === 'approved') {
         throw new Error(
           "Impossible de modifier l'image d'un screenshot déjà validé."
         );
       } else {
         // Sinon, on la passe à nouveau en attente
-        newApprovalStatus = 0;
+        newApprovalStatus = 'waiting';
       }
     }
   }
@@ -145,7 +145,7 @@ async function getFromId(screenshotId, userId) {
 async function getLastAdded() {
   const screenshot = await db.Screenshot.findOne({
     attributes: ['id'],
-    where: { approvalStatus: 1 },
+    where: { approvalStatus: 'approved' },
     order: [['createdAt', 'DESC']],
   });
   if (!screenshot) {
@@ -213,7 +213,7 @@ async function getUnsolved({ userId, exclude }) {
       Users ON Screenshot.UserId = Users.id
     WHERE (
       Screenshot.deletedAt IS NULL AND
-      Screenshot.approvalStatus = 1
+      Screenshot.approvalStatus = 'accepted'
       ${
         userId
           ? `
@@ -242,7 +242,7 @@ async function getUnsolved({ userId, exclude }) {
 
 async function getTotalNb() {
   return db.Screenshot.count({
-    where: { approvalStatus: 1 },
+    where: { approvalStatus: 'approved' },
   });
 }
 
@@ -250,12 +250,18 @@ async function getPrevAndNext({ screenshotId }) {
   const [prev, next] = await Promise.all([
     db.Screenshot.findOne({
       attributes: ['id'],
-      where: { approvalStatus: 1, id: { [db.Sequelize.Op.lt]: screenshotId } },
+      where: {
+        approvalStatus: 'approved',
+        id: { [db.Sequelize.Op.lt]: screenshotId },
+      },
       order: [['createdAt', 'DESC']],
     }),
     db.Screenshot.findOne({
       attributes: ['id'],
-      where: { approvalStatus: 1, id: { [db.Sequelize.Op.gt]: screenshotId } },
+      where: {
+        approvalStatus: 'approved',
+        id: { [db.Sequelize.Op.gt]: screenshotId },
+      },
       order: [['createdAt', 'ASC']],
     }),
   ]);
@@ -273,7 +279,7 @@ async function deleteUserScreenshot({ userId, screenshotId }) {
   if (!screenshot) {
     return;
   }
-  const wasScreenshotActive = screenshot.approvalStatus === 1;
+  const wasScreenshotActive = screenshot.approvalStatus === 'approved';
   // On supprime le screenshot
   await screenshot.destroy();
   // Si le screenshot n'était pas en jeu, on s'arrête là
