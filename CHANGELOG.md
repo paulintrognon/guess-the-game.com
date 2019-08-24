@@ -1,3 +1,9 @@
+## v10.4.0
+
+- Add reasons for refusing screenshots
+- `approvalStatus` is now an enum
+- Fix bug when refusing screenshot the users scores where not updated
+
 ## v10.3.0
 
 - Add robots.txt & sitemap
