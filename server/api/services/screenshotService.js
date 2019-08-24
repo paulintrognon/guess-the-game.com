@@ -10,7 +10,7 @@ module.exports = {
 
 async function notifyModeratorsOfNewScreenshot(screenshot) {
   // Si la screenshot est déjà approuvée, pas besoin de notifier
-  if (screenshot.approvalStatus === 1) {
+  if (screenshot.approvalStatus === 'approved') {
     return;
   }
   const moderators = await moderationManager.getModerators();

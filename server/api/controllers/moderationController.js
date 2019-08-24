@@ -1,5 +1,4 @@
 const moderationManager = require('../managers/moderationManager');
-const cloudinaryService = require('../services/cloudinaryService');
 
 module.exports = {
   getNonModeratedScreenshots,
@@ -11,19 +10,19 @@ module.exports = {
 
 async function getNonModeratedScreenshots() {
   return moderationManager.getScreenshots({
-    approvalStatus: 0,
+    approvalStatus: 'waiting',
   });
 }
 
 async function getApprovedScreenshots() {
   return moderationManager.getScreenshots({
-    approvalStatus: 1,
+    approvalStatus: 'approved',
   });
 }
 
 async function getRejectedScreenshots() {
   return moderationManager.getScreenshots({
-    approvalStatus: -1,
+    approvalStatus: 'refused',
   });
 }
 

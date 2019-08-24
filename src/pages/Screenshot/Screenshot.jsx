@@ -136,7 +136,9 @@ class ScreenshotPage extends React.Component {
       <div className="ScreenshotPage_header">
         <div
           className={
-            screenshot.approvalStatus === 1 ? 'ScreenshotPage_header_left' : ''
+            screenshot.approvalStatus === 'approved'
+              ? 'ScreenshotPage_header_left'
+              : ''
           }
         >
           <h1
@@ -187,7 +189,7 @@ class ScreenshotPage extends React.Component {
             ) : null}
           </div>
         </div>
-        {screenshot.approvalStatus === 1 ? (
+        {screenshot.approvalStatus === 'approved' ? (
           <div className="ScreenshotPage_header_right">
             {screenshot.stats.solvedCount ? (
               <p className="ScreenshotPage_header_solvedByCount">
@@ -248,12 +250,12 @@ class ScreenshotPage extends React.Component {
                 {helperService.formatDate(screenshot.createdAt)}
               </p>
             ) : null}
-            {screenshot.approvalStatus === 0 ? (
+            {screenshot.approvalStatus === 'waiting' ? (
               <p>
                 Ce screen est <b>en attente de validation</b>.
               </p>
             ) : null}
-            {screenshot.approvalStatus === -1 ? (
+            {screenshot.approvalStatus === 'refused' ? (
               <p>
                 Ce screen a été <b>rejeté</b> par les modérateurs.
               </p>
@@ -261,7 +263,7 @@ class ScreenshotPage extends React.Component {
             {!error &&
             !screenshot.isSolved &&
             !screenshot.isOwn &&
-            screenshot.approvalStatus === 1 ? (
+            screenshot.approvalStatus === 'approved' ? (
               <div
                 className={`ScreenshotPage_form_input
             ${isGuessing ? '-guessing' : ''}
@@ -333,7 +335,7 @@ class ScreenshotPage extends React.Component {
 export default connect(mapStoreToProps)(ScreenshotPage);
 
 function ApprovalStatus({ approvalStatus }) {
-  if (approvalStatus === 0) {
+  if (approvalStatus === 'waiting') {
     return (
       <span className="Screenshot_ApprovalStatus -awaiting">
         {' '}
@@ -341,7 +343,7 @@ function ApprovalStatus({ approvalStatus }) {
       </span>
     );
   }
-  if (approvalStatus === -1) {
+  if (approvalStatus === 'refused') {
     return (
       <span className="Screenshot_ApprovalStatus -rejected"> - Rejete</span>
     );

@@ -60,10 +60,10 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
     return;
   }
 
-  const shouldIncrement = newApprovalStatus === 1;
+  const shouldIncrement = newApprovalStatus === 'approved';
   const shouldDecrement =
-    (newApprovalStatus === -1 || newApprovalStatus === 0) &&
-    screenshot.approvalStatus === 1;
+    (newApprovalStatus === 'refused' || newApprovalStatus === 'waiting') &&
+    screenshot.approvalStatus === 'approved';
 
   const uploaderUser = await db.User.findByPk(screenshot.UserId);
   await Promise.all([
@@ -74,7 +74,7 @@ async function moderateScreenshot({ screenshotId, user, newApprovalStatus }) {
     }),
     shouldIncrement && uploaderUser.increment('addedScreenshots'),
     shouldDecrement && uploaderUser.decrement('addedScreenshots'),
-    newApprovalStatus === -1 &&
+    newApprovalStatus === 'refused' &&
       screenshotManager.removeSolvedPointsForScreenshot({ screenshotId }),
   ]);
 }
@@ -89,7 +89,7 @@ async function getModerators() {
 
 async function getLastModerated() {
   return db.Screenshot.findOne({
-    where: { approvalStatus: 1 },
+    where: { approvalStatus: 'approved' },
     order: [['moderatedAt', 'DESC']],
   });
 }

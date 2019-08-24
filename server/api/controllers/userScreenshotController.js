@@ -25,15 +25,9 @@ async function getSolvedScreenshots(req) {
 async function getAddedScreenshots(req) {
   const { id } = req.user;
   const { approvalStatus } = req.body;
-  const filters = {};
-  if (approvalStatus === 'approved') {
-    filters.approvalStatus = 1;
-  } else if (approvalStatus === 'refused') {
-    filters.approvalStatus = -1;
-  } else if (approvalStatus === 'waiting') {
-    filters.approvalStatus = 0;
-  }
-  return userManager.getAddedScreenshots(id, filters);
+  return userManager.getAddedScreenshots(id, {
+    ...(approvalStatus && { approvalStatus }),
+  });
 }
 
 async function getScreenshotRating(req) {

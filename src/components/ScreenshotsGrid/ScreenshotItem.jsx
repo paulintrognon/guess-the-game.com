@@ -18,7 +18,7 @@ class ScreenshotItem extends React.Component {
     this.setState({ approvalStatus: newApprovalStatus });
     new Noty({
       text:
-        newApprovalStatus === 1
+        newApprovalStatus === 'approved'
           ? 'Le screenshot a bien été approuvé.'
           : 'Le screenshot a bien été rejeté.',
       type: 'success',
@@ -109,13 +109,13 @@ class ScreenshotItem extends React.Component {
 export default ScreenshotItem;
 
 function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
-  if (approvalStatus === 1) {
+  if (approvalStatus === 'approved') {
     return (
       <p>
         <b>Le screen est approuvé.</b>
         <button
           className="ScreenshotsGrid_item_legend_moderate_button -reject"
-          onClick={handleModeration(screenshot.id, -1)}
+          onClick={handleModeration(screenshot.id, 'refused')}
         >
           Rejeter
         </button>
@@ -124,13 +124,13 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
       </p>
     );
   }
-  if (approvalStatus === -1) {
+  if (approvalStatus === 'refused') {
     return (
       <p>
         <b>✖ Le screen est rejeté.</b>
         <button
           className="ScreenshotsGrid_item_legend_moderate_button -approve"
-          onClick={handleModeration(screenshot.id, 1)}
+          onClick={handleModeration(screenshot.id, 'approved')}
         >
           <span>Approuver</span>
         </button>
@@ -143,14 +143,14 @@ function ApprovalBox({ screenshot, approvalStatus, handleModeration }) {
     <p>
       <button
         className="ScreenshotsGrid_item_legend_moderate_button -approve"
-        onClick={handleModeration(screenshot.id, 1)}
+        onClick={handleModeration(screenshot.id, 'approved')}
       >
         <span>Approuver</span>
       </button>
       -
       <button
         className="ScreenshotsGrid_item_legend_moderate_button -reject"
-        onClick={handleModeration(screenshot.id, -1)}
+        onClick={handleModeration(screenshot.id, 'refused')}
       >
         Rejeter
       </button>
@@ -181,21 +181,21 @@ function generateEditLink(screenshot) {
 }
 
 function ScreenshotApprovalStatus({ approvalStatus }) {
-  if (approvalStatus === 1) {
+  if (approvalStatus === 'approved') {
     return (
       <p className="ScreenshotsGrid_item_image_approvalStatus -approved">
         Approuvé
       </p>
     );
   }
-  if (approvalStatus === 0) {
+  if (approvalStatus === 'waiting') {
     return (
       <p className="ScreenshotsGrid_item_image_approvalStatus -waiting">
         En attente...
       </p>
     );
   }
-  if (approvalStatus === -1) {
+  if (approvalStatus === 'refused') {
     return (
       <p className="ScreenshotsGrid_item_image_approvalStatus -refused">
         Refusé

@@ -5,7 +5,7 @@ import './Footer.css';
 export default () => (
   <footer className="Footer">
     <div className="Footer_content">
-      <p>Guess The Game, jeu réalisé par lazy_ogre</p>
+      <p>Guess The Game&nbsp;!</p>
       <p>
         Un problème<span className="-hideOnSmartphones">, une suggestion</span>{' '}
         ? Email&nbsp;:{' '}
@@ -17,15 +17,6 @@ export default () => (
           rel="noopener noreferrer"
         >
           Discord
-        </a>{' '}
-        ·{' '}
-        <a
-          className="Footer_content_link"
-          href="https://github.com/paulintrognon/guess-the-game.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code source
         </a>
       </p>
     </div>
