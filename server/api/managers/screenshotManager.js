@@ -1,12 +1,9 @@
-console.log('loading screenshotManager');
 const bluebird = require('bluebird');
 const fs = require('fs');
 const phonetiksService = require('../services/phonetiksService');
 const screenshotService = require('../services/screenshotService');
 const cloudinaryService = require('../services/cloudinaryService');
 const db = require('../../db/db');
-
-console.log('loaded screenshotManager');
 
 module.exports = {
   create,
