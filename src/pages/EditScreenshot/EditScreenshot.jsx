@@ -349,8 +349,12 @@ class EditScreenshotPage extends React.Component {
               <span role="img" aria-label="warning">
                 ⚠️
               </span>{' '}
-              Assurez vous que votre image{' '}
-              <strong>ne provienne pas de Google Image&nbsp;!</strong>
+              <strong>
+                Assurez-vous que votre image n&apos;existe pas déjà Google
+                Image&nbsp;!
+              </strong>{' '}
+              Pour vérifier, faites une recherche par image sur{' '}
+              <a href="https://images.google.com">images.google.com</a>
             </p>
             {this.state.fileError && (
               <p className="EditScreenshotPage_form_error">
