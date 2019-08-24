@@ -2,6 +2,7 @@ const bluebird = require('bluebird');
 const path = require('path');
 const fs = require('fs');
 const screenshotManager = require('../managers/screenshotManager');
+const solvedScreenshotManager = require('../managers/solvedScreenshotManager');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
 const recaptchaService = require('../services/recaptchaService');
@@ -138,7 +139,7 @@ async function tryProposal(req) {
 
   const newRankingData = await userManager.getNewRanking(req.user.id);
 
-  await screenshotManager.markScreenshotAsResolved({
+  await solvedScreenshotManager.markScreenshotAsResolved({
     screenshotId,
     userId: req.user.id,
   });

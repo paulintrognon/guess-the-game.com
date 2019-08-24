@@ -16,7 +16,6 @@ module.exports = {
   deleteUserScreenshot,
   removeSolvedPointsForScreenshot,
   testProposal,
-  markScreenshotAsResolved,
   rate,
 };
 
@@ -339,35 +338,6 @@ async function testProposal(screenshotId, proposal) {
     name: screenshot.Screenshot.gameCanonicalName,
     year: screenshot.Screenshot.year,
   };
-}
-
-async function markScreenshotAsResolved({ screenshotId, userId }) {
-  const [user, screenshot, alreadySolved] = await Promise.all([
-    db.User.findByPk(userId),
-    db.Screenshot.findByPk(screenshotId),
-    db.SolvedScreenshot.findOne({
-      where: {
-        ScreenshotId: screenshotId,
-        UserId: userId,
-      },
-    }),
-  ]);
-  if (!user) {
-    throw new Error('User not found');
-  }
-  if (!screenshot) {
-    throw new Error('Screenshot not found');
-  }
-  if (alreadySolved) {
-    throw new Error('User has already solved this screenshot');
-  }
-  const solvedScreenshot = await db.SolvedScreenshot.create();
-
-  return Promise.all([
-    user.addSolvedScreenshot(solvedScreenshot),
-    screenshot.addSolvedScreenshot(solvedScreenshot),
-    user.increment('solvedScreenshots'),
-  ]);
 }
 
 async function rate({ screenshotId, userId, rating }) {
