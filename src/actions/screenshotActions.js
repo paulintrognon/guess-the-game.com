@@ -84,10 +84,30 @@ function tryProposal(screenshot, proposition) {
           slug: 'screenshotActions-newRanking',
           text: `C'est ouf !!! Vous passez à la première place ! 👑`,
         });
+      } else if (newRanking === 2) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Incroyable !! Vous passez à la deuxième place ! 🏆`,
+        });
+      } else if (newRanking === 3) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Super ! Vous êtes sur le podium ! 🏅`,
+        });
+      } else if (newRanking === 10) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Bravo ! Vous êtes dans le top 10 ! 💪`,
+        });
+      } else if ([50, 30, 20].includes(newRanking)) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Bravo ! Vous êtes dans le top ${newRanking} ! 👏`,
+        });
       } else {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
-          text: `Bravo ! Vous passez à la ${newRanking}ème place ! 🏆`,
+          text: `Vous passez à la ${newRanking}ème place !`,
         });
       }
     }
