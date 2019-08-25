@@ -1,7 +1,7 @@
 import React from 'react';
-import Noty from 'noty';
 import EditScreenshotLink from './EditScreenshotLink';
 import moderationService from '../../services/moderationService';
+import notificationService from '../../services/notificationService';
 import './ModerationBox.css';
 
 export default class ApprovalBox extends React.Component {
@@ -35,13 +35,14 @@ export default class ApprovalBox extends React.Component {
       refusalReason: this.state.refusalReason,
     });
     this.setState({ approvalStatus: newApprovalStatus });
-    new Noty({
+    notificationService.create({
+      slug: 'moderationBox-moderationAction',
       text:
         newApprovalStatus === 'approved'
           ? 'Le screenshot a bien été approuvé.'
           : 'Le screenshot a bien été rejeté.',
       type: 'success',
-    }).show();
+    });
     this.setState({
       showRefusalReasons: false,
     });
