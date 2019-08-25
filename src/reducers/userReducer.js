@@ -6,7 +6,7 @@ const initialState = {
   addedScreenshots: null,
   canModerateScreenshots:
     localStorage.getItem('canModerateScreenshots') === '1',
-  lastViewedRandomScreenshots: [],
+  lastViewedRandomScreenshots: retrieveStoredLastViewedRandomScreenshots(),
   isUpdating: false,
 };
 
@@ -100,30 +100,54 @@ export default function reducer(state = initialState, action) {
   }
 
   if (type === 'SCREENSHOT_LOAD' && !payload.error) {
-    // Si la screenshot retournée est déjà dans notre liste, on recommence la liste
-    if (state.lastViewedRandomScreenshots.indexOf(payload.id) !== -1) {
-      return {
-        ...state,
-        lastViewedRandomScreenshots: [payload.id],
-      };
-    }
-    // Si le nombre de screenshots dépasse la limite, on supprime la première avant de rajouter la nouvelle
-    if (state.lastViewedRandomScreenshots.length > 200) {
-      return {
-        ...state,
-        lastViewedRandomScreenshots: state.lastViewedRandomScreenshots
-          .slice(1)
-          .concat([payload.id]),
-      };
-    }
-    // Sinon, on ajoute la nouvelle screenshot à la liste des screenshots vues
+    const lastViewedRandomScreenshots = updateLastViewedRandomScreenshots({
+      lastViewedRandomScreenshots: state.lastViewedRandomScreenshots,
+      screenshotId: payload.id,
+      reset: payload.needToResetExclusion,
+    });
+    storeLastViewedRandomScreenshots(lastViewedRandomScreenshots);
     return {
       ...state,
-      lastViewedRandomScreenshots: state.lastViewedRandomScreenshots.concat([
-        payload.id,
-      ]),
+      lastViewedRandomScreenshots,
     };
   }
 
   return newState;
+}
+
+function updateLastViewedRandomScreenshots({
+  lastViewedRandomScreenshots,
+  screenshotId,
+  reset,
+}) {
+  // Si on demande de reset, on recommance le tableau
+  if (reset) {
+    return [screenshotId];
+  }
+  // Si la screenshot est déjà, on ne fait rien
+  if (lastViewedRandomScreenshots.indexOf(screenshotId) > -1) {
+    return lastViewedRandomScreenshots;
+  }
+  // Si le nombre de screenshots dépasse la limite, on supprime la première avant de rajouter la nouvelle
+  if (lastViewedRandomScreenshots.length > 5000) {
+    return lastViewedRandomScreenshots.slice(1).concat([screenshotId]);
+  }
+  // Sinon, on ajoute la nouvelle screenshot à la liste des screenshots vues
+  return lastViewedRandomScreenshots.concat([screenshotId]);
+}
+
+function storeLastViewedRandomScreenshots(newValue) {
+  localStorage.setItem('lastViewedRandomScreenshots', newValue.join(','));
+}
+
+function retrieveStoredLastViewedRandomScreenshots() {
+  const lastViewedRandomScreenshots = localStorage.getItem(
+    'lastViewedRandomScreenshots'
+  );
+  if (!lastViewedRandomScreenshots) {
+    return [];
+  }
+  return lastViewedRandomScreenshots
+    .split(',')
+    .map(n => Number.parseInt(n, 10));
 }

@@ -201,7 +201,7 @@ async function getFirstSolvedBy(screenshotId) {
   return solvedScreenshot.User.username || 'John Doe';
 }
 
-async function getUnsolved({ userId, exclude }) {
+async function getUnsolved({ userId, unseenOnly, exclude }) {
   const screenshots = await db.sequelize.query(
     `
     SELECT
@@ -222,6 +222,17 @@ async function getUnsolved({ userId, exclude }) {
         WHERE
           SolvedScreenshots.ScreenshotId = Screenshot.id
           AND SolvedScreenshots.UserId = ${userId}
+      ) `
+          : ''
+      }
+      ${
+        userId && unseenOnly
+          ? `
+      AND NOT EXISTS (
+        SELECT id FROM ViewedScreenshots
+        WHERE
+          ViewedScreenshots.ScreenshotId = Screenshot.id
+          AND ViewedScreenshots.UserId = ${userId}
       ) `
           : ''
       }

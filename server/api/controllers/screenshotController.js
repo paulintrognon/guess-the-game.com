@@ -29,10 +29,11 @@ async function getfromId(req) {
   const [res, ownRating] = await Promise.all([
     await screenshotManager.getFromId(screenshotId, userId),
     await userManager.getScreenshotRating({ screenshotId, userId }),
-    await viewedScreenshotManager.markScreenshotAsViewed({
-      screenshotId,
-      userId,
-    }),
+    userId &&
+      (await viewedScreenshotManager.markScreenshotAsViewed({
+        screenshotId,
+        userId,
+      })),
   ]);
 
   if (!res) {
@@ -68,26 +69,49 @@ async function getfromId(req) {
 
 async function getUnsolvedScreenshot(req) {
   const userId = req.user.id;
+  let needToResetExclusion = false;
+  // Exclude needs to be an array (retro compat)
+  const exclude =
+    req.body.exclude && !req.body.exclude.join
+      ? [req.body.exclude]
+      : req.body.exclude;
+
+  // First, we try to get a screenshot the user has never seen before
   let screenshot = await screenshotManager.getUnsolved({
     userId,
-    exclude:
-      // Si "exclude" n'est pas un tableau, on le transforme en tableau (rétrocompabilité)
-      req.body.exclude && !req.body.exclude.join
-        ? [req.body.exclude]
-        : req.body.exclude,
+    exclude,
+    unseenOnly: true,
   });
 
+  // If no screenshot were found, we try again without the "unseen only" flag
   if (!screenshot) {
-    if (!req.body.exclude) {
+    console.log('pas de unseen');
+    screenshot = await screenshotManager.getUnsolved({
+      userId,
+      exclude,
+    });
+  } else {
+    console.log('oui unseen');
+  }
+
+  // If still no screenshot were found
+  if (!screenshot) {
+    // If we did not exclude any screenshot, then there's no screenshot left
+    if (!exclude) {
       return notFoundReject();
     }
-    // If we excluded a screenshot from the search, we try again without the exclusion
+    // If we did exclude screenshots from the search, we try again without the exclusion
     screenshot = await screenshotManager.getUnsolved({ userId });
     if (!screenshot) {
       return notFoundReject();
     }
+    // If we found a screenshot after removing the exclusion, it means that the frontend needs to reset its exclusion's array
+    needToResetExclusion = true;
   }
-  return getfromId({ ...req, body: { ...req.body, id: screenshot.id } });
+  return {
+    ...(await getfromId({ ...req, body: { ...req.body, id: screenshot.id } })),
+    needToResetExclusion,
+  };
 
   function notFoundReject() {
     return bluebird.reject({

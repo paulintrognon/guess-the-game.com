@@ -21,6 +21,9 @@ async function markScreenshotAsViewed({ screenshotId, userId }) {
   if (!screenshot) {
     throw new Error('Screenshot not found');
   }
+  if (screenshot.UserId === userId) {
+    return null;
+  }
   if (alreadyViewed) {
     return null;
   }
