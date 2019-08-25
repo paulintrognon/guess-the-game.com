@@ -20,6 +20,7 @@ const initialState = {
   isProposalWrong: false,
   isTryAnotherButtonClicked: false,
   error: null,
+  isViewingUnseenScreenshot: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -53,6 +54,7 @@ export default function reducer(state = initialState, action) {
         isTryAnotherButtonClicked: false,
       };
     }
+
     return {
       ...state,
       errorMessage: null,
@@ -70,6 +72,7 @@ export default function reducer(state = initialState, action) {
       approvalStatus: payload.approvalStatus,
       rating: payload.rating,
       ownRating: payload.ownRating,
+      isViewingUnseenScreenshot: payload.isUnseenScreenshot,
       isTryAnotherButtonClicked: false,
       isGuessing: false,
       isProposalWrong: false,

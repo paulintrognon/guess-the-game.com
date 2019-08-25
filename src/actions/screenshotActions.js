@@ -39,14 +39,26 @@ function getUnsolvedScreenshot(exclude) {
     const res = await screenshotService.getUnsolved(exclude);
     if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
       dispatch(push('/la-fin'));
-    } else {
-      dispatch(push(`/screenshot/${res.id}`));
-      dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
-      const prevAndNext = await screenshotService.getPrevAndNext({
-        screenshotId: res.id,
-      });
-      dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+      return;
     }
+    if (
+      store.getState().screenshot.isViewingUnseenScreenshot &&
+      !res.isUnseenScreenshot
+    ) {
+      notificationService.create({
+        type: 'info',
+        duration: 'long',
+        text:
+          'Vous avez fait le tour des nouvelles screenshots, vous voyez maintenant des screenshots que vous avez déjà vus.',
+      });
+    }
+
+    dispatch(push(`/screenshot/${res.id}`));
+    dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
+    const prevAndNext = await screenshotService.getPrevAndNext({
+      screenshotId: res.id,
+    });
+    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 

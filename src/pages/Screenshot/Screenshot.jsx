@@ -80,7 +80,7 @@ class ScreenshotPage extends React.Component {
   };
 
   handleRemoveOwn = () => {
-    if (!window.confirm('Are you sure to remove this screenshot?')) {
+    if (!window.confirm('Êtes vous sûr de vouloir supprimer ce screenshot ?')) {
       return;
     }
     const { screenshot } = this.props;

@@ -77,6 +77,7 @@ async function getUnsolvedScreenshot(req) {
       : req.body.exclude;
 
   // First, we try to get a screenshot the user has never seen before
+  let isUnseenScreenshot = true;
   let screenshot = await screenshotManager.getUnsolved({
     userId,
     exclude,
@@ -85,6 +86,7 @@ async function getUnsolvedScreenshot(req) {
 
   // If no screenshot were found, we try again without the "unseen only" flag
   if (!screenshot) {
+    isUnseenScreenshot = false;
     screenshot = await screenshotManager.getUnsolved({
       userId,
       exclude,
@@ -108,6 +110,7 @@ async function getUnsolvedScreenshot(req) {
   return {
     ...(await getfromId({ ...req, body: { ...req.body, id: screenshot.id } })),
     needToResetExclusion,
+    isUnseenScreenshot,
   };
 
   function notFoundReject() {
