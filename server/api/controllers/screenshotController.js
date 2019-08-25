@@ -85,13 +85,10 @@ async function getUnsolvedScreenshot(req) {
 
   // If no screenshot were found, we try again without the "unseen only" flag
   if (!screenshot) {
-    console.log('pas de unseen');
     screenshot = await screenshotManager.getUnsolved({
       userId,
       exclude,
     });
-  } else {
-    console.log('oui unseen');
   }
 
   // If still no screenshot were found
