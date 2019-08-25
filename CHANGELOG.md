@@ -1,3 +1,9 @@
+## v11.1.0
+
+- Add notificationService in frontend for cleaner notif management
+- More notification for new rakings
+- Add notification when viewing screenshots that the user has already seen
+
 # v11.0.0 - ViewedScreenshots
 
 - Add ViewScreenshots table, to register screenshots seen by a user
