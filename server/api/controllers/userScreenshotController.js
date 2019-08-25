@@ -1,5 +1,6 @@
 const bluebird = require('bluebird');
-const userManager = require('../managers/userManager');
+const userScreenshotManager = require('../managers/userScreenshotManager');
+const solvedScreenshotManager = require('../managers/solvedScreenshotManager');
 const screenshotManager = require('../managers/screenshotManager');
 
 module.exports = {
@@ -10,7 +11,9 @@ module.exports = {
 
 async function getScores() {
   const totalNbScreenshots = await screenshotManager.getTotalNb();
-  const scores = await userManager.getScores({ totalNbScreenshots });
+  const scores = await userScreenshotManager.getScores({
+    totalNbScreenshots,
+  });
   return {
     totalNbScreenshots,
     scores,
@@ -19,7 +22,7 @@ async function getScores() {
 
 async function getSolvedScreenshots(req) {
   const { id } = req.user;
-  return userManager.getSolvedScreenshots(id);
+  return solvedScreenshotManager.getSolvedScreenshots(id);
 }
 
 async function getAddedScreenshots(req) {
@@ -35,7 +38,7 @@ async function getAddedScreenshots(req) {
     });
   }
 
-  return userManager.getAddedScreenshots(id, {
+  return userScreenshotManager.getAddedScreenshots(id, {
     ...(approvalStatus && { approvalStatus }),
   });
 }

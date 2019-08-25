@@ -16,7 +16,6 @@ module.exports = {
   deleteUserScreenshot,
   removeSolvedPointsForScreenshot,
   testProposal,
-  markScreenshotAsResolved,
   rate,
 };
 
@@ -202,7 +201,7 @@ async function getFirstSolvedBy(screenshotId) {
   return solvedScreenshot.User.username || 'John Doe';
 }
 
-async function getUnsolved({ userId, exclude }) {
+async function getUnsolved({ userId, unseenOnly, exclude }) {
   const screenshots = await db.sequelize.query(
     `
     SELECT
@@ -223,6 +222,17 @@ async function getUnsolved({ userId, exclude }) {
         WHERE
           SolvedScreenshots.ScreenshotId = Screenshot.id
           AND SolvedScreenshots.UserId = ${userId}
+      ) `
+          : ''
+      }
+      ${
+        userId && unseenOnly
+          ? `
+      AND NOT EXISTS (
+        SELECT id FROM ViewedScreenshots
+        WHERE
+          ViewedScreenshots.ScreenshotId = Screenshot.id
+          AND ViewedScreenshots.UserId = ${userId}
       ) `
           : ''
       }
@@ -339,35 +349,6 @@ async function testProposal(screenshotId, proposal) {
     name: screenshot.Screenshot.gameCanonicalName,
     year: screenshot.Screenshot.year,
   };
-}
-
-async function markScreenshotAsResolved({ screenshotId, userId }) {
-  const [user, screenshot, alreadySolved] = await Promise.all([
-    db.User.findByPk(userId),
-    db.Screenshot.findByPk(screenshotId),
-    db.SolvedScreenshot.findOne({
-      where: {
-        ScreenshotId: screenshotId,
-        UserId: userId,
-      },
-    }),
-  ]);
-  if (!user) {
-    throw new Error('User not found');
-  }
-  if (!screenshot) {
-    throw new Error('Screenshot not found');
-  }
-  if (alreadySolved) {
-    throw new Error('User has already solved this screenshot');
-  }
-  const solvedScreenshot = await db.SolvedScreenshot.create();
-
-  return Promise.all([
-    user.addSolvedScreenshot(solvedScreenshot),
-    screenshot.addSolvedScreenshot(solvedScreenshot),
-    user.increment('solvedScreenshots'),
-  ]);
 }
 
 async function rate({ screenshotId, userId, rating }) {
