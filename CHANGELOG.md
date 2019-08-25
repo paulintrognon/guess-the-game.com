@@ -1,3 +1,10 @@
+# v11.0.0 - ViewedScreenshots
+
+- Add ViewScreenshots table, to register screenshots seen by a user
+- Showing in priority unseen screenshots to the user
+- Rewrite if "exclude" screenshot system (now using localstorage) so the user should not see the same screenshots twice
+- Code cleaning
+
 ## v10.4.0
 
 - Add reasons for refusing screenshots
