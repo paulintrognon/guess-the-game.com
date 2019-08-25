@@ -1,4 +1,4 @@
-import Noty from 'noty';
+import notificationService from '../services/notificationService';
 import userService from '../services/userService';
 
 export default {
@@ -46,20 +46,22 @@ function updateUserAction(values) {
     dispatch({ type: 'USER_UPDATING' });
     const res = await userService.updateUser(values);
     if (res.error) {
-      new Noty({
+      notificationService.create({
+        slug: 'userAction-update',
         text: `Erreur lors de la mise à jour : ${res.message}`,
         type: 'error',
-      }).show();
+      });
       dispatch({ type: 'USER_UPDATED', payload: {} });
     } else {
       dispatch({
         type: 'USER_UPDATED',
         payload: values,
       });
-      new Noty({
+      notificationService.create({
+        slug: 'userAction-update',
         text: 'Modifié avec succès',
         type: 'success',
-      }).show();
+      });
     }
   };
 }

@@ -1,5 +1,5 @@
-import Noty from 'noty';
 import { push } from 'connected-react-router';
+import notificationService from '../services/notificationService';
 
 export default {
   login,
@@ -23,10 +23,11 @@ function logout() {
 
 function needToRegister() {
   return dispatch => {
-    new Noty({
+    notificationService.create({
+      slug: 'loginAction-needRegister',
       text: 'Vous devez être inscrit pour accéder à cette partie du site.',
       type: 'error',
-    }).show();
+    });
     dispatch(push('/inscription'));
   };
 }
