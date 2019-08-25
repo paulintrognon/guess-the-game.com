@@ -8,7 +8,7 @@ export default {
 const notifications = {};
 
 function create({ slug, duration, timeout, type, ...props }) {
-  if (notifications[slug]) {
+  if (slug && notifications[slug]) {
     notifications[slug].close();
   }
   let time = 6000;
@@ -19,12 +19,15 @@ function create({ slug, duration, timeout, type, ...props }) {
   } else if (duration === 'veryLong') {
     time = 10000;
   }
-  notifications[slug] = new Noty({
+  const notification = new Noty({
     timeout: timeout || time,
     type: type || 'success',
     ...props,
   });
-  notifications[slug].show();
+  notification.show();
+  if (slug) {
+    notifications[slug] = notification;
+  }
 }
 
 function close(slug) {
