@@ -2,6 +2,7 @@ const bluebird = require('bluebird');
 const path = require('path');
 const fs = require('fs');
 const screenshotManager = require('../managers/screenshotManager');
+const viewedScreenshotManager = require('../managers/viewedScreenshotManager');
 const solvedScreenshotManager = require('../managers/solvedScreenshotManager');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
@@ -28,6 +29,10 @@ async function getfromId(req) {
   const [res, ownRating] = await Promise.all([
     await screenshotManager.getFromId(screenshotId, userId),
     await userManager.getScreenshotRating({ screenshotId, userId }),
+    await viewedScreenshotManager.markScreenshotAsViewed({
+      screenshotId,
+      userId,
+    }),
   ]);
 
   if (!res) {
