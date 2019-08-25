@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
-import Noty from 'noty';
 import screenshotService from '../services/screenshotService';
+import notificationService from '../services/notificationService';
 import store from '../store';
 
 export default {
@@ -39,14 +39,26 @@ function getUnsolvedScreenshot(exclude) {
     const res = await screenshotService.getUnsolved(exclude);
     if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
       dispatch(push('/la-fin'));
-    } else {
-      dispatch(push(`/screenshot/${res.id}`));
-      dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
-      const prevAndNext = await screenshotService.getPrevAndNext({
-        screenshotId: res.id,
-      });
-      dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+      return;
     }
+    if (
+      store.getState().screenshot.isViewingUnseenScreenshot &&
+      !res.isUnseenScreenshot
+    ) {
+      notificationService.create({
+        type: 'info',
+        duration: 'long',
+        text:
+          'Vous avez fait le tour des nouvelles screenshots, vous voyez maintenant des screenshots que vous avez déjà vus.',
+      });
+    }
+
+    dispatch(push(`/screenshot/${res.id}`));
+    dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
+    const prevAndNext = await screenshotService.getPrevAndNext({
+      screenshotId: res.id,
+    });
+    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 
@@ -71,7 +83,8 @@ function tryProposal(screenshot, proposition) {
 
     // If the user is the first one to solve the screenshot
     if (isFirstOneToSolve) {
-      notify({
+      notificationService.create({
+        slug: 'screenshotActions-firstToFind',
         text: '️Bravo, vous êtes le premier a avoir trouvé ce screenshot ! 💪',
       });
     }
@@ -79,12 +92,34 @@ function tryProposal(screenshot, proposition) {
     // If the user got a new ranking
     if (hasNewRanking) {
       if (newRanking === 1) {
-        notify({
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
           text: `C'est ouf !!! Vous passez à la première place ! 👑`,
         });
+      } else if (newRanking === 2) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Incroyable !! Vous passez à la deuxième place ! 🏆`,
+        });
+      } else if (newRanking === 3) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Super ! Vous êtes sur le podium ! 🏅`,
+        });
+      } else if (newRanking === 10) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Bravo ! Vous êtes dans le top 10 ! 💪`,
+        });
+      } else if ([50, 30, 20].includes(newRanking)) {
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Bravo ! Vous êtes dans le top ${newRanking} ! 👏`,
+        });
       } else {
-        notify({
-          text: `Bravo ! Vous passez à la ${newRanking}ème place ! 🏆`,
+        notificationService.create({
+          slug: 'screenshotActions-newRanking',
+          text: `Vous passez à la ${newRanking}ème place !`,
         });
       }
     }
@@ -100,21 +135,22 @@ function tryProposal(screenshot, proposition) {
     // If the user is not registered but has achieved something, we kindly suggest him to register
     let text;
     if (hasNewRanking && !isFirstOneToSolve) {
-      text =
-        '️Inscrivez vous pour enregistrer votre place dans le classement !';
+      text = '️Inscrivez-vous pour apparaitre dans le classement !';
     } else if (!hasNewRanking && isFirstOneToSolve) {
-      text =
-        'Inscrivez vous pour vous la péter en montrant qui est le premier qui a trouvé !';
+      text = 'Inscrivez-vous pour vous claim le screenshot !';
     } else {
       text =
-        '️Inscrivez vous pour enregistrer votre place dans le classement et montrer au monde qui est le premier qui a trouvé !';
+        '️Inscrivez-vous pour apparaitre dans le classement et claim le screenshot !';
     }
-    notify({
+    notificationService.create({
+      slug: 'screenshotActions-pleaseRegister',
       text,
       type: 'info',
-      timeout: 12000,
-      onClick: () => {
-        dispatch(push('/inscription'));
+      timeout: 8000,
+      callbacks: {
+        onClick: () => {
+          dispatch(push('/inscription'));
+        },
       },
     });
   };
@@ -132,15 +168,4 @@ function removeOwnScreenshot(screenshotId) {
       }
     });
   };
-}
-
-function notify(options) {
-  new Noty({
-    text: options.text,
-    type: options.type || 'success',
-    timeout: options.timeout || 10000,
-    callbacks: {
-      onClick: options.onClick,
-    },
-  }).show();
 }
