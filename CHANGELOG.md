@@ -1,3 +1,7 @@
+### v11.1.1
+
+- Last displayed sreenshot is now last moderated, not last by id
+
 ## v11.1.0
 
 - Add notificationService in frontend for cleaner notif management
