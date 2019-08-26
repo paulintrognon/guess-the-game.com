@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import BarTitle from '../../../components/BarTitle/BarTitle';
-import Loading from '../../../components/Loading/Loading';
 import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
 import userActions from '../../../actions/userActions';
 import './SolvedScreenshots.css';
@@ -27,16 +26,10 @@ class SolvedScreenshotsPage extends React.Component {
           <BarTitle onlyOnSmartphones>
             <h2>Screens Resolus</h2>
           </BarTitle>
-          {solvedScreenshots === null ? (
-            <p style={{ textAlign: 'center' }}>
-              <Loading />
-            </p>
-          ) : (
-            <ScreenshotsGrid
-              screenshots={solvedScreenshots}
-              noScreenshotSentence="Vous n'avez encore résolu aucun screen."
-            />
-          )}
+          <ScreenshotsGrid
+            screenshots={solvedScreenshots}
+            noScreenshotSentence="Vous n'avez encore résolu aucun screen."
+          />
         </div>
       </section>
     );
