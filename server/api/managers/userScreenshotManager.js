@@ -13,7 +13,7 @@ async function getScores({ totalNbScreenshots }) {
       solvedScreenshots AS nbSolvedScreenshots,
       addedScreenshots AS nbAddedScreenshots,
       (solvedScreenshots + addedScreenshots) AS score,
-      (solvedScreenshots + addedScreenshots) / ${totalNbScreenshots} AS completeness,
+      (solvedScreenshots + addedScreenshots) / :totalNbScreenshots AS completeness,
       COUNT (
         IF(
           Screenshots.deletedAt IS NULL
@@ -44,7 +44,10 @@ async function getScores({ totalNbScreenshots }) {
       score DESC,
       lastScreenshotFound ASC
     LIMIT 100`,
-    { type: db.sequelize.QueryTypes.SELECT }
+    {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: { totalNbScreenshots },
+    }
   );
 }
 
