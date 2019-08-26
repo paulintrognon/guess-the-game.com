@@ -145,7 +145,7 @@ async function getLastAdded() {
   const screenshot = await db.Screenshot.findOne({
     attributes: ['id'],
     where: { approvalStatus: 'approved' },
-    order: [['createdAt', 'DESC']],
+    order: [['moderatedAt', 'DESC']],
   });
   if (!screenshot) {
     return null;
