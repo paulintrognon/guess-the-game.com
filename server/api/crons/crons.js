@@ -13,7 +13,7 @@ function startCrons() {
    * Email new screenshot updates
    */
   // Asap
-  schedule('New Screenshots Asap update', '0 * * * * *', () => {
+  schedule('New Screenshots Asap update', '0 */12 * * * *', () => {
     emailNewScreenshotUpdates('asap');
   });
   // Daily
