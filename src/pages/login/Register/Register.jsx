@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { ReCaptcha } from 'react-recaptcha-google';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import debounce from 'lodash.debounce';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
 import Input from '../../../components/Form/Input/Input';
@@ -76,7 +76,7 @@ class RegisterPage extends React.Component {
     this.checkUsername();
   };
 
-  checkUsername = _.debounce(() => {
+  checkUsername = debounce(() => {
     loginService
       .checkUsernameAvailability(this.state.username.value)
       .then(isAvailable => {
