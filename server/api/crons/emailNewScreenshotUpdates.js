@@ -62,22 +62,30 @@ async function sendEmailUpdateToUser(user) {
       Screenshots AS Screenshot
     LEFT JOIN
       ScreenshotImages ON Screenshot.ScreenshotImageId = ScreenshotImages.id
+    LEFT JOIN
+      Users ON Users.id = :userId
     WHERE (
       Screenshot.deletedAt IS NULL
       AND Screenshot.approvalStatus = 'approved'
-      AND (Screenshot.UserId != ${user.id})
-      AND Screenshot.moderatedAt > ?
+      AND (Screenshot.UserId != :userId)
+      AND Screenshot.moderatedAt > Users.emailUpdateLastScreenshotDate
       AND NOT EXISTS (
         SELECT id FROM SolvedScreenshots
         WHERE
           SolvedScreenshots.ScreenshotId = Screenshot.id
-          AND SolvedScreenshots.UserId = ${user.id}
+          AND SolvedScreenshots.UserId = :userId
+      )
+      AND NOT EXISTS (
+        SELECT id FROM ViewedScreenshots
+        WHERE
+          ViewedScreenshots.ScreenshotId = Screenshot.id
+          AND ViewedScreenshots.UserId = :userId
       )
     )
     LIMIT 51
   `,
     {
-      replacements: [user.emailUpdateLastScreenshotDate],
+      replacements: { userId: user.id },
       type: db.sequelize.QueryTypes.SELECT,
     }
   );

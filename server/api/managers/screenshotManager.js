@@ -216,12 +216,12 @@ async function getUnsolved({ userId, unseenOnly, exclude }) {
       ${
         userId
           ? `
-      AND (Screenshot.UserId != ${userId})
+      AND (Screenshot.UserId != :userId)
       AND NOT EXISTS (
         SELECT id FROM SolvedScreenshots
         WHERE
           SolvedScreenshots.ScreenshotId = Screenshot.id
-          AND SolvedScreenshots.UserId = ${userId}
+          AND SolvedScreenshots.UserId = :userId
       ) `
           : ''
       }
@@ -232,20 +232,23 @@ async function getUnsolved({ userId, unseenOnly, exclude }) {
         SELECT id FROM ViewedScreenshots
         WHERE
           ViewedScreenshots.ScreenshotId = Screenshot.id
-          AND ViewedScreenshots.UserId = ${userId}
+          AND ViewedScreenshots.UserId = :userId
       ) `
           : ''
       }
       ${
         exclude && exclude.length
-          ? `AND (Screenshot.Id NOT IN (${exclude.join(',')}) )`
+          ? `AND (Screenshot.Id NOT IN (:screenshotIds) )`
           : ''
       }
     )
     ORDER BY RAND()
     LIMIT 1
   `,
-    { model: db.Screenshot }
+    {
+      model: db.Screenshot,
+      replacements: { userId, screenshotIds: exclude },
+    }
   );
   return screenshots[0];
 }
