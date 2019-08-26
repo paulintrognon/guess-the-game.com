@@ -1,3 +1,9 @@
+### v11.1.2
+
+- No more showing viewed screenshots in email alerts
+- Fix date bug in email alerts
+- Prevent SQL exploits by using "replacement" sequelize tool for raw queries
+
 ### v11.1.1
 
 - Last displayed sreenshot is now last moderated, not last by id

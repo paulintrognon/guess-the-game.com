@@ -54,18 +54,22 @@ async function getNewRanking(userId) {
   return db.sequelize.query(
     `
     SELECT
-      COUNT(IF(user_rankings.score >= ${userCurrentScore},1,NULL))+1 AS currentRanking,
-      COUNT(IF(user_rankings.score >= ${userCurrentScore}+1,1,NULL))+1 AS newRanking
+      COUNT(IF(user_rankings.score >= :userCurrentScore ,1,NULL))+1 AS currentRanking,
+      COUNT(IF(user_rankings.score >= :userCurrentScore +1,1,NULL))+1 AS newRanking
     FROM (
       SELECT
         solvedScreenshots + addedScreenshots AS score
       FROM Users
       WHERE
         Users.email IS NOT NULL
-        AND Users.id != ${userId}
+        AND Users.id != :userId
       ) AS user_rankings
   `,
-    { plain: true, type: db.sequelize.QueryTypes.SELECT }
+    {
+      plain: true,
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: { userCurrentScore, userId },
+    }
   );
 }
 
