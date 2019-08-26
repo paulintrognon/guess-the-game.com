@@ -1,5 +1,9 @@
 # Guess the game!
 
+## Jouez !
+
+https://guess-the-game.com
+
 ## Installation
 
 ### Téléchargement du projet
