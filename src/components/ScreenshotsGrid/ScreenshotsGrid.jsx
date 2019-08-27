@@ -1,12 +1,12 @@
 import React from 'react';
-import debounce from 'lodash.debounce';
+import debounce from 'awesome-debounce-promise';
 import ScreenshotItem from './ScreenshotItem';
 import Loading from '../Loading/Loading';
 import './ScreenshotsGrid.css';
 
 export default class ScreenshotsGrid extends React.Component {
   componentDidMount = () => {
-    window.addEventListener('scroll', debounce(this.handleScroll, 100));
+    window.addEventListener('scroll', debounce(this.handleScroll, 200));
   };
 
   componentWillUnmount = () => {
@@ -23,13 +23,21 @@ export default class ScreenshotsGrid extends React.Component {
     // * if handleLoadMore is not defined
     if (error || isLoading || !hasMore || !handleLoadMore) return;
 
-    // Checks that the page has scrolled to the bottom
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      handleLoadMore();
-    }
+    // This timeout is to make sure react has loaded the next row before we compute the height
+    setTimeout(() => {
+      const needsToTrigger =
+        window.innerHeight + document.documentElement.scrollTop + 100 >
+        document.documentElement.offsetHeight;
+
+      // Checks that the page has scrolled to the bottom
+      if (needsToTrigger) {
+        handleLoadMore();
+      }
+    }, 200);
+  };
+
+  handleSearchInput = event => {
+    this.props.handleSearch(event.target.value);
   };
 
   render() {
@@ -40,6 +48,7 @@ export default class ScreenshotsGrid extends React.Component {
       canEditScreenshots,
       children,
       isLoading,
+      handleSearch,
     } = this.props;
 
     if (!isLoading) {
@@ -55,8 +64,18 @@ export default class ScreenshotsGrid extends React.Component {
     }
 
     return (
-      <div>
-        <div className="ScreenshotsGrid">
+      <div className="ScreenshotsGrid">
+        {handleSearch && (
+          <div className="ScreenshotsGrid_searchContainer">
+            <input
+              type="text"
+              onInput={this.handleSearchInput}
+              className="ScreenshotsGrid_searchContainer_textInput"
+              placeholder="Rechercher par numéro ou par nom"
+            />
+          </div>
+        )}
+        <div className="ScreenshotsGrid_items">
           {children}
           {screenshots.length === 0 ? (
             <p>{noScreenshotSentence}</p>

@@ -2,19 +2,29 @@ const db = require('../../db/db');
 
 module.exports = {
   getSolvedScreenshots,
-  getNbTotalOfSolvedScreenshots,
   markScreenshotAsResolved,
 };
 
-async function getNbTotalOfSolvedScreenshots(userId) {
-  count;
-}
-
 async function getSolvedScreenshots(userId, params) {
-  const { limit, offset } = params || {};
+  const { limit, offset, searchText } = params || {};
+
+  const where = { UserId: userId };
+  if (searchText) {
+    where[db.Sequelize.Op.or] = [
+      {
+        ScreenshotId: { [db.Sequelize.Op.like]: `${searchText}%` },
+      },
+      {
+        '$Screenshot.gameCanonicalName$': {
+          [db.Sequelize.Op.like]: `%${searchText}%`,
+        },
+      },
+    ];
+  }
+
   const { count, rows } = await db.SolvedScreenshot.findAndCountAll({
     attributes: ['createdAt'],
-    where: { UserId: userId },
+    where,
     offset: offset || 0,
     limit: limit || 100,
     order: [['createdAt', 'DESC']],

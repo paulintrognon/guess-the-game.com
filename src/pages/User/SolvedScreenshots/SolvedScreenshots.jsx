@@ -16,15 +16,31 @@ function mapStoreToProps(store) {
 class SolvedScreenshotsPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      searchText: null,
+    };
     this.handleLoadMore();
   }
 
   handleLoadMore = () => {
     const { solvedScreenshots } = this.props;
+    const { searchText } = this.state;
     this.props.dispatch(
       solvedScreenshotsActions.loadUserSolvedScreenshots({
-        limit: 12,
+        searchText,
+        limit: 6,
         offset: (solvedScreenshots && solvedScreenshots.length) || 0,
+      })
+    );
+  };
+
+  handleSearch = searchText => {
+    this.setState({ searchText });
+    this.props.dispatch(
+      solvedScreenshotsActions.loadUserSolvedScreenshots({
+        searchText,
+        limit: 6,
+        offset: 0,
       })
     );
   };
@@ -44,6 +60,7 @@ class SolvedScreenshotsPage extends React.Component {
             hasMore={hasMore}
             isLoading={isLoading}
             handleLoadMore={this.handleLoadMore}
+            handleSearch={this.handleSearch}
           />
         </div>
       </section>

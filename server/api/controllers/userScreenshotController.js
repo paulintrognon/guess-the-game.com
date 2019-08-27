@@ -22,11 +22,15 @@ async function getScores() {
 
 async function getSolvedScreenshots(req) {
   const { id } = req.user;
-  const { offset, limit } = req.body || {};
+  const { offset, limit, searchText } = req.body || {};
   const {
     screenshots,
     total,
-  } = await solvedScreenshotManager.getSolvedScreenshots(id, { offset, limit });
+  } = await solvedScreenshotManager.getSolvedScreenshots(id, {
+    offset,
+    limit,
+    searchText,
+  });
 
   // If we did not provide an offset, then we return only the screenshots (for backward compat reasons)
   if (offset === undefined) {

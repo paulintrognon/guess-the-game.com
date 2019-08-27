@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { ReCaptcha } from 'react-recaptcha-google';
 import { Link } from 'react-router-dom';
-import debounce from 'lodash.debounce';
+import debounce from 'awesome-debounce-promise';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
 import Input from '../../../components/Form/Input/Input';
@@ -97,7 +97,7 @@ class RegisterPage extends React.Component {
           return { username };
         });
       });
-  }, 300);
+  }, 200);
 
   handlePasswordChange = event => {
     const { value } = event.target;
