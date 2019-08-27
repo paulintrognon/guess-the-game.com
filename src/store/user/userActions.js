@@ -1,5 +1,5 @@
-import notificationService from '../services/notificationService';
-import userService from '../services/userService';
+import notificationService from '../../services/notificationService';
+import userService from '../../services/userService';
 
 export default {
   loadUserData,
@@ -24,11 +24,11 @@ function loadUserData() {
 function loadUserSolvedScreenshots() {
   return async dispatch => {
     dispatch({
-      type: 'USER-SOLVED_SCREENSHOTS-LOADING',
+      type: 'SOLVED_SCREENSHOTS-LOADING',
     });
     const solvedScreenshots = await userService.fetchSolvedScreenshots();
     dispatch({
-      type: 'USER-SOLVED_SCREENSHOTS-LOADED',
+      type: 'SOLVED_SCREENSHOTS-LOADED',
       payload: solvedScreenshots,
     });
   };

@@ -56,7 +56,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER-SOLVED_SCREENSHOTS-LOADED') {
+  if (type === 'SOLVED_SCREENSHOTS-LOADED') {
     return {
       ...state,
       solvedScreenshots: payload.map(screenshot => ({

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import loginActions from '../../actions/loginActions';
-import screenshotActions from '../../actions/screenshotActions';
-import layoutActions from '../../actions/layoutActions';
+import loginActions from '../../store/login/loginActions';
+import screenshotActions from '../../store/screenshot/screenshotActions';
+import layoutActions from '../../store/layout/layoutActions';
 
 import './Header.css';
 

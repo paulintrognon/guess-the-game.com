@@ -1,7 +1,7 @@
 import { push } from 'connected-react-router';
-import screenshotService from '../services/screenshotService';
-import notificationService from '../services/notificationService';
-import store from '../store';
+import screenshotService from '../../services/screenshotService';
+import notificationService from '../../services/notificationService';
+import store from '../index';
 
 export default {
   goToScreenshot,

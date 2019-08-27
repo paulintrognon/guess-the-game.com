@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import userActions from '../../../actions/userActions';
-import layoutActions from '../../../actions/layoutActions';
+import userActions from '../../../store/user/userActions';
+import layoutActions from '../../../store/layout/layoutActions';
 
 import './Menu.css';
 

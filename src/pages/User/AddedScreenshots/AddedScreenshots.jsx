@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import BarTitle from '../../../components/BarTitle/BarTitle';
 import PagesSwitcher from '../../../components/PagesSwitcher/PagesSwitcher';
 import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
-import userActions from '../../../actions/userActions';
+import userActions from '../../../store/user/userActions';
 import './AddedScreenshots.css';
 
 function mapStoreToProps(store) {

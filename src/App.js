@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { loadReCaptcha } from 'react-recaptcha-google';
 import Noty from 'noty';
 import store from './store';
-import history from './history';
+import history from './store/history';
 import './icons';
 
 import './App.css';

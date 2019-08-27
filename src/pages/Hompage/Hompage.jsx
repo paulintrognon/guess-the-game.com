@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import screenshotActions from '../../actions/screenshotActions';
+import screenshotActions from '../../store/screenshot/screenshotActions';
 import screenshotService from '../../services/screenshotService';
 import './Homepage.css';
 

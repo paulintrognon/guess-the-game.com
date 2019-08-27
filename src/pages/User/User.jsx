@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import './User.css';
-import loginActions from '../../actions/loginActions';
+import loginActions from '../../store/login/loginActions';
 import Menu from './Menu/Menu';
 import AccountPage from './Account/Account';
 import ModerationPage from './Moderation/Moderation';

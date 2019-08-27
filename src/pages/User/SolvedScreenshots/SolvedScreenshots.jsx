@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import BarTitle from '../../../components/BarTitle/BarTitle';
 import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
-import userActions from '../../../actions/userActions';
+import userActions from '../../../store/user/userActions';
 import './SolvedScreenshots.css';
 
 function mapStoreToProps(store) {
@@ -29,6 +29,7 @@ class SolvedScreenshotsPage extends React.Component {
           <ScreenshotsGrid
             screenshots={solvedScreenshots}
             noScreenshotSentence="Vous n'avez encore résolu aucun screen."
+            hasMore
           />
         </div>
       </section>

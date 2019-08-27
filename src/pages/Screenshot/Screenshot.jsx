@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import screenshotActions from '../../actions/screenshotActions';
+import screenshotActions from '../../store/screenshot/screenshotActions';
 import helperService from '../../services/helperService';
 import Loading from '../../components/Loading/Loading';
 import ScreenshotRating from './ScreenshotRating';

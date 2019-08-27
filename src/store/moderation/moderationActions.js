@@ -1,4 +1,4 @@
-import moderationService from '../services/moderationService';
+import moderationService from '../../services/moderationService';
 
 export default {
   fetchNonModeratedScreenshots,

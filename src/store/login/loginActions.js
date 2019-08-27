@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import notificationService from '../services/notificationService';
+import notificationService from '../../services/notificationService';
 
 export default {
   login,

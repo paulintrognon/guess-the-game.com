@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
-import layoutReducer from './layoutReducer';
-import screenshotReducer from './screenshotReducer';
-import userReducer from './userReducer';
-import moderationReducer from './moderationReducer';
+import layoutReducer from './layout/layoutReducer';
+import screenshotReducer from './screenshot/screenshotReducer';
+import userReducer from './user/userReducer';
+import moderationReducer from './moderation/moderationReducer';
 
 const createRootReducer = history =>
   combineReducers({
