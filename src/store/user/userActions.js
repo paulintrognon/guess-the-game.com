@@ -3,7 +3,6 @@ import userService from '../../services/userService';
 
 export default {
   loadUserData,
-  loadUserSolvedScreenshots,
   loadUserAddedScreenshots,
   updateUserAction,
 };
@@ -18,19 +17,6 @@ function loadUserData() {
       console.warn(err.message);
       dispatch({ type: 'USER-DATA-ERROR', payload: err.message });
     }
-  };
-}
-
-function loadUserSolvedScreenshots() {
-  return async dispatch => {
-    dispatch({
-      type: 'SOLVED_SCREENSHOTS-LOADING',
-    });
-    const solvedScreenshots = await userService.fetchSolvedScreenshots();
-    dispatch({
-      type: 'SOLVED_SCREENSHOTS-LOADED',
-      payload: solvedScreenshots,
-    });
   };
 }
 

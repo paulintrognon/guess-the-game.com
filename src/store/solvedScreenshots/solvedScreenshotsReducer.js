@@ -1,6 +1,7 @@
 const initialState = {
   isLoading: false,
   hasMore: false,
+  total: null,
   solvedScreenshots: null,
 };
 
@@ -16,13 +17,21 @@ export default function reducer(state = initialState, action) {
   }
 
   if (type === 'SOLVED_SCREENSHOTS-LOADED') {
+    const { total, hasMore } = payload;
+    const screenshots = payload.screenshots.map(screenshot => ({
+      ...screenshot,
+      createdAt: new Date(screenshot.createdAt),
+      solvedAt: new Date(screenshot.solvedAt),
+    }));
+
     return {
       ...state,
-      solvedScreenshots: payload.map(screenshot => ({
-        ...screenshot,
-        createdAt: new Date(screenshot.createdAt),
-        solvedAt: new Date(screenshot.solvedAt),
-      })),
+      hasMore,
+      total,
+      isLoading: false,
+      solvedScreenshots: payload.offset
+        ? state.solvedScreenshots.concat(screenshots)
+        : screenshots,
     };
   }
 

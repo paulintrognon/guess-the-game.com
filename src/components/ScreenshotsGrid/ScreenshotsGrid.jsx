@@ -5,29 +5,32 @@ import Loading from '../Loading/Loading';
 import './ScreenshotsGrid.css';
 
 export default class ScreenshotsGrid extends React.Component {
-  constructor(props) {
-    super(props);
+  componentDidMount = () => {
+    window.addEventListener('scroll', debounce(this.handleScroll, 100));
+  };
 
-    // Binds our scroll event handler
-    window.onscroll = debounce(() => {
-      const { hasMore, loadMore, error, isLoading } = this.props;
+  componentWillUnmount = () => {
+    window.removeEventListener('scroll', this.handleScroll);
+  };
 
-      // Bails early if:
-      // * there's an error
-      // * it's already loading
-      // * there's nothing left to load
-      if (error || isLoading || !hasMore) return;
+  handleScroll = () => {
+    const { hasMore, handleLoadMore, error, isLoading } = this.props;
 
-      // Checks that the page has scrolled to the bottom
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
-      ) {
-        alert('load');
-        // loadMore();
-      }
-    }, 100);
-  }
+    // Bails early if:
+    // * there's an error
+    // * it's already loading
+    // * there's nothing left to load
+    // * if handleLoadMore is not defined
+    if (error || isLoading || !hasMore || !handleLoadMore) return;
+
+    // Checks that the page has scrolled to the bottom
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      handleLoadMore();
+    }
+  };
 
   render() {
     const {
@@ -39,7 +42,11 @@ export default class ScreenshotsGrid extends React.Component {
       isLoading,
     } = this.props;
 
-    if (isLoading || screenshots === null) {
+    if (!isLoading) {
+      this.handleScroll();
+    }
+
+    if (screenshots === null) {
       return (
         <p style={{ textAlign: 'center' }}>
           <Loading />
@@ -48,19 +55,26 @@ export default class ScreenshotsGrid extends React.Component {
     }
 
     return (
-      <div className="ScreenshotsGrid">
-        {children}
-        {screenshots.length === 0 ? (
-          <p>{noScreenshotSentence}</p>
-        ) : (
-          screenshots.map(screenshot => (
-            <ScreenshotItem
-              key={screenshot.id}
-              screenshot={screenshot}
-              canModerateScreenshots={canModerateScreenshots}
-              canEditScreenshots={canEditScreenshots}
-            />
-          ))
+      <div>
+        <div className="ScreenshotsGrid">
+          {children}
+          {screenshots.length === 0 ? (
+            <p>{noScreenshotSentence}</p>
+          ) : (
+            screenshots.map(screenshot => (
+              <ScreenshotItem
+                key={screenshot.id}
+                screenshot={screenshot}
+                canModerateScreenshots={canModerateScreenshots}
+                canEditScreenshots={canEditScreenshots}
+              />
+            ))
+          )}
+        </div>
+        {isLoading && (
+          <p style={{ textAlign: 'center' }}>
+            <Loading />
+          </p>
         )}
       </div>
     );

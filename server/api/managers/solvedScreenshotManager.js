@@ -2,14 +2,21 @@ const db = require('../../db/db');
 
 module.exports = {
   getSolvedScreenshots,
+  getNbTotalOfSolvedScreenshots,
   markScreenshotAsResolved,
 };
 
-async function getSolvedScreenshots(userId) {
-  const results = await db.SolvedScreenshot.findAll({
+async function getNbTotalOfSolvedScreenshots(userId) {
+  count;
+}
+
+async function getSolvedScreenshots(userId, params) {
+  const { limit, offset } = params || {};
+  const { count, rows } = await db.SolvedScreenshot.findAndCountAll({
     attributes: ['createdAt'],
     where: { UserId: userId },
-    limit: 100,
+    offset: offset || 0,
+    limit: limit || 100,
     order: [['createdAt', 'DESC']],
     include: {
       model: db.Screenshot,
@@ -20,13 +27,16 @@ async function getSolvedScreenshots(userId) {
       },
     },
   });
-  return results.map(res => ({
-    id: res.Screenshot.id,
-    gameCanonicalName: res.Screenshot.gameCanonicalName,
-    year: res.Screenshot.year,
-    imageUrl: res.Screenshot.ScreenshotImage.thumbUrl,
-    solvedAt: res.Screenshot.createdAt,
-  }));
+  return {
+    total: count,
+    screenshots: rows.map(res => ({
+      id: res.Screenshot.id,
+      gameCanonicalName: res.Screenshot.gameCanonicalName,
+      year: res.Screenshot.year,
+      imageUrl: res.Screenshot.ScreenshotImage.thumbUrl,
+      solvedAt: res.Screenshot.createdAt,
+    })),
+  };
 }
 
 async function markScreenshotAsResolved({ screenshotId, userId }) {
