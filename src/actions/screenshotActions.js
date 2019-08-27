@@ -20,22 +20,22 @@ function goToScreenshot(screenshot) {
 
 function loadScreenshot(screenshotId, navigate = false) {
   return async dispatch => {
-    dispatch({ type: 'SCREENSHOT_LOADING' });
+    dispatch({ type: 'SCREENSHOT-LOADING' });
     const screenshot = await screenshotService.getFromId(screenshotId);
-    dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
+    dispatch({ type: 'SCREENSHOT-LOAD', payload: screenshot });
     if (navigate) {
       dispatch(push(`/screenshot/${screenshot.id}`));
     }
     const prevAndNext = await screenshotService.getPrevAndNext({
       screenshotId,
     });
-    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+    dispatch({ type: 'SCREENSHOT-LOAD-PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 
 function getUnsolvedScreenshot(exclude) {
   return async dispatch => {
-    dispatch({ type: 'SCREENSHOT_LOADING' });
+    dispatch({ type: 'SCREENSHOT-LOADING' });
     const res = await screenshotService.getUnsolved(exclude);
     if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
       dispatch(push('/la-fin'));
@@ -54,26 +54,26 @@ function getUnsolvedScreenshot(exclude) {
     }
 
     dispatch(push(`/screenshot/${res.id}`));
-    dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
+    dispatch({ type: 'SCREENSHOT-LOAD', payload: res });
     const prevAndNext = await screenshotService.getPrevAndNext({
       screenshotId: res.id,
     });
-    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+    dispatch({ type: 'SCREENSHOT-LOAD-PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 
 function tryProposal(screenshot, proposition) {
   return async dispatch => {
-    dispatch({ type: 'SCREENSHOT_PROPOSAL_TRY' });
+    dispatch({ type: 'SCREENSHOT-PROPOSAL-TRY' });
     const res = await screenshotService.guess(screenshot.id, proposition);
     if (res.jwt) {
-      dispatch({ type: 'USER_LOG_IN', payload: { jwt: res.jwt } });
+      dispatch({ type: 'USER-LOG-IN', payload: { jwt: res.jwt } });
     }
     if (!res.correct) {
-      dispatch({ type: 'SCREENSHOT_PROPOSAL_FAILURE' });
+      dispatch({ type: 'SCREENSHOT-PROPOSAL-FAILURE' });
       return;
     }
-    dispatch({ type: 'SCREENSHOT_PROPOSAL_SUCCESS', payload: res });
+    dispatch({ type: 'SCREENSHOT-PROPOSAL-SUCCESS', payload: res });
     if (!res.newRankingData) {
       return;
     }
@@ -157,7 +157,7 @@ function tryProposal(screenshot, proposition) {
 }
 
 function resetGuess() {
-  return { type: 'SCREENSHOT_PROPOSAL_RESET' };
+  return { type: 'SCREENSHOT-PROPOSAL-RESET' };
 }
 
 function removeOwnScreenshot(screenshotId) {

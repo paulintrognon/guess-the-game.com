@@ -8,14 +8,14 @@ export default function reducer(state = initialState, action) {
   const newState = { ...state };
   const { type, payload } = action;
 
-  if (type === 'USER_SOLVED-SCREENSHOTS_LOADED') {
+  if (type === 'USER-SOLVED_SCREENSHOTS-LOADING') {
     return {
       ...state,
       isLoading: true,
     };
   }
 
-  if (type === 'USER_SOLVED-SCREENSHOTS_LOADED') {
+  if (type === 'USER-SOLVED_SCREENSHOTS-LOADED') {
     return {
       ...state,
       solvedScreenshots: payload.map(screenshot => ({

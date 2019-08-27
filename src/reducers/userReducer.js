@@ -14,7 +14,7 @@ export default function reducer(state = initialState, action) {
   const newState = { ...state };
   const { type, payload } = action;
 
-  if (type === 'USER_LOG_IN') {
+  if (type === 'USER-LOG-IN') {
     localStorage.setItem('jwt', payload.jwt);
     if (payload.username) {
       localStorage.setItem('username', payload.username);
@@ -32,7 +32,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_LOG_OUT') {
+  if (type === 'USER-LOG-OUT') {
     localStorage.removeItem('jwt');
     localStorage.removeItem('username');
     return {
@@ -42,21 +42,21 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_DATA_LOADING') {
+  if (type === 'USER-DATA-LOADING') {
     return {
       ...state,
       userData: null,
     };
   }
 
-  if (type === 'USER_DATA_LOADED') {
+  if (type === 'USER-DATA-LOADED') {
     return {
       ...state,
       userData: payload,
     };
   }
 
-  if (type === 'USER_SOLVED-SCREENSHOTS_LOADED') {
+  if (type === 'USER-SOLVED_SCREENSHOTS-LOADED') {
     return {
       ...state,
       solvedScreenshots: payload.map(screenshot => ({
@@ -67,7 +67,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_ADDED-SCREENSHOTS_LOADED') {
+  if (type === 'USER-ADDED_SCREENSHOTS-LOADED') {
     return {
       ...state,
       addedScreenshots: payload.map(screenshot => ({
@@ -77,14 +77,14 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'USER_UPDATING') {
+  if (type === 'USER-UPDATING') {
     return {
       ...state,
       isUpdating: true,
     };
   }
 
-  if (type === 'USER_UPDATED') {
+  if (type === 'USER-UPDATED') {
     if (payload.username) {
       localStorage.setItem('username', payload.username);
     }
@@ -99,7 +99,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'SCREENSHOT_LOAD' && !payload.error) {
+  if (type === 'SCREENSHOT-LOAD' && !payload.error) {
     const lastViewedRandomScreenshots = updateLastViewedRandomScreenshots({
       lastViewedRandomScreenshots: state.lastViewedRandomScreenshots,
       screenshotId: payload.id,

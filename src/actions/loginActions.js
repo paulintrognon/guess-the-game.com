@@ -9,14 +9,14 @@ export default {
 
 function login(user) {
   return dispatch => {
-    dispatch({ type: 'USER_LOG_IN', payload: user });
+    dispatch({ type: 'USER-LOG-IN', payload: user });
     dispatch(push('/'));
   };
 }
 
 function logout() {
   return dispatch => {
-    dispatch({ type: 'USER_LOG_OUT' });
+    dispatch({ type: 'USER-LOG-OUT' });
     dispatch(push('/connexion'));
   };
 }

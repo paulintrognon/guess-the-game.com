@@ -10,22 +10,25 @@ export default {
 
 function loadUserData() {
   return async dispatch => {
-    dispatch({ type: 'USER_DATA_LOADING' });
+    dispatch({ type: 'USER-DATA-LOADING' });
     try {
       const userData = await userService.fetchUser();
-      dispatch({ type: 'USER_DATA_LOADED', payload: userData });
+      dispatch({ type: 'USER-DATA-LOADED', payload: userData });
     } catch (err) {
       console.warn(err.message);
-      dispatch({ type: 'USER_DATA_ERROR', payload: err.message });
+      dispatch({ type: 'USER-DATA-ERROR', payload: err.message });
     }
   };
 }
 
 function loadUserSolvedScreenshots() {
   return async dispatch => {
+    dispatch({
+      type: 'USER-SOLVED_SCREENSHOTS-LOADING',
+    });
     const solvedScreenshots = await userService.fetchSolvedScreenshots();
     dispatch({
-      type: 'USER_SOLVED-SCREENSHOTS_LOADED',
+      type: 'USER-SOLVED_SCREENSHOTS-LOADED',
       payload: solvedScreenshots,
     });
   };
@@ -35,7 +38,7 @@ function loadUserAddedScreenshots(filters) {
   return async dispatch => {
     const addedScreenshots = await userService.fetchAddedScreenshots(filters);
     dispatch({
-      type: 'USER_ADDED-SCREENSHOTS_LOADED',
+      type: 'USER-ADDED_SCREENSHOTS-LOADED',
       payload: addedScreenshots,
     });
   };
@@ -43,7 +46,7 @@ function loadUserAddedScreenshots(filters) {
 
 function updateUserAction(values) {
   return async dispatch => {
-    dispatch({ type: 'USER_UPDATING' });
+    dispatch({ type: 'USER-UPDATING' });
     const res = await userService.updateUser(values);
     if (res.error) {
       notificationService.create({
@@ -51,10 +54,10 @@ function updateUserAction(values) {
         text: `Erreur lors de la mise à jour : ${res.message}`,
         type: 'error',
       });
-      dispatch({ type: 'USER_UPDATED', payload: {} });
+      dispatch({ type: 'USER-UPDATED', payload: {} });
     } else {
       dispatch({
-        type: 'USER_UPDATED',
+        type: 'USER-UPDATED',
         payload: values,
       });
       notificationService.create({

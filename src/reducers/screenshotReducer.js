@@ -26,7 +26,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   const { type, payload } = action;
 
-  if (type === 'SCREENSHOT_LOADING') {
+  if (type === 'SCREENSHOT-LOADING') {
     return {
       ...state,
       isLoading: true,
@@ -37,7 +37,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'SCREENSHOT_LOAD') {
+  if (type === 'SCREENSHOT-LOAD') {
     if (payload.error) {
       if (payload.message) {
         return {
@@ -80,7 +80,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'SCREENSHOT_LOAD_PREV_AND_NEXT') {
+  if (type === 'SCREENSHOT-LOAD-PREV_AND_NEXT') {
     const { prev, next } = payload;
     return {
       ...state,
@@ -89,7 +89,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'SCREENSHOT_LOAD_NEW_RATING') {
+  if (type === 'SCREENSHOT-LOAD-NEW_RATING') {
     const { averageRating, ownRating } = payload;
     return {
       ...state,
@@ -98,14 +98,14 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'SCREENSHOT_PROPOSAL_RESET') {
+  if (type === 'SCREENSHOT-PROPOSAL-RESET') {
     return {
       ...state,
       isProposalWrong: false,
     };
   }
 
-  if (type === 'SCREENSHOT_PROPOSAL_TRY') {
+  if (type === 'SCREENSHOT-PROPOSAL-TRY') {
     return {
       ...state,
       isGuessing: true,
@@ -114,7 +114,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'SCREENSHOT_PROPOSAL_SUCCESS') {
+  if (type === 'SCREENSHOT-PROPOSAL-SUCCESS') {
     return {
       ...state,
       isGuessing: false,
@@ -124,7 +124,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'SCREENSHOT_PROPOSAL_FAILURE') {
+  if (type === 'SCREENSHOT-PROPOSAL-FAILURE') {
     return {
       ...state,
       isGuessing: false,
