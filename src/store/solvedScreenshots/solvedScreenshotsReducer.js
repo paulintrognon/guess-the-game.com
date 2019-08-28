@@ -30,7 +30,13 @@ export default function reducer(state = initialState, action) {
       total,
       isLoading: false,
       solvedScreenshots: payload.offset
-        ? state.solvedScreenshots.concat(screenshots)
+        ? (state.solvedScreenshots || [])
+            .concat(screenshots)
+            .filter(
+              (screenshot1, index, self) =>
+                index ===
+                self.findIndex(screenshot2 => screenshot2.id === screenshot1.id)
+            )
         : screenshots,
     };
   }

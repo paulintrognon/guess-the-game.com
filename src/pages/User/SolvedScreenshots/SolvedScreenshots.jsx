@@ -28,7 +28,7 @@ class SolvedScreenshotsPage extends React.Component {
     this.props.dispatch(
       solvedScreenshotsActions.loadUserSolvedScreenshots({
         searchText,
-        limit: 6,
+        limit: 12,
         offset: (solvedScreenshots && solvedScreenshots.length) || 0,
       })
     );
@@ -39,7 +39,7 @@ class SolvedScreenshotsPage extends React.Component {
     this.props.dispatch(
       solvedScreenshotsActions.loadUserSolvedScreenshots({
         searchText,
-        limit: 6,
+        limit: 12,
         offset: 0,
       })
     );
