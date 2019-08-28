@@ -1,3 +1,5 @@
+# v12.0.0 - Search screenshots in user space, Shortcuts, dependencies upgrade
+
 - Better screenshots grid with loading on scroll and search
 - Add shortcuts (j,k,enter,escape) on guess screenshot page
 - Fix ranking notif bug
