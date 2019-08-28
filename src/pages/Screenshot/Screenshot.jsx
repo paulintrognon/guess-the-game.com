@@ -38,6 +38,14 @@ class ScreenshotPage extends React.Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
   componentDidUpdate() {
     if (this.props.isLoading) {
       return;
@@ -52,7 +60,30 @@ class ScreenshotPage extends React.Component {
     }
   }
 
-  handleChangeProposal = event => {
+  handleKeyDown = e => {
+    console.log('test');
+    const isGuessingElementFocused =
+      document.activeElement === this.guessInputRef.current;
+
+    if (isGuessingElementFocused) {
+      if (e.key === 'Escape') {
+        this.guessInputRef.current.blur();
+      }
+      return;
+    }
+
+    if (e.key === 'j') {
+      e.preventDefault();
+      this.handleTryAnother();
+    } else if (e.key === 'k') {
+      e.preventDefault();
+      window.history.back();
+    } else if (e.key === 'Enter') {
+      this.guessInputRef.current.focus();
+    }
+  };
+
+  handleProposalChange = event => {
     this.props.dispatch(screenshotActions.resetGuess());
     this.setState({
       proposal: event.target.value,
@@ -277,7 +308,7 @@ class ScreenshotPage extends React.Component {
                   type="text"
                   placeholder="Quel est ce jeu ?"
                   value={this.state.proposal}
-                  onChange={this.handleChangeProposal}
+                  onChange={this.handleProposalChange}
                 />
                 <button
                   className="ScreenshotPage_form_input_valid"

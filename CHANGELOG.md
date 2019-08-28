@@ -1,3 +1,4 @@
+- Add shortcuts (j,k,enter,escape) on guess screenshot page
 - Update to React 16.9
 - Remove lodash dependency (keep only debounce)
 - babel-eslint dependency moved to devDependencies

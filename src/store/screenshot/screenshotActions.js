@@ -73,6 +73,8 @@ function tryProposal(screenshot, proposition) {
       dispatch({ type: 'SCREENSHOT-PROPOSAL-FAILURE' });
       return;
     }
+    // We unfocus the guessing input to re-enable shortcuts (j,k,...)
+    document.activeElement.blur();
     dispatch({ type: 'SCREENSHOT-PROPOSAL-SUCCESS', payload: res });
     if (!res.newRankingData) {
       return;
