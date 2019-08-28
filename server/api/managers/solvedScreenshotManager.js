@@ -5,11 +5,28 @@ module.exports = {
   markScreenshotAsResolved,
 };
 
-async function getSolvedScreenshots(userId) {
-  const results = await db.SolvedScreenshot.findAll({
+async function getSolvedScreenshots(userId, params) {
+  const { limit, offset, searchText } = params || {};
+
+  const where = { UserId: userId };
+  if (searchText) {
+    where[db.Sequelize.Op.or] = [
+      {
+        ScreenshotId: { [db.Sequelize.Op.like]: `${searchText}%` },
+      },
+      {
+        '$Screenshot.gameCanonicalName$': {
+          [db.Sequelize.Op.like]: `%${searchText}%`,
+        },
+      },
+    ];
+  }
+
+  const { count, rows } = await db.SolvedScreenshot.findAndCountAll({
     attributes: ['createdAt'],
-    where: { UserId: userId },
-    limit: 100,
+    where,
+    offset: offset || 0,
+    limit: limit || 100,
     order: [['createdAt', 'DESC']],
     include: {
       model: db.Screenshot,
@@ -19,14 +36,18 @@ async function getSolvedScreenshots(userId) {
         attributes: ['path'],
       },
     },
+    distinct: true,
   });
-  return results.map(res => ({
-    id: res.Screenshot.id,
-    gameCanonicalName: res.Screenshot.gameCanonicalName,
-    year: res.Screenshot.year,
-    imageUrl: res.Screenshot.ScreenshotImage.thumbUrl,
-    solvedAt: res.Screenshot.createdAt,
-  }));
+  return {
+    total: count,
+    screenshots: rows.map(res => ({
+      id: res.Screenshot.id,
+      gameCanonicalName: res.Screenshot.gameCanonicalName,
+      year: res.Screenshot.year,
+      imageUrl: res.Screenshot.ScreenshotImage.thumbUrl,
+      solvedAt: res.Screenshot.createdAt,
+    })),
+  };
 }
 
 async function markScreenshotAsResolved({ screenshotId, userId }) {

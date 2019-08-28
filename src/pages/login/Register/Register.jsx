@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { ReCaptcha } from 'react-recaptcha-google';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
+import debounce from 'awesome-debounce-promise';
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
 import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
 import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
-import loginActions from '../../../actions/loginActions';
+import loginActions from '../../../store/login/loginActions';
 import '../login.css';
 
 function mapStoreToProps(store) {
@@ -76,7 +76,7 @@ class RegisterPage extends React.Component {
     this.checkUsername();
   };
 
-  checkUsername = _.debounce(() => {
+  checkUsername = debounce(() => {
     loginService
       .checkUsernameAvailability(this.state.username.value)
       .then(isAvailable => {
@@ -97,7 +97,7 @@ class RegisterPage extends React.Component {
           return { username };
         });
       });
-  }, 300);
+  }, 200);
 
   handlePasswordChange = event => {
     const { value } = event.target;

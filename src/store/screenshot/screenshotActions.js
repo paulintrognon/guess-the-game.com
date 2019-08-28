@@ -1,7 +1,7 @@
 import { push } from 'connected-react-router';
-import screenshotService from '../services/screenshotService';
-import notificationService from '../services/notificationService';
-import store from '../store';
+import screenshotService from '../../services/screenshotService';
+import notificationService from '../../services/notificationService';
+import store from '../index';
 
 export default {
   goToScreenshot,
@@ -20,22 +20,22 @@ function goToScreenshot(screenshot) {
 
 function loadScreenshot(screenshotId, navigate = false) {
   return async dispatch => {
-    dispatch({ type: 'SCREENSHOT_LOADING' });
+    dispatch({ type: 'SCREENSHOT-LOADING' });
     const screenshot = await screenshotService.getFromId(screenshotId);
-    dispatch({ type: 'SCREENSHOT_LOAD', payload: screenshot });
+    dispatch({ type: 'SCREENSHOT-LOAD', payload: screenshot });
     if (navigate) {
       dispatch(push(`/screenshot/${screenshot.id}`));
     }
     const prevAndNext = await screenshotService.getPrevAndNext({
       screenshotId,
     });
-    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+    dispatch({ type: 'SCREENSHOT-LOAD-PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 
 function getUnsolvedScreenshot(exclude) {
   return async dispatch => {
-    dispatch({ type: 'SCREENSHOT_LOADING' });
+    dispatch({ type: 'SCREENSHOT-LOADING' });
     const res = await screenshotService.getUnsolved(exclude);
     if (res.error && res.code === 'UNSOLVED_SCREENSHOT_NOT_FOUND') {
       dispatch(push('/la-fin'));
@@ -54,26 +54,31 @@ function getUnsolvedScreenshot(exclude) {
     }
 
     dispatch(push(`/screenshot/${res.id}`));
-    dispatch({ type: 'SCREENSHOT_LOAD', payload: res });
+    dispatch({ type: 'SCREENSHOT-LOAD', payload: res });
     const prevAndNext = await screenshotService.getPrevAndNext({
       screenshotId: res.id,
     });
-    dispatch({ type: 'SCREENSHOT_LOAD_PREV_AND_NEXT', payload: prevAndNext });
+    dispatch({ type: 'SCREENSHOT-LOAD-PREV_AND_NEXT', payload: prevAndNext });
   };
 }
 
+// We save in the browser the lastRanking to avoid to repeat the same "new ranking" message
+// if by chance the same ranking was sent twice (ie when 2 players are playing at the same time)
+let lastRanking;
 function tryProposal(screenshot, proposition) {
   return async dispatch => {
-    dispatch({ type: 'SCREENSHOT_PROPOSAL_TRY' });
+    dispatch({ type: 'SCREENSHOT-PROPOSAL-TRY' });
     const res = await screenshotService.guess(screenshot.id, proposition);
     if (res.jwt) {
-      dispatch({ type: 'USER_LOG_IN', payload: { jwt: res.jwt } });
+      dispatch({ type: 'USER-LOG-IN', payload: { jwt: res.jwt } });
     }
     if (!res.correct) {
-      dispatch({ type: 'SCREENSHOT_PROPOSAL_FAILURE' });
+      dispatch({ type: 'SCREENSHOT-PROPOSAL-FAILURE' });
       return;
     }
-    dispatch({ type: 'SCREENSHOT_PROPOSAL_SUCCESS', payload: res });
+    // We unfocus the guessing input to re-enable shortcuts (j,k,...)
+    document.activeElement.blur();
+    dispatch({ type: 'SCREENSHOT-PROPOSAL-SUCCESS', payload: res });
     if (!res.newRankingData) {
       return;
     }
@@ -90,7 +95,7 @@ function tryProposal(screenshot, proposition) {
     }
 
     // If the user got a new ranking
-    if (hasNewRanking) {
+    if (hasNewRanking && newRanking !== lastRanking) {
       if (newRanking === 1) {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
@@ -122,6 +127,7 @@ function tryProposal(screenshot, proposition) {
           text: `Vous passez à la ${newRanking}ème place !`,
         });
       }
+      lastRanking = newRanking;
     }
 
     // If the user is registered, we stop here
@@ -157,7 +163,7 @@ function tryProposal(screenshot, proposition) {
 }
 
 function resetGuess() {
-  return { type: 'SCREENSHOT_PROPOSAL_RESET' };
+  return { type: 'SCREENSHOT-PROPOSAL-RESET' };
 }
 
 function removeOwnScreenshot(screenshotId) {

@@ -20,14 +20,18 @@ async function getScores() {
   };
 }
 
-async function getSolvedScreenshots(req) {
-  const { id } = req.user;
-  return solvedScreenshotManager.getSolvedScreenshots(id);
+function getSolvedScreenshots(req) {
+  return getScreenshots(req, solvedScreenshotManager.getSolvedScreenshots);
 }
 
-async function getAddedScreenshots(req) {
+function getAddedScreenshots(req) {
+  return getScreenshots(req, userScreenshotManager.getAddedScreenshots);
+}
+
+async function getScreenshots(req, managerMethod) {
   const { id } = req.user;
-  const { approvalStatus } = req.body;
+  const { offset, limit, searchText, approvalStatus } = req.body || {};
+
   if (
     approvalStatus &&
     !['approved', 'refused', 'waiting'].includes(approvalStatus)
@@ -38,7 +42,24 @@ async function getAddedScreenshots(req) {
     });
   }
 
-  return userScreenshotManager.getAddedScreenshots(id, {
-    ...(approvalStatus && { approvalStatus }),
+  const { screenshots, total } = await managerMethod(id, {
+    offset,
+    limit,
+    searchText,
+    approvalStatus,
   });
+
+  console.log(offset, screenshots.length, total);
+
+  // If we did not provide an offset, then we return only the screenshots (for backward compat reasons)
+  if (offset === undefined) {
+    return screenshots;
+  }
+
+  return {
+    screenshots,
+    total,
+    offset,
+    hasMore: offset + screenshots.length < total,
+  };
 }

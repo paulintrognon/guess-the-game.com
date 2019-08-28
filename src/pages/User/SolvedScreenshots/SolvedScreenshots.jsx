@@ -2,24 +2,51 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import BarTitle from '../../../components/BarTitle/BarTitle';
-import Loading from '../../../components/Loading/Loading';
 import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
-import userActions from '../../../actions/userActions';
+import solvedScreenshotsActions from '../../../store/solvedScreenshots/solvedScreenshotsActions';
 import './SolvedScreenshots.css';
 
 function mapStoreToProps(store) {
   return {
-    solvedScreenshots: store.user.solvedScreenshots,
+    solvedScreenshots: store.solvedScreenshots.screenshots,
+    isLoading: store.solvedScreenshots.isLoading,
+    hasMore: store.solvedScreenshots.hasMore,
   };
 }
 class SolvedScreenshotsPage extends React.Component {
   constructor(props) {
     super(props);
-    this.props.dispatch(userActions.loadUserSolvedScreenshots());
+    this.state = {
+      searchText: null,
+    };
+    this.handleLoadMore();
   }
 
-  render() {
+  handleLoadMore = () => {
     const { solvedScreenshots } = this.props;
+    const { searchText } = this.state;
+    this.props.dispatch(
+      solvedScreenshotsActions.loadUserSolvedScreenshots({
+        searchText,
+        limit: 12,
+        offset: (solvedScreenshots && solvedScreenshots.length) || 0,
+      })
+    );
+  };
+
+  handleSearch = searchText => {
+    this.setState({ searchText });
+    this.props.dispatch(
+      solvedScreenshotsActions.loadUserSolvedScreenshots({
+        searchText,
+        limit: 12,
+        offset: 0,
+      })
+    );
+  };
+
+  render() {
+    const { solvedScreenshots, hasMore, isLoading } = this.props;
     return (
       <section className="section">
         <Helmet title="Screenshots Résolus" />
@@ -27,16 +54,14 @@ class SolvedScreenshotsPage extends React.Component {
           <BarTitle onlyOnSmartphones>
             <h2>Screens Resolus</h2>
           </BarTitle>
-          {solvedScreenshots === null ? (
-            <p style={{ textAlign: 'center' }}>
-              <Loading />
-            </p>
-          ) : (
-            <ScreenshotsGrid
-              screenshots={solvedScreenshots}
-              noScreenshotSentence="Vous n'avez encore résolu aucun screen."
-            />
-          )}
+          <ScreenshotsGrid
+            screenshots={solvedScreenshots}
+            noScreenshotSentence="Vous n'avez encore résolu aucun screen."
+            hasMore={hasMore}
+            isLoading={isLoading}
+            handleLoadMore={this.handleLoadMore}
+            handleSearch={this.handleSearch}
+          />
         </div>
       </section>
     );

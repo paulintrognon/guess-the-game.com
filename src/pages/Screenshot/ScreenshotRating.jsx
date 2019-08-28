@@ -52,7 +52,7 @@ class ScreenshotRating extends React.Component {
       selectedOption: null,
     });
     store.dispatch({
-      type: 'SCREENSHOT_LOAD_NEW_RATING',
+      type: 'SCREENSHOT-LOAD-NEW_RATING',
       payload: {
         ownRating,
         averageRating: res.averageRating,

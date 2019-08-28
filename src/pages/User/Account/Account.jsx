@@ -7,8 +7,8 @@ import BarTitle from '../../../components/BarTitle/BarTitle';
 import Loading from '../../../components/Loading/Loading';
 import SimpleEdit from '../../../components/SimpleEdit/SimpleEdit';
 import Button from '../../../components/Form/Button/Button';
-import loginActions from '../../../actions/loginActions';
-import userActions from '../../../actions/userActions';
+import loginActions from '../../../store/login/loginActions';
+import userActions from '../../../store/user/userActions';
 
 function mapStoreToProps(store) {
   const userData = store.user.userData || {};

@@ -6,7 +6,7 @@ import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import LoginPageSwitcher from '../../../components/LoginPagesSwitcher/LoginPagesSwitcher';
 import loginService from '../../../services/loginService';
-import loginActions from '../../../actions/loginActions';
+import loginActions from '../../../store/login/loginActions';
 import './Login.css';
 
 import SmallContainer from '../../../components/SmallContainer/SmallContainer';
