@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import BarTitle from '../../../components/BarTitle/BarTitle';
 import ScreenshotsGrid from '../../../components/ScreenshotsGrid/ScreenshotsGrid';
 import PagesSwitcher from '../../../components/PagesSwitcher/PagesSwitcher';
-import moderationActions from '../../../actions/moderationActions';
+import moderationActions from '../../../store/moderation/moderationActions';
 import './Moderation.css';
 
 function mapStoreToProps(store) {

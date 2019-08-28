@@ -10,14 +10,14 @@ export default function reducer(state = initialState, action) {
   const newState = { ...state };
   const { type, payload } = action;
 
-  if (type === 'MODERATION_LOADING') {
+  if (type === 'MODERATION-LOADING') {
     return {
       ...state,
       isLoading: true,
-    }
+    };
   }
 
-  if (type === 'MODERATION_WAITING_LOADED') {
+  if (type === 'MODERATION-WAITING-LOADED') {
     return {
       ...state,
       isLoading: false,
@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'MODERATION_APPROVED_LOADED') {
+  if (type === 'MODERATION-APPROVED-LOADED') {
     return {
       ...state,
       isLoading: false,
@@ -33,7 +33,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'MODERATION_REJECTED_LOADED') {
+  if (type === 'MODERATION-REJECTED-LOADED') {
     return {
       ...state,
       isLoading: false,
@@ -41,7 +41,7 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'MODERATION_BY-YOU_LOADED') {
+  if (type === 'MODERATION-BY_YOU-LOADED') {
     return {
       ...state,
       isLoading: false,

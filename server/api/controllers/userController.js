@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const userManager = require('../managers/userManager');
 const tokenService = require('../services/tokenService');
 
@@ -53,7 +52,7 @@ async function updateUser(req) {
     values.email = req.body.values.email;
   }
 
-  if (_.isEmpty(values)) {
+  if (Object.entries(values).length === 0) {
     throw new Error('nothing to update');
   }
 

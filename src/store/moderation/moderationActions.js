@@ -1,4 +1,4 @@
-import moderationService from '../services/moderationService';
+import moderationService from '../../services/moderationService';
 
 export default {
   fetchNonModeratedScreenshots,
@@ -9,10 +9,10 @@ export default {
 
 function fetchNonModeratedScreenshots() {
   return async dispatch => {
-    dispatch({ type: 'MODERATION_LOADING' });
+    dispatch({ type: 'MODERATION-LOADING' });
     const payload = await moderationService.fetchNonModerated();
     dispatch({
-      type: 'MODERATION_WAITING_LOADED',
+      type: 'MODERATION-WAITING-LOADED',
       payload,
     });
   };
@@ -20,10 +20,10 @@ function fetchNonModeratedScreenshots() {
 
 function fetchApprovedScreenshots() {
   return async dispatch => {
-    dispatch({ type: 'MODERATION_LOADING' });
+    dispatch({ type: 'MODERATION-LOADING' });
     const payload = await moderationService.fetchApproved();
     dispatch({
-      type: 'MODERATION_APPROVED_LOADED',
+      type: 'MODERATION-APPROVED-LOADED',
       payload,
     });
   };
@@ -31,10 +31,10 @@ function fetchApprovedScreenshots() {
 
 function fetchRejectedScreenshots() {
   return async dispatch => {
-    dispatch({ type: 'MODERATION_LOADING' });
+    dispatch({ type: 'MODERATION-LOADING' });
     const payload = await moderationService.fetchRejected();
     dispatch({
-      type: 'MODERATION_REJECTED_LOADED',
+      type: 'MODERATION-REJECTED-LOADED',
       payload,
     });
   };
@@ -42,10 +42,10 @@ function fetchRejectedScreenshots() {
 
 function fetchModeratedByYouScreenshots() {
   return async dispatch => {
-    dispatch({ type: 'MODERATION_LOADING' });
+    dispatch({ type: 'MODERATION-LOADING' });
     const nonModeratedScreenshots = await moderationService.fetchModeratedByYou();
     dispatch({
-      type: 'MODERATION_BY-YOU_LOADED',
+      type: 'MODERATION-BY_YOU-LOADED',
       payload: nonModeratedScreenshots,
     });
   };

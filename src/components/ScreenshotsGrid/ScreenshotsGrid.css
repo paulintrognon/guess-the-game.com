@@ -1,11 +1,11 @@
-.ScreenshotsGrid {
+.ScreenshotsGrid_items {
   display: flex;
   justify-content: space-between;
   flex-flow: wrap;
   margin-top: 10px;
 }
 @media (max-width: 480px) {
-  .ScreenshotsGrid {
+  .ScreenshotsGrid_items {
     display: block;
     text-align: center;
   }
@@ -63,4 +63,17 @@
 .ScreenshotsGrid_item_legend_alternativeName {
   font-size: 14px;
   font-weight: bold;
+}
+
+.ScreenshotsGrid_searchContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .ScreenshotsGrid_searchContainer {
+    margin: 10px 0;
+  }
+}
+.ScreenshotsGrid_searchContainer_textInput {
+  width: 240px;
 }

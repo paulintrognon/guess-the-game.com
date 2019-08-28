@@ -51,8 +51,10 @@ async function getScores({ totalNbScreenshots }) {
   );
 }
 
-async function getAddedScreenshots(userId, extraFilters) {
-  const results = await db.Screenshot.findAll({
+async function getAddedScreenshots(userId, params) {
+  const { limit, offset, searchText, approvalStatus } = params || {};
+
+  const { count, rows } = await db.Screenshot.findAndCountAll({
     attributes: [
       'id',
       'gameCanonicalName',
@@ -64,25 +66,42 @@ async function getAddedScreenshots(userId, extraFilters) {
     ],
     where: {
       UserId: userId,
-      ...(extraFilters || {}),
+      ...(approvalStatus && { approvalStatus }),
+      ...(searchText && {
+        [db.Sequelize.Op.or]: [
+          {
+            id: { [db.Sequelize.Op.like]: `${searchText}%` },
+          },
+          {
+            gameCanonicalName: {
+              [db.Sequelize.Op.like]: `%${searchText}%`,
+            },
+          },
+        ],
+      }),
     },
-    limit: 100,
+    offset: offset || 0,
+    limit: limit || 100,
     order: [['createdAt', 'DESC']],
     include: [
       { model: db.ScreenshotName, attributes: ['name'] },
       { model: db.ScreenshotImage, attributes: ['path'] },
     ],
+    distinct: true,
   });
-  return results.map(screenshot => ({
-    id: screenshot.id,
-    gameCanonicalName: screenshot.gameCanonicalName,
-    alternativeNames: screenshot.ScreenshotNames.map(name => name.name).filter(
-      name => name !== screenshot.gameCanonicalName
-    ),
-    year: screenshot.year,
-    imageUrl: screenshot.ScreenshotImage.thumbUrl,
-    createdAt: screenshot.createdAt,
-    approvalStatus: screenshot.approvalStatus,
-    refusalReason: screenshot.refusalReason,
-  }));
+  return {
+    total: count,
+    screenshots: rows.map(screenshot => ({
+      id: screenshot.id,
+      gameCanonicalName: screenshot.gameCanonicalName,
+      alternativeNames: screenshot.ScreenshotNames.map(
+        name => name.name
+      ).filter(name => name !== screenshot.gameCanonicalName),
+      year: screenshot.year,
+      imageUrl: screenshot.ScreenshotImage.thumbUrl,
+      createdAt: screenshot.createdAt,
+      approvalStatus: screenshot.approvalStatus,
+      refusalReason: screenshot.refusalReason,
+    })),
+  };
 }

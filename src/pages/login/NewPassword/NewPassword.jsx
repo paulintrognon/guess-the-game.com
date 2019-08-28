@@ -6,7 +6,7 @@ import LoginPagesSwitcher from '../../../components/LoginPagesSwitcher/LoginPage
 import Input from '../../../components/Form/Input/Input';
 import Button from '../../../components/Form/Button/Button';
 import loginService from '../../../services/loginService';
-import loginActions from '../../../actions/loginActions';
+import loginActions from '../../../store/login/loginActions';
 
 class ForgotPasswordPage extends React.Component {
   constructor(props) {

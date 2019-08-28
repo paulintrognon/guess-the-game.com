@@ -104,7 +104,6 @@
   background-repeat: no-repeat;
   transition: padding-bottom 10ms;
   position: relative;
-  pointer-events: none;
 }
 
 .ScreenshotPage_screenshot_success_banner {

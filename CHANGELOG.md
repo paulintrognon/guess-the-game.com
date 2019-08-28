@@ -1,3 +1,10 @@
+- Better screenshots grid with loading on scroll and search
+- Add shortcuts (j,k,enter,escape) on guess screenshot page
+- Fix ranking notif bug
+- Update to React 16.9
+- Remove lodash dependency (keep only debounce)
+- babel-eslint dependency moved to devDependencies
+
 ### v11.1.2
 
 - No more showing viewed screenshots in email alerts
