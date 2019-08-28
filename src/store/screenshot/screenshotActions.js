@@ -62,6 +62,9 @@ function getUnsolvedScreenshot(exclude) {
   };
 }
 
+// We save in the browser the lastRanking to avoid to repeat the same "new ranking" message
+// if by chance the same ranking was sent twice (ie when 2 players are playing at the same time)
+let lastRanking;
 function tryProposal(screenshot, proposition) {
   return async dispatch => {
     dispatch({ type: 'SCREENSHOT-PROPOSAL-TRY' });
@@ -92,7 +95,7 @@ function tryProposal(screenshot, proposition) {
     }
 
     // If the user got a new ranking
-    if (hasNewRanking) {
+    if (hasNewRanking && newRanking !== lastRanking) {
       if (newRanking === 1) {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
@@ -124,6 +127,7 @@ function tryProposal(screenshot, proposition) {
           text: `Vous passez à la ${newRanking}ème place !`,
         });
       }
+      lastRanking = newRanking;
     }
 
     // If the user is registered, we stop here
