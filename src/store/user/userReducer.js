@@ -2,7 +2,6 @@ const initialState = {
   jwt: localStorage.getItem('jwt'),
   username: localStorage.getItem('username'),
   userData: null,
-  addedScreenshots: null,
   canModerateScreenshots:
     localStorage.getItem('canModerateScreenshots') === '1',
   lastViewedRandomScreenshots: retrieveStoredLastViewedRandomScreenshots(),
@@ -52,16 +51,6 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       userData: payload,
-    };
-  }
-
-  if (type === 'USER-ADDED_SCREENSHOTS-LOADED') {
-    return {
-      ...state,
-      addedScreenshots: payload.map(screenshot => ({
-        ...screenshot,
-        createdAt: new Date(screenshot.createdAt),
-      })),
     };
   }
 

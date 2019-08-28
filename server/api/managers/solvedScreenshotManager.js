@@ -36,6 +36,7 @@ async function getSolvedScreenshots(userId, params) {
         attributes: ['path'],
       },
     },
+    distinct: true,
   });
   return {
     total: count,

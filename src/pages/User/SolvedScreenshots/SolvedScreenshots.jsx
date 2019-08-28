@@ -8,7 +8,7 @@ import './SolvedScreenshots.css';
 
 function mapStoreToProps(store) {
   return {
-    solvedScreenshots: store.solvedScreenshots.solvedScreenshots,
+    solvedScreenshots: store.solvedScreenshots.screenshots,
     isLoading: store.solvedScreenshots.isLoading,
     hasMore: store.solvedScreenshots.hasMore,
   };

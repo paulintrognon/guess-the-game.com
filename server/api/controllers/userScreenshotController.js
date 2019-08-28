@@ -20,17 +20,36 @@ async function getScores() {
   };
 }
 
-async function getSolvedScreenshots(req) {
+function getSolvedScreenshots(req) {
+  return getScreenshots(req, solvedScreenshotManager.getSolvedScreenshots);
+}
+
+function getAddedScreenshots(req) {
+  return getScreenshots(req, userScreenshotManager.getAddedScreenshots);
+}
+
+async function getScreenshots(req, managerMethod) {
   const { id } = req.user;
-  const { offset, limit, searchText } = req.body || {};
-  const {
-    screenshots,
-    total,
-  } = await solvedScreenshotManager.getSolvedScreenshots(id, {
+  const { offset, limit, searchText, approvalStatus } = req.body || {};
+
+  if (
+    approvalStatus &&
+    !['approved', 'refused', 'waiting'].includes(approvalStatus)
+  ) {
+    return bluebird.reject({
+      code: 'INVALID_BODY',
+      message: 'approvalStatus doit être égal à approved, refused ou waiting.',
+    });
+  }
+
+  const { screenshots, total } = await managerMethod(id, {
     offset,
     limit,
     searchText,
+    approvalStatus,
   });
+
+  console.log(offset, screenshots.length, total);
 
   // If we did not provide an offset, then we return only the screenshots (for backward compat reasons)
   if (offset === undefined) {
@@ -43,22 +62,4 @@ async function getSolvedScreenshots(req) {
     offset,
     hasMore: offset + screenshots.length < total,
   };
-}
-
-async function getAddedScreenshots(req) {
-  const { id } = req.user;
-  const { approvalStatus } = req.body;
-  if (
-    approvalStatus &&
-    !['approved', 'refused', 'waiting'].includes(approvalStatus)
-  ) {
-    return bluebird.reject({
-      code: 'INVALID_BODY',
-      message: 'approvalStatus doit être égal à approved, refused ou waiting.',
-    });
-  }
-
-  return userScreenshotManager.getAddedScreenshots(id, {
-    ...(approvalStatus && { approvalStatus }),
-  });
 }

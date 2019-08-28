@@ -9,14 +9,22 @@ export default function reducer(state = initialState, action) {
   const newState = { ...state };
   const { type, payload } = action;
 
-  if (type === 'SOLVED_SCREENSHOTS-LOADING') {
+  if (type === 'ADDED_SCREENSHOTS-RESET') {
+    return {
+      ...state,
+      screenshots: [],
+      hasMore: false,
+    };
+  }
+
+  if (type === 'ADDED_SCREENSHOTS-LOADING') {
     return {
       ...state,
       isLoading: true,
     };
   }
 
-  if (type === 'SOLVED_SCREENSHOTS-LOADED') {
+  if (type === 'ADDED_SCREENSHOTS-LOADED') {
     const { total, hasMore } = payload;
     const screenshots = payload.screenshots.map(screenshot => ({
       ...screenshot,
