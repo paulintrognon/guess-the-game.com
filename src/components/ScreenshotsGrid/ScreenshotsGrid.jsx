@@ -85,7 +85,11 @@ export default class ScreenshotsGrid extends React.Component {
                 key={screenshot.id}
                 screenshot={screenshot}
                 canModerateScreenshots={canModerateScreenshots}
-                canEditScreenshots={canEditScreenshots}
+                canEditScreenshots={
+                  canModerateScreenshots ||
+                  (canEditScreenshots &&
+                    screenshot.approvalStatus !== 'approved')
+                }
               />
             ))
           )}

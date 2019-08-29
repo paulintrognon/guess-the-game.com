@@ -61,17 +61,14 @@ async function edit({ id, user, localImagePath, data }) {
     if (user.id !== screenshot.UserId) {
       throw new Error('No rights to edit that screenshot');
     }
+    // Si l'utilisateur n'est pas modérateur et le screenshot est déjà approuvé
+    if (screenshot.approvalStatus === 'approved') {
+      throw new Error('Impossible de modifier un screenshot déjà validé.');
+    }
     // Si l'utilisateur tente de modifier une image...
     if (localImagePath) {
-      // ... et qu'elle est déjà approvée, erreur
-      if (screenshot.approvalStatus === 'approved') {
-        throw new Error(
-          "Impossible de modifier l'image d'un screenshot déjà validé."
-        );
-      } else {
-        // Sinon, on la passe à nouveau en attente
-        newApprovalStatus = 'waiting';
-      }
+      // ...on la passe à nouveau en attente
+      newApprovalStatus = 'waiting';
     }
   }
 
