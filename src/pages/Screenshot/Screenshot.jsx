@@ -204,8 +204,8 @@ class ScreenshotPage extends React.Component {
             <ApprovalStatus approvalStatus={screenshot.approvalStatus} />
           </h1>
           <div className="ScreenshotPage_header_uploadedBy">
-            Par <b>{screenshot.isOwn ? 'you! — ' : screenshot.addedBy}</b>
-            {screenshot.isOwn ? (
+            Par <b>{screenshot.isOwn ? 'vous !' : screenshot.addedBy}</b>
+            {screenshot.isOwn && screenshot.approvalStatus !== 'approved' ? (
               <button
                 className="ScreenshotPage_header_removeScreenshotLink"
                 onClick={this.handleRemoveOwn}
@@ -219,7 +219,7 @@ class ScreenshotPage extends React.Component {
             ) : null}
           </div>
         </div>
-        {screenshot.approvalStatus === 'approved' ? (
+        {screenshot.approvalStatus === 'approved' && (
           <div className="ScreenshotPage_header_right">
             {screenshot.stats.solvedCount ? (
               <p className="ScreenshotPage_header_solvedByCount">
@@ -238,7 +238,7 @@ class ScreenshotPage extends React.Component {
               )}
             </p>
           </div>
-        ) : null}
+        )}
       </div>
     );
   };

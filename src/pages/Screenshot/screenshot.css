@@ -68,6 +68,7 @@
   font-weight: bold;
   border-bottom: 1px solid #fff;
   transition: border-bottom 200ms;
+  margin-left: 16px;
 }
 .ScreenshotPage_header_removeScreenshotLink:hover {
   border-bottom: 1px solid #fd464c;
