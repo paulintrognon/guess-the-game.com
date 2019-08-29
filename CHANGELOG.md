@@ -1,3 +1,9 @@
+## v12.1.0
+
+- Using new screenshots grid lazy loading for moderation
+- Prevent users from editing approved screenshots
+- bugfixes
+
 # v12.0.0 - Search screenshots in user space, Shortcuts, dependencies upgrade
 
 - Better screenshots grid with loading on scroll and search

@@ -77,7 +77,7 @@ export default class ScreenshotsGrid extends React.Component {
         )}
         <div className="ScreenshotsGrid_items">
           {children}
-          {screenshots.length === 0 ? (
+          {!isLoading && screenshots.length === 0 ? (
             <p>{noScreenshotSentence}</p>
           ) : (
             screenshots.map(screenshot => (
@@ -85,7 +85,11 @@ export default class ScreenshotsGrid extends React.Component {
                 key={screenshot.id}
                 screenshot={screenshot}
                 canModerateScreenshots={canModerateScreenshots}
-                canEditScreenshots={canEditScreenshots}
+                canEditScreenshots={
+                  canModerateScreenshots ||
+                  (canEditScreenshots &&
+                    screenshot.approvalStatus !== 'approved')
+                }
               />
             ))
           )}

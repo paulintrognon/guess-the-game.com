@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import BarTitle from '../../../components/BarTitle/BarTitle';
@@ -11,65 +10,80 @@ import './Moderation.css';
 function mapStoreToProps(store) {
   return {
     isLoading: store.moderation.isLoading,
-    waitingScreenshots: store.moderation.waitingScreenshots,
-    byYouScreenshots: store.moderation.byYouScreenshots,
-    approvedScreenshots: store.moderation.approvedScreenshots,
-    rejectedScreenshots: store.moderation.rejectedScreenshots,
+    hasMore: store.moderation.hasMore,
+    screenshots: store.moderation.screenshots,
   };
 }
 class ModerationPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      currentPage: null,
+    };
     this.pages = [
       {
         label: 'En attente de validation',
         to: '/moi/moderation/en-attente',
-        action: moderationActions.fetchNonModeratedScreenshots(),
+        action: moderationActions.fetchNonModeratedScreenshots,
+        noScreenshotSentence: 'Tous les screens ont été modérés.',
       },
       {
         label: 'Modérée par vous',
         to: '/moi/moderation/par-moi',
-        action: moderationActions.fetchModeratedByYouScreenshots(),
+        action: moderationActions.fetchModeratedByYouScreenshots,
+        noScreenshotSentence: 'Aucun screenshot modérée par vous.',
       },
       {
         label: 'Tous les approuvés',
         to: '/moi/moderation/approuve',
-        action: moderationActions.fetchApprovedScreenshots(),
+        action: moderationActions.fetchApprovedScreenshots,
+        noScreenshotSentence: 'Aucun screenshot refusé.',
       },
       {
         label: 'Tous les rejetés',
         to: '/moi/moderation/rejete',
-        action: moderationActions.fetchRejectedScreenshots(),
+        action: moderationActions.fetchRejectedScreenshots,
+        noScreenshotSentence: 'Aucun screenshot accepté.',
       },
     ];
-    const page = this.pages.find(page => page.to === props.location.pathname);
-    this.props.dispatch(page.action);
+    const page = this.pages.find(p => p.to === props.location.pathname);
+    this.state.currentPage = page;
+    this.handleLoadMore();
   }
 
   switchPage = page => () => {
-    if (
-      (page.to === '/moi/moderation/en-attente' &&
-        this.props.waitingScreenshots.length > 0) ||
-      (page.to === '/moi/moderation/par-moi' &&
-        this.props.byYouScreenshots.length > 0) ||
-      (page.to === '/moi/moderation/approuve' &&
-        this.props.approvedScreenshots.length > 0) ||
-      (page.to === '/moi/moderation/rejete' &&
-        this.props.rejectedScreenshots.length > 0)
-    ) {
-      return;
-    }
-    this.props.dispatch(page.action);
+    this.props.dispatch(moderationActions.reset());
+    this.setState({ currentPage: page }, () => {
+      this.handleLoadMore();
+    });
+  };
+
+  handleLoadMore = () => {
+    const { screenshots } = this.props;
+    const { currentPage, searchText } = this.state;
+    this.props.dispatch(
+      currentPage.action({
+        searchText,
+        limit: 12,
+        offset: (screenshots && screenshots.length) || 0,
+      })
+    );
+  };
+
+  handleSearch = searchText => {
+    this.setState({ searchText });
+    this.props.dispatch(
+      this.state.currentPage.action({
+        searchText,
+        limit: 12,
+        offset: 0,
+      })
+    );
   };
 
   render() {
-    const {
-      isLoading,
-      waitingScreenshots,
-      byYouScreenshots,
-      approvedScreenshots,
-      rejectedScreenshots,
-    } = this.props;
+    const { isLoading, hasMore, screenshots } = this.props;
+
     return (
       <section className="section">
         <Helmet title="Moderation" />
@@ -85,52 +99,19 @@ class ModerationPage extends React.Component {
                   onClick: this.switchPage(page),
                 }))}
               />
-              {isLoading ? (
-                <p>Chargement...</p>
-              ) : (
-                <div>
-                  <Route
-                    path="/moi/moderation/en-attente"
-                    render={() => (
-                      <ScreenshotsGrid
-                        canModerateScreenshots
-                        screenshots={waitingScreenshots}
-                        noScreenshotSentence="Tous les screens ont été modérés."
-                      />
-                    )}
-                  />
-                  <Route
-                    path="/moi/moderation/par-moi"
-                    render={() => (
-                      <ScreenshotsGrid
-                        canModerateScreenshots
-                        screenshots={byYouScreenshots}
-                        noScreenshotSentence="Vous n'avez modéré aucun screen."
-                      />
-                    )}
-                  />
-                  <Route
-                    path="/moi/moderation/approuve"
-                    render={() => (
-                      <ScreenshotsGrid
-                        canModerateScreenshots
-                        screenshots={approvedScreenshots}
-                        noScreenshotSentence="Aucun screen apprové pour le moment."
-                      />
-                    )}
-                  />
-                  <Route
-                    path="/moi/moderation/rejete"
-                    render={() => (
-                      <ScreenshotsGrid
-                        canModerateScreenshots
-                        screenshots={rejectedScreenshots}
-                        noScreenshotSentence="Aucun screen rejeté pour le moment."
-                      />
-                    )}
-                  />
-                </div>
-              )}
+              <div>
+                <ScreenshotsGrid
+                  isLoading={isLoading}
+                  hasMore={hasMore}
+                  canModerateScreenshots
+                  screenshots={screenshots}
+                  handleLoadMore={this.handleLoadMore}
+                  handleSearch={this.handleSearch}
+                  noScreenshotSentence={
+                    this.state.currentPage.noScreenshotSentence
+                  }
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -13,20 +13,20 @@ function fetchScreenshot(id) {
   return api.post(`/moderation/get-screenshot/${id}`);
 }
 
-function fetchNonModerated() {
-  return api.post('/moderation/non-moderated');
+function fetchNonModerated(params) {
+  return api.post('/moderation/non-moderated', params);
 }
 
-function fetchApproved() {
-  return api.post('/moderation/approved');
+function fetchApproved(params) {
+  return api.post('/moderation/approved', params);
 }
 
-function fetchRejected() {
-  return api.post('/moderation/rejected');
+function fetchRejected(params) {
+  return api.post('/moderation/rejected', params);
 }
 
-function fetchModeratedByYou() {
-  return api.post('/moderation/moderated-by-you');
+function fetchModeratedByYou(params) {
+  return api.post('/moderation/moderated-by-you', params);
 }
 
 function moderate({ screenshotId, newApprovalStatus, refusalReason }) {
