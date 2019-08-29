@@ -29,7 +29,6 @@ export default function reducer(state = initialState, action) {
     const screenshots = payload.screenshots.map(screenshot => ({
       ...screenshot,
       createdAt: new Date(screenshot.createdAt),
-      solvedAt: new Date(screenshot.solvedAt),
     }));
 
     return {
