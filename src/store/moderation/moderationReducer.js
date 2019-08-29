@@ -1,14 +1,20 @@
 const initialState = {
   isLoading: true,
-  waitingScreenshots: [],
-  approvedScreenshots: [],
-  rejectedScreenshots: [],
-  byYouScreenshots: [],
+  hasMore: false,
+  screenshots: [],
 };
 
 export default function reducer(state = initialState, action) {
   const newState = { ...state };
   const { type, payload } = action;
+
+  if (type === 'MODERATION-RESET') {
+    return {
+      ...state,
+      screenshots: [],
+      hasMore: false,
+    };
+  }
 
   if (type === 'MODERATION-LOADING') {
     return {
@@ -17,35 +23,21 @@ export default function reducer(state = initialState, action) {
     };
   }
 
-  if (type === 'MODERATION-WAITING-LOADED') {
+  if (type === 'MODERATION-LOADED') {
+    const screenshots = payload.screenshots.map(parseScreenshot);
     return {
       ...state,
       isLoading: false,
-      waitingScreenshots: payload.map(parseScreenshot),
-    };
-  }
-
-  if (type === 'MODERATION-APPROVED-LOADED') {
-    return {
-      ...state,
-      isLoading: false,
-      approvedScreenshots: payload.map(parseScreenshot),
-    };
-  }
-
-  if (type === 'MODERATION-REJECTED-LOADED') {
-    return {
-      ...state,
-      isLoading: false,
-      rejectedScreenshots: payload.map(parseScreenshot),
-    };
-  }
-
-  if (type === 'MODERATION-BY_YOU-LOADED') {
-    return {
-      ...state,
-      isLoading: false,
-      byYouScreenshots: payload.map(parseScreenshot),
+      hasMore: payload.hasMore,
+      screenshots: payload.offset
+        ? (state.screenshots || [])
+            .concat(screenshots)
+            .filter(
+              (screenshot1, index, self) =>
+                index ===
+                self.findIndex(screenshot2 => screenshot2.id === screenshot1.id)
+            )
+        : screenshots,
     };
   }
 

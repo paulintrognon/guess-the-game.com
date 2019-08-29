@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './PagesSwitcher.css';
 
-export default ({ links }) => (
-  <div className="PagesSwitcher">
+export default ({ links, className }) => (
+  <div className={`PagesSwitcher ${className}`}>
     {links.map(link => (
       <Link
         key={link.label}

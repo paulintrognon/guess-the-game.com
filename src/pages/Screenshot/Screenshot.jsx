@@ -61,7 +61,6 @@ class ScreenshotPage extends React.Component {
   }
 
   handleKeyDown = e => {
-    console.log('test');
     const isGuessingElementFocused =
       document.activeElement === this.guessInputRef.current;
 

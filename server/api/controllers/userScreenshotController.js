@@ -49,8 +49,6 @@ async function getScreenshots(req, managerMethod) {
     approvalStatus,
   });
 
-  console.log(offset, screenshots.length, total);
-
   // If we did not provide an offset, then we return only the screenshots (for backward compat reasons)
   if (offset === undefined) {
     return screenshots;

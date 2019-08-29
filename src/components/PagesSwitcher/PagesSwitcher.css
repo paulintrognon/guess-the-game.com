@@ -1,11 +1,6 @@
 .PagesSwitcher {
-  margin: 20px auto 10px;
+  margin: 20px auto;
   text-align: center;
-}
-@media (min-width: 480px) {
-  .PagesSwitcher {
-    margin: 50px auto 30px;
-  }
 }
 
 .PagesSwitcher_link {
