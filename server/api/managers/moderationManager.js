@@ -8,15 +8,30 @@ module.exports = {
   moderateScreenshot,
 };
 
-async function getScreenshots({ approvalStatus = null, userId = null }) {
+async function getScreenshots(params) {
+  const { approvalStatus, userId } = params || {};
+  const { limit, offset, searchText } = params || {};
+
   const where = {};
-  if (approvalStatus !== null) {
+  if (approvalStatus) {
     where.approvalStatus = approvalStatus;
   }
-  if (userId !== null) {
+  if (userId) {
     where.moderatedBy = userId;
   }
-  return db.Screenshot.findAll({
+  if (searchText) {
+    where[db.Sequelize.Op.or] = [
+      {
+        id: { [db.Sequelize.Op.like]: `${searchText}%` },
+      },
+      {
+        gameCanonicalName: {
+          [db.Sequelize.Op.like]: `%${searchText}%`,
+        },
+      },
+    ];
+  }
+  const { count, rows } = await db.Screenshot.findAndCountAll({
     attributes: [
       'id',
       'gameCanonicalName',
@@ -27,24 +42,31 @@ async function getScreenshots({ approvalStatus = null, userId = null }) {
       'ScreenshotImageId',
     ],
     where,
-    limit: 500,
+    offset: offset || 0,
+    limit: limit || 200,
     order: [['createdAt', 'DESC']],
     include: [
       { model: db.ScreenshotName, attributes: ['name'] },
       { model: db.ScreenshotImage, attributes: ['path'] },
     ],
-  }).map(screenshot => ({
-    id: screenshot.id,
-    gameCanonicalName: screenshot.gameCanonicalName,
-    alternativeNames: screenshot.ScreenshotNames.map(name => name.name).filter(
-      name => name !== screenshot.gameCanonicalName.toLowerCase()
-    ),
-    year: screenshot.year,
-    imageUrl: screenshot.ScreenshotImage.thumbUrl,
-    createdAt: screenshot.createdAt,
-    approvalStatus: screenshot.approvalStatus,
-    refusalReason: screenshot.refusalReason,
-  }));
+    distinct: true,
+  });
+
+  return {
+    total: count,
+    screenshots: rows.map(screenshot => ({
+      id: screenshot.id,
+      gameCanonicalName: screenshot.gameCanonicalName,
+      alternativeNames: screenshot.ScreenshotNames.map(
+        name => name.name
+      ).filter(name => name !== screenshot.gameCanonicalName.toLowerCase()),
+      year: screenshot.year,
+      imageUrl: screenshot.ScreenshotImage.thumbUrl,
+      createdAt: screenshot.createdAt,
+      approvalStatus: screenshot.approvalStatus,
+      refusalReason: screenshot.refusalReason,
+    })),
+  };
 }
 
 async function moderateScreenshot({
