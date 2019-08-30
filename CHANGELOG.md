@@ -1,3 +1,7 @@
+### v12.2.1
+
+- Better "existsInGoogleImage" text reason for users
+
 ## v12.2.0
 
 - Players can check their screenshots on google image directly after upload
