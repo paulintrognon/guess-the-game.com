@@ -1,3 +1,9 @@
+## v12.2.0
+
+- Players can check their screenshots on google image directly after upload
+- Fix moderation texts
+- Delete uploaded images after 20 minutes
+
 ## v12.1.0
 
 - Using new screenshots grid lazy loading for moderation

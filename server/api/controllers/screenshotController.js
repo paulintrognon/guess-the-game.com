@@ -195,7 +195,7 @@ function uploadScreenshot(req) {
   setTimeout(() => {
     logger.info(`Deleting ${localImagePath}`);
     fs.unlinkSync(localImagePath);
-  }, 3600 * 1000 * 0.3);
+  }, 20 * 60 * 1000);
 
   const imagePath = `/api/uploads/${localImageName}`;
 
