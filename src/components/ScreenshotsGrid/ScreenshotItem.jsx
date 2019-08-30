@@ -88,10 +88,10 @@ function refusalReasonToText(refusalReason) {
     return 'Qualité insuffisante';
   }
   if (refusalReason === 'existsInGoogleImage') {
-    return 'Image existe déjà dans Google Image';
+    return 'Jeu trouvable avec Google Image';
   }
   if (refusalReason === 'gameNotFamousEnough') {
-    return "Ce jeu n'est pas assez connu";
+    return 'Jeu pas assez connu';
   }
   if (refusalReason === 'notAGame') {
     return "Ce n'est pas un jeu";
