@@ -191,11 +191,11 @@ function uploadScreenshot(req) {
   // We move the uploaded file to the uploads folder
   imageFile.mv(localImagePath);
 
-  // The file will be deleted in 24h
+  // The file will be deleted in 20min
   setTimeout(() => {
     logger.info(`Deleting ${localImagePath}`);
     fs.unlinkSync(localImagePath);
-  }, 3600 * 1000 * 24);
+  }, 3600 * 1000 * 0.3);
 
   const imagePath = `/api/uploads/${localImageName}`;
 
