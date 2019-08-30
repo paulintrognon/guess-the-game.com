@@ -44,7 +44,12 @@ async function getScreenshots(params) {
     where,
     offset: offset || 0,
     limit: limit || 200,
-    order: [['createdAt', 'DESC']],
+    order: [
+      [
+        'createdAt',
+        approvalStatus && approvalStatus === 'waiting' ? 'ASC' : 'DESC',
+      ],
+    ],
     include: [
       { model: db.ScreenshotName, attributes: ['name'] },
       { model: db.ScreenshotImage, attributes: ['path'] },
