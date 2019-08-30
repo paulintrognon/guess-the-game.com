@@ -345,17 +345,25 @@ class EditScreenshotPage extends React.Component {
                 </p>
               )}
             </div>
-            <p>
-              <span role="img" aria-label="warning">
-                ⚠️
-              </span>{' '}
-              <strong>
-                Assurez-vous que votre image n&apos;existe pas déjà Google
-                Image&nbsp;!
-              </strong>{' '}
-              Pour vérifier, faites une recherche par image sur{' '}
-              <a href="https://images.google.com">images.google.com</a>
-            </p>
+            {this.state.uploadedImageUrl && (
+              <div className="EditScreenshotPage_form_googleImageCheck">
+                <p className="EditScreenshotPage_form_googleImageCheck_label">
+                  <span role="img" aria-label="warning">
+                    ⚠️
+                  </span>{' '}
+                  Je vérifie que mon image n&apos;est pas trouvable via Google
+                  Image&nbsp;:
+                </p>
+                <a
+                  className="EditScreenshotPage_form_googleImageCheck_link"
+                  href={`https://www.google.com/searchbyimage?image_url=${this.state.uploadedImageUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Vérifier sur Google Image
+                </a>
+              </div>
+            )}
             {this.state.fileError && (
               <p className="EditScreenshotPage_form_error">
                 {this.state.fileError}

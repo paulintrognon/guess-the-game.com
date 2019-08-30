@@ -63,7 +63,10 @@ export default class ApprovalBox extends React.Component {
           </a>{' '}
           -{' '}
           <a
-            href={`https://www.google.com/searchbyimage?image_url=${screenshot.imageUrl}`}
+            href={`https://www.google.com/searchbyimage?image_url=${screenshot.imageUrl.replace(
+              ',w_320',
+              ''
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
           >
