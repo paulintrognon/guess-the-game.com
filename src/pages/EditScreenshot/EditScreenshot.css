@@ -83,3 +83,10 @@
   font-weight: bold;
   text-align: center;
 }
+
+.EditScreenshotPage_form_googleImageCheck_label {
+  font-weight: bold;
+}
+.EditScreenshotPage_form_googleImageCheck_link {
+  text-decoration: underline;
+}

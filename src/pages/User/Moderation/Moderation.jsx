@@ -37,13 +37,13 @@ class ModerationPage extends React.Component {
         label: 'Tous les approuvés',
         to: '/moi/moderation/approuve',
         action: moderationActions.fetchApprovedScreenshots,
-        noScreenshotSentence: 'Aucun screenshot refusé.',
+        noScreenshotSentence: 'Aucun screenshot approuvé trouvé.',
       },
       {
         label: 'Tous les rejetés',
         to: '/moi/moderation/rejete',
         action: moderationActions.fetchRejectedScreenshots,
-        noScreenshotSentence: 'Aucun screenshot accepté.',
+        noScreenshotSentence: 'Aucun screenshot rejeté trouvé.',
       },
     ];
     const page = this.pages.find(p => p.to === props.location.pathname);
