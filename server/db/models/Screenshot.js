@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
           'gameNotFamousEnough',
           'notAGame',
           'tooMuchOfThisGame',
+          'scoreTooLow',
           'spam',
           'other'
         ),

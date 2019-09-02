@@ -82,13 +82,13 @@ function ScreenshotApprovalStatus({ approvalStatus, refusalReason }) {
 
 function refusalReasonToText(refusalReason) {
   if (refusalReason === 'alreadySubmitted') {
-    return 'Image déjà été proposée';
+    return 'Image similaire déjà proposée';
   }
   if (refusalReason === 'badQuality') {
     return 'Qualité insuffisante';
   }
   if (refusalReason === 'existsInGoogleImage') {
-    return 'Jeu trouvable avec Google Image';
+    return 'Réponse trouvable avec Google Image';
   }
   if (refusalReason === 'gameNotFamousEnough') {
     return 'Jeu pas assez connu';
@@ -98,6 +98,9 @@ function refusalReasonToText(refusalReason) {
   }
   if (refusalReason === 'tooMuchOfThisGame') {
     return 'Jeu déjà trop présent sur le site';
+  }
+  if (refusalReason === 'scoreTooLow') {
+    return 'Score trop mauvais';
   }
   if (refusalReason === 'spam') {
     return 'Spam';

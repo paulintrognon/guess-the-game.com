@@ -1,14 +1,31 @@
+.ScreenshotRating_rating {
+  font-size: 20px;
+}
+.ScreenshotRating_rating.-disabled .ScreenshotRating_heart {
+  opacity: 0.2;
+}
+
+.ScreenshotRating_rating_button {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  margin-top: 5px;
+}
+
+.ScreenshotRating_rating_note {
+  margin-left: 5px;
+  font-weight: bold;
+  color: #f95f62;
+  font-size: 16px;
+}
+
 .ScreenshotRating_heart {
   padding-right: 2px;
-  margin-top: 10px;
+  margin-top: 2px;
   width: 18px;
-}
-.ScreenshotRating_disabled .ScreenshotRating_heart {
-  opacity: 0.4;
 }
 
 .ScreenshotRating_ownRating {
-  font-size: 20px;
   margin-left: 5px;
 }
 
