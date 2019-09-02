@@ -92,6 +92,7 @@ export default class ApprovalBox extends React.Component {
               <option value="spam">Spam</option>
               <option value="notAGame">Pas un jeu</option>
               <option value="tooMuchOfThisGame">Jeu déjà trop présent</option>
+              <option value="scoreTooLow">Score trop mauvais</option>
               <option value="other">Autre</option>
             </select>
             <button

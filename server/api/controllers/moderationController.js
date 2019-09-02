@@ -72,6 +72,7 @@ async function moderateScreenshot(req) {
         'gameNotFamousEnough',
         'notAGame',
         'tooMuchOfThisGame',
+        'scoreTooLow',
         'spam',
         'other',
       ].includes(newApprovalStatus))
