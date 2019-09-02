@@ -134,7 +134,7 @@ async function getFromId(screenshotId, userId) {
     approvalStatus: res.approvalStatus,
     user: res.User,
     solvedScreenshots: res.SolvedScreenshots,
-    rating: res.rating || null,
+    rating: res.rating,
   };
 }
 

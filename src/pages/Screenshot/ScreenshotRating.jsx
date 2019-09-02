@@ -63,7 +63,7 @@ class ScreenshotRating extends React.Component {
   renderPopup = () => (
     <div className="ScreenshotRating_poup">
       <p className="ScreenshotRating_poup_title">
-        Comment trouvez-vous ce screenshot ?
+        Comment trouvez-vous ce screenshot&nbsp;?
       </p>
       <button
         onClick={this.handleSelectOption(10)}
@@ -161,8 +161,16 @@ class ScreenshotRating extends React.Component {
       title = `̀Note moyenne : ${rating.toFixed(2)}${ownRatingText}̀`;
     }
     return (
-      <div className={rating === null ? 'ScreenshotRating_disabled' : ''}>
-        <button onClick={this.toggleRatingPopup} title={title}>
+      <div
+        className={`ScreenshotRating_rating ${
+          rating === null ? '-disabled' : ''
+        }`}
+      >
+        <button
+          className="ScreenshotRating_rating_button"
+          onClick={this.toggleRatingPopup}
+          title={title}
+        >
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(rate => {
             const isEmpty = rating === null || Math.round(rating) < rate;
             return (
@@ -176,9 +184,21 @@ class ScreenshotRating extends React.Component {
               />
             );
           })}
+          {rating !== null && (
+            <span className="ScreenshotRating_rating_note">
+              {' '}
+              {rating % 1 !== 0
+                ? rating
+                    .toFixed(1)
+                    .toString()
+                    .replace('.', ',')
+                : rating}
+              /10
+            </span>
+          )}{' '}
           {ownRating !== null ? (
             <span className="ScreenshotRating_ownRating">
-              - {this.getRatingSmiley(ownRating)}
+              · {this.getRatingSmiley(ownRating)}
             </span>
           ) : null}
         </button>
