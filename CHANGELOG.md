@@ -1,3 +1,9 @@
+### v12.2.2
+
+- Fix 0/10 rated screenshot display
+- Display screenshot ratings in numerals
+- Add "scoreTooLow" option for refusal
+
 ### v12.2.1
 
 - Better "existsInGoogleImage" text reason for users
