@@ -99,6 +99,9 @@ function refusalReasonToText(refusalReason) {
   if (refusalReason === 'tooMuchOfThisGame') {
     return 'Jeu déjà trop présent sur le site';
   }
+  if (refusalReason === 'scoreTooLow') {
+    return 'Score trop mauvais';
+  }
   if (refusalReason === 'spam') {
     return 'Spam';
   }
