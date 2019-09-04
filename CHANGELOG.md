@@ -1,3 +1,8 @@
+### v12.2.3
+
+- Homepage wording
+- Half hearts
+
 ### v12.2.2
 
 - Fix 0/10 rated screenshot display

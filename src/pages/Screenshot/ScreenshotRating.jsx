@@ -1,8 +1,9 @@
 import React from 'react';
 import store from '../../store';
 import screenshotService from '../../services/screenshotService';
-import heartIcon from './heart.png';
-import heartEmptyIcon from './heart_empty.png';
+import fullHeartIcon from './heart.png';
+import emptyHeartIcon from './heart_empty.png';
+import HalfHeartIcon from './heart_half.png';
 import './ScreenshotRating.css';
 
 class ScreenshotRating extends React.Component {
@@ -172,11 +173,25 @@ class ScreenshotRating extends React.Component {
           title={title}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(rate => {
-            const isEmpty = rating === null || Math.round(rating) < rate;
+            let heart;
+            const decimal = rating % 1;
+
+            if (rating >= rate) {
+              heart = fullHeartIcon;
+            } else if (Math.round(rating + 0.5) < rate) {
+              heart = emptyHeartIcon;
+            } else if (decimal < 0.25) {
+              heart = emptyHeartIcon;
+            } else if (decimal >= 0.25 && decimal < 0.75) {
+              heart = HalfHeartIcon;
+            } else {
+              heart = fullHeartIcon;
+            }
+
             return (
               <img
                 key={rate}
-                src={isEmpty ? heartEmptyIcon : heartIcon}
+                src={heart}
                 className={`ScreenshotRating_heart ${
                   rating === null ? '-disabled' : ''
                 }`}
@@ -189,7 +204,7 @@ class ScreenshotRating extends React.Component {
               {' '}
               {rating % 1 !== 0
                 ? rating
-                    .toFixed(1)
+                    .toFixed(2)
                     .toString()
                     .replace('.', ',')
                 : rating}
