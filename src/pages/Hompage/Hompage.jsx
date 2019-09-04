@@ -30,7 +30,7 @@ class Homepage extends React.Component {
             Devinez le plus de jeux-vidéo possibles à partir de screenshots
             postées par d&apos;autres joueurs&nbsp;!
           </p>
-          <p>De nouveaux screenshots sont ajoutés chaque jour.</p>
+          <p>De nouveaux screenshots sont ajoutés régulièrement.</p>
         </div>
         <p>
           <button className="Homepage_playButton" onClick={this.playHandler}>
