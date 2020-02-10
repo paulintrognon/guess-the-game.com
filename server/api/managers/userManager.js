@@ -8,6 +8,7 @@ module.exports = {
   isUsernameFree,
   getNewRanking,
   getScreenshotRating,
+  getTotalNb,
 };
 
 function create(userToCreate) {
@@ -85,4 +86,10 @@ async function getScreenshotRating({ screenshotId, userId }) {
     return null;
   }
   return rating.rating;
+}
+
+async function getTotalNb() {
+  return db.User.count({
+    where: { email: { [db.Sequelize.Op.ne]: null } },
+  });
 }

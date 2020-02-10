@@ -17,18 +17,20 @@ class Homepage extends React.Component {
       isLoading: true,
       scores: [],
       totalNbScreenshots: 0,
+      totalNbUsers: 0,
     };
     userService.fetchScores().then(res => {
       this.setState({
         scores: res.scores,
         totalNbScreenshots: res.totalNbScreenshots,
+        totalNbUsers: res.totalNbUsers,
         isLoading: false,
       });
     });
   }
 
   renderScores() {
-    const { scores, totalNbScreenshots } = this.state;
+    const { scores, totalNbScreenshots, totalNbUsers } = this.state;
 
     if (this.state.isLoading) {
       return (
@@ -42,8 +44,10 @@ class Homepage extends React.Component {
       <div className="RankingPage_ranking">
         <h2 className="RankingPage_ranking_title">Classement Guess The Game</h2>
         <p className="RankingPage_ranking_total">
-          Nombre total de screenshots: <b>{totalNbScreenshots}</b>
+          Screenshots: <b>{totalNbScreenshots}</b> | Joueurs inscrits:{' '}
+          <b>{totalNbUsers}</b>
         </p>
+
         <p className="-hideOnSmartphones">
           Le score est la somme du nombre de screenshots trouvés et du nombre de
           screenshots ajoutés. Ainsi, pour monter dans le classement, en plus de
