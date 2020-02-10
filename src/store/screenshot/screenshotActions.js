@@ -99,27 +99,27 @@ function tryProposal(screenshot, proposition) {
       if (newRanking === 1) {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
-          text: `C'est ouf !!! Vous passez à la première place ! 👑`,
+          text: `Incroyable !!! Vous passez à la première place ! 👑`,
         });
       } else if (newRanking === 2) {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
-          text: `Incroyable !! Vous passez à la deuxième place ! 🏆`,
+          text: `Wow !! Vous passez à la deuxième place ! 🏆`,
         });
       } else if (newRanking === 3) {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
-          text: `Super ! Vous êtes sur le podium ! 🏅`,
+          text: `OMG ! Vous êtes sur le podium ! 🏅`,
         });
       } else if (newRanking === 10) {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
           text: `Bravo ! Vous êtes dans le top 10 ! 💪`,
         });
-      } else if ([50, 30, 20].includes(newRanking)) {
+      } else if ([50, 40, 30, 20].includes(newRanking)) {
         notificationService.create({
           slug: 'screenshotActions-newRanking',
-          text: `Bravo ! Vous êtes dans le top ${newRanking} ! 👏`,
+          text: `Super ! Vous êtes dans le top ${newRanking} ! 👏`,
         });
       } else {
         notificationService.create({
@@ -138,15 +138,21 @@ function tryProposal(screenshot, proposition) {
     if (!isFirstOneToSolve && !hasNewRanking) {
       return;
     }
+
+    // If the user has a small screen, we stop here
+    if (window.innerWidth < 480) {
+      return;
+    }
+
     // If the user is not registered but has achieved something, we kindly suggest him to register
     let text;
     if (hasNewRanking && !isFirstOneToSolve) {
-      text = '️Inscrivez-vous pour apparaitre dans le classement !';
+      text = '️Inscrivez-vous pour être dans le classement !';
     } else if (!hasNewRanking && isFirstOneToSolve) {
-      text = 'Inscrivez-vous pour vous claim le screenshot !';
+      text = 'Inscrivez-vous pour claim le screenshot !';
     } else {
       text =
-        '️Inscrivez-vous pour apparaitre dans le classement et claim le screenshot !';
+        '️Inscrivez-vous pour être dans le classement et claim le screenshot !';
     }
     notificationService.create({
       slug: 'screenshotActions-pleaseRegister',
