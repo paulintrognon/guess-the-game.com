@@ -1,3 +1,8 @@
+### v12.2.4
+
+- Hide invitation to register on small screen (to reduce user frustration)
+- Display total nb of users on ranking screen
+
 ### v12.2.3
 
 - Homepage wording
