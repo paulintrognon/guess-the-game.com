@@ -2,6 +2,7 @@ const bluebird = require('bluebird');
 const userScreenshotManager = require('../managers/userScreenshotManager');
 const solvedScreenshotManager = require('../managers/solvedScreenshotManager');
 const screenshotManager = require('../managers/screenshotManager');
+const userManager = require('../managers/userManager');
 
 module.exports = {
   getScores,
@@ -10,12 +11,16 @@ module.exports = {
 };
 
 async function getScores() {
-  const totalNbScreenshots = await screenshotManager.getTotalNb();
+  const [totalNbScreenshots, totalNbUsers] = await Promise.all([
+    screenshotManager.getTotalNb(),
+    userManager.getTotalNb(),
+  ]);
   const scores = await userScreenshotManager.getScores({
     totalNbScreenshots,
   });
   return {
     totalNbScreenshots,
+    totalNbUsers,
     scores,
   };
 }

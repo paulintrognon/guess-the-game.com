@@ -8,12 +8,16 @@ const db = {};
 
 const sequelize = new Sequelize(config.database, config.user, config.password, {
   host: config.host,
-  dialect: 'mysql',
+  port: config.port,
   logging: str => logger.debug(str),
 
-  dialectOptions: {
-    socketPath: '/var/run/mysqld/mysqld.sock',
-  },
+  dialect: 'mysql',
+  dialectOptions:
+    config.dialectOptions === undefined
+      ? {
+          socketPath: '/var/run/mysqld/mysqld.sock',
+        }
+      : config.dialectOptions,
 
   define: {
     paranoid: true,
