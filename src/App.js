@@ -8,6 +8,7 @@ import Noty from 'noty';
 import store from './store';
 import history from './store/history';
 import './icons';
+import * as config from 'config';
 
 import './App.css';
 
@@ -23,6 +24,7 @@ import ScreenshotPage from './pages/Screenshot/Screenshot';
 import RankingPage from './pages/Ranking/Ranking';
 import TheEnd from './pages/TheEnd/TheEnd';
 import NotFound from './pages/NotFound/NotFound';
+import Maintenance from './pages/Maintenance/Maintenance';
 
 // login components
 import LoginPage from './pages/login/Login/Login';
@@ -48,6 +50,9 @@ export default class App extends React.Component {
   }
 
   render() {
+    if (config.maintenance) {
+      return <Maintenance />;
+    }
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>

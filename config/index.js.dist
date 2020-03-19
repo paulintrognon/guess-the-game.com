@@ -3,4 +3,5 @@ const baseUrl = 'http://127.0.0.1';
 module.exports = {
   frontUrl: `${baseUrl}:3000`,
   apiUrl: `${baseUrl}:3001`,
+  maintenance: false,
 };

@@ -1,0 +1,20 @@
+.MaintenancePage {
+    margin: 3rem 1rem;
+    text-align: center;
+}
+
+.MaintenancePage-title {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 1rem 0;
+    font-family: Norwester;
+}
+
+.MaintenancePage-title-gtg {
+    color: #fd464c;
+}
+
+.MaintenancePage-img {
+    margin: 3rem 0;
+    max-width: 100%;
+}
