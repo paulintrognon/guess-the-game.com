@@ -1,3 +1,7 @@
+## v12.3.0
+
+- Add maintenance mode
+
 ### v12.2.4
 
 - Hide invitation to register on small screen (to reduce user frustration)
